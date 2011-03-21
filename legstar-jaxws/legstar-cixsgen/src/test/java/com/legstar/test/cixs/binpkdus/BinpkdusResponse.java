@@ -17,7 +17,7 @@ import com.legstar.test.coxb.binpkdus.Dfhcommarea;
 @XmlRootElement(name = "BinpkdusResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinpkdusResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/binpkdus",
          propOrder = {
     "response"
 })

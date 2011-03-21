@@ -6,14 +6,14 @@
       <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
    </listener>
    <servlet>
-      <servlet-name>alltypesService</servlet-name>
-      <display-name>LegStar Jaxws alltypesService</display-name>
+      <servlet-name>binarchtService</servlet-name>
+      <display-name>LegStar Jaxws binarchtService</display-name>
       <description>LegStar Jaxws binarcht Web Service</description>
       <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
    </servlet>
    <servlet-mapping>
-      <servlet-name>alltypesService</servlet-name>
+      <servlet-name>binarchtService</servlet-name>
       <url-pattern>/binarcht</url-pattern>
    </servlet-mapping>
    <session-config>

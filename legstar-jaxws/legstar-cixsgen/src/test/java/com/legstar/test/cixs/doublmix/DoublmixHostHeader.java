@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "DoublmixHostHeader")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DoublmixHostHeader",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/doublmix",
          propOrder = {
     "hostUserID", 
     "hostPassword", 

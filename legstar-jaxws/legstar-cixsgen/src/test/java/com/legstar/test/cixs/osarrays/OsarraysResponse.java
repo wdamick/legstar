@@ -17,7 +17,7 @@ import com.legstar.test.coxb.osarrays.Dfhcommarea;
 @XmlRootElement(name = "OsarraysResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OsarraysResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/osarrays",
          propOrder = {
     "response"
 })

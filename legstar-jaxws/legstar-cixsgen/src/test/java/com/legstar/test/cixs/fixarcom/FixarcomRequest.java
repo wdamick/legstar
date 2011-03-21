@@ -17,7 +17,7 @@ import com.legstar.test.coxb.fixarcom.Dfhcommarea;
 @XmlRootElement(name = "FixarcomRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FixarcomRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/fixarcom",
          propOrder = {
     "request"
 })

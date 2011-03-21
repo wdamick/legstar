@@ -37,10 +37,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
         File componentClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHeader(
-                jaxwsComponent, getParameters(), componentClassFilesDir);
-        String resStr = getSource(
-                componentClassFilesDir,
+        Jaxws2CixsGenerator.generateHeader(jaxwsComponent, getParameters(),
+                componentClassFilesDir);
+        String resStr = getSource(componentClassFilesDir,
                 jaxwsComponent.getHeaderClassName() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
@@ -65,10 +64,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHolders(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
+        Jaxws2CixsGenerator.generateHolders(operation, getParameters(),
+                operationClassFilesDir);
+        String resStr = getSource(operationClassFilesDir,
                 operation.getRequestHolderType() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
@@ -115,10 +113,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateWrappers(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
+        Jaxws2CixsGenerator.generateWrappers(operation, getParameters(),
+                operationClassFilesDir);
+        String resStr = getSource(operationClassFilesDir,
                 operation.getRequestWrapperType() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
@@ -155,10 +152,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateWrappers(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
+        Jaxws2CixsGenerator.generateWrappers(operation, getParameters(),
+                operationClassFilesDir);
+        String resStr = getSource(operationClassFilesDir,
                 operation.getRequestWrapperType() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
@@ -195,19 +191,18 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateFault(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
+        Jaxws2CixsGenerator.generateFault(operation, getParameters(),
+                operationClassFilesDir);
+        String resStr = getSource(operationClassFilesDir,
                 operation.getFaultType() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
         assertTrue(resStr.contains("@WebFault(name = \"LsfileaeFaultInfo\","));
         assertTrue(resStr
                 .contains("targetNamespace = \"http://cixs.test.legstar.com/lsfileae\")"));
-        assertTrue(resStr.contains("public class LsfileaeException"));
+        assertTrue(resStr.contains("public class LsfileaeFault"));
         assertTrue(resStr.contains("private LsfileaeFaultInfo faultInfo;"));
-        assertTrue(resStr.contains("public LsfileaeException("));
+        assertTrue(resStr.contains("public LsfileaeFault("));
         assertTrue(resStr.contains("final LsfileaeFaultInfo fault) {"));
         assertTrue(resStr.contains("final LsfileaeFaultInfo fault,"));
         assertTrue(resStr
@@ -228,10 +223,9 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateFaultInfo(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
+        Jaxws2CixsGenerator.generateFaultInfo(operation, getParameters(),
+                operationClassFilesDir);
+        String resStr = getSource(operationClassFilesDir,
                 operation.getFaultInfoType() + ".java");
 
         assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
@@ -251,11 +245,11 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         initWebServiceParameters(jaxwsComponent);
 
-        File componentWebFilesDir =
-                new File(GEN_WDD_DIR, jaxwsComponent.getName());
+        File componentWebFilesDir = new File(GEN_WDD_DIR,
+                jaxwsComponent.getName());
         CodeGenUtil.checkDirectory(componentWebFilesDir, true);
-        Jaxws2CixsGenerator.generateSunJaxwsXml(
-                jaxwsComponent, getParameters(), componentWebFilesDir);
+        Jaxws2CixsGenerator.generateSunJaxwsXml(jaxwsComponent,
+                getParameters(), componentWebFilesDir);
         String resStr = getSource(componentWebFilesDir, "sun-jaxws.xml");
 
         assertTrue(resStr.contains("<endpoint name=\"lsfileaeService\""));
@@ -274,14 +268,12 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         initWebServiceParameters(jaxwsComponent);
 
-        File componentWebFilesDir =
-                new File(GEN_WDD_DIR, jaxwsComponent.getName());
+        File componentWebFilesDir = new File(GEN_WDD_DIR,
+                jaxwsComponent.getName());
         CodeGenUtil.checkDirectory(componentWebFilesDir, true);
-        Jaxws2CixsGenerator.generateWebXml(
-                jaxwsComponent, getParameters(), componentWebFilesDir);
-        String resStr = getSource(
-                componentWebFilesDir,
-                "web.xml");
+        Jaxws2CixsGenerator.generateWebXml(jaxwsComponent, getParameters(),
+                componentWebFilesDir);
+        String resStr = getSource(componentWebFilesDir, "web.xml");
 
         assertTrue(resStr
                 .contains("<display-name>LegStar Jaxws lsfileae</display-name>"));
@@ -315,8 +307,8 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("custBinDir",
                 "/legstar-cixsgen-cust-cases/target/classes");
 
-        File componentAntFilesDir =
-                new File(GEN_ANT_DIR, jaxwsComponent.getName());
+        File componentAntFilesDir = new File(GEN_ANT_DIR,
+                jaxwsComponent.getName());
         CodeGenUtil.checkDirectory(componentAntFilesDir, true);
         String filename = Jaxws2CixsGenerator.generateAntBuildWar(
                 jaxwsComponent, getParameters(), componentAntFilesDir);
@@ -356,11 +348,11 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         getParameters().put("custBinDir",
                 "/legstar-cixsgen-cust-cases/target/classes");
 
-        File componentAntFilesDir =
-                new File(GEN_ANT_DIR, jaxwsComponent.getName());
+        File componentAntFilesDir = new File(GEN_ANT_DIR,
+                jaxwsComponent.getName());
         CodeGenUtil.checkDirectory(componentAntFilesDir, true);
-        String filename = Jaxws2CixsGenerator.generateAntDeploy(
-                jaxwsComponent, getParameters(), componentAntFilesDir);
+        String filename = Jaxws2CixsGenerator.generateAntDeploy(jaxwsComponent,
+                getParameters(), componentAntFilesDir);
         String resStr = getSource(componentAntFilesDir, filename);
 
         assertTrue(resStr
@@ -380,8 +372,8 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         initWebServiceParameters(jaxwsComponent);
 
-        File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
-                GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+        File serviceClassFilesDir = CodeGenUtil.classFilesLocation(GEN_SRC_DIR,
+                jaxwsComponent.getPackageName(), true);
         CodeGenUtil.checkDirectory(serviceClassFilesDir, true);
         String fileName = Jaxws2CixsGenerator.generatePackageInfo(
                 jaxwsComponent, getParameters(), serviceClassFilesDir);
@@ -405,8 +397,8 @@ public class Jaxws2CixsVelocityTemplatesTest extends AbstractTestTemplate {
         CixsJaxwsService jaxwsComponent = Samples.getLsfileae();
         initWebServiceParameters(jaxwsComponent);
 
-        File serviceClassFilesDir = CodeGenUtil.classFilesLocation(
-                GEN_SRC_DIR, jaxwsComponent.getPackageName(), true);
+        File serviceClassFilesDir = CodeGenUtil.classFilesLocation(GEN_SRC_DIR,
+                jaxwsComponent.getPackageName(), true);
         CodeGenUtil.checkDirectory(serviceClassFilesDir, true);
         String fileName = Jaxws2CixsGenerator.generateObjectFactory(
                 jaxwsComponent, getParameters(), serviceClassFilesDir);

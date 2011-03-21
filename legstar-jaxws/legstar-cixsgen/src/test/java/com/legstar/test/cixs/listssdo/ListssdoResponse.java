@@ -17,7 +17,7 @@ import com.legstar.test.coxb.listssdo.Dfhcommarea;
 @XmlRootElement(name = "ListssdoResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ListssdoResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/listssdo",
          propOrder = {
     "response"
 })

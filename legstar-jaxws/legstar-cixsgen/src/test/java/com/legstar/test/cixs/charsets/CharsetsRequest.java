@@ -17,7 +17,7 @@ import com.legstar.test.coxb.charsets.Dfhcommarea;
 @XmlRootElement(name = "CharsetsRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CharsetsRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/charsets",
          propOrder = {
     "request"
 })

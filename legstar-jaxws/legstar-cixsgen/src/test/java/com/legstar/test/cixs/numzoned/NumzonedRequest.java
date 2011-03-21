@@ -17,7 +17,7 @@ import com.legstar.test.coxb.numzoned.Dfhcommarea;
 @XmlRootElement(name = "NumzonedRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "NumzonedRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/numzoned",
          propOrder = {
     "request"
 })

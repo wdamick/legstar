@@ -17,7 +17,7 @@ import com.legstar.test.coxb.vararcom.Dfhcommarea;
 @XmlRootElement(name = "VararcomResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VararcomResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/vararcom",
          propOrder = {
     "response"
 })

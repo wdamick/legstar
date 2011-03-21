@@ -17,7 +17,7 @@ import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 @XmlRootElement(name = "FixarsimResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FixarsimResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/fixarsim",
          propOrder = {
     "response"
 })

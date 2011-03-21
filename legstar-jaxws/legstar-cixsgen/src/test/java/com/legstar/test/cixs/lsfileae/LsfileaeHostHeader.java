@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "LsfileaeHostHeader")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LsfileaeHostHeader",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/lsfileae",
          propOrder = {
     "hostUserID", 
     "hostPassword", 

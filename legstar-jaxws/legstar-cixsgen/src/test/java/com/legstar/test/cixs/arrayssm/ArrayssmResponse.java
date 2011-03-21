@@ -17,7 +17,7 @@ import com.legstar.test.coxb.arrayssm.Dfhcommarea;
 @XmlRootElement(name = "ArrayssmResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ArrayssmResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/arrayssm",
          propOrder = {
     "response"
 })

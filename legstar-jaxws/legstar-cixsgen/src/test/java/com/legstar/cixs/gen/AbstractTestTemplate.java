@@ -135,11 +135,27 @@ public class AbstractTestTemplate extends TestCase {
     public String genSource(final CixsJaxwsService model,
             final String generatorName, final String templateName,
             final File dir, final String genSourceName) throws Exception {
+        processTemplate(model, generatorName, templateName, dir, genSourceName);
+        return getSource(dir, genSourceName);
+    }
+
+    /**
+     * Apply a velocity template and produce a source.
+     * 
+     * @param model model to use
+     * @param generatorName the name to appear as generator
+     * @param templateName the velocity template to apply
+     * @param dir the folder where generated source should go
+     * @param genSourceName the generate file name
+     * @throws Exception if something goes wrong
+     */
+    public void processTemplate(final CixsJaxwsService model,
+            final String generatorName, final String templateName,
+            final File dir, final String genSourceName) throws Exception {
         CodeGenUtil
                 .processTemplate(generatorName, templateName, "model", model,
                         getParameters(),
                         CodeGenUtil.getFile(dir, genSourceName));
-        return getSource(dir, genSourceName);
     }
 
     /**
@@ -392,14 +408,43 @@ public class AbstractTestTemplate extends TestCase {
             for (File referenceFile : referenceFiles) {
                 File resultFile = new File(resultFolder,
                         FilenameUtils.getName(referenceFile.getPath()));
-                String expected = FileUtils.readFileToString(referenceFile);
-                String result = FileUtils.readFileToString(resultFile);
-                assertEquals(String.format("comparing result file %s with %s",
-                        resultFile.getName(), referenceFile.getName()),
-                        expected, result);
+                check(referenceFile, resultFile);
             }
         }
 
     }
 
+    /**
+     * Compare 2 files.
+     * 
+     * @param referenceFile the reference
+     * @param resultFile the result to check against the reference
+     * @throws IOException if reference file cannot be read
+     */
+    public void check(final File referenceFile, final File resultFile)
+            throws IOException {
+        if (isCreateReferences()) {
+            FileUtils.copyFile(resultFile, referenceFile);
+        } else {
+            String expected = FileUtils.readFileToString(referenceFile);
+            String result = FileUtils.readFileToString(resultFile);
+            assertEquals(String.format("comparing result file %s with %s",
+                    resultFile.getName(), referenceFile.getName()), expected,
+                    result);
+        }
+    }
+
+    /**
+     * Return a class unqualified (no package prefix) name.
+     * 
+     * @param clazz the class
+     * @return the unqualified name
+     */
+    public static String getUnqualName(final Class < ? > clazz) {
+        String unqname = clazz.getName();
+        if (unqname.lastIndexOf('.') > 0) {
+            unqname = unqname.substring(unqname.lastIndexOf('.') + 1);
+        }
+        return unqname;
+    }
 }

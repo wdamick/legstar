@@ -9,7 +9,7 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "LsfileaeFaultInfo",
           targetNamespace = "http://cixs.test.legstar.com/lsfilean")
-public class LsfileaeException
+public class LsfileaeFault
     extends Exception {
 
     /** Default serialVersionUID.  */
@@ -23,7 +23,7 @@ public class LsfileaeException
      * @param fault error details
      * @param message error summary
      */
-    public LsfileaeException(
+    public LsfileaeFault(
         final String message,
         final LsfileaeFaultInfo fault) {
       
@@ -37,7 +37,7 @@ public class LsfileaeException
      * @param message error summary
      * @param cause the cause
      */
-    public LsfileaeException(
+    public LsfileaeFault(
         final String message,
         final LsfileaeFaultInfo fault,
         final Throwable cause) {

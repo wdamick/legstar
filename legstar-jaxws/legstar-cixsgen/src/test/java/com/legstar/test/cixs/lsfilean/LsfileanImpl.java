@@ -8,7 +8,7 @@ import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 import com.legstar.test.cixs.lsfilean.oper.LsfileaeProgramInvoker;
-import com.legstar.test.cixs.lsfilean.oper.LsfileaeException;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeFault;
 import com.legstar.test.cixs.lsfilean.oper.LsfileaeFaultInfo;
 
 /**
@@ -39,15 +39,15 @@ public class LsfileanImpl extends AbstractServiceAdapter implements Lsfilean {
     public Dfhcommarea lsfileae(
                final Dfhcommarea request,
                final LsfileanHostHeader hostHeader)
-               throws LsfileaeException {
+               throws LsfileaeFault {
     
         try {
             return getLsfileaeProgramInvoker().lsfileae(
                     getAddress(hostHeader), getRequestID(hostHeader), request);
         } catch (HostInvokerException e) {
-            throw getLsfileaeException(e, "Failed to invoke host program:");
+            throw getLsfileaeFault(e, "Failed to invoke host program:");
         } catch (HostTransformException e) {
-            throw getLsfileaeException(e, "Failed to transform data:");
+            throw getLsfileaeFault(e, "Failed to transform data:");
         }
     }
 
@@ -58,13 +58,13 @@ public class LsfileanImpl extends AbstractServiceAdapter implements Lsfilean {
      * @param text short message describing the context
      * @return the fault exception
      */
-    public LsfileaeException getLsfileaeException(
+    public LsfileaeFault getLsfileaeFault(
             final Exception e, final String text) {
 
         LsfileaeFaultInfo faultInfo = new LsfileaeFaultInfo();
         faultInfo.setMessage(e.getMessage());
         faultInfo.setDetail(getLsfileaeProgramInvoker().toString());
-        return new LsfileaeException(text + ' ' 
+        return new LsfileaeFault(text + ' ' 
                 + faultInfo.getMessage(), faultInfo, e);
     }
 

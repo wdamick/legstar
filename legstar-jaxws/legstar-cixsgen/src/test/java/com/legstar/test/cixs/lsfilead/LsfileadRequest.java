@@ -17,7 +17,7 @@ import com.legstar.test.coxb.lsfilead.Dfhcommarea;
 @XmlRootElement(name = "LsfileadRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LsfileadRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/lsfilead",
          propOrder = {
     "request"
 })

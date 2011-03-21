@@ -17,7 +17,7 @@ import com.legstar.test.coxb.binarcht.Dfhcommarea;
 @XmlRootElement(name = "BinarchtRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinarchtRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/binarcht",
          propOrder = {
     "request"
 })

@@ -23,7 +23,7 @@ public interface Lsfileax {
      * @param request a JAXB object mapping the request
      * @param hostHeader an object mapping header parameters
      * @return a JAXB object mapping the reply
-     * @throws LsfileaeException if method fails
+     * @throws LsfileaeFault if method fails
      */
     @WebMethod(operationName = "lsfileae", action = "urn:lsfileae")
     @WebResult(name = "Dfhcommarea",
@@ -41,7 +41,7 @@ public interface Lsfileax {
         @WebParam(name = "LsfileaxHostHeader", header = true, partName = "hostHeader",
                 targetNamespace = "http://cixs.test.legstar.com/lsfileax")
             LsfileaxHostHeader hostHeader)
-        throws LsfileaeException;
+        throws LsfileaeFault;
         
     /**
      * LegStar operation lsfileac.
