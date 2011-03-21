@@ -30,7 +30,6 @@ public class LsfilealOperationCases extends AbstractOperationCases {
         cixsOperation.setName("lsfileal");
         cixsOperation.setCicsProgramName("LSFILEAL");
         cixsOperation.setPackageName(operationPackageName);
-        cixsOperation.setFaultType("LsfilealException");
         cixsOperation.addInput(createCixsStructure(serviceName, "RequestParms",
                 null, false));
         cixsOperation.addOutput(createCixsStructure(serviceName, "ReplyData",
