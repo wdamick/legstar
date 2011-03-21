@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "BinarchtFaultInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinarchtFaultInfo",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/binarcht",
          propOrder = {
     "detail",
     "message"

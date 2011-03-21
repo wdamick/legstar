@@ -222,6 +222,22 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
     }
 
     /**
+     * Test a straight generation with web service target.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testJvmqueryWs() throws Exception {
+        CixsJaxwsService service = Samples.getJvmqueryWs();
+        initJaxwsService(service);
+        _generator.setProxyTargetType(ProxyTargetType.WEBSERVICE.toString());
+        _generator.setWebServiceTargetParameters(Samples
+                .getJvmqueryWebServiceParameters());
+        _generator.execute();
+        check(service.getName());
+
+    }
+
+    /**
      * Check generated artifacts against the reference.
      * 
      * @param serviceName the generated service

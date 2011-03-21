@@ -17,7 +17,7 @@ import com.legstar.test.coxb.floatmix.Dfhcommarea;
 @XmlRootElement(name = "FloatmixRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FloatmixRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/floatmix",
          propOrder = {
     "request"
 })

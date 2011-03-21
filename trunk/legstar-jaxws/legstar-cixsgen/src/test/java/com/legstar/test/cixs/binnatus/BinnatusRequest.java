@@ -17,7 +17,7 @@ import com.legstar.test.coxb.binnatus.Dfhcommarea;
 @XmlRootElement(name = "BinnatusRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinnatusRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/binnatus",
          propOrder = {
     "request"
 })

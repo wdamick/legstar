@@ -7,7 +7,7 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import com.legstar.test.coxb.lsfileae.Dfhcommarea;
-import com.legstar.test.cixs.lsfilean.oper.LsfileaeException;
+import com.legstar.test.cixs.lsfilean.oper.LsfileaeFault;
 /**
  * LegStar/Jaxws Component interface.
  * Each method maps to a CICS program. 
@@ -24,7 +24,7 @@ public interface Lsfilean {
      * @param request a JAXB object mapping the request
      * @param hostHeader an object mapping header parameters
      * @return a JAXB object mapping the reply
-     * @throws LsfileaeException if method fails
+     * @throws LsfileaeFault if method fails
      */
     @WebMethod(operationName = "lsfileae", action = "urn:lsfileae")
     @WebResult(name = "Dfhcommarea",
@@ -42,6 +42,6 @@ public interface Lsfilean {
         @WebParam(name = "LsfileanHostHeader", header = true, partName = "hostHeader",
                 targetNamespace = "http://cixs.test.legstar.com/lsfilean")
             LsfileanHostHeader hostHeader)
-        throws LsfileaeException;
+        throws LsfileaeFault;
         
 }

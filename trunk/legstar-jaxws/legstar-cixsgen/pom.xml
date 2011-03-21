@@ -92,7 +92,7 @@
                     <!-- Coxbgen cases are used to mass generate cixsgen cases. -->
                     <execution>
                         <id>copy-coxbgen-cases</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>generate-test-resources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
@@ -105,7 +105,7 @@
                     <!-- Jaxbgen cases are needed to compile all cases. -->
                     <execution>
                         <id>copy-jaxbgen-cases</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>generate-test-resources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>

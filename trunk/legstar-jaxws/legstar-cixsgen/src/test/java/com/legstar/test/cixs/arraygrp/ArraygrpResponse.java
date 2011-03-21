@@ -17,7 +17,7 @@ import com.legstar.test.coxb.arraygrp.Dfhcommarea;
 @XmlRootElement(name = "ArraygrpResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ArraygrpResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/arraygrp",
          propOrder = {
     "response"
 })

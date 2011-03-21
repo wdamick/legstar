@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "FixarnumHostHeader")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FixarnumHostHeader",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/fixarnum",
          propOrder = {
     "hostUserID", 
     "hostPassword", 

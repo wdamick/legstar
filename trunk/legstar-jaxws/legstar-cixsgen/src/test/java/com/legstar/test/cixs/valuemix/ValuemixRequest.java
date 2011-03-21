@@ -17,7 +17,7 @@ import com.legstar.test.coxb.valuemix.Dfhcommarea;
 @XmlRootElement(name = "ValuemixRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValuemixRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/valuemix",
          propOrder = {
     "request"
 })

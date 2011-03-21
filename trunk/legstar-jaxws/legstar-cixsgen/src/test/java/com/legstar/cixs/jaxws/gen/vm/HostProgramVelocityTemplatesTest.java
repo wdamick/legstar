@@ -26,104 +26,76 @@ public class HostProgramVelocityTemplatesTest extends AbstractTestTemplate {
 
     /**
      * Case of a commarea driven target program.
+     * 
      * @throws Exception if test fails
      */
     public void testLsfileae() throws Exception {
 
-        CixsJaxwsService jaxwsService = Samples.getLsfileae();
-        CixsOperation operation = jaxwsService.getCixsOperations().get(0);
+        CixsJaxwsService service = Samples.getLsfileae();
+        CixsOperation operation = service.getCixsOperations().get(0);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHostProgram(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
-                operation.getClassName() + "HostProgram.java");
-
-        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileae;"));
-        assertTrue(resStr.contains("public class LsfileaeHostProgram extends HostProgram {"));
-        assertTrue(resStr.contains("setName(\"LSFILEAE\");"));
-        assertTrue(resStr.contains("setLength(79);"));
-        assertTrue(resStr.contains("setDataLength(79);"));
+        Jaxws2CixsGenerator.generateHostProgram(operation, getParameters(),
+                operationClassFilesDir);
+        check(service, operation);
     }
 
     /**
      * Case where input commarea is different from output commarea.
+     * 
      * @throws Exception if test fails
      */
     public void testLsfileal() throws Exception {
 
-        CixsJaxwsService jaxwsService = Samples.getLsfileal();
-        CixsOperation operation = jaxwsService.getCixsOperations().get(0);
+        CixsJaxwsService service = Samples.getLsfileal();
+        CixsOperation operation = service.getCixsOperations().get(0);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHostProgram(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
-                operation.getClassName() + "HostProgram.java");
-
-        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileal;"));
-        assertTrue(resStr.contains("public class LsfilealHostProgram extends HostProgram {"));
-        assertTrue(resStr.contains("public LsfilealHostProgram() {"));
-        assertTrue(resStr.contains("setName(\"LSFILEAL\");"));
-        assertTrue(resStr.contains("setLength(8043);"));
-        assertTrue(resStr.contains("setDataLength(20);"));
+        Jaxws2CixsGenerator.generateHostProgram(operation, getParameters(),
+                operationClassFilesDir);
+        check(service, operation);
     }
 
     /**
      * Case where input commarea is different from output commarea.
+     * 
      * @throws Exception if test fails
      */
     public void testLsfileac() throws Exception {
 
-        CixsJaxwsService jaxwsService = Samples.getLsfileac();
-        CixsOperation operation = jaxwsService.getCixsOperations().get(0);
+        CixsJaxwsService service = Samples.getLsfileac();
+        CixsOperation operation = service.getCixsOperations().get(0);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHostProgram(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
-                operation.getClassName() + "HostProgram.java");
-
-        assertTrue(resStr.contains("package com.legstar.test.cixs.lsfileac;"));
-        assertTrue(resStr.contains("import com.legstar.host.invoke.model.HostContainer;"));
-        assertTrue(resStr.contains("public class LsfileacHostProgram extends HostProgram {"));
-        assertTrue(resStr.contains("public LsfileacHostProgram() {"));
-        assertTrue(resStr.contains("setName(\"LSFILEAC\");"));
-        assertTrue(resStr.contains("setChannel(\"LSFILEAC-CHANNEL\");"));
-        assertTrue(resStr.contains("getInContainers().add(new HostContainer(\"QueryData\", 48));"));
-        assertTrue(resStr.contains("getInContainers().add(new HostContainer(\"QueryLimit\", 10));"));
-        assertTrue(resStr.contains("getOutContainers().add(new HostContainer(\"ReplyData\", 7905));"));
-        assertTrue(resStr.contains("getOutContainers().add(new HostContainer(\"ReplyStatus\", 151));"));
+        Jaxws2CixsGenerator.generateHostProgram(operation, getParameters(),
+                operationClassFilesDir);
+        check(service, operation);
     }
 
     /**
-     * Case where the operation has a different namespace/package than the service.
+     * Case where the operation has a different namespace/package than the
+     * service.
+     * 
      * @throws Exception if test fails
      */
     public void testLsfilean() throws Exception {
 
-        CixsJaxwsService jaxwsService = Samples.getLsfilean();
-        CixsOperation operation = jaxwsService.getCixsOperations().get(0);
+        CixsJaxwsService service = Samples.getLsfilean();
+        CixsOperation operation = service.getCixsOperations().get(0);
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHostProgram(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
-                operation.getClassName() + "HostProgram.java");
-
-        assertTrue(resStr.contains("package com.legstar.test.cixs.oper.lsfilean;"));
+        Jaxws2CixsGenerator.generateHostProgram(operation, getParameters(),
+                operationClassFilesDir);
+        check(service, operation);
     }
 
     /**
      * Case where there is no package name.
+     * 
      * @throws Exception if test fails
      */
     public void testLsfileap() throws Exception {
@@ -133,12 +105,24 @@ public class HostProgramVelocityTemplatesTest extends AbstractTestTemplate {
 
         File operationClassFilesDir = CodeGenUtil.classFilesLocation(
                 GEN_SRC_DIR, operation.getPackageName(), true);
-        Jaxws2CixsGenerator.generateHostProgram(
-                operation, getParameters(), operationClassFilesDir);
-        String resStr = getSource(
-                operationClassFilesDir,
+        Jaxws2CixsGenerator.generateHostProgram(operation, getParameters(),
+                operationClassFilesDir);
+        String resStr = getSource(operationClassFilesDir,
                 operation.getClassName() + "HostProgram.java");
 
         assertFalse(resStr.contains("package "));
+    }
+
+    /**
+     * Check generated artifact against the reference.
+     * 
+     * @param operation the model's operation
+     * @throws Exception if can't get reference
+     */
+    protected void check(final CixsJaxwsService model,
+            final CixsOperation operation) throws Exception {
+        String fileName = operation.getPackageName().replace(".", "/") + "/"
+                + operation.getClassName() + "HostProgram.java";
+        check(new File(REF_SRC_DIR, fileName), new File(GEN_SRC_DIR, fileName));
     }
 }

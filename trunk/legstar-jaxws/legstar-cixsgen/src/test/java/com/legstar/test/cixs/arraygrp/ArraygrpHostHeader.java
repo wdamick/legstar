@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "ArraygrpHostHeader")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ArraygrpHostHeader",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/arraygrp",
          propOrder = {
     "hostUserID", 
     "hostPassword", 

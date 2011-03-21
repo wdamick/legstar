@@ -20,6 +20,7 @@ import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import com.legstar.cixs.gen.AbstractTestTemplate;
 import com.legstar.cixs.gen.Samples;
 import com.legstar.cixs.gen.model.CixsOperation;
+import com.legstar.cixs.gen.model.options.WebServiceParameters;
 import com.legstar.cixs.jaxws.model.CixsJaxwsService;
 import com.legstar.test.cixs.AbstractOperationCases;
 
@@ -354,6 +355,8 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
             final String inJaxbTypeName, final String outJaxbTypeName,
             final boolean hasCustomCode) throws Exception {
 
+        /* Make sure we start with a fresh copy of the web service parameters */
+        _generator.setWebServiceParameters(new WebServiceParameters());
         CixsJaxwsService service = getNewService(serviceName);
         initJaxwsService(service);
         CixsOperation operation = new CixsOperation();

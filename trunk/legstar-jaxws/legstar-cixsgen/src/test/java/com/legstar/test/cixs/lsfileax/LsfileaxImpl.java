@@ -40,15 +40,15 @@ public class LsfileaxImpl extends AbstractServiceAdapter implements Lsfileax {
     public Dfhcommarea lsfileae(
                final Dfhcommarea request,
                final LsfileaxHostHeader hostHeader)
-               throws LsfileaeException {
+               throws LsfileaeFault {
     
         try {
             return getLsfileaeProgramInvoker().lsfileae(
                     getAddress(hostHeader), getRequestID(hostHeader), request);
         } catch (HostInvokerException e) {
-            throw getLsfileaeException(e, "Failed to invoke host program:");
+            throw getLsfileaeFault(e, "Failed to invoke host program:");
         } catch (HostTransformException e) {
-            throw getLsfileaeException(e, "Failed to transform data:");
+            throw getLsfileaeFault(e, "Failed to transform data:");
         }
     }
 
@@ -59,13 +59,13 @@ public class LsfileaxImpl extends AbstractServiceAdapter implements Lsfileax {
      * @param text short message describing the context
      * @return the fault exception
      */
-    public LsfileaeException getLsfileaeException(
+    public LsfileaeFault getLsfileaeFault(
             final Exception e, final String text) {
 
         LsfileaeFaultInfo faultInfo = new LsfileaeFaultInfo();
         faultInfo.setMessage(e.getMessage());
         faultInfo.setDetail(getLsfileaeProgramInvoker().toString());
-        return new LsfileaeException(text + ' ' 
+        return new LsfileaeFault(text + ' ' 
                 + faultInfo.getMessage(), faultInfo, e);
     }
 

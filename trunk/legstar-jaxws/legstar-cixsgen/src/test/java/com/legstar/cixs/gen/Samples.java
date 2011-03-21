@@ -41,8 +41,8 @@ public final class Samples extends AbstractTestTemplate {
      */
     public static CixsJaxwsService getLsfileae() {
         CixsJaxwsService service = getNewService("lsfileae");
-        service.getCixsOperations().add(
-                LsfileaeOperationCases.getOperation(service.getName(), null));
+        service.addCixsOperation(LsfileaeOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -53,9 +53,8 @@ public final class Samples extends AbstractTestTemplate {
      */
     public static CixsJaxwsService getLsfileal() {
         CixsJaxwsService service = getNewService("lsfileal");
-        service.getCixsOperations().add(
-                LsfilealOperationCases.getOperation(service.getName(),
-                        service.getPackageName()));
+        service.addCixsOperation(LsfilealOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -66,8 +65,8 @@ public final class Samples extends AbstractTestTemplate {
      */
     public static CixsJaxwsService getLsfileac() {
         CixsJaxwsService service = getNewService("lsfileac");
-        service.getCixsOperations().add(
-                LsfileacOperationCases.getOperation(service.getName(), null));
+        service.addCixsOperation(LsfileacOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -80,9 +79,9 @@ public final class Samples extends AbstractTestTemplate {
     public static CixsJaxwsService getLsfileax() {
         CixsJaxwsService service = getNewService("lsfileax");
         service.addCixsOperation(LsfileaeOperationCases.getOperation(
-                "lsfileae", null));
+                "lsfileae", service.getPackageName()));
         service.addCixsOperation(LsfileacOperationCases.getOperation(
-                "lsfileac", null));
+                "lsfileac", service.getPackageName()));
         return service;
     }
 
@@ -107,9 +106,9 @@ public final class Samples extends AbstractTestTemplate {
      * */
     public static CixsJaxwsService getLsfileap() {
         CixsJaxwsService service = getNewService("lsfileap");
-        CixsOperation operation = LsfileaeOperationCases.getOperation(
-                "lsfileae", null);
         service.setPackageName(null);
+        CixsOperation operation = LsfileaeOperationCases.getOperation(
+                "lsfileae", service.getPackageName());
         service.addCixsOperation(operation);
         return service;
     }
@@ -139,6 +138,7 @@ public final class Samples extends AbstractTestTemplate {
         CixsJaxwsService service = getNewService("lsfileam");
         CixsOperation operation = new CixsOperation();
         operation.setName("lsfileam");
+        operation.setPackageName(service.getPackageName());
         operation.setCicsProgramName("LSFILEAM");
         operation.addInput(AbstractOperationCases.createCixsStructure(
                 "lsfileac", "QueryData", "QueryData", false));
@@ -159,9 +159,8 @@ public final class Samples extends AbstractTestTemplate {
      */
     public static CixsJaxwsService getDplarcht() {
         CixsJaxwsService service = getNewService("dplarcht");
-        service.getCixsOperations().add(
-                DplarchtOperationCases.getOperation(service.getName(),
-                        service.getPackageName()));
+        service.addCixsOperation(DplarchtOperationCases.getOperation(
+                service.getName(), service.getPackageName()));
         return service;
     }
 
@@ -258,4 +257,20 @@ public final class Samples extends AbstractTestTemplate {
         return pojoParameters;
 
     }
+
+    /**
+     * @return target web service parameters for Jvmquery
+     */
+    public static WebServiceParameters getJvmqueryWebServiceParameters() {
+        WebServiceParameters webServiceParameters = new WebServiceParameters();
+        webServiceParameters
+                .setWsdlUrl("http://localhost:8080/legstar-test-jvmquery/queryJvm?wsdl");
+        webServiceParameters
+                .setWsdlTargetNamespace("http://jvmquery.cases.test.xsdc.legstar.com/");
+        webServiceParameters.setWsdlServiceName("JVMQueryService");
+        webServiceParameters.setWsdlPortName("JVMQueryPort");
+        return webServiceParameters;
+
+    }
+
 }

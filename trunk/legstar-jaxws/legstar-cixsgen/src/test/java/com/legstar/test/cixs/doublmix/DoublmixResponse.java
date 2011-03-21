@@ -17,7 +17,7 @@ import com.legstar.test.coxb.doublmix.Dfhcommarea;
 @XmlRootElement(name = "DoublmixResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DoublmixResponse",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/doublmix",
          propOrder = {
     "response"
 })

@@ -17,7 +17,7 @@ import com.legstar.test.coxb.binnatsi.Dfhcommarea;
 @XmlRootElement(name = "BinnatsiRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BinnatsiRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/binnatsi",
          propOrder = {
     "request"
 })

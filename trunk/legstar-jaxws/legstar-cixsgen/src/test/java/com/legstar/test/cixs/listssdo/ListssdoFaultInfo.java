@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "ListssdoFaultInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ListssdoFaultInfo",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/listssdo",
          propOrder = {
     "detail",
     "message"

@@ -17,7 +17,7 @@ import com.legstar.test.coxb.arraysdo.Dfhcommarea;
 @XmlRootElement(name = "ArraysdoRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ArraysdoRequest",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/arraysdo",
          propOrder = {
     "request"
 })

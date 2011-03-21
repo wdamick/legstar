@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "OsarraysFaultInfo")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OsarraysFaultInfo",
-         namespace = "http://cixs.test.legstar.com/alltypes",
+         namespace = "http://cixs.test.legstar.com/osarrays",
          propOrder = {
     "detail",
     "message"
