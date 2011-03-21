@@ -29,7 +29,6 @@ public class LsfileaeOperationCases extends AbstractOperationCases {
         cixsOperation.setName("lsfileae");
         cixsOperation.setCicsProgramName("LSFILEAE");
         cixsOperation.setPackageName(operationPackageName);
-        cixsOperation.setFaultType("LsfileaeException");
         cixsOperation.addInput(createCixsStructure(serviceName, "Dfhcommarea",
                 null, false));
         cixsOperation.addOutput(createCixsStructure(serviceName, "Dfhcommarea",
