@@ -246,7 +246,7 @@ public class Cixs2JaxwsGeneratorTest extends AbstractTestTemplate {
     protected void check(final String serviceName) throws Exception {
         check(new File(REF_RES_DIR, serviceName + "/ant"), new File(
                 GEN_ANT_DIR, serviceName), "xml");
-        check(new File(REF_RES_DIR, serviceName + "/webapp/WEB_INF"), new File(
+        check(new File(REF_RES_DIR, serviceName + "/webapp/WEB-INF"), new File(
                 GEN_WDD_DIR, serviceName), "xml");
         check(new File(REF_RES_DIR, serviceName + "/cobol"), new File(
                 GEN_COBOL_DIR, serviceName), "cbl");
