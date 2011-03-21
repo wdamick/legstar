@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
-   <endpoint name="arraysdoService"
-             implementation="com.legstar.test.cixs.arraysdo.ArraysdoImpl"
-             url-pattern="/arraysdo"/>
-</endpoints>
