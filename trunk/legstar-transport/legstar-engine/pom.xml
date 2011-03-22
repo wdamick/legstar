@@ -88,11 +88,10 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
 
-                    <!-- This will generate a war file for the engine servlet initator.
-                         This should move to step prepare-package when we move to Maven 2.1+  -->
+                    <!-- This will generate a war file for the engine servlet initator.  -->
                     <execution>
                         <id>build-war</id>
-                        <phase>test</phase>
+                        <phase>prepare-package</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/build-war.xml" />
@@ -138,6 +137,30 @@
                 </executions>
             </plugin>
         
+            <!-- Attach the war file to Maven so that other modules can retrieve it. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${basedir}/target/legstar-engine.war</file>
+                                    <type>war</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     
