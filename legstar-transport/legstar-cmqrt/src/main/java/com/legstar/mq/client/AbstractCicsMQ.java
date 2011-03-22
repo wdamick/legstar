@@ -105,8 +105,11 @@ public abstract class AbstractCicsMQ implements LegStarConnection {
             throws CicsMQConnectionException {
         try {
             Properties env = new Properties();
-            env.put(Context.INITIAL_CONTEXT_FACTORY,
-                    cicsMQEndpoint.getInitialContextFactory());
+            if (cicsMQEndpoint.getInitialContextFactory() != null
+                    && cicsMQEndpoint.getInitialContextFactory().length() > 0) {
+                env.put(Context.INITIAL_CONTEXT_FACTORY,
+                        cicsMQEndpoint.getInitialContextFactory());
+            }
             if (cicsMQEndpoint.getJndiProviderURL() != null
                     && cicsMQEndpoint.getJndiProviderURL().length() > 0) {
                 env.put(Context.PROVIDER_URL,
@@ -120,7 +123,11 @@ public abstract class AbstractCicsMQ implements LegStarConnection {
             if (cicsMQEndpoint.getJndiProperties() != null) {
                 env.putAll(getProperties(cicsMQEndpoint.getJndiProperties()));
             }
-            return new InitialContext(env);
+            if (env.size() > 0) {
+                return new InitialContext(env);
+            } else {
+                return new InitialContext();
+            }
         } catch (NamingException e) {
             throw new CicsMQConnectionException(e);
         }
