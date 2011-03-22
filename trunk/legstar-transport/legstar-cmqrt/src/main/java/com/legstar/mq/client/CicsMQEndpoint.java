@@ -139,11 +139,6 @@ public class CicsMQEndpoint extends HostEndpoint {
      */
     public void check() throws CicsMQConnectionException {
 
-        if (getInitialContextFactory() == null
-                || getInitialContextFactory().length() == 0) {
-            throw new CicsMQConnectionException(
-                    "No JNDI initial context factory provided.");
-        }
         if (getJndiConnectionFactoryName() == null
                 || getJndiConnectionFactoryName().length() == 0) {
             throw new CicsMQConnectionException(
