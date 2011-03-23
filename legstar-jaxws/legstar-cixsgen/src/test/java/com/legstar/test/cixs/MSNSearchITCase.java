@@ -18,15 +18,16 @@ import com.legstar.test.coxb.MSNSearch.bind.SearchResponseHostToJavaTransformer;
 
 /**
  * Test the generated MSNSearch proxy.
- *
+ * 
  */
-public class MSNSearchTest extends AbstractProxyHttpClientTester {
+public class MSNSearchITCase extends AbstractProxyHttpClientTester {
 
     /**
      * Create the test case.
      */
-    public MSNSearchTest() {
-        super("MSNSearch", HostData.toByteArray(MSNSearchCases.getHostBytesHexRequest()));
+    public MSNSearchITCase() {
+        super("MSNSearch", HostData.toByteArray(MSNSearchCases
+                .getHostBytesHexRequest()));
     }
 
     /** {@inheritDoc} */
@@ -38,5 +39,14 @@ public class MSNSearchTest extends AbstractProxyHttpClientTester {
         } catch (HostTransformException e) {
             fail(e.getMessage());
         }
+    }
+
+    /**
+     * Order is important to avoid class loading issues.
+     * 
+     * @return
+     */
+    public String[] getDeployables() {
+        return new String[] { "target/war/c2ws-MSNSearch.war" };
     }
 }

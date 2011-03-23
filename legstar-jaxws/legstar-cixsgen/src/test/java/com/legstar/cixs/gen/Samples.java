@@ -145,9 +145,9 @@ public final class Samples extends AbstractTestTemplate {
         operation.addInput(AbstractOperationCases.createCixsStructure(
                 "lsfileac", "QueryLimit", "QueryLimit", false));
         operation.addOutput(AbstractOperationCases.createCixsStructure(
-                "lsfileac", "ReplyData", "ReplyData", false));
-        operation.addOutput(AbstractOperationCases.createCixsStructure(
                 "lsfileac", "ReplyStatus", "ReplyStatus", false));
+        operation.addOutput(AbstractOperationCases.createCixsStructure(
+                "lsfileac", "ReplyData", "ReplyData", false));
         service.addCixsOperation(operation);
         return service;
     }
@@ -222,7 +222,7 @@ public final class Samples extends AbstractTestTemplate {
     public static WebServiceParameters getCultureinfoWebServiceParameters() {
         WebServiceParameters webServiceParameters = new WebServiceParameters();
         webServiceParameters
-                .setWsdlUrl("http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+                .setWsdlUrl("http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl");
         webServiceParameters
                 .setWsdlTargetNamespace("http://cultureinfo.cases.test.xsdc.legstar.com/");
         webServiceParameters.setWsdlServiceName("CultureInfoImplService");

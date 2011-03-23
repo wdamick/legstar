@@ -20,6 +20,11 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
@@ -39,6 +44,11 @@
             <artifactId>legstar-cixsgen-model</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
         </dependency>
 
         <dependency>
@@ -66,31 +76,65 @@
         </dependency>
 
         <!-- Generated code use the JAXWS API annotations -->
+        <!-- Consider these as runtime dependencies -->
         <dependency>
             <groupId>javax.jws</groupId>
             <artifactId>jsr181-api</artifactId>
-            <scope>test</scope>
         </dependency>
         <!-- Generated code use the JAXWS API -->    
         <dependency>
             <groupId>javax.xml.ws</groupId>
             <artifactId>jaxws-api</artifactId>
-            <scope>test</scope>
         </dependency>
+        <!-- Generated code use the JAXWS API -->    
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
+        <!-- Sun SOAP is needed for integration testing   
+        <dependency>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+        </dependency>  --> 
         <!-- Generated code uses legstar-invoker -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-invoker</artifactId>
-            <scope>test</scope>
         </dependency>
-
-        <!-- Integration test cases use Socket connectivity -->
+        <!-- Integration test cases use all transports -->
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-csokrt</artifactId>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-chttprt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmqrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmockrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-c2wsrt</artifactId>
         </dependency>
 
+        <!-- Cargo -->    
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-api-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-container-tomcat</artifactId>
+            <scope>test</scope>
+        </dependency>
+    
 
     </dependencies>
  
@@ -100,7 +144,7 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- Coxbgen cases are used to mass generate cixsgen cases. -->
+                    <!-- Coxbgen cases are used to mass generate cixsgen cases and for integration testing. -->
                     <execution>
                         <id>copy-coxbgen-cases</id>
                         <phase>generate-test-resources</phase>
@@ -113,7 +157,8 @@
                             <outputDirectory>${project.build.directory}/dependency/coxbgen</outputDirectory>
                         </configuration>
                     </execution>
-                    <!-- Jaxbgen cases are needed to compile all cases. -->
+
+                    <!-- Jaxbgen cases are needed to compile all cases and for integration testing. -->
                     <execution>
                         <id>copy-jaxbgen-cases</id>
                         <phase>generate-test-resources</phase>
@@ -126,6 +171,77 @@
                             <outputDirectory>${project.build.directory}/dependency/jaxbgen</outputDirectory>
                         </configuration>
                     </execution>
+
+                    <!-- Dependencies are needed for integration testing. -->
+                    <execution>
+                        <id>copy-lib-cases</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/dependency/lib</outputDirectory>
+                            <excludeClassifiers>tests</excludeClassifiers>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+
+                    <!-- Extra POJO needed for integration testing. -->
+                    <execution>
+                        <id>copy-jvmquery-pojo</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-jvmquery</artifactId>
+                                    <version>${legstarSamplesVersion}</version>
+                                    <classifier>classes</classifier>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/dependency/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+
+                    <!-- War dependencies are needed for integration testing. -->
+                    <execution>
+                        <id>copy-samples</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-cultureinfo</artifactId>
+                                    <version>${legstarSamplesVersion}</version>
+                                    <type>war</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-jvmquery</artifactId>
+                                    <version>${legstarSamplesVersion}</version>
+                                    <type>war</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-engine</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <type>war</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <stripVersion>true</stripVersion>
+                            <outputDirectory>${project.build.directory}/war</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
                 </executions>
 
             </plugin>
@@ -135,7 +251,7 @@
                 <executions>
                     <!-- Produces the samples ant scripts for distribution. -->
                     <execution>
-                        <id>prepare-ant-scripts</id>
+                        <id>generate-ant-samples</id>
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
@@ -147,9 +263,47 @@
                         </goals>
                     </execution>
         
+                    <!-- Bundle web services needed for integration testing. -->
+                    <execution>
+                        <id>build-cixsgen-war-cases</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/test/ant/build-cixsgen-war-cases.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
                 </executions>
             </plugin>
         
+            <!-- Integration tests (runs classes xxxITCase) -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/HttpClientLsfileae100AxisITCase.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+      
         </plugins>
     </build>
 

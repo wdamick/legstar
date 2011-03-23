@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import com.legstar.test.coxb.lsfileac.ReplyData;
 import com.legstar.test.coxb.lsfileac.ReplyStatus;
+import com.legstar.test.coxb.lsfileac.ReplyData;
 
 /**
  * LegStar/Jaxws Operation Response Holder.
@@ -21,43 +21,25 @@ import com.legstar.test.coxb.lsfileac.ReplyStatus;
 @XmlType(name = "LsfileamResponseHolder",
          namespace = "http://cixs.test.legstar.com/lsfileam",
          propOrder = {
-    "replyData",
-    "replyStatus" })
+    "replyStatus",
+    "replyData" })
 public class LsfileamResponseHolder
     implements Serializable {
 
     /** Serial version ID. */
     private static final long serialVersionUID = 1L;
 
-    /** Inner ReplyData JAXB-bound object. */
-    @XmlElement(name = "ReplyData",
-                namespace = "http://legstar.com/test/coxb/lsfileac",
-                required = true)
-    private ReplyData replyData;
     /** Inner ReplyStatus JAXB-bound object. */
     @XmlElement(name = "ReplyStatus",
                 namespace = "http://legstar.com/test/coxb/lsfileac",
                 required = true)
     private ReplyStatus replyStatus;
+    /** Inner ReplyData JAXB-bound object. */
+    @XmlElement(name = "ReplyData",
+                namespace = "http://legstar.com/test/coxb/lsfileac",
+                required = true)
+    private ReplyData replyData;
 
-    /**
-     * Get the inner ReplyData JAXB-bound object.
-     * 
-     * @return JAXB-bound object
-     */
-    public ReplyData getReplyData() {
-        return replyData;
-    }
-    
-    /**
-     * Set the inner ReplyData JAXB-bound object.
-     * 
-     * @param value JAXB-bound object
-     */
-    public void setReplyData(
-            final ReplyData value) {
-        replyData = value;
-    }
     /**
      * Get the inner ReplyStatus JAXB-bound object.
      * 
@@ -75,5 +57,23 @@ public class LsfileamResponseHolder
     public void setReplyStatus(
             final ReplyStatus value) {
         replyStatus = value;
+    }
+    /**
+     * Get the inner ReplyData JAXB-bound object.
+     * 
+     * @return JAXB-bound object
+     */
+    public ReplyData getReplyData() {
+        return replyData;
+    }
+    
+    /**
+     * Set the inner ReplyData JAXB-bound object.
+     * 
+     * @param value JAXB-bound object
+     */
+    public void setReplyData(
+            final ReplyData value) {
+        replyData = value;
     }
 }
