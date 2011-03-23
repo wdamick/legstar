@@ -22,7 +22,7 @@ import junit.framework.TestCase;
  * Test LSFILEAL adapter.
  *
  */
-public class LsfilealTest extends TestCase {
+public class LsfilealITCase extends TestCase {
     
     /**
       * Direct host invoke.

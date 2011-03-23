@@ -7,8 +7,8 @@ import com.legstar.host.invoke.HostInvokerException;
 import com.legstar.messaging.LegStarAddress;
 import com.legstar.test.coxb.lsfileac.bind.QueryDataTransformers;
 import com.legstar.test.coxb.lsfileac.bind.QueryLimitTransformers;
-import com.legstar.test.coxb.lsfileac.bind.ReplyDataTransformers;
 import com.legstar.test.coxb.lsfileac.bind.ReplyStatusTransformers;
+import com.legstar.test.coxb.lsfileac.bind.ReplyDataTransformers;
 
 /**
  * Implements an invoker for program LSFILEAM.
@@ -24,10 +24,10 @@ public class LsfileamProgramInvoker extends AbstractProgramInvoker {
     private QueryDataTransformers mQueryDataTransformers;
     /** Host transformers for QueryLimit java data object. */
     private QueryLimitTransformers mQueryLimitTransformers;
-    /** Host transformers for ReplyData java data object. */
-    private ReplyDataTransformers mReplyDataTransformers;
     /** Host transformers for ReplyStatus java data object. */
     private ReplyStatusTransformers mReplyStatusTransformers;
+    /** Host transformers for ReplyData java data object. */
+    private ReplyDataTransformers mReplyDataTransformers;
 
     /** Operation name for lsfileam. */
     private static final String  OPERATION_NAME = "lsfileam";
@@ -40,8 +40,8 @@ public class LsfileamProgramInvoker extends AbstractProgramInvoker {
         super(configFileName, OPERATION_NAME, new LsfileamHostProgram());
         mQueryDataTransformers = new QueryDataTransformers();
         mQueryLimitTransformers = new QueryLimitTransformers();
-        mReplyDataTransformers = new ReplyDataTransformers();
         mReplyStatusTransformers = new ReplyStatusTransformers();
+        mReplyDataTransformers = new ReplyDataTransformers();
     }
 
     /**
@@ -99,12 +99,12 @@ public class LsfileamProgramInvoker extends AbstractProgramInvoker {
         LsfileamResponseHolder reply = new LsfileamResponseHolder();
         int replyBytePos = 0;
         HostTransformStatus status = new HostTransformStatus();
-        reply.setReplyData(
-            getReplyDataTransformers().toJava(
-                replyBytes, replyBytePos, hostCharset, status));
-        replyBytePos += status.getHostBytesProcessed();
         reply.setReplyStatus(
             getReplyStatusTransformers().toJava(
+                replyBytes, replyBytePos, hostCharset, status));
+        replyBytePos += status.getHostBytesProcessed();
+        reply.setReplyData(
+            getReplyDataTransformers().toJava(
                 replyBytes, replyBytePos, hostCharset, status));
         replyBytePos += status.getHostBytesProcessed();
         return reply;
@@ -142,21 +142,6 @@ public class LsfileamProgramInvoker extends AbstractProgramInvoker {
     }
 
     /**
-     * @return the host transformers for ReplyData
-     */
-    public ReplyDataTransformers getReplyDataTransformers() {
-        return mReplyDataTransformers;
-    }
-
-    /**
-     * @param transformers the host transformers for ReplyData
-     */
-    public void setReplyDataTransformers(
-            final ReplyDataTransformers transformers) {
-        mReplyDataTransformers = transformers;
-    }
-
-    /**
      * @return the host transformers for ReplyStatus
      */
     public ReplyStatusTransformers getReplyStatusTransformers() {
@@ -169,6 +154,21 @@ public class LsfileamProgramInvoker extends AbstractProgramInvoker {
     public void setReplyStatusTransformers(
             final ReplyStatusTransformers transformers) {
         mReplyStatusTransformers = transformers;
+    }
+
+    /**
+     * @return the host transformers for ReplyData
+     */
+    public ReplyDataTransformers getReplyDataTransformers() {
+        return mReplyDataTransformers;
+    }
+
+    /**
+     * @param transformers the host transformers for ReplyData
+     */
+    public void setReplyDataTransformers(
+            final ReplyDataTransformers transformers) {
+        mReplyDataTransformers = transformers;
     }
 
 }

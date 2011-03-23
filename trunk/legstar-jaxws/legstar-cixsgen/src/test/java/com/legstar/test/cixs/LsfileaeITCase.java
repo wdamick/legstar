@@ -10,28 +10,28 @@
  ******************************************************************************/
 package com.legstar.test.cixs;
 
-import com.legstar.test.cixs.lsfileaq.LsfileaqFault;
-import com.legstar.test.cixs.lsfileaq.LsfileaqImpl;
-import com.legstar.test.coxb.LsfileaqCases;
-import com.legstar.test.coxb.lsfileaq.Dfhcommarea;
+import com.legstar.test.cixs.lsfileae.LsfileaeFault;
+import com.legstar.test.cixs.lsfileae.LsfileaeImpl;
+import com.legstar.test.coxb.LsfileaeCases;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
 
 import junit.framework.TestCase;
 
 /**
- * Test LSfileaq adapter.
+ * Test LSFILEAE adapter.
  *
  */
-public class LsfileaqTest extends TestCase {
+public class LsfileaeITCase extends TestCase {
     
     /**
      * Direct host invoke.
-     * @throws LsfileaqFault if test fails
+     * @throws LsfileaeFault if test fails
      */
-    public void testLsfileaqRequest100() throws LsfileaqFault {
-        LsfileaqImpl port = new LsfileaqImpl();
-        Dfhcommarea request = LsfileaqCases.getJavaObjectRequest5();
-        Dfhcommarea reply = port.lsfileaq(request, null);
-        LsfileaqCases.checkJavaObjectReply5(reply);
+    public void testLsfileaeRequest100() throws LsfileaeFault {
+        LsfileaeImpl port = new LsfileaeImpl();
+        Dfhcommarea request = LsfileaeCases.getJavaObjectRequest100();
+        Dfhcommarea reply = port.lsfileae(request, null);
+        LsfileaeCases.checkJavaObjectReply100(reply);
     }
-    
+
 }

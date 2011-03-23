@@ -10,39 +10,40 @@
  ******************************************************************************/
 package com.legstar.test.cixs;
 
-import com.legstar.test.cixs.lsfileam.LsfileamFault;
-import com.legstar.test.cixs.lsfileam.LsfileamHostHeader;
-import com.legstar.test.cixs.lsfileam.LsfileamImpl;
-import com.legstar.test.cixs.lsfileam.LsfileamRequestHolder;
-import com.legstar.test.cixs.lsfileam.LsfileamResponseHolder;
+import junit.framework.TestCase;
+
+import com.legstar.test.cixs.lsfileac.LsfileacException;
+import com.legstar.test.cixs.lsfileac.LsfileacHostHeader;
+import com.legstar.test.cixs.lsfileac.LsfileacImpl;
+import com.legstar.test.cixs.lsfileac.LsfileacRequestHolder;
+import com.legstar.test.cixs.lsfileac.LsfileacResponseHolder;
 import com.legstar.test.coxb.LsfileacCases;
 import com.legstar.test.coxb.lsfileac.QueryData;
 import com.legstar.test.coxb.lsfileac.QueryLimit;
 
-import junit.framework.TestCase;
-
 /**
- * Test LSFILEAM adapter.
+ * Test LSFILEAC adapter.
  * 
  */
-public class LsfileamTest extends TestCase {
+public class LsfileacITCase extends TestCase {
 
     /**
      * Direct host invoke.
      * 
-     * @throws LsfileamFault if test fails
+     * @throws LsfileacFault if test fails
      */
-    public void testLsfileamRequest() throws LsfileamFault {
-        LsfileamImpl port = new LsfileamImpl();
+    public void testLsfileacRequestSStar() throws LsfileacException {
+        LsfileacImpl port = new LsfileacImpl();
         QueryData queryData = LsfileacCases.getJavaObjectQueryData();
         QueryLimit queryLimit = LsfileacCases.getJavaObjectQueryLimit();
-        LsfileamRequestHolder request = new LsfileamRequestHolder();
+        LsfileacRequestHolder request = new LsfileacRequestHolder();
         request.setQueryData(queryData);
         request.setQueryLimit(queryLimit);
-        LsfileamHostHeader header = new LsfileamHostHeader();
+        LsfileacHostHeader header = new LsfileacHostHeader();
         header.setHostEndPoint("CICSTS31");
-        LsfileamResponseHolder reply = port.lsfileam(request, header);
+        LsfileacResponseHolder reply = port.lsfileac(request, header);
         LsfileacCases.checkJavaObjectReplyData(reply.getReplyData());
         LsfileacCases.checkJavaObjectReplyStatus(reply.getReplyStatus());
     }
+
 }

@@ -28,7 +28,7 @@ import com.legstar.test.coxb.lsfileae.Dfhcommarea;
  * Test LSFILEAX adapter.
  * 
  */
-public class LsfileaxTest extends TestCase {
+public class LsfileaxITCase extends TestCase {
 
     /**
      * Direct host invoke.

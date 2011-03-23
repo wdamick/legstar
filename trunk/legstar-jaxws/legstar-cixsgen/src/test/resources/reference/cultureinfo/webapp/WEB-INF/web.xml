@@ -42,7 +42,7 @@
         <init-param>
             <description>URL locating target Web service WSDL</description>
             <param-name>wsdlUrl</param-name>
-            <param-value>http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl</param-value>
+            <param-value>http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl</param-value>
         </init-param>
         <init-param>
             <description>Target Web service WSDL namespace</description>

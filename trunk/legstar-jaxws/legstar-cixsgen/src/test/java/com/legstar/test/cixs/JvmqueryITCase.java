@@ -15,20 +15,30 @@ import com.legstar.test.coxb.JvmqueryCases;
 
 /**
  * Test the generated Jvmquery proxy.
- *
+ * 
  */
-public class JvmqueryTest extends AbstractProxyHttpClientTester {
+public class JvmqueryITCase extends AbstractProxyHttpClientTester {
 
     /**
      * Create the test case.
      */
-    public JvmqueryTest() {
-        super("Jvmquery", HostData.toByteArray(JvmqueryCases.getHostBytesHexRequest()));
+    public JvmqueryITCase() {
+        super("jvmquery", HostData.toByteArray(JvmqueryCases
+                .getHostBytesHexRequest()));
     }
 
     /** {@inheritDoc} */
     public void check(final byte[] replyBytes) {
-        JvmqueryCases.checkHostBytesHexReplyFrance(HostData.toHexString(replyBytes));
+        JvmqueryCases.checkHostBytesHexReplyFrance(HostData
+                .toHexString(replyBytes));
     }
-    
+
+    /**
+     * Order is important to avoid class loading issues.
+     * 
+     * @return
+     */
+    public String[] getDeployables() {
+        return new String[] { "target/war/c2ws-jvmquery.war" };
+    }
 }

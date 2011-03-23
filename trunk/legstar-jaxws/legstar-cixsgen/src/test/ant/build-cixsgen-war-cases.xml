@@ -1,24 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =================================================================================
-     This script creates war files for the test cases.
+     This script creates war files for the integration test cases.
   -->
-<project basedir="..\..\.." default="create-war" name="create-war-cases">
+<project basedir="..\..\.." default="create-wars" name="create-war-cases">
 
     <property name="refdir" value="${basedir}/target/test-classes/reference"/>
     <property name="wardir" value="${basedir}/target/war"/>
     <property name="coxbdir" value="${basedir}/target/dependency/coxbgen"/>
     <property name="jaxbdir" value="${basedir}/target/dependency/jaxbgen"/>
+    <property name="cixsdir" value="${basedir}/target/test-classes"/>
+	
+	<mkdir dir="${wardir}"/>
 
-	<target name="create-war">
-        <war warfile="${wardir}/c2ws-cultureinfo.war"
-                webxml="${refdir}/cultureinfo/webapp/WEB-INF/web.xml">
+	<target name="create-wars">
+        <antcall target="create-c2ws-war">
+        	<param name="service" value="cultureinfo"/>
+        </antcall>
+        <antcall target="create-c2ws-war">
+        	<param name="service" value="jvmquery"/>
+        </antcall>
+        <antcall target="create-c2ws-war">
+        	<param name="service" value="MSNSearch"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="lsfileae"/>
+        </antcall>
+    </target>
+
+	<target name="create-c2ws-war">
+        <war warfile="${wardir}/c2ws-${service}.war"
+                webxml="${refdir}/${service}/webapp/WEB-INF/web.xml">
             <classes dir="${jaxbdir}">
-                <include name="com/legstar/test/coxb/cultureinfo/*.class"/>
+                <include name="com/legstar/test/coxb/${service}/*.class"/>
             </classes>
             <classes dir="${coxbdir}">
-                <include name="com/legstar/test/coxb/cultureinfo/bind/*.class"/>
+                <include name="com/legstar/test/coxb/${service}/bind/*.class"/>
             </classes>
         </war>
     </target>
 
+	<target name="create-cixs-war">
+        <war warfile="${wardir}/cixs-${service}.war"
+                webxml="${refdir}/${service}/webapp/WEB-INF/web.xml">
+            <webinf dir="${refdir}/${service}/webapp/WEB-INF"
+                    includes="sun-jaxws.xml"/>
+            <classes dir="${jaxbdir}">
+                <include name="com/legstar/test/coxb/${service}/*.class"/>
+            </classes>
+            <classes dir="${coxbdir}">
+                <include name="com/legstar/test/coxb/${service}/bind/*.class"/>
+            </classes>
+            <classes dir="${cixsdir}">
+                <include name="com/legstar/test/cixs/${service}/*.class"/>
+            </classes>
+        </war>
+    </target>
 </project>

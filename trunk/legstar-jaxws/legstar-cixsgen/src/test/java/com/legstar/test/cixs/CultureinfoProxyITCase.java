@@ -15,7 +15,7 @@ import com.legstar.test.coxb.CultureinfoCases;
 
 /**
  * Test the generated cultureinfo proxy.
- *
+ * 
  */
 public class CultureinfoProxyITCase extends AbstractProxyHttpClientTester {
 
@@ -23,11 +23,34 @@ public class CultureinfoProxyITCase extends AbstractProxyHttpClientTester {
      * Create the test case.
      */
     public CultureinfoProxyITCase() {
-        super("cultureinfo", HostData.toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
+        super("cultureinfo", HostData.toByteArray(CultureinfoCases
+                .getHostBytesHexRequestFr()));
     }
 
     /** {@inheritDoc} */
     public void check(final byte[] replyBytes) {
-        CultureinfoCases.checkHostBytesReplyFr(replyBytes);
+        String result = HostData.toHexString(replyBytes);
+        assertEquals(
+                "9f40404040404040404040404040404040404040404040404040404040404040"
+                        + "c699819583854040404040404040404040404040404040404040404040404040"
+                        + "86998195e08189a2404040404040404040404040404040404040404040404040",
+                result.substring(0, 192));
+        assertEquals(
+                "f2f7f56bf3f64040404040404040404040404040404040404040404040404040"
+                        + "869960c6d9404040404040404040404040404040404040404040404040404040"
+                        + "c699819583854040404040404040404040404040404040404040404040404040"
+                        + "86998195e08189a2404040404040404040404040404040404040404040404040",
+                result.substring(256, 512));
     }
+
+    /**
+     * Order is important to avoid class loading issues.
+     * 
+     * @return
+     */
+    public String[] getDeployables() {
+        return new String[] { "target/war/legstar-test-cultureinfo.war",
+                "target/war/c2ws-cultureinfo.war" };
+    }
+
 }

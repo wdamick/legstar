@@ -25,7 +25,7 @@ import junit.framework.TestCase;
  * Test VARAR021 adapter.
  *
  */
-public class Varar021Test extends TestCase {
+public class Varar021ITCase extends TestCase {
     
     /**
      * All default value should behave like echo.

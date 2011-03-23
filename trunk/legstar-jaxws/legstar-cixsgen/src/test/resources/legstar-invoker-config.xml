@@ -1,28 +1,182 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config description="Default Configuration">
-	<hostEndPoints>
-		<hostEndPoint name="CICSTS23">
-			<!-- Class implementing the HostConnectionFactory interface.  -->
-			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-			<hostIPAddress>mainframe</hostIPAddress>
-			<hostIPPort>3011</hostIPPort>
-			<hostCharset>IBM01140</hostCharset>
-			<hostUserID>P390</hostUserID>
-			<hostPassword>STREAM2</hostPassword>
-			<hostTraceMode>true</hostTraceMode>
-			<pooledInvokeTimeout>2000</pooledInvokeTimeout>
-	   </hostEndPoint>
-		<hostEndPoint name="CICSTS31">
-			<!-- Class implementing the HostConnectionFactory interface.  -->
-			<hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
-			<hostIPAddress>mainframe</hostIPAddress>
-			<hostIPPort>4011</hostIPPort>
-			<hostCharset>IBM01140</hostCharset>
-			<hostUserID>P390</hostUserID>
-			<hostPassword>STREAM2</hostPassword>
-			<hostTraceMode>true</hostTraceMode>
-			<pooledInvokeTimeout>2000</pooledInvokeTimeout>
-	   </hostEndPoint>
-  </hostEndPoints>
+    <hostEndPoints>
+        <hostEndPoint name="CICSTS23">
+            <!-- Class implementing the HostConnectionFactory interface.  -->
+            <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>3011</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>true</hostTraceMode>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS31">
+            <!-- Class implementing the HostConnectionFactory interface.  -->
+            <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>4011</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>true</hostTraceMode>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS31DirectHttp">
+            <hostAccessStrategy>direct</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>4081</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS31PooledHttp">
+            <hostAccessStrategy>pooled</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>4081</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+            <hostConnectionPoolSize>2</hostConnectionPoolSize>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS23DirectHttp">
+            <hostAccessStrategy>direct</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>3080</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS23PooledHttp">
+            <hostAccessStrategy>pooled</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.http.client.CicsHttpConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>3080</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostURLPath>/CICS/CWBA/LSWEBBIN</hostURLPath>
+            <hostConnectionPoolSize>2</hostConnectionPoolSize>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS23DirectSocket">
+            <hostAccessStrategy>direct</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>3012</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS23PooledSocket">
+            <hostAccessStrategy>pooled</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.csok.client.CicsSocketConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>3012</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostConnectionPoolSize>2</hostConnectionPoolSize>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+            <pooledMaxIdleTime>5000</pooledMaxIdleTime>
+            <pooledMaxIdleTimeCheckPeriod>2000</pooledMaxIdleTimeCheckPeriod>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS23DirectMQ">
+            <hostAccessStrategy>direct</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <initialContextFactory></initialContextFactory>
+            <jndiProviderURL></jndiProviderURL>
+            <jndiUrlPkgPrefixes></jndiUrlPkgPrefixes>
+            <jndiProperties></jndiProperties>
+            <jndiConnectionFactoryName>java:comp/env/ConnectionFactory</jndiConnectionFactoryName>
+            <jndiRequestQueueName>java:comp/env/CicsARequestQueue</jndiRequestQueueName>
+            <jndiReplyQueueName>java:comp/env/CicsAReplyQueue</jndiReplyQueueName>
+            <hostMQBridgeType>LSMSG</hostMQBridgeType>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS23PooledMQ">
+            <hostAccessStrategy>pooled</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostConnectionPoolSize>2</hostConnectionPoolSize>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+            <initialContextFactory></initialContextFactory>
+            <jndiProviderURL></jndiProviderURL>
+            <jndiUrlPkgPrefixes></jndiUrlPkgPrefixes>
+            <jndiProperties></jndiProperties>
+            <jndiConnectionFactoryName>java:comp/env/ConnectionFactory</jndiConnectionFactoryName>
+            <jndiRequestQueueName>java:comp/env/CicsARequestQueue</jndiRequestQueueName>
+            <jndiReplyQueueName>java:comp/env/CicsAReplyQueue</jndiReplyQueueName>
+            <hostMQBridgeType>LSMSG</hostMQBridgeType>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS31DirectMQ">
+            <hostAccessStrategy>direct</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>1414</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <initialContextFactory></initialContextFactory>
+            <jndiProviderURL></jndiProviderURL>
+            <jndiUrlPkgPrefixes></jndiUrlPkgPrefixes>
+            <jndiProperties></jndiProperties>
+            <jndiConnectionFactoryName>java:comp/env/ConnectionFactory</jndiConnectionFactoryName>
+            <jndiRequestQueueName>java:comp/env/Cics01BridgeRequestQueue</jndiRequestQueueName>
+            <jndiReplyQueueName>java:comp/env/Cics01BridgeReplyQueue</jndiReplyQueueName>
+            <hostMQBridgeType>MQCIH</hostMQBridgeType>
+        </hostEndPoint>
+        <hostEndPoint name="CICSTS31PooledMQ">
+            <hostAccessStrategy>pooled</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.mq.client.CicsMQConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+            <hostIPPort>1414</hostIPPort>
+            <hostCharset>IBM01140</hostCharset>
+            <hostUserID>P390</hostUserID>
+            <hostPassword>STREAM2</hostPassword>
+            <hostTraceMode>false</hostTraceMode>
+            <hostConnectionPoolSize>2</hostConnectionPoolSize>
+            <pooledInvokeTimeout>2000</pooledInvokeTimeout>
+            <initialContextFactory></initialContextFactory>
+            <jndiProviderURL></jndiProviderURL>
+            <jndiUrlPkgPrefixes></jndiUrlPkgPrefixes>
+            <jndiProperties></jndiProperties>
+            <jndiConnectionFactoryName>java:comp/env/ConnectionFactory</jndiConnectionFactoryName>
+            <jndiRequestQueueName>java:comp/env/Cics01BridgeRequestQueue</jndiRequestQueueName>
+            <jndiReplyQueueName>java:comp/env/Cics01BridgeReplyQueue</jndiReplyQueueName>
+            <hostMQBridgeType>MQCIH</hostMQBridgeType>
+        </hostEndPoint>
+        <hostEndPoint name="MockDirect">
+            <hostAccessStrategy>direct</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.mock.client.MockConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+        </hostEndPoint>
+        <hostEndPoint name="MockPooled">
+            <hostAccessStrategy>pooled</hostAccessStrategy>
+            <hostConnectionfactoryClass>com.legstar.mock.client.MockConnectionFactory</hostConnectionfactoryClass>
+            <hostIPAddress>mainframe</hostIPAddress>
+        </hostEndPoint>
+    </hostEndPoints>
 </config>
    
