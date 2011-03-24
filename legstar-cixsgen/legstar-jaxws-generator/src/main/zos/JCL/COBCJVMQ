@@ -1,0 +1,53 @@
+//P390FXMD   JOB  (ACCT#),'FADY',                                      
+//           MSGCLASS=X,NOTIFY=&SYSUID,PRTY=14,REGION=0M               
+//*********************************************************************
+//** TRANSLATE, COMPILE LINK A COBOL CICS PROGRAM  "                  *
+//*********************************************************************
+//TRN    EXEC PGM=DFHECP1$,                                            
+//       PARM='SP,FEPI,NOSEQ',                                         
+//       REGION=1024K                                                  
+//STEPLIB  DD DSN=CICSTS23.CICS.SDFHLOAD,DISP=SHR                      
+//SYSPRINT DD SYSOUT=*                                                 
+//SYSPUNCH DD DSN=&&SYSCIN,DISP=(,PASS),                               
+//            DCB=BLKSIZE=400,UNIT=SYSDA,SPACE=(400,(400,100))         
+//SYSIN    DD DSN=P390.DEV.COBOL(JVMQUERY),DISP=SHR                    
+//*********************************************************************
+//COB  EXEC PGM=IGYCRCTL,REGION=1024K,                                 
+// PARM=('NODYNAM,LIB,OBJECT,RENT,APOST,LIST,TRUNC(BIN),NOSEQ,',       
+//      'OPTIMIZE',MAP),                                               
+//       COND=(4,LT,TRN)                                               
+//SYSLIB   DD DSN=P390.DEV.COBOL,DISP=SHR                              
+//         DD DSN=CICSTS23.CICS.SDFHCOB,DISP=SHR <--- CICS COPYBOOKS   
+//         DD DSN=CICSTS23.CICS.SDFHSAMP,DISP=SHR <--- CICS COPYBOOKS  
+//         DD DSN=CSQ531.SCSQCOBC,DISP=SHR                             
+//SYSPRINT DD SYSOUT=*                                                 
+//SYSIN    DD DSN=&&SYSCIN,DISP=(OLD,DELETE)                           
+//SYSLIN   DD DSN=&&LOADSET,DISP=(MOD,PASS),                           
+//         UNIT=SYSDA,SPACE=(80,(250,100))                             
+//SYSUT1   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//SYSUT2   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//SYSUT3   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//SYSUT4   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//SYSUT5   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//SYSUT6   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//SYSUT7   DD UNIT=SYSDA,SPACE=(460,(350,100))                         
+//*********************************************************************
+//LKED   EXEC PGM=IEWL,REGION=1024K,                                   
+//       PARM='LIST,MAP,XREF,AMODE(31),RMODE(ANY)'                     
+//SYSLIB   DD DSN=P390.DEV.LOAD,DISP=SHR                               
+//         DD DSN=CICSTS23.CICS.SDFHLOAD,DISP=SHR    <=CICS LOAD       
+//         DD DSN=CEE.SCEELKED,DISP=SHR    <=LE                        
+//         DD DSN=CEE.SCEECICS,DISP=SHR    <=LE/CICS                   
+//         DD DSN=CSQ531.SCSQLOAD,DISP=SHR                             
+//SYSLMOD  DD DSN=P390.DEV.LOAD,DISP=SHR                               
+//SYSUT1   DD UNIT=SYSDA,DCB=BLKSIZE=1024,                             
+//       SPACE=(1024,(200,20))                                         
+//SYSPRINT DD SYSOUT=*                                                 
+//SYSLIN DD *                                                          
+  INCLUDE SYSLIB(DFHECI)                                               
+/*                                                                     
+//         DD DSN=&&LOADSET,DISP=(OLD,DELETE)                          
+//         DD *                                                        
+  NAME JVMQUERY(R)                                                     
+/*                                                                     
+//                                                                     
