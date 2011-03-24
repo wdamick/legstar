@@ -12,8 +12,8 @@
     <version>1.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>LegStar JAXWS Service Generator</name>
-    <description>Service generators for JAXWS</description>
+    <name>LegStar Service Generators</name>
+    <description>Mainframe Adapters and Proxies generators</description>
     <url>http://www.legsem.com/legstar/legstar-jaxws</url>
 
     <properties>
