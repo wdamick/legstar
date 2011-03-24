@@ -3,14 +3,14 @@
 
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-jaxws</artifactId>
+        <artifactId>legstar-cixsgen</artifactId>
         <version>1.5.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>legstar-cixsgen-clients</artifactId>
+    <artifactId>legstar-jaxws-clients</artifactId>
 
-    <name>LegStar Mainframe Service Generator Clients</name>
-    <description>Testing project for generated Web services</description>
+    <name>LegStar for JAXWS Generator Clients</name>
+    <description>Test project for generated JAXWS Web Services</description>
 
     <dependencies>
   
@@ -28,10 +28,10 @@
             <artifactId>jaxws-rt</artifactId>
         </dependency>
 
-        <!-- Web services produced by legstar-cixsgen -->    
+        <!-- Web services produced by legstar-jaxws-generator -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cixsgen</artifactId>
+            <artifactId>legstar-jaxws-generator</artifactId>
             <version>${parent.version}</version>
             <classifier>int</classifier>
             <type>zip</type>
@@ -58,15 +58,15 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- Retrieve integration cases as war files rom legstar-cixsgen. -->
+                    <!-- Retrieve integration cases as war files rom legstar-jaxws-generator. -->
                     <execution>
-                        <id>copy-cixsgen-cases</id>
+                        <id>copy-jaxws-generator-cases</id>
                         <phase>generate-test-resources</phase>
                         <goals>
                             <goal>unpack-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>legstar-cixsgen</includeArtifactIds>
+                            <includeArtifactIds>legstar-jaxws-generator</includeArtifactIds>
                             <includeClassifiers>int</includeClassifiers>
                             <outputDirectory>${project.build.directory}/dependency/cixsgen</outputDirectory>
                         </configuration>
@@ -77,11 +77,6 @@
             <!-- Integration tests (runs classes xxxITCase) -->
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/HttpClientLsfileae100AxisITCase.java</exclude>
-                    </excludes>
-                </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>

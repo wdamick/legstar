@@ -3,7 +3,7 @@
 
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-jaxws</artifactId>
+        <artifactId>legstar-cixsgen</artifactId>
         <version>1.5.0-SNAPSHOT</version>
     </parent>
 
