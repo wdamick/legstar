@@ -10,24 +10,25 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.redsimpt.*;
-import com.legstar.test.coxb.redsimpt.*;
+import com.legstar.test.cixs.redsimpt.RedsimptFault;
+import com.legstar.test.cixs.redsimpt.RedsimptPort;
+import com.legstar.test.cixs.redsimpt.RedsimptRequest;
+import com.legstar.test.cixs.redsimpt.RedsimptResponse;
+import com.legstar.test.cixs.redsimpt.RedsimptService;
+import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 
 /**
  * Test REDSIMPT.
  * 
  */
-public class ClientredsimptTest extends TestCase {
+public class ClientredsimptITCase extends AbstractITCase {
 
     /**
      * @throws RedsimptFault if test fails
      */
     public void testClient() throws RedsimptFault {
-        com.legstar.test.cixs.redsimpt.ObjectFactory wsOF =
-                new com.legstar.test.cixs.redsimpt.ObjectFactory();
-        com.legstar.test.coxb.redsimpt.ObjectFactory obOF =
-                new com.legstar.test.coxb.redsimpt.ObjectFactory();
+        com.legstar.test.cixs.redsimpt.ObjectFactory wsOF = new com.legstar.test.cixs.redsimpt.ObjectFactory();
+        com.legstar.test.coxb.redsimpt.ObjectFactory obOF = new com.legstar.test.coxb.redsimpt.ObjectFactory();
         RedsimptPort port = new RedsimptService().getRedsimptPort();
         RedsimptRequest req = wsOF.createRedsimptRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -43,8 +44,8 @@ public class ClientredsimptTest extends TestCase {
          * since the content is entirely digits.
          */
         assertEquals(null, dfhcommareaResp.getCDefinition1());
-        assertEquals(new Long(12345678912345678L), dfhcommareaResp
-                .getCDefinition2());
+        assertEquals(new Long(12345678912345678L),
+                dfhcommareaResp.getCDefinition2());
     }
 
 }

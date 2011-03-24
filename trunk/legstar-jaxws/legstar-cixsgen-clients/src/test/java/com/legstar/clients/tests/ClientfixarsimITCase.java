@@ -10,17 +10,18 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.fixarsim.*;
-import com.legstar.test.coxb.fixarsim.*;
+import com.legstar.test.cixs.fixarsim.FixarsimFault;
+import com.legstar.test.cixs.fixarsim.FixarsimPort;
+import com.legstar.test.cixs.fixarsim.FixarsimRequest;
+import com.legstar.test.cixs.fixarsim.FixarsimResponse;
+import com.legstar.test.cixs.fixarsim.FixarsimService;
+import com.legstar.test.coxb.fixarsim.Dfhcommarea;
 
-public class ClientfixarsimTest extends TestCase {
+public class ClientfixarsimITCase extends AbstractITCase {
 
     public void testClient() throws FixarsimFault {
-        com.legstar.test.cixs.fixarsim.ObjectFactory wsOF =
-                new com.legstar.test.cixs.fixarsim.ObjectFactory();
-        com.legstar.test.coxb.fixarsim.ObjectFactory obOF =
-                new com.legstar.test.coxb.fixarsim.ObjectFactory();
+        com.legstar.test.cixs.fixarsim.ObjectFactory wsOF = new com.legstar.test.cixs.fixarsim.ObjectFactory();
+        com.legstar.test.coxb.fixarsim.ObjectFactory obOF = new com.legstar.test.coxb.fixarsim.ObjectFactory();
         FixarsimPort port = new FixarsimService().getFixarsimPort();
         FixarsimRequest req = wsOF.createFixarsimRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

@@ -10,17 +10,19 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.redinout.*;
-import com.legstar.test.coxb.redinout.*;
+import com.legstar.test.cixs.redinout.RedinoutFault;
+import com.legstar.test.cixs.redinout.RedinoutPort;
+import com.legstar.test.cixs.redinout.RedinoutRequest;
+import com.legstar.test.cixs.redinout.RedinoutResponse;
+import com.legstar.test.cixs.redinout.RedinoutService;
+import com.legstar.test.coxb.redinout.CParain;
+import com.legstar.test.coxb.redinout.Dfhcommarea;
 
-public class ClientredinoutTest extends TestCase {
+public class ClientredinoutITCase extends AbstractITCase {
 
     public void testClient() throws RedinoutFault {
-        com.legstar.test.cixs.redinout.ObjectFactory wsOF =
-                new com.legstar.test.cixs.redinout.ObjectFactory();
-        com.legstar.test.coxb.redinout.ObjectFactory obOF =
-                new com.legstar.test.coxb.redinout.ObjectFactory();
+        com.legstar.test.cixs.redinout.ObjectFactory wsOF = new com.legstar.test.cixs.redinout.ObjectFactory();
+        com.legstar.test.coxb.redinout.ObjectFactory obOF = new com.legstar.test.coxb.redinout.ObjectFactory();
         RedinoutPort port = new RedinoutService().getRedinoutPort();
         RedinoutRequest req = wsOF.createRedinoutRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

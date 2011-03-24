@@ -10,18 +10,24 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.binnatus.*;
-import com.legstar.test.coxb.binnatus.*;
 import java.math.BigInteger;
 
-public class ClientbinnatusTest extends TestCase {
+import com.legstar.test.cixs.binnatus.BinnatusFault;
+import com.legstar.test.cixs.binnatus.BinnatusPort;
+import com.legstar.test.cixs.binnatus.BinnatusRequest;
+import com.legstar.test.cixs.binnatus.BinnatusResponse;
+import com.legstar.test.cixs.binnatus.BinnatusService;
+import com.legstar.test.coxb.binnatus.Dfhcommarea;
+import com.legstar.test.coxb.binnatus.LsDoublewords;
+import com.legstar.test.coxb.binnatus.LsFullwords;
+import com.legstar.test.coxb.binnatus.LsHalfwords;
+import com.legstar.test.coxb.binnatus.LsUnsignedNative;
+
+public class ClientbinnatusITCase extends AbstractITCase {
 
     public void testClient() throws BinnatusFault {
-        com.legstar.test.cixs.binnatus.ObjectFactory wsOF =
-                new com.legstar.test.cixs.binnatus.ObjectFactory();
-        com.legstar.test.coxb.binnatus.ObjectFactory obOF =
-                new com.legstar.test.coxb.binnatus.ObjectFactory();
+        com.legstar.test.cixs.binnatus.ObjectFactory wsOF = new com.legstar.test.cixs.binnatus.ObjectFactory();
+        com.legstar.test.coxb.binnatus.ObjectFactory obOF = new com.legstar.test.coxb.binnatus.ObjectFactory();
         BinnatusPort port = new BinnatusService().getBinnatusPort();
         BinnatusRequest req = wsOF.createBinnatusRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

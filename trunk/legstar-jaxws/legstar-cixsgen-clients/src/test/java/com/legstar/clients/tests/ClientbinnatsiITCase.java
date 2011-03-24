@@ -10,17 +10,22 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.binnatsi.*;
-import com.legstar.test.coxb.binnatsi.*;
+import com.legstar.test.cixs.binnatsi.BinnatsiFault;
+import com.legstar.test.cixs.binnatsi.BinnatsiPort;
+import com.legstar.test.cixs.binnatsi.BinnatsiRequest;
+import com.legstar.test.cixs.binnatsi.BinnatsiResponse;
+import com.legstar.test.cixs.binnatsi.BinnatsiService;
+import com.legstar.test.coxb.binnatsi.Dfhcommarea;
+import com.legstar.test.coxb.binnatsi.LsDoublewords;
+import com.legstar.test.coxb.binnatsi.LsFullwords;
+import com.legstar.test.coxb.binnatsi.LsHalfwords;
+import com.legstar.test.coxb.binnatsi.LsUnsignedNative;
 
-public class ClientbinnatsiTest extends TestCase {
+public class ClientbinnatsiITCase extends AbstractITCase {
 
     public void testClient() throws BinnatsiFault {
-        com.legstar.test.cixs.binnatsi.ObjectFactory wsOF =
-                new com.legstar.test.cixs.binnatsi.ObjectFactory();
-        com.legstar.test.coxb.binnatsi.ObjectFactory obOF =
-                new com.legstar.test.coxb.binnatsi.ObjectFactory();
+        com.legstar.test.cixs.binnatsi.ObjectFactory wsOF = new com.legstar.test.cixs.binnatsi.ObjectFactory();
+        com.legstar.test.coxb.binnatsi.ObjectFactory obOF = new com.legstar.test.coxb.binnatsi.ObjectFactory();
         BinnatsiPort port = new BinnatsiService().getBinnatsiPort();
         BinnatsiRequest req = wsOF.createBinnatsiRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

@@ -10,18 +10,23 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.binpkdus.*;
-import com.legstar.test.coxb.binpkdus.*;
 import java.math.BigInteger;
 
-public class ClientbinpkdusTest extends TestCase {
+import com.legstar.test.cixs.binpkdus.BinpkdusFault;
+import com.legstar.test.cixs.binpkdus.BinpkdusPort;
+import com.legstar.test.cixs.binpkdus.BinpkdusRequest;
+import com.legstar.test.cixs.binpkdus.BinpkdusResponse;
+import com.legstar.test.cixs.binpkdus.BinpkdusService;
+import com.legstar.test.coxb.binpkdus.Dfhcommarea;
+import com.legstar.test.coxb.binpkdus.LsCompat;
+import com.legstar.test.coxb.binpkdus.LsExtend;
+import com.legstar.test.coxb.binpkdus.LsUnsignedPackedDecimal;
+
+public class ClientbinpkdusITCase extends AbstractITCase {
 
     public void testClient() throws BinpkdusFault {
-        com.legstar.test.cixs.binpkdus.ObjectFactory wsOF =
-                new com.legstar.test.cixs.binpkdus.ObjectFactory();
-        com.legstar.test.coxb.binpkdus.ObjectFactory obOF =
-                new com.legstar.test.coxb.binpkdus.ObjectFactory();
+        com.legstar.test.cixs.binpkdus.ObjectFactory wsOF = new com.legstar.test.cixs.binpkdus.ObjectFactory();
+        com.legstar.test.coxb.binpkdus.ObjectFactory obOF = new com.legstar.test.coxb.binpkdus.ObjectFactory();
         BinpkdusPort port = new BinpkdusService().getBinpkdusPort();
         BinpkdusRequest req = wsOF.createBinpkdusRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

@@ -10,24 +10,26 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.vararcom.*;
-import com.legstar.test.coxb.vararcom.*;
+import com.legstar.test.cixs.vararcom.VararcomFault;
+import com.legstar.test.cixs.vararcom.VararcomPort;
+import com.legstar.test.cixs.vararcom.VararcomRequest;
+import com.legstar.test.cixs.vararcom.VararcomResponse;
+import com.legstar.test.cixs.vararcom.VararcomService;
+import com.legstar.test.coxb.vararcom.CArray;
+import com.legstar.test.coxb.vararcom.Dfhcommarea;
 
 /**
  * Test VARARCOM.
  * 
  */
-public class ClientvararcomTest extends TestCase {
+public class ClientvararcomITCase extends AbstractITCase {
 
     /**
      * @throws VararcomFault if test fails
      */
     public void testClient() throws VararcomFault {
-        com.legstar.test.cixs.vararcom.ObjectFactory wsOF =
-                new com.legstar.test.cixs.vararcom.ObjectFactory();
-        com.legstar.test.coxb.vararcom.ObjectFactory obOF =
-                new com.legstar.test.coxb.vararcom.ObjectFactory();
+        com.legstar.test.cixs.vararcom.ObjectFactory wsOF = new com.legstar.test.cixs.vararcom.ObjectFactory();
+        com.legstar.test.coxb.vararcom.ObjectFactory obOF = new com.legstar.test.coxb.vararcom.ObjectFactory();
         VararcomPort port = new VararcomService().getVararcomPort();
         VararcomRequest req = wsOF.createVararcomRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -47,8 +49,8 @@ public class ClientvararcomTest extends TestCase {
         assertEquals(36, dfhcommareaResp.getCItemsNumber());
 
         for (int i = 0; i < 36; i++) {
-            assertEquals("FGHIJ", ((CArray) dfhcommareaResp.getCArray().get(i))
-                    .getCItem1());
+            assertEquals("FGHIJ",
+                    ((CArray) dfhcommareaResp.getCArray().get(i)).getCItem1());
             assertEquals((new Integer((i + 1) * 5)).shortValue(),
                     ((CArray) dfhcommareaResp.getCArray().get(i)).getCItem2());
         }

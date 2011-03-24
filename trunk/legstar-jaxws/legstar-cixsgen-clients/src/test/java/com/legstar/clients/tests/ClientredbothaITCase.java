@@ -10,17 +10,19 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.redbotha.*;
-import com.legstar.test.coxb.redbotha.*;
+import com.legstar.test.cixs.redbotha.RedbothaFault;
+import com.legstar.test.cixs.redbotha.RedbothaPort;
+import com.legstar.test.cixs.redbotha.RedbothaRequest;
+import com.legstar.test.cixs.redbotha.RedbothaResponse;
+import com.legstar.test.cixs.redbotha.RedbothaService;
+import com.legstar.test.coxb.redbotha.Dfhcommarea;
+import com.legstar.test.coxb.redbotha.Filler22;
 
-public class ClientredbothaTest extends TestCase {
+public class ClientredbothaITCase extends AbstractITCase {
 
     public void testClientAlternative1() throws RedbothaFault {
-        com.legstar.test.cixs.redbotha.ObjectFactory wsOF =
-                new com.legstar.test.cixs.redbotha.ObjectFactory();
-        com.legstar.test.coxb.redbotha.ObjectFactory obOF =
-                new com.legstar.test.coxb.redbotha.ObjectFactory();
+        com.legstar.test.cixs.redbotha.ObjectFactory wsOF = new com.legstar.test.cixs.redbotha.ObjectFactory();
+        com.legstar.test.coxb.redbotha.ObjectFactory obOF = new com.legstar.test.coxb.redbotha.ObjectFactory();
         RedbothaPort port = new RedbothaService().getRedbothaPort();
         RedbothaRequest req = wsOF.createRedbothaRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -41,10 +43,8 @@ public class ClientredbothaTest extends TestCase {
     }
 
     public void testClientAlternative2() throws RedbothaFault {
-        com.legstar.test.cixs.redbotha.ObjectFactory wsOF =
-                new com.legstar.test.cixs.redbotha.ObjectFactory();
-        com.legstar.test.coxb.redbotha.ObjectFactory obOF =
-                new com.legstar.test.coxb.redbotha.ObjectFactory();
+        com.legstar.test.cixs.redbotha.ObjectFactory wsOF = new com.legstar.test.cixs.redbotha.ObjectFactory();
+        com.legstar.test.coxb.redbotha.ObjectFactory obOF = new com.legstar.test.coxb.redbotha.ObjectFactory();
         RedbothaPort port = new RedbothaService().getRedbothaPort();
         RedbothaRequest req = wsOF.createRedbothaRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

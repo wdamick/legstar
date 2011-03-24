@@ -10,17 +10,18 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.doublmix.*;
-import com.legstar.test.coxb.doublmix.*;
+import com.legstar.test.cixs.doublmix.DoublmixFault;
+import com.legstar.test.cixs.doublmix.DoublmixPort;
+import com.legstar.test.cixs.doublmix.DoublmixRequest;
+import com.legstar.test.cixs.doublmix.DoublmixResponse;
+import com.legstar.test.cixs.doublmix.DoublmixService;
+import com.legstar.test.coxb.doublmix.Dfhcommarea;
 
-public class ClientdoublmixTest extends TestCase {
+public class ClientdoublmixITCase extends AbstractITCase {
 
     public void testClient() throws DoublmixFault {
-        com.legstar.test.cixs.doublmix.ObjectFactory wsOF =
-                new com.legstar.test.cixs.doublmix.ObjectFactory();
-        com.legstar.test.coxb.doublmix.ObjectFactory obOF =
-                new com.legstar.test.coxb.doublmix.ObjectFactory();
+        com.legstar.test.cixs.doublmix.ObjectFactory wsOF = new com.legstar.test.cixs.doublmix.ObjectFactory();
+        com.legstar.test.coxb.doublmix.ObjectFactory obOF = new com.legstar.test.coxb.doublmix.ObjectFactory();
         DoublmixPort port = new DoublmixService().getDoublmixPort();
         DoublmixRequest req = wsOF.createDoublmixRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -39,11 +40,11 @@ public class ClientdoublmixTest extends TestCase {
         assertEquals(0d, dfhcommareaResp.getCDouble0());
         assertEquals(1d, dfhcommareaResp.getCDouble1());
         assertEquals(1234d, dfhcommareaResp.getCDouble1234());
-        assertEquals(345006.56779999996d, dfhcommareaResp
-                .getCDouble345006P5678());
+        assertEquals(345006.56779999996d,
+                dfhcommareaResp.getCDouble345006P5678());
         assertEquals(3.40282347E+38, dfhcommareaResp.getCDouble3P40282347Ep38());
-        assertEquals(7.982006699999995E-14, dfhcommareaResp
-                .getCDouble798P20067Em16());
+        assertEquals(7.982006699999995E-14,
+                dfhcommareaResp.getCDouble798P20067Em16());
     }
 
 }

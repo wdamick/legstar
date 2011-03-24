@@ -10,17 +10,18 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.floatmix.*;
-import com.legstar.test.coxb.floatmix.*;
+import com.legstar.test.cixs.floatmix.FloatmixFault;
+import com.legstar.test.cixs.floatmix.FloatmixPort;
+import com.legstar.test.cixs.floatmix.FloatmixRequest;
+import com.legstar.test.cixs.floatmix.FloatmixResponse;
+import com.legstar.test.cixs.floatmix.FloatmixService;
+import com.legstar.test.coxb.floatmix.Dfhcommarea;
 
-public class ClientfloatmixTest extends TestCase {
+public class ClientfloatmixITCase extends AbstractITCase {
 
     public void testClient() throws FloatmixFault {
-        com.legstar.test.cixs.floatmix.ObjectFactory wsOF =
-                new com.legstar.test.cixs.floatmix.ObjectFactory();
-        com.legstar.test.coxb.floatmix.ObjectFactory obOF =
-                new com.legstar.test.coxb.floatmix.ObjectFactory();
+        com.legstar.test.cixs.floatmix.ObjectFactory wsOF = new com.legstar.test.cixs.floatmix.ObjectFactory();
+        com.legstar.test.coxb.floatmix.ObjectFactory obOF = new com.legstar.test.coxb.floatmix.ObjectFactory();
         FloatmixPort port = new FloatmixService().getFloatmixPort();
         FloatmixRequest req = wsOF.createFloatmixRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -39,8 +40,8 @@ public class ClientfloatmixTest extends TestCase {
         assertEquals(0f, dfhcommareaResp.getCFloat0());
         assertEquals(1f, dfhcommareaResp.getCFloat1());
         assertEquals(1234f, dfhcommareaResp.getCFloat1234());
-        assertEquals(345006.56779999996f, dfhcommareaResp
-                .getCFloat345006P5678());
+        assertEquals(345006.56779999996f,
+                dfhcommareaResp.getCFloat345006P5678());
         assertEquals(3.40282347E+38f, dfhcommareaResp.getCFloat3P40282347Ep38());
         assertEquals(7.982005E-14f, dfhcommareaResp.getCFloat798P20067Em16());
     }

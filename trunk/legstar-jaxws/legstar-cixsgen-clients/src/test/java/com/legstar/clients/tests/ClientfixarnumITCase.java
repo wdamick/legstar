@@ -10,18 +10,20 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.fixarnum.*;
-import com.legstar.test.coxb.fixarnum.*;
 import java.math.BigDecimal;
 
-public class ClientfixarnumTest extends TestCase {
+import com.legstar.test.cixs.fixarnum.FixarnumFault;
+import com.legstar.test.cixs.fixarnum.FixarnumPort;
+import com.legstar.test.cixs.fixarnum.FixarnumRequest;
+import com.legstar.test.cixs.fixarnum.FixarnumResponse;
+import com.legstar.test.cixs.fixarnum.FixarnumService;
+import com.legstar.test.coxb.fixarnum.Dfhcommarea;
+
+public class ClientfixarnumITCase extends AbstractITCase {
 
     public void testClient() throws FixarnumFault {
-        com.legstar.test.cixs.fixarnum.ObjectFactory wsOF =
-                new com.legstar.test.cixs.fixarnum.ObjectFactory();
-        com.legstar.test.coxb.fixarnum.ObjectFactory obOF =
-                new com.legstar.test.coxb.fixarnum.ObjectFactory();
+        com.legstar.test.cixs.fixarnum.ObjectFactory wsOF = new com.legstar.test.cixs.fixarnum.ObjectFactory();
+        com.legstar.test.coxb.fixarnum.ObjectFactory obOF = new com.legstar.test.coxb.fixarnum.ObjectFactory();
         FixarnumPort port = new FixarnumService().getFixarnumPort();
         FixarnumRequest req = wsOF.createFixarnumRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

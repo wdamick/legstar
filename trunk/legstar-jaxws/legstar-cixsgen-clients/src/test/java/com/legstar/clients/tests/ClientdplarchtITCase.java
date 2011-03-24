@@ -10,22 +10,25 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import javax.xml.namespace.QName;
-
-import junit.framework.TestCase;
-import com.legstar.test.cixs.dplarcht.*;
-import com.legstar.test.coxb.dplarcht.*;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ClientdplarchtTest extends TestCase {
+import javax.xml.namespace.QName;
+
+import com.legstar.test.cixs.dplarcht.DplarchtFault;
+import com.legstar.test.cixs.dplarcht.DplarchtHostHeader;
+import com.legstar.test.cixs.dplarcht.DplarchtPort;
+import com.legstar.test.cixs.dplarcht.DplarchtRequest;
+import com.legstar.test.cixs.dplarcht.DplarchtResponse;
+import com.legstar.test.cixs.dplarcht.DplarchtService;
+import com.legstar.test.coxb.dplarcht.Dfhcommarea;
+import com.legstar.test.coxb.dplarcht.LsRequest;
+
+public class ClientdplarchtITCase extends AbstractITCase {
 
     public void testFiles() throws DplarchtFault {
-        com.legstar.test.cixs.dplarcht.ObjectFactory wsOF =
-                new com.legstar.test.cixs.dplarcht.ObjectFactory();
-        com.legstar.test.coxb.dplarcht.ObjectFactory obOF =
-                new com.legstar.test.coxb.dplarcht.ObjectFactory();
+        com.legstar.test.cixs.dplarcht.ObjectFactory wsOF = new com.legstar.test.cixs.dplarcht.ObjectFactory();
+        com.legstar.test.coxb.dplarcht.ObjectFactory obOF = new com.legstar.test.coxb.dplarcht.ObjectFactory();
         DplarchtPort port = new DplarchtService().getDplarchtPort();
 
         DplarchtRequest req = wsOF.createDplarchtRequest();
@@ -65,12 +68,10 @@ public class ClientdplarchtTest extends TestCase {
     }
 
     public void testPrograms() throws DplarchtFault, MalformedURLException {
-        com.legstar.test.cixs.dplarcht.ObjectFactory wsOF =
-                new com.legstar.test.cixs.dplarcht.ObjectFactory();
-        com.legstar.test.coxb.dplarcht.ObjectFactory obOF =
-                new com.legstar.test.coxb.dplarcht.ObjectFactory();
-        DplarchtService sv = new DplarchtService(
-                new URL("http://localhost:8080/cixs-dplarcht/dplarcht?wsdl"),
+        com.legstar.test.cixs.dplarcht.ObjectFactory wsOF = new com.legstar.test.cixs.dplarcht.ObjectFactory();
+        com.legstar.test.coxb.dplarcht.ObjectFactory obOF = new com.legstar.test.coxb.dplarcht.ObjectFactory();
+        DplarchtService sv = new DplarchtService(new URL(
+                "http://localhost:8080/cixs-dplarcht/dplarcht?wsdl"),
                 new QName("http://cixs.test.legstar.com/dplarcht",
                         "dplarchtService"));
         DplarchtPort port = sv.getDplarchtPort();

@@ -10,18 +10,22 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.binarcht.*;
-import com.legstar.test.coxb.binarcht.*;
 import java.math.BigInteger;
 
-public class ClientbinarchtTest extends TestCase {
+import com.legstar.test.cixs.binarcht.BinarchtFault;
+import com.legstar.test.cixs.binarcht.BinarchtPort;
+import com.legstar.test.cixs.binarcht.BinarchtRequest;
+import com.legstar.test.cixs.binarcht.BinarchtResponse;
+import com.legstar.test.cixs.binarcht.BinarchtService;
+import com.legstar.test.coxb.binarcht.Dfhcommarea;
+import com.legstar.test.coxb.binarcht.LsSignedNative;
+import com.legstar.test.coxb.binarcht.LsUnsignedNative;
+
+public class ClientbinarchtITCase extends AbstractITCase {
 
     public void testClient() throws BinarchtFault {
-        com.legstar.test.cixs.binarcht.ObjectFactory wsOF =
-                new com.legstar.test.cixs.binarcht.ObjectFactory();
-        com.legstar.test.coxb.binarcht.ObjectFactory obOF =
-                new com.legstar.test.coxb.binarcht.ObjectFactory();
+        com.legstar.test.cixs.binarcht.ObjectFactory wsOF = new com.legstar.test.cixs.binarcht.ObjectFactory();
+        com.legstar.test.coxb.binarcht.ObjectFactory obOF = new com.legstar.test.coxb.binarcht.ObjectFactory();
         BinarchtPort port = new BinarchtService().getBinarchtPort();
         BinarchtRequest req = wsOF.createBinarchtRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

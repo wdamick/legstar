@@ -10,20 +10,25 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-
-import com.legstar.test.cixs.lsfileal.*;
-import com.legstar.test.coxb.lsfileal.*;
-import javax.xml.ws.BindingProvider;
 import java.util.Map;
 
-public class ClientlsfilealTest extends TestCase {
+import javax.xml.ws.BindingProvider;
+
+import com.legstar.test.cixs.lsfileal.LsfilealFault;
+import com.legstar.test.cixs.lsfileal.LsfilealHostHeader;
+import com.legstar.test.cixs.lsfileal.LsfilealPort;
+import com.legstar.test.cixs.lsfileal.LsfilealRequest;
+import com.legstar.test.cixs.lsfileal.LsfilealResponse;
+import com.legstar.test.cixs.lsfileal.LsfilealService;
+import com.legstar.test.coxb.lsfileal.ReplyData;
+import com.legstar.test.coxb.lsfileal.ReplyItem;
+import com.legstar.test.coxb.lsfileal.RequestParms;
+
+public class ClientlsfilealITCase extends AbstractITCase {
 
     public void testClientNullHeader() throws LsfilealFault {
-        com.legstar.test.cixs.lsfileal.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileal.ObjectFactory();
-        com.legstar.test.coxb.lsfileal.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileal.ObjectFactory();
+        com.legstar.test.cixs.lsfileal.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileal.ObjectFactory();
+        com.legstar.test.coxb.lsfileal.ObjectFactory obOF = new com.legstar.test.coxb.lsfileal.ObjectFactory();
 
         LsfilealService sv = new LsfilealService();
 
