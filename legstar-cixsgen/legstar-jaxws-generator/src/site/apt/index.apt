@@ -9,13 +9,13 @@ JAXWS Service Generator overview
 
  Service Generator is a development time tool that Service-enable mainframe programs.
  
- The generation features are available as a set of ant tasks or as a set of {{{http://www.legsem.com/legstar/legstar-common-plugin}Eclipse plugins}}.
+ The generation features are available as a set of ant tasks.
  
  Service Generator comes with 2 primary features:
  
-  * Adapter Generator which exposes mainframe programs as Web Services.
+  * Adapter Generator which exposes mainframe programs as Web Services
 
-  * Proxy Generator which gives mainframe programs outbound access to Web Services or pure java objects (POJOs).
+  * Proxy Generator which gives mainframe programs outbound access to Web Services or pure java objects (POJOs)
   
  []
  
