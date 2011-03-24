@@ -96,7 +96,7 @@
     <modules>
         <module>legstar-cixsgen-model</module>
         <module>legstar-jaxws-generator</module>
-        <module>legstar-cixsgen-clients</module>
+        <module>legstar-jaxws-clients</module>
     </modules>
 
     <dependencyManagement>
@@ -306,12 +306,12 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-cixsgen</artifactId>
+                <artifactId>legstar-jaxws-generator</artifactId>
                 <version>${version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-cixsgen</artifactId>
+                <artifactId>legstar-jaxws-generator</artifactId>
                 <version>${version}</version>
                 <classifier>int</classifier>
                 <type>zip</type>
@@ -319,7 +319,7 @@
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
-                <artifactId>legstar-cixsgen-clients</artifactId>
+                <artifactId>legstar-jaxws-clients</artifactId>
                 <version>${version}</version>
             </dependency>
 

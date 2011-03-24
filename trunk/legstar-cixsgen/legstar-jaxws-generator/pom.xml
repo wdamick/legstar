@@ -3,13 +3,13 @@
 
     <parent>
         <groupId>com.legsem.legstar</groupId>
-        <artifactId>legstar-jaxws</artifactId>
+        <artifactId>legstar-cixsgen</artifactId>
         <version>1.5.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>legstar-cixsgen</artifactId>
+    <artifactId>legstar-jaxws-generator</artifactId>
 
-    <name>LegStar Mainframe Service Generator</name>
+    <name>LegStar for JAXWS Generator</name>
     <description>Generates adapters and proxies for inbound and outbound mainframe integration with Web Services.</description>
 
     <dependencies>
@@ -91,11 +91,6 @@
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
         </dependency>
-        <!-- Sun SOAP is needed for integration testing   
-        <dependency>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
-        </dependency>  --> 
         <!-- Generated code uses legstar-invoker -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>

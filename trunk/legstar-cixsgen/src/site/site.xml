@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="LegStar Service generator for JAXWS">
+<project name="LegStar Service generators">
   <publishDate format="dd-MMMM-yyyy"/>
   <bannerLeft>
     <name>LegStar</name>
@@ -23,7 +23,7 @@
     </menu>
     <menu name="Modules">
         <item name="Service generator model" href="legstar-cixsgen-model/index.html" />
-        <item name="Service generator" href="legstar-cixsgen/index.html" />
+        <item name="JAXWS Service generator" href="legstar-jaxws-generator/index.html" />
     </menu>
     <menu ref="reports" inherit="bottom" />
   </body>

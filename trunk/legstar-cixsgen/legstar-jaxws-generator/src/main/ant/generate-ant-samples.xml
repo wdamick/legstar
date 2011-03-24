@@ -9,7 +9,7 @@
     <target name="init">
     
         <!-- Source of cixsgen templates -->
-        <property name="cixsgen.ant.template.dir" value="${basedir}/../legstar-cixsgen/src/main/templates" />
+        <property name="cixsgen.ant.template.dir" value="src/main/templates" />
         <!-- Target directories  -->
         <property name="ant.dir" value="target/ant" />
     
