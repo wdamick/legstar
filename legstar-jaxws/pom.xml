@@ -18,6 +18,7 @@
 
     <properties>
         <legstarCoreVersion>1.5.3-SNAPSHOT</legstarCoreVersion>
+        <legstarSamplesVersion>0.2.0</legstarSamplesVersion>
         <legstarTransportVersion>1.5.0-SNAPSHOT</legstarTransportVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
@@ -95,7 +96,6 @@
     <modules>
         <module>legstar-cixsgen-model</module>
         <module>legstar-cixsgen</module>
-        <module>legstar-cixsgen-cases</module>
         <module>legstar-cixsgen-clients</module>
     </modules>
 
@@ -151,6 +151,13 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- Apache commons IO  -->    
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.4</version>
+            </dependency>
+
             <!-- Apache HTTP Client -->
             <dependency>
                 <groupId>commons-httpclient</groupId>
@@ -158,7 +165,7 @@
                 <version>3.1</version>
             </dependency>
 
-            <!-- LegStar core dependencies sub-section -->    
+            <!-- SUN JAXWS is needed to compile and run integration tests -->    
             <dependency>
                 <groupId>javax.xml.ws</groupId>
                 <artifactId>jaxws-api</artifactId>
@@ -180,6 +187,33 @@
                 <version>2.1.3</version>
             </dependency>
 
+            <!-- Sun SOAP is needed for integration testing    
+            <dependency>
+                <groupId>javax.xml.soap</groupId>
+                <artifactId>saaj-api</artifactId>
+                <version>1.3</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>  -->
+
+            <!-- Cargo -->    
+            <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-api-container</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-container-tomcat</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+    
             <!-- LegStar core dependencies sub-section -->    
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
@@ -245,6 +279,21 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-csokrt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-chttprt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cmqrt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cmockrt</artifactId>
                 <version>${legstarTransportVersion}</version>
             </dependency>
             <dependency>
