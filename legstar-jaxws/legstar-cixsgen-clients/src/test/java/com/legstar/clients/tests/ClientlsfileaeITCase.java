@@ -10,19 +10,23 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.lsfileae.*;
-import com.legstar.test.coxb.lsfileae.*;
-import javax.xml.ws.BindingProvider;
 import java.util.Map;
 
-public class ClientlsfileaeTest extends TestCase {
+import javax.xml.ws.BindingProvider;
+
+import com.legstar.test.cixs.lsfileae.LsfileaeFault;
+import com.legstar.test.cixs.lsfileae.LsfileaeHostHeader;
+import com.legstar.test.cixs.lsfileae.LsfileaePort;
+import com.legstar.test.cixs.lsfileae.LsfileaeRequest;
+import com.legstar.test.cixs.lsfileae.LsfileaeResponse;
+import com.legstar.test.cixs.lsfileae.LsfileaeService;
+import com.legstar.test.coxb.lsfileae.Dfhcommarea;
+
+public class ClientlsfileaeITCase extends AbstractITCase {
 
     public void testClientNullHeader() throws LsfileaeFault {
-        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileae.ObjectFactory();
-        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
         LsfileaeService sv = new LsfileaeService();
 
@@ -56,10 +60,8 @@ public class ClientlsfileaeTest extends TestCase {
     }
 
     public void testClientHeaderUserIDPasswordCorrect() throws LsfileaeFault {
-        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileae.ObjectFactory();
-        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
         LsfileaeService sv = new LsfileaeService();
 
@@ -97,10 +99,8 @@ public class ClientlsfileaeTest extends TestCase {
     }
 
     public void testClientHeaderUserIDPasswordIncorrect() throws LsfileaeFault {
-        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileae.ObjectFactory();
-        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
         LsfileaeService sv = new LsfileaeService();
 
@@ -133,10 +133,8 @@ public class ClientlsfileaeTest extends TestCase {
     }
 
     public void testClientHeaderCompleteFalse() throws LsfileaeFault {
-        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileae.ObjectFactory();
-        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
         LsfileaeService sv = new LsfileaeService();
 
@@ -174,10 +172,8 @@ public class ClientlsfileaeTest extends TestCase {
     }
 
     public void testClientHeaderCompleteCorrect() throws LsfileaeFault {
-        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileae.ObjectFactory();
-        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
         LsfileaeService sv = new LsfileaeService();
 
@@ -222,10 +218,8 @@ public class ClientlsfileaeTest extends TestCase {
     }
 
     public void testClientDirectMQ() throws LsfileaeFault {
-        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileae.ObjectFactory();
-        com.legstar.test.coxb.lsfileae.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileae.ObjectFactory();
+        com.legstar.test.cixs.lsfileae.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileae.ObjectFactory();
+        com.legstar.test.coxb.lsfileae.ObjectFactory obOF = new com.legstar.test.coxb.lsfileae.ObjectFactory();
 
         LsfileaeService sv = new LsfileaeService();
 

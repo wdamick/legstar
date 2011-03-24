@@ -10,7 +10,7 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
+import java.math.BigDecimal;
 
 import com.legstar.test.cixs.typesmix.TypesmixFault;
 import com.legstar.test.cixs.typesmix.TypesmixPort;
@@ -19,13 +19,11 @@ import com.legstar.test.cixs.typesmix.TypesmixResponse;
 import com.legstar.test.cixs.typesmix.TypesmixService;
 import com.legstar.test.coxb.typesmix.Dfhcommarea;
 
-import java.math.BigDecimal;
-
 /**
  * Test TYPESMIX.
  * 
  */
-public class ClienttypesmixTest extends TestCase {
+public class ClienttypesmixITCase extends AbstractITCase {
 
     /**
      * @throws TypesmixFault if test fails
@@ -108,9 +106,8 @@ public class ClienttypesmixTest extends TestCase {
 
         StringBuffer hexString = new StringBuffer("");
         for (int i = 0; i < hostBytes.length; i++) {
-            hexString.append(
-                    Integer.toHexString(
-                            hostBytes[i] & 0xFF | 0x100).substring(1, 3));
+            hexString.append(Integer.toHexString(hostBytes[i] & 0xFF | 0x100)
+                    .substring(1, 3));
         }
 
         return hexString.toString();

@@ -10,17 +10,19 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.fixarcom.*;
-import com.legstar.test.coxb.fixarcom.*;
+import com.legstar.test.cixs.fixarcom.FixarcomFault;
+import com.legstar.test.cixs.fixarcom.FixarcomPort;
+import com.legstar.test.cixs.fixarcom.FixarcomRequest;
+import com.legstar.test.cixs.fixarcom.FixarcomResponse;
+import com.legstar.test.cixs.fixarcom.FixarcomService;
+import com.legstar.test.coxb.fixarcom.CArray;
+import com.legstar.test.coxb.fixarcom.Dfhcommarea;
 
-public class ClientfixarcomTest extends TestCase {
+public class ClientfixarcomITCase extends AbstractITCase {
 
     public void testClient() throws FixarcomFault {
-        com.legstar.test.cixs.fixarcom.ObjectFactory wsOF =
-                new com.legstar.test.cixs.fixarcom.ObjectFactory();
-        com.legstar.test.coxb.fixarcom.ObjectFactory obOF =
-                new com.legstar.test.coxb.fixarcom.ObjectFactory();
+        com.legstar.test.cixs.fixarcom.ObjectFactory wsOF = new com.legstar.test.cixs.fixarcom.ObjectFactory();
+        com.legstar.test.coxb.fixarcom.ObjectFactory obOF = new com.legstar.test.coxb.fixarcom.ObjectFactory();
         FixarcomPort port = new FixarcomService().getFixarcomPort();
         FixarcomRequest req = wsOF.createFixarcomRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

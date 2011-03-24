@@ -10,17 +10,18 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.redopera.*;
-import com.legstar.test.coxb.redopera.*;
+import com.legstar.test.cixs.redopera.RedoperaFault;
+import com.legstar.test.cixs.redopera.RedoperaPort;
+import com.legstar.test.cixs.redopera.RedoperaRequest;
+import com.legstar.test.cixs.redopera.RedoperaResponse;
+import com.legstar.test.cixs.redopera.RedoperaService;
+import com.legstar.test.coxb.redopera.Dfhcommarea;
 
-public class ClientredoperaTest extends TestCase {
+public class ClientredoperaITCase extends AbstractITCase {
 
     public void testClientStringMethod() throws RedoperaFault {
-        com.legstar.test.cixs.redopera.ObjectFactory wsOF =
-                new com.legstar.test.cixs.redopera.ObjectFactory();
-        com.legstar.test.coxb.redopera.ObjectFactory obOF =
-                new com.legstar.test.coxb.redopera.ObjectFactory();
+        com.legstar.test.cixs.redopera.ObjectFactory wsOF = new com.legstar.test.cixs.redopera.ObjectFactory();
+        com.legstar.test.coxb.redopera.ObjectFactory obOF = new com.legstar.test.coxb.redopera.ObjectFactory();
         RedoperaPort port = new RedoperaService().getRedoperaPort();
         RedoperaRequest req = wsOF.createRedoperaRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -28,8 +29,8 @@ public class ClientredoperaTest extends TestCase {
 
         dfhcommarea.setCFunction("stringMethod");
         /*
-         * Because input structure is identical to output structure, we
-         * need to make a choice on input beween the multiple redefines.
+         * Because input structure is identical to output structure, we need to
+         * make a choice on input beween the multiple redefines.
          */
         dfhcommarea.setCData("");
 
@@ -40,10 +41,8 @@ public class ClientredoperaTest extends TestCase {
     }
 
     public void testClientIntMethod() throws RedoperaFault {
-        com.legstar.test.cixs.redopera.ObjectFactory wsOF =
-                new com.legstar.test.cixs.redopera.ObjectFactory();
-        com.legstar.test.coxb.redopera.ObjectFactory obOF =
-                new com.legstar.test.coxb.redopera.ObjectFactory();
+        com.legstar.test.cixs.redopera.ObjectFactory wsOF = new com.legstar.test.cixs.redopera.ObjectFactory();
+        com.legstar.test.coxb.redopera.ObjectFactory obOF = new com.legstar.test.coxb.redopera.ObjectFactory();
         RedoperaPort port = new RedoperaService().getRedoperaPort();
         RedoperaRequest req = wsOF.createRedoperaRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();
@@ -51,8 +50,8 @@ public class ClientredoperaTest extends TestCase {
 
         dfhcommarea.setCFunction("intMethod");
         /*
-         * Because input structure is identical to output structure, we
-         * need to make a choice on input beween the multiple redefines.
+         * Because input structure is identical to output structure, we need to
+         * make a choice on input beween the multiple redefines.
          */
         dfhcommarea.setCData("");
 

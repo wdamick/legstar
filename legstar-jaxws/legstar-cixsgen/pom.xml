@@ -245,6 +245,7 @@
                 </executions>
 
             </plugin>
+
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
       
@@ -263,10 +264,13 @@
                         </goals>
                     </execution>
         
-                    <!-- Bundle web services needed for integration testing. -->
+                    <!-- Bundle web services needed for integration testing.
+                         We do that at package time so that war files get to
+                         be attached to the project for reusability by
+                         legstar-cixsgen-clients. -->
                     <execution>
                         <id>build-cixsgen-war-cases</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>prepare-package</phase>
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/test/ant/build-cixsgen-war-cases.xml" />
@@ -304,6 +308,26 @@
                 </executions>
             </plugin>
       
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- Assemble artifacts needed for supplementary integration tests
+                             See legstar-cixsgen-clients -->
+                        <id>make-integration-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/integration-assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

@@ -10,8 +10,6 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-
 import com.legstar.test.cixs.numzoned.NumzonedFault;
 import com.legstar.test.cixs.numzoned.NumzonedPort;
 import com.legstar.test.cixs.numzoned.NumzonedRequest;
@@ -19,13 +17,11 @@ import com.legstar.test.cixs.numzoned.NumzonedResponse;
 import com.legstar.test.cixs.numzoned.NumzonedService;
 import com.legstar.test.coxb.numzoned.Dfhcommarea;
 
-public class ClientNumzonedTest extends TestCase {
+public class ClientNumzonedITCase extends AbstractITCase {
 
     public void testClient() throws NumzonedFault {
-        com.legstar.test.cixs.numzoned.ObjectFactory wsOF =
-                new com.legstar.test.cixs.numzoned.ObjectFactory();
-        com.legstar.test.coxb.numzoned.ObjectFactory obOF =
-                new com.legstar.test.coxb.numzoned.ObjectFactory();
+        com.legstar.test.cixs.numzoned.ObjectFactory wsOF = new com.legstar.test.cixs.numzoned.ObjectFactory();
+        com.legstar.test.coxb.numzoned.ObjectFactory obOF = new com.legstar.test.coxb.numzoned.ObjectFactory();
         NumzonedPort port = new NumzonedService().getNumzonedPort();
         NumzonedRequest req = wsOF.createNumzonedRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

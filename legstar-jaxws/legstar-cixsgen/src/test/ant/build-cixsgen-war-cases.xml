@@ -13,6 +13,7 @@
 	<mkdir dir="${wardir}"/>
 
 	<target name="create-wars">
+		<!-- Proxies -->
         <antcall target="create-c2ws-war">
         	<param name="service" value="cultureinfo"/>
         </antcall>
@@ -22,8 +23,73 @@
         <antcall target="create-c2ws-war">
         	<param name="service" value="MSNSearch"/>
         </antcall>
+
+		<!-- Adapters -->
+		<antcall target="create-cixs-war">
+        	<param name="service" value="binarcht"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="binnatsi"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="binnatus"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="binpkdus"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="doublmix"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="dplarcht"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="fixarcom"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="fixarnum"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="fixarsim"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="floatmix"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="lsfileac"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="lsfilead"/>
+        </antcall>
         <antcall target="create-cixs-war">
         	<param name="service" value="lsfileae"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="lsfileal"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="numzoned"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="redbotha"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="redinout"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="redmulti"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="redopera"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="redsimpt"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="typesmix"/>
+        </antcall>
+        <antcall target="create-cixs-war">
+        	<param name="service" value="vararcom"/>
         </antcall>
     </target>
 
@@ -46,6 +112,7 @@
                     includes="sun-jaxws.xml"/>
             <classes dir="${jaxbdir}">
                 <include name="com/legstar/test/coxb/${service}/*.class"/>
+                <include name="com/legstar/coxb/cust/${service}/*.class"/>
             </classes>
             <classes dir="${coxbdir}">
                 <include name="com/legstar/test/coxb/${service}/bind/*.class"/>

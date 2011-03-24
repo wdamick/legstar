@@ -10,17 +10,18 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.lsfilead.*;
-import com.legstar.test.coxb.lsfilead.*;
+import com.legstar.test.cixs.lsfilead.LsfileadFault;
+import com.legstar.test.cixs.lsfilead.LsfileadPort;
+import com.legstar.test.cixs.lsfilead.LsfileadRequest;
+import com.legstar.test.cixs.lsfilead.LsfileadResponse;
+import com.legstar.test.cixs.lsfilead.LsfileadService;
+import com.legstar.test.coxb.lsfilead.Dfhcommarea;
 
-public class ClientlsfileadTest extends TestCase {
+public class ClientlsfileadITCase extends AbstractITCase {
 
     public void testClient() throws LsfileadFault {
-        com.legstar.test.cixs.lsfilead.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfilead.ObjectFactory();
-        com.legstar.test.coxb.lsfilead.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfilead.ObjectFactory();
+        com.legstar.test.cixs.lsfilead.ObjectFactory wsOF = new com.legstar.test.cixs.lsfilead.ObjectFactory();
+        com.legstar.test.coxb.lsfilead.ObjectFactory obOF = new com.legstar.test.coxb.lsfilead.ObjectFactory();
         LsfileadPort port = new LsfileadService().getLsfileadPort();
         LsfileadRequest req = wsOF.createLsfileadRequest();
         Dfhcommarea dfhcommarea = obOF.createDfhcommarea();

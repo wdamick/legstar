@@ -10,19 +10,26 @@
  ******************************************************************************/
 package com.legstar.clients.tests;
 
-import junit.framework.TestCase;
-import com.legstar.test.cixs.lsfileac.*;
-import com.legstar.test.coxb.lsfileac.*;
-import javax.xml.ws.BindingProvider;
 import java.util.Map;
 
-public class ClientlsfileacTest extends TestCase {
+import javax.xml.ws.BindingProvider;
+
+import com.legstar.test.cixs.lsfileac.LsfileacFault;
+import com.legstar.test.cixs.lsfileac.LsfileacHostHeader;
+import com.legstar.test.cixs.lsfileac.LsfileacPort;
+import com.legstar.test.cixs.lsfileac.LsfileacRequest;
+import com.legstar.test.cixs.lsfileac.LsfileacRequestHolder;
+import com.legstar.test.cixs.lsfileac.LsfileacResponse;
+import com.legstar.test.cixs.lsfileac.LsfileacResponseHolder;
+import com.legstar.test.cixs.lsfileac.LsfileacService;
+import com.legstar.test.coxb.lsfileac.QueryData;
+import com.legstar.test.coxb.lsfileac.QueryLimit;
+
+public class ClientlsfileacITCase extends AbstractITCase {
 
     public void testClientHeaderCompleteCorrect() throws LsfileacFault {
-        com.legstar.test.cixs.lsfileac.ObjectFactory wsOF =
-                new com.legstar.test.cixs.lsfileac.ObjectFactory();
-        com.legstar.test.coxb.lsfileac.ObjectFactory obOF =
-                new com.legstar.test.coxb.lsfileac.ObjectFactory();
+        com.legstar.test.cixs.lsfileac.ObjectFactory wsOF = new com.legstar.test.cixs.lsfileac.ObjectFactory();
+        com.legstar.test.coxb.lsfileac.ObjectFactory obOF = new com.legstar.test.coxb.lsfileac.ObjectFactory();
 
         LsfileacService sv = new LsfileacService();
 

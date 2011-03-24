@@ -14,13 +14,40 @@
 
     <dependencies>
   
+        <!-- Compilation dependencies -->    
         <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cixsgen-cases</artifactId>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
+        </dependency>
+
+        <!-- Web services produced by legstar-cixsgen -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cixsgen</artifactId>
+            <version>${parent.version}</version>
+            <classifier>int</classifier>
+            <type>zip</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cargo -->    
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-api-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-container-tomcat</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -28,73 +55,49 @@
     <build>
         <plugins>
 
-            <!-- skip unit test run, tests to be executed during integration-test -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Retrieve integration cases as war files rom legstar-cixsgen. -->
+                    <execution>
+                        <id>copy-cixsgen-cases</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>legstar-cixsgen</includeArtifactIds>
+                            <includeClassifiers>int</includeClassifiers>
+                            <outputDirectory>${project.build.directory}/dependency/cixsgen</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Integration tests (runs classes xxxITCase) -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip>
+                    <excludes>
+                        <exclude>**/HttpClientLsfileae100AxisITCase.java</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>surefire-it</id>
-                        <phase>integration-test</phase>
+                        <id>integration-test</id>
                         <goals>
-                            <goal>test</goal>
+                            <goal>integration-test</goal>
                         </goals>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                
-                <executions>
-
-                    <!-- This will deploy all Web Services to a new instance of Tomcat. -->
-                    <execution>
-                        <id>deploy-test-services</id>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
-                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-start.xml">
-                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                
-                    <!-- Stop Tomcat.  -->
-                    <execution>
-                        <id>cleanup</id>
-                        <phase>post-integration-test</phase>
-                        <configuration>
-                            <tasks>
-                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
-                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
-                </executions>
-            </plugin>
-
+      
             <plugin>
                 <artifactId>maven-site-plugin</artifactId> 
                 <configuration>
