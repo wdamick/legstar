@@ -307,8 +307,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <!-- Assemble artifacts needed for supplementary integration tests
-                             See legstar-cixsgen-clients -->
                         <id>make-integration-assembly</id>
                         <phase>package</phase>
                         <goals>
@@ -316,6 +314,11 @@
                         </goals>
                         <configuration>
                             <descriptors>
+                                <!-- Minimal distribution to help legstar-distribution -->
+                                <descriptor>src/assemble/distribution.xml</descriptor>
+
+                                <!-- Assemble artifacts needed for supplementary integration tests
+                                     See legstar-cixsgen-clients -->
                                 <descriptor>src/assemble/integration-assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
