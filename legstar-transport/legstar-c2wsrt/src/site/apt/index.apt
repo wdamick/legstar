@@ -14,7 +14,7 @@ Mainframe Proxy runtime (C2wsrt) overview
   
   For each target Web Service or POJO that needs to be exposed to Mainframe programs, there needs
   to be a a proxy servlet that uses the C2wsrt runtime. Such proxy servlets are typically
-  generated using the {{{http://www.legsem.com/legstar/legstar-jaxws/legstar-cixsgen/index.html}Service Generator}}.   
+  generated using the {{{http://www.legsem.com/legstar/legstar-cixsgen/legstar-jaxws-generator/index.html}Service Generator}}.   
 
   Mainframe requests arrive as HTTP POST requests on a servlet engine such as Tomcat. The content
   of the HTTP POST request is binary and contains the EBCDIC request data sent from the mainframe.
