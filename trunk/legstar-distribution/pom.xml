@@ -1,96 +1,98 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.legsem.legstar</groupId>
-        <artifactId>Legstar</artifactId>
-        <version>1.4.5-SNAPSHOT</version>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>5</version>
     </parent>
-    <version>1.4.5-SNAPSHOT</version>
+
+    <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-distribution</artifactId>
+    <version>1.5.0-SNAPSHOT</version>
+
     <name>LegStar Distribution</name>
-    <packaging>pom</packaging>
     <description>Used to create a single distribution for the entire LegStar project.</description>
-    <url>http://www.legsem.com/legstar</url>
+    <url>http://www.legsem.com/legstar/legstar-distribution</url>
 
-    <dependencies>
-        <!-- External distributions -->
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cob2xsd</artifactId>
-            <version>${legstarCob2XsdVersion}</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsd2cob-dist</artifactId>
-            <version>${legstarXsd2CobVersion}</version>
-            <type>zip</type>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen</artifactId>
-            <version>${legstarCoreVersion}</version>
-            <classifier>bin</classifier>
-            <type>zip</type>
-        </dependency>
- 
-        <!-- External sources -->
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cob2xsd</artifactId>
-            <version>${legstarCob2XsdVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-xsd2cob</artifactId>
-            <version>${legstarXsd2CobVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-java2cob</artifactId>
-            <version>${legstarXsd2CobVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbapi</artifactId>
-            <version>${legstarCoreVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-codegen</artifactId>
-            <version>${legstarCoreVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbrt</artifactId>
-            <version>${legstarCoreVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxbgen</artifactId>
-            <version>${legstarCoreVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen</artifactId>
-            <version>${legstarCoreVersion}</version>
-            <classifier>sources</classifier>
-        </dependency>
+    <properties>
+        <legstarCoreVersion>1.5.3-SNAPSHOT</legstarCoreVersion>
+        <legstarCob2XsdVersion>0.3.3</legstarCob2XsdVersion>
+        <legstarXsd2CobVersion>0.2.0</legstarXsd2CobVersion>
+        <legstarTransportVersion>1.5.0-SNAPSHOT</legstarTransportVersion>
+        <legstarCixsgenVersion>1.5.0-SNAPSHOT</legstarCixsgenVersion>
+        <legstarSamplesVersion>0.2.0</legstarSamplesVersion>
+        <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
+        <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <buildDate>${maven.build.timestamp}</buildDate>
+    </properties>
 
+    <issueManagement>
+        <system>Google Code Issue Tracking</system>
+        <url>http://code.google.com/p/legstar/issues</url>
+    </issueManagement>
 
-        <!-- Internal dependencies -->
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cixsgen</artifactId>
-        </dependency>
-    </dependencies>
+    <scm>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-distribution/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-distribution/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-distribution/</url>
+    </scm>
+
+    <distributionManagement>
+
+        <site>
+            <id>local.website</id>
+            <name>Local Website</name>
+            <url>file:///${legstar-dev-website-local-dir}/legstar-distribution</url>
+        </site>
+
+    </distributionManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>LegStar users mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-user/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-user/subscribe</unsubscribe>
+            <post>legstar-user@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-user/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>LegStar dev mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-dev/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-dev/subscribe</unsubscribe>
+            <post>legstar-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-dev/topics</archive>
+        </mailingList>
+    </mailingLists>
+
+    <developers>
+        <developer>
+            <id>fady</id>
+            <name>Fady Moussallam</name>
+            <email>fady AT legsem.com</email>
+            <organization>Legsem.com</organization>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>LegSem</name>
+        <url>http://www.legsem.com/</url>
+    </organization>
 
     <build>
         
@@ -99,37 +101,231 @@
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <!-- retrieve a complete external distribution folders to borrow from. -->
+                    <!-- modules with their own distributions are retrieved and unpacked. -->
                     <execution>
-                        <id>copy-cob2xsd-install</id>
+                        <id>copy-distributions</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>unpack-dependencies</goal>
+                            <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>legstar-cob2xsd,legstar-xsd2cob-dist,legstar-coxbgen</includeArtifactIds>
-                            <includeTypes>zip</includeTypes>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cob2xsd</artifactId>
+                                    <version>${legstarCob2XsdVersion}</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-xsd2cob-dist</artifactId>
+                                    <version>${legstarXsd2CobVersion}</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-coxbgen</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-c2wsrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-csokrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-chttprt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cmqrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-engine</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-jaxws-generator</artifactId>
+                                    <version>${legstarCixsgenVersion}</version>
+                                    <classifier>bin</classifier>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
                             <outputDirectory>${project.build.directory}/package</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
                     </execution>
 
-                    <!-- retrieve external sources. -->
+                    <!-- retrieve sources. -->
                     <execution>
-                        <id>copy-sources-install</id>
+                        <id>copy-sources</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>unpack-dependencies</goal>
+                            <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>legstar-cob2xsd,legstar-xsd2cob,legstar-java2cob,legstar-coxbapi,legstar-codegen,legstar-jaxbgen,legstar-coxbrt,legstar-coxbgen</includeArtifactIds>
-                            <classifier>sources</classifier>
+                            <artifactItems>
+                                <!-- cob2xsd -->
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cob2xsd</artifactId>
+                                    <version>${legstarCob2XsdVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+
+                                <!-- xsd2cob -->
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-xsd2cob</artifactId>
+                                    <version>${legstarXsd2CobVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-java2cob</artifactId>
+                                    <version>${legstarXsd2CobVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+
+                                <!-- core -->
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-coxbapi</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-codegen</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-jaxbgen</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-coxbrt</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-coxbgen</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cobcgen</artifactId>
+                                    <version>${legstarCoreVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+
+                                <!-- transports -->
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-messaging</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-invoker</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-engine</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-config</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-c2wsrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-csokrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-chttprt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cmqrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cmockrt</artifactId>
+                                    <version>${legstarTransportVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+
+                                <!-- cixsgen -->
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-cixsgen-model</artifactId>
+                                    <version>${legstarCixsgenVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-jaxws-generator</artifactId>
+                                    <version>${legstarCixsgenVersion}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
+                            </artifactItems>
                             <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
                     </execution>
 
-                    <!-- retrieve cultureinfo sample war file.
-                         We need to unpack because the lib folder must be removed.
-                         Its content conflicts with libs deployed to shared/lib. -->
+                    <!-- retrieve cultureinfo sample war file for distribution.
+                         We need to unpack because the lib folder must be removed,
+                         its content conflicts with libs deployed to shared/lib. -->
                     <execution>
                         <id>copy-cultureinfo-install</id>
                         <phase>generate-resources</phase>
@@ -141,7 +337,7 @@
                                 <artifactItem>
                                     <groupId>com.legsem.legstar</groupId>
                                     <artifactId>legstar-test-cultureinfo</artifactId>
-                                    <version>0.2.0</version>
+                                    <version>${legstarSamplesVersion}</version>
                                     <type>war</type>
                                     <outputDirectory>${project.build.directory}/gen-distro/cultureinfo</outputDirectory>
                                 </artifactItem>
@@ -149,8 +345,76 @@
                         </configuration>
                     </execution>
 
+                    <!-- retrieve cultureinfo sample war file for distribution testing.
+                         In this case we need all dependencies in the war this saves the
+                         pain of deploying jars in shared/lib. -->
+                    <execution>
+                        <id>copy-cultureinfo-distro-test</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-cultureinfo</artifactId>
+                                    <version>${legstarSamplesVersion}</version>
+                                    <type>war</type>
+                                    <outputDirectory>${project.build.directory}/test-distro/cultureinfo</outputDirectory>
+                                    <destFileName>jaxws-cultureinfo.war</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+
                 </executions>
 
+            </plugin>
+
+            <!-- For now testing the distribution only involves deploying cultureinfo
+                 in a JEE container. -->
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <configuration>
+                    <wait>false</wait>
+                    <configuration>
+                        <properties>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
+                        </properties>
+                        <deployables>
+                            <deployable>
+                                <groupId>com.legsem.legstar</groupId>
+                                <artifactId>legstar-test-cultureinfo</artifactId>
+                                <location>${project.build.directory}/test-distro/cultureinfo/jaxws-cultureinfo.war</location>
+                                <type>war</type>
+                            </deployable>
+                        </deployables>
+                    </configuration>
+                    <container>
+                      <containerId>tomcat6x</containerId>
+                      <zipUrlInstaller>
+                        <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/apache-tomcat-6.0.29.zip</url>
+                      </zipUrlInstaller>
+                    </container>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -174,39 +438,13 @@
                         </goals>
                     </execution>
 
-                    <!-- Unpack sources from internal modules
-                     (unpack-dependencies does not work because of : http://jira.codehaus.org/browse/MDEP-291 .  -->
-                    <execution>
-                        <id>unjar-source</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <unjar src="${basedir}/../legstar-c2wsrt/target/legstar-c2wsrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-chttprt/target/legstar-chttprt-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-cixsgen/target/legstar-cixsgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-cixsgen-model/target/legstar-cixsgen-model-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-cmockrt/target/legstar-cmockrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-cmqrt/target/legstar-cmqrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-cob2trans/target/legstar-cob2trans-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-cobcgen/target/legstar-cobcgen-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-config/target/legstar-config-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-csokrt/target/legstar-csokrt-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-engine/target/legstar-engine-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-invoker/target/legstar-invoker-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                                <unjar src="${basedir}/../legstar-messaging/target/legstar-messaging-${version}-sources.jar" dest="${project.build.directory}/sources" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-
                     <!-- This will check that the distribution file is valid. -->
                     <execution>
                         <id>test-distribution</id>
                         <phase>integration-test</phase>
                         <configuration>
                             <tasks>
+                              <!--
                                 <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
                                     <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
                                     <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
@@ -215,13 +453,16 @@
                                     <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
                                     <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
                                 </ant>
+                                -->
                                 <ant antfile="${basedir}/src/main/ant/test-distribution.xml" >
                                     <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
                                 </ant>
+                              <!--
                                 <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
                                     <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
                                     <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
                                 </ant>
+                                -->
                             </tasks>
                         </configuration>
                         <goals>
@@ -263,18 +504,6 @@
                         <configuration>
                             <descriptors>
                                 <descriptor>src/assemble/distribution.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>assemble-sources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
                                 <descriptor>src/assemble/distribution-sources.xml</descriptor>
                             </descriptors>
                         </configuration>
