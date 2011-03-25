@@ -24,6 +24,8 @@
     <menu name="Modules">
         <item name="Service generator model" href="legstar-cixsgen-model/index.html" />
         <item name="JAXWS Service generator" href="legstar-jaxws-generator/index.html" />
+        <item name="JBoss ESB Service generator" href="http://code.google.com/p/legstar-jbossesb/" />
+        <item name="Mule Service generator" href="http://code.google.com/p/legstar-mule/" />
     </menu>
     <menu ref="reports" inherit="bottom" />
   </body>
