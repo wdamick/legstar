@@ -74,7 +74,7 @@ INSTALLING/UNINSTALLING:
  [[3]] You will need to copy the jar files from the <lib> folder to 
        a location such as <CATALINA_BASE>/shared/lib.
    
- [[4]] Refer to {{{http://www.legsem.com/legstar/legstar-jaxws/legstar-cixsgen}Service Generator}} to generate COBOL
+ [[4]] Refer to {{{http://www.legsem.com/legstar/legstar-cixsgen/legstar-jaxws_generator}Service Generator}} to generate COBOL
        sample code as well as servlets which are needed to invoke a Web Service
        or a POJO from the mainframe.
        
