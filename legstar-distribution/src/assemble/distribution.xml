@@ -6,19 +6,11 @@
         <format>zip</format>
     </formats>
   
-    <componentDescriptors>
-        <componentDescriptor>../legstar-cixsgen/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-messaging/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-invoker/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-c2wsrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-chttprt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-cmqrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-cmockrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-csokrt/src/assemble/component.xml</componentDescriptor>
-        <componentDescriptor>../legstar-engine/src/assemble/component.xml</componentDescriptor>
-    </componentDescriptors>
-    
     <fileSets>
+
+        <!-- ======================================================================= -->
+        <!-- Create the lib folder                                                   -->
+        <!-- ======================================================================= -->
 
         <!-- cob2xsd dependencies -->
         <fileSet>
@@ -26,6 +18,7 @@
             <outputDirectory>lib</outputDirectory>
             <includes>
                 <include>legstar-cob2xsd*.jar</include>
+                <include>antlr*.jar</include>
             </includes>
         </fileSet>
         <!-- xsd2cob dependencies -->
@@ -44,6 +37,76 @@
                 <include>legstar-java2cob*.jar</include>
             </includes>
         </fileSet>
+        <!-- jaxws-generator is the main provider of dependencies (via transitive dependencies) -->
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-jaxws-generator-${legstarCixsgenVersion}/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- ======================================================================= -->
+        <!-- Create the war folder                                                   -->
+        <!-- ======================================================================= -->
+        <!-- engine war file -->
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-engine-${legstarTransportVersion}/war</directory>
+            <outputDirectory>war</outputDirectory>
+            <includes>
+                <include>*.war</include>
+            </includes>
+        </fileSet>
+
+        <!-- ======================================================================= -->
+        <!-- Create the zos folder                                                   -->
+        <!-- ======================================================================= -->
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-messaging-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/zos/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-invoker-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/zos/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-c2wsrt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/zos/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-chttprt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/zos/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-cmqrt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/zos/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-csokrt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/zos/**</include>
+            </includes>
+        </fileSet>
+
+        <!-- ======================================================================= -->
+        <!-- Create the sample folders                                               -->
+        <!-- ======================================================================= -->
 
         <!-- java2cob sample (as archive) -->
         <fileSet>
@@ -63,11 +126,111 @@
             </includes>
         </fileSet>
 
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-c2wsrt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-chttprt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-cmqrt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-csokrt-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-engine-${legstarTransportVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-jaxws-generator-${legstarCixsgenVersion}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>**/samples/**</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
   
     <files>
-        
-        <!-- READ ME FILES -->
+        <!-- ======================================================================= -->
+        <!-- Documentation files                                                     -->
+        <!-- ======================================================================= -->
+        <!-- install instructions -->
+        <file>
+           <source>${project.basedir}/target/doc/install-instructions.html</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>readme.html</destName>
+        </file>
+        <!-- license -->
+        <file>
+            <source>${project.basedir}/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+
+        <!-- ======================================================================= -->
+        <!-- Additional sample files                                                 -->
+        <!-- ======================================================================= -->
+        <!-- cob2xsd sample COBOL source -->
+        <file>
+            <source>${project.build.directory}/package/legstar-cob2xsd-${legstarCob2XsdVersion}/cobol/LSFILEAE</source>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae/cobol</outputDirectory>
+            <destName>lsfileae</destName>
+        </file>
+
+        <!-- cob2xsd sample ant script -->
+        <file>
+            <source>src/main/resources/ant/build-cob2xsd.xml</source>
+            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
+        </file>
+
+        <!-- java2cob sample ant script -->
+        <file>
+            <source>src/main/resources/ant/build-java2cob.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
+        </file>
+
+        <!-- xsd2cob sample ant script -->
+        <file>
+            <source>src/main/resources/ant/build-xsd2cob.xml</source>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
+        </file>
+
+        <!-- cultureinfo sample war file -->
+        <file>
+            <source>${project.build.directory}/gen-distro/cultureinfo/jaxws-cultureinfo.war</source>
+            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/war</outputDirectory>
+        </file>
+
+        <!-- ======================================================================= -->
+        <!-- Additional readme files                                                 -->
+        <!-- ======================================================================= -->
         <file>
            <source>${project.build.directory}/package/legstar-cob2xsd-${legstarCob2XsdVersion}/readme.txt</source>
            <outputDirectory>/docs</outputDirectory>
@@ -88,105 +251,32 @@
            <outputDirectory>/docs</outputDirectory>
            <destName>COXBGEN-readme.html</destName>
         </file>
-
         <file>
-           <source>${project.basedir}/target/doc/install-instructions.html</source>
-           <outputDirectory>/</outputDirectory>
-           <destName>readme.html</destName>
-        </file>
-        <file>
-           <source>${project.basedir}/../legstar-c2wsrt/src/site/apt/release-notes.apt</source>
+           <source>${project.build.directory}/package/legstar-c2wsrt-${legstarTransportVersion}/README</source>
            <outputDirectory>/docs</outputDirectory>
            <destName>C2WSRT-README</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-chttprt/src/site/apt/release-notes.apt</source>
+           <source>${project.build.directory}/package/legstar-chttprt-${legstarTransportVersion}/README</source>
            <outputDirectory>/docs</outputDirectory>
            <destName>CHTTPRT-README</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-cmqrt/src/site/apt/release-notes.apt</source>
+           <source>${project.build.directory}/package/legstar-cmqrt-${legstarTransportVersion}/README</source>
            <outputDirectory>/docs</outputDirectory>
            <destName>CMQRT-README</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-csokrt/src/site/apt/release-notes.apt</source>
+           <source>${project.build.directory}/package/legstar-csokrt-${legstarTransportVersion}/README</source>
            <outputDirectory>/docs</outputDirectory>
            <destName>CSOKRT-README</destName>
         </file>
         <file>
-           <source>${project.basedir}/../legstar-engine/src/site/apt/release-notes.apt</source>
+           <source>${project.build.directory}/package/legstar-engine-${legstarTransportVersion}/README</source>
            <outputDirectory>/docs</outputDirectory>
            <destName>ENGINE-README</destName>
         </file>
 
-        <!-- LICENSE FILES -->
-        <file>
-            <source>${project.basedir}/LICENSE</source>
-            <outputDirectory>/</outputDirectory>
-        </file>
-
-        <!-- cob2xsd sample COBOL source -->
-        <file>
-            <source>${project.build.directory}/package/legstar-cob2xsd-${legstarCob2XsdVersion}/cobol/LSFILEAE</source>
-            <outputDirectory>samples/quickstarts/adapter_lsfileae/cobol</outputDirectory>
-            <destName>lsfileae</destName>
-        </file>
-
-        <!-- cob2xsd sample ant script -->
-        <file>
-            <source>src/main/resources/ant/build-cob2xsd.xml</source>
-            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
-        </file>
-
-        <!-- coxbgen sample adapter build.xml -->
-        <file>
-            <source>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}/samples/quickstarts/adapter_lsfileae/build-coxb.xml</source>
-            <outputDirectory>samples/quickstarts/adapter_lsfileae</outputDirectory>
-        </file>
-
-        <!-- java2cob sample ant script -->
-        <file>
-            <source>src/main/resources/ant/build-java2cob.xml</source>
-            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
-        </file>
-
-        <!-- coxbgen sample proxy pojo build.xml -->
-        <file>
-            <source>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}/samples/quickstarts/proxy_pojo_jvmquery/build-coxb.xml</source>
-            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery</outputDirectory>
-        </file>
-
-        <!-- xsd2cob sample ant script -->
-        <file>
-            <source>src/main/resources/ant/build-xsd2cob.xml</source>
-            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
-        </file>
-
-        <!-- cultureinfo sample war file -->
-        <file>
-            <source>${project.build.directory}/gen-distro/cultureinfo/jaxws-cultureinfo.war</source>
-            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo/war</outputDirectory>
-        </file>
-
-        <!-- coxbgen sample proxy ws build.xml -->
-        <file>
-            <source>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}/samples/quickstarts/proxy_ws_cultureinfo/build-coxb.xml</source>
-            <outputDirectory>samples/quickstarts/proxy_ws_cultureinfo</outputDirectory>
-        </file>
-
     </files>
-
-    <dependencySets>
-        <dependencySet>
-            <outputDirectory>/lib/</outputDirectory>
-            <unpack>false</unpack>
-            <scope>runtime</scope>
-            <excludes>
-                 <exclude>*:*:zip:*</exclude>
-                 <exclude>*:*:*:*:sources</exclude>
-            </excludes>
-        </dependencySet>
-    </dependencySets>
   
 </assembly>
