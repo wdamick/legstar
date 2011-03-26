@@ -13,7 +13,7 @@ public class LsfileamHostProgram extends HostProgram {
      */
     public LsfileamHostProgram() {
         setName("LSFILEAM");
-        setLength(8056);
+        setMaxDataLength(8056);
         setDataLength(58);
     }
 

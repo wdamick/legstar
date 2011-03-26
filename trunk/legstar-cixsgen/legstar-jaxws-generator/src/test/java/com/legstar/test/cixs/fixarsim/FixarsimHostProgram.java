@@ -13,7 +13,7 @@ public class FixarsimHostProgram extends HostProgram {
      */
     public FixarsimHostProgram() {
         setName("FIXARSIM");
-        setLength(15);
+        setMaxDataLength(15);
         setDataLength(15);
     }
 

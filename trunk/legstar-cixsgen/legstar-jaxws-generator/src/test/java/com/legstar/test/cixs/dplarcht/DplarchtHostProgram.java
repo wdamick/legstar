@@ -13,7 +13,7 @@ public class DplarchtHostProgram extends HostProgram {
      */
     public DplarchtHostProgram() {
         setName("DPLARCHT");
-        setLength(32025);
+        setMaxDataLength(32025);
         setDataLength(32025);
     }
 

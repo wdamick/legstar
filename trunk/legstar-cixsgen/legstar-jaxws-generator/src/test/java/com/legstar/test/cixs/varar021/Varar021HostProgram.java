@@ -13,7 +13,7 @@ public class Varar021HostProgram extends HostProgram {
      */
     public Varar021HostProgram() {
         setName("VARAR021");
-        setLength(19922);
+        setMaxDataLength(19922);
         setDataLength(19922);
     }
 

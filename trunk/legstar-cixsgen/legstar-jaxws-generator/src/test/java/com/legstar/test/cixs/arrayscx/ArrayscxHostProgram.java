@@ -13,7 +13,7 @@ public class ArrayscxHostProgram extends HostProgram {
      */
     public ArrayscxHostProgram() {
         setName("ARRAYSCX");
-        setLength(63);
+        setMaxDataLength(63);
         setDataLength(63);
     }
 

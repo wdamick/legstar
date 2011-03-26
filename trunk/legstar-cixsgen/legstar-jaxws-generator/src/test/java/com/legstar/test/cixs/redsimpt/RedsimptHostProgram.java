@@ -13,7 +13,7 @@ public class RedsimptHostProgram extends HostProgram {
      */
     public RedsimptHostProgram() {
         setName("REDSIMPT");
-        setLength(18);
+        setMaxDataLength(18);
         setDataLength(18);
     }
 

@@ -13,7 +13,7 @@ public class RedbothaHostProgram extends HostProgram {
      */
     public RedbothaHostProgram() {
         setName("REDBOTHA");
-        setLength(2);
+        setMaxDataLength(2);
         setDataLength(2);
     }
 

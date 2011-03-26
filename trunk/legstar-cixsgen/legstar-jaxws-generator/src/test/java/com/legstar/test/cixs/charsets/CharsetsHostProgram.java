@@ -13,7 +13,7 @@ public class CharsetsHostProgram extends HostProgram {
      */
     public CharsetsHostProgram() {
         setName("CHARSETS");
-        setLength(160);
+        setMaxDataLength(160);
         setDataLength(160);
     }
 

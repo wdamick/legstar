@@ -13,7 +13,7 @@ public class LsfileaqHostProgram extends HostProgram {
      */
     public LsfileaqHostProgram() {
         setName("LSFILEAQ");
-        setLength(7927);
+        setMaxDataLength(7927);
         setDataLength(7927);
     }
 

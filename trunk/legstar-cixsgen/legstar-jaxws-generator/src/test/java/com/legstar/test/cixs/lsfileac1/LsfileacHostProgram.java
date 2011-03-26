@@ -14,9 +14,9 @@ public class LsfileacHostProgram extends HostProgram {
      */
     public LsfileacHostProgram() {
         setName("LSFILEAC");
-        setChannel("LSFILEAC-CHANNEL");
-        getInContainers().add(new HostContainer("QueryData", 48));
-        getOutContainers().add(new HostContainer("ReplyData", 7905));
+        setChannelName("LSFILEAC-CHANNEL");
+        getInputContainers().add(new HostContainer("QueryData", 48));
+        getOutputContainers().add(new HostContainer("ReplyData", 7905));
     }
 
 }

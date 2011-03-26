@@ -13,7 +13,7 @@ public class ValuemixHostProgram extends HostProgram {
      */
     public ValuemixHostProgram() {
         setName("VALUEMIX");
-        setLength(96);
+        setMaxDataLength(96);
         setDataLength(96);
     }
 

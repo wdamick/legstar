@@ -13,7 +13,7 @@ public class TypesmixHostProgram extends HostProgram {
      */
     public TypesmixHostProgram() {
         setName("TYPESMIX");
-        setLength(176);
+        setMaxDataLength(176);
         setDataLength(176);
     }
 

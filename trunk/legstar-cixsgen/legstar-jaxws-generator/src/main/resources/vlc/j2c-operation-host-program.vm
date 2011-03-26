@@ -15,7 +15,7 @@
 ## ---------------------------------------
 #foreach($structure in ${structures})
 #set($length = ${cixsHelper.getByteLength(${structure.jaxbPackageName}, ${structure.jaxbType})})
-        get${prefix}Containers().add(new HostContainer("$structure.cicsContainer", $length));
+        get${prefix}putContainers().add(new HostContainer("$structure.cicsContainer", $length));
 #end
 #end
 ## ==================================================================
@@ -40,7 +40,7 @@ public class ${cixsOperation.className}HostProgram extends HostProgram {
     public ${cixsOperation.className}HostProgram() {
         setName("${cixsOperation.cicsProgramName.toUpperCase()}");
 #if(${cixsOperation.hasChannel()})
-        setChannel("${cixsOperation.cicsChannel}");
+        setChannelName("${cixsOperation.cicsChannel}");
 #setContainers("In", ${cixsOperation.getInput()})
 #setContainers("Out", ${cixsOperation.getOutput()})
 #else
@@ -49,9 +49,9 @@ public class ${cixsOperation.className}HostProgram extends HostProgram {
 #getLength(${cixsOperation.getOutput()})
 #set($outputLength = $length)
 #if($outputLength > $inputLength)
-        setLength($outputLength);
+        setMaxDataLength($outputLength);
 #else
-        setLength($inputLength);
+        setMaxDataLength($inputLength);
 #end
         setDataLength($inputLength);
 #end

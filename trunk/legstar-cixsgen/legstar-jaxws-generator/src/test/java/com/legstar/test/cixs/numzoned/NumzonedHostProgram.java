@@ -13,7 +13,7 @@ public class NumzonedHostProgram extends HostProgram {
      */
     public NumzonedHostProgram() {
         setName("NUMZONED");
-        setLength(13);
+        setMaxDataLength(13);
         setDataLength(13);
     }
 

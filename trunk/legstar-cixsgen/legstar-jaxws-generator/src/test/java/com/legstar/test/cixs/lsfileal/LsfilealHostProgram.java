@@ -13,7 +13,7 @@ public class LsfilealHostProgram extends HostProgram {
      */
     public LsfilealHostProgram() {
         setName("LSFILEAL");
-        setLength(8043);
+        setMaxDataLength(8043);
         setDataLength(20);
     }
 
