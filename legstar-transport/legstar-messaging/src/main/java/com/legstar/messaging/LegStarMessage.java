@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class LegStarMessage implements Serializable {
 
-    /** Serial version ID.  */
+    /** Serial version ID. */
     private static final long serialVersionUID = -1107635334404959251L;
 
     /** Header message part. */
@@ -34,6 +34,7 @@ public class LegStarMessage implements Serializable {
 
     /**
      * Creates an empty message.
+     * 
      * @throws HeaderPartException if host encoding is wrong
      */
     public LegStarMessage() throws HeaderPartException {
@@ -43,11 +44,11 @@ public class LegStarMessage implements Serializable {
 
     /**
      * Construct a message from its message parts.
+     * 
      * @param headerPart the header message part
      * @param dataParts the data message parts
      */
-    public LegStarMessage(
-            final LegStarHeaderPart headerPart,
+    public LegStarMessage(final LegStarHeaderPart headerPart,
             final List < LegStarMessagePart > dataParts) {
         mHeaderPart = headerPart;
         mDataParts = dataParts;
@@ -56,6 +57,7 @@ public class LegStarMessage implements Serializable {
     /**
      * Streaming an entire message is equivalent to streaming its header part
      * followed by each of the data parts.
+     * 
      * @return an input stream
      * @throws HostMessageFormatException if conversion fails
      */
@@ -65,11 +67,12 @@ public class LegStarMessage implements Serializable {
 
     /**
      * Recreates the message by creating each part.
+     * 
      * @param hostStream the host byte stream
      * @throws HostMessageFormatException if creation fails
      */
-    public void recvFromHost(
-        final InputStream hostStream) throws HostMessageFormatException {
+    public void recvFromHost(final InputStream hostStream)
+            throws HostMessageFormatException {
         getHeaderPart().fromStream(hostStream);
         for (int i = 0; i < getHeaderPart().getDataPartsNumber(); i++) {
             LegStarMessagePart part = new LegStarMessagePart();
@@ -88,10 +91,12 @@ public class LegStarMessage implements Serializable {
         }
         return size;
     }
-    
+
     /**
      * This form returns the message content serialized in a new byte array.
-     * @return a byte array with complete message serialized ready for transmission
+     * 
+     * @return a byte array with complete message serialized ready for
+     *         transmission
      * @throws HostMessageFormatException if message have format issues
      */
     public byte[] toByteArray() throws HostMessageFormatException {
@@ -106,13 +111,15 @@ public class LegStarMessage implements Serializable {
 
     /**
      * Deserialize this message from a byte array originating from a host.
+     * 
      * @param src the byte array of host data
      * @param srcPos where to start deserializing in the byte array
-     * @return the new position in the byte array after this message was deserialized
+     * @return the new position in the byte array after this message was
+     *         deserialized
      * @throws HostMessageFormatException if deserialization fails
      */
-    public int fromByteArray(
-            final byte[] src, final int srcPos) throws HostMessageFormatException {
+    public int fromByteArray(final byte[] src, final int srcPos)
+            throws HostMessageFormatException {
         int pos = 0;
         pos = getHeaderPart().fromByteArray(src, pos);
         for (int i = 0; i < getHeaderPart().getDataPartsNumber(); i++) {
@@ -131,8 +138,8 @@ public class LegStarMessage implements Serializable {
     }
 
     /**
-     * Look for a part identified with a specific ID (usually a container 
-     * name).
+     * Look for a part identified with a specific ID (usually a container name).
+     * 
      * @param partID part identifier
      * @return the part found or null otherwise
      */
@@ -147,6 +154,7 @@ public class LegStarMessage implements Serializable {
 
     /**
      * Add a new data part. This assumes a header part has already been created.
+     * 
      * @param part the data part to add.
      */
     public void addDataPart(final LegStarMessagePart part) {
@@ -157,8 +165,7 @@ public class LegStarMessage implements Serializable {
     /**
      * @param dataParts the list of data message parts to set
      */
-    public void setDataParts(
-            final List < LegStarMessagePart > dataParts) {
+    public void setDataParts(final List < LegStarMessagePart > dataParts) {
         mDataParts = dataParts;
     }
 
@@ -180,19 +187,20 @@ public class LegStarMessage implements Serializable {
     public String toString() {
         StringBuffer sb = new StringBuffer(80);
         sb.append(this.getClass().getSimpleName());
-        sb.append("{this=").append(Integer.toHexString(
-                System.identityHashCode(this)));
+        sb.append("{this=").append(
+                Integer.toHexString(System.identityHashCode(this)));
         sb.append(", headerPart=").append(mHeaderPart.toString());
         for (int i = 0; i < mHeaderPart.getDataPartsNumber(); i++) {
             LegStarMessagePart part = mDataParts.get(i);
             sb.append(", messagePart=").append(part.toString());
         }
         sb.append("\"}");
-        return sb.toString();                        
+        return sb.toString();
     }
 
     /**
      * Two messages are equal if headers and all parts are equal.
+     * 
      * @param obj message part to compare to
      * @return true if message part compared to has same id and content.
      */
@@ -210,18 +218,25 @@ public class LegStarMessage implements Serializable {
         if (msg.getDataParts().size() != getDataParts().size()) {
             return false;
         }
-        for (int i = 0; i < msg.getDataParts().size(); i++) {
-            if (!msg.getDataParts().get(i).equals(
-                    getDataParts().get(i))) {
+        for (LegStarMessagePart part : msg.getDataParts()) {
+            boolean found = false;
+            for (LegStarMessagePart myPart : getDataParts()) {
+                if (part.getPartID().equals(myPart.getPartID())) {
+                    if (part.equals(myPart)) {
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
                 return false;
             }
+
         }
         return true;
     }
 
     /**
-     * @see Object#hashCode() 
-     * {@inheritDoc}
+     * @see Object#hashCode() {@inheritDoc}
      */
     public int hashCode() {
         int hash = getHeaderPart().hashCode();
@@ -230,28 +245,30 @@ public class LegStarMessage implements Serializable {
         }
         return hash;
     }
-    
+
     /**
      * Checks if a payload originating from a mainframe is a formatted
      * LegStarMessage.
+     * 
      * @param payload the payload to check
      * @return true if the payload is a LegStarMessage
      * @throws UnsupportedEncodingException if unable to read payload data
      */
-    public static boolean isLegStarMessage(
-            final byte[] payload) throws UnsupportedEncodingException {
+    public static boolean isLegStarMessage(final byte[] payload)
+            throws UnsupportedEncodingException {
         return LegStarHeaderPart.isLegStarHeader(payload);
     }
 
     /**
      * Retrieve the content from the first part of a serialized LegStar message.
      * Only single part messages are supported.
+     * 
      * @param requestBytes the host request data
      * @return the request content
      * @throws HostMessageFormatException if format error
      */
-    public static byte[] getContentFromHostBytes(
-            final byte[] requestBytes) throws HostMessageFormatException {
+    public static byte[] getContentFromHostBytes(final byte[] requestBytes)
+            throws HostMessageFormatException {
         try {
             LegStarMessage legStarMessage = new LegStarMessage();
             legStarMessage.fromByteArray(requestBytes, 0);
@@ -260,22 +277,24 @@ public class LegStarMessage implements Serializable {
             } else if (legStarMessage.getDataParts().size() == 1) {
                 return legStarMessage.getDataParts().get(0).getContent();
             } else {
-                throw new HostMessageFormatException("Multi-part messages not supported");
+                throw new HostMessageFormatException(
+                        "Multi-part messages not supported");
             }
         } catch (HeaderPartException e) {
             throw new HostMessageFormatException(e);
         }
     }
-    
+
     /**
      * Create a single part LegStarMessage from a byte array with default
      * header.
+     * 
      * @param content the serialized part content ready for transport
      * @return a serialized LegStarMessage ready for transport
      * @throws HostMessageFormatException if message formatting fails
      */
-    public static byte[] getHostBytesFromContent(
-            final byte[] content) throws HostMessageFormatException {
+    public static byte[] getHostBytesFromContent(final byte[] content)
+            throws HostMessageFormatException {
         try {
             LegStarMessage replyMessage = new LegStarMessage();
             replyMessage.addDataPart(new CommareaPart(content));
@@ -283,7 +302,7 @@ public class LegStarMessage implements Serializable {
         } catch (HeaderPartException e) {
             throw new HostMessageFormatException(e);
         }
-        
+
     }
 
 }
