@@ -96,6 +96,23 @@
 
     <build>
         
+        <!-- Filter template files -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.template</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.template</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
         
             <plugin>
@@ -444,25 +461,7 @@
                         <phase>integration-test</phase>
                         <configuration>
                             <tasks>
-                              <!--
-                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
-                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-start.xml">
-                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                                -->
-                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" >
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                              <!--
-                                <ant antfile="${basedir}/../legstar-tests/src/test/ant/build-tomcat-stop.xml">
-                                    <property name="tomcat.home" value="${legstar-dev-tomcat-home}" />
-                                    <property name="tomcat.base" value="${legstar-dev-tomcat-base}" />
-                                </ant>
-                                -->
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -470,16 +469,18 @@
                         </goals>
                     </execution>
 
-                    <!-- Generate site files that needs automatic update. -->
+                    <!-- This will include the filtered index.xml in the site documentation. -->
                     <execution>
-                        <id>build-site</id>
+                        <id>set-index-xml</id>
                         <phase>pre-site</phase>
                         <configuration>
                             <tasks>
-                                <ant antfile="${basedir}/src/main/ant/gen-index-xml.xml">
-                                    <property name="legstarVersion" value="${version}" />
-                                    <property name="legstarCob2XsdVersion" value="${legstarCob2XsdVersion}" />
-                                </ant>
+                                <copy todir="src/site/xdoc" overwrite="true">
+                                    <fileset dir="target/classes/templates">
+                                        <include name="index.xml.template" />
+                                    </fileset>
+                                    <globmapper from="*.template" to="*" />
+                                </copy>
                             </tasks>
                         </configuration>
                         <goals>
@@ -513,6 +514,19 @@
             </plugin>
         
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId> 
+                <artifactId>maven-site-plugin</artifactId> 
+                <version>2.2</version> 
+                <dependencies> 
+                 <dependency> 
+                   <groupId>org.apache.maven.doxia</groupId> 
+                   <artifactId>doxia-module-docbook-simple</artifactId> 
+                   <version>1.1.4</version> 
+                 </dependency> 
+                </dependencies> 
+            </plugin>
+
+            <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <executions>
@@ -531,6 +545,7 @@
                             <chunkedOutput>false</chunkedOutput>
                         </configuration>
                     </execution>
+
                 </executions>
             </plugin>
 

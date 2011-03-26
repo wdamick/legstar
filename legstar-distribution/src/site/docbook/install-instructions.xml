@@ -9,10 +9,12 @@
 <title>Pre-requisites</title>
 <para>
  Java 1.5+ and ANT 1.6.5+ are both prerequisites for LegStar.
-
+</para>
+<para>
  LegStar requires a JDK, or an international version of the JRE,
  that includes charsets.jar.
-
+</para>
+<para>
  Make sure JAVA_HOME and ANT_HOME environment variables are set and that
  $JAVA_HOME/bin (%JAVA_HOME%/bin on Windows) and $ANT_HOME/bin (%ANT_HOME%/bin
  on Windows) are both in your system path.
@@ -92,6 +94,8 @@
                 |-->legstar-pooling-config.xml
             |--><proxy_pojo_jvmquery>
                 |-->build-*.xml
+                |--><ava>
+                    |-->legstar-test-jvmquery-classes.jar
                 |--><jcl>
                     |-->COBCJVMQ
                 |--><schema>
@@ -174,7 +178,7 @@
  J2EE container deployment folder (ex $CATALINA_BASE/webapps).
 </para>
 <para>
- See the <ulink url="http://www.legsem.com/legstar/legstar-cixsgen/faq.html">FAQ</ulink> for common deployment issues.
+ See the <ulink url="http://www.legsem.com/legstar/legstar-cixsgen/legstar-jaxws-generator/faq.html">FAQ</ulink> for common deployment issues.
 </para>
 <para>
  You will notice that a jar file is also generated in the dist folder.
@@ -188,7 +192,7 @@
 <para>
  In order to actually run the deployed Web Service, you need to select
  a transport and put a customized version of the legstar-invoker-config.xml
- configuration file in a location such as CATALINA_HOME/shared/classes.
+ configuration file in a location such as $CATALINA_HOME/shared/classes.
 </para>
 <para>
  There are sample invoker configuration files for each of the transports
@@ -225,28 +229,26 @@
 <title>Service Proxy to a POJO</title>
 
 <para>
-  In order to run the sample proxy for a POJO you need to run
-  the build-pojo.xml first. This will compile the target POJO.
-  This step is needed because build-java2xs.xml works on the target
-  java classes.
+  The distribution contains a simple POJO called jvmquery. 
+  It is  provided as a jar file in the samples/quickstarts/proxy_pojo_jvmquery/java folder
+  and as source are in samples/quickstarts/proxy_pojo_jvmquery/src.
 </para>
 <para>
-  From the samples/quickstarts/proxy_pojo_jvmquery folder, run
-  command <emphasis>ant -f build-pojo.xml</emphasis> and check the result.
+  Change directory to samples/quickstarts/proxy_pojo_jvmquery/.
 </para>
 <para>
-  You can now run command <emphasis>ant -f build-java2xs.xml</emphasis> which generates
+  Run command <emphasis>ant -f build-java2cob.xml</emphasis> which generates
   a COBOL-annotated XML schema named jvmquery.xsd in the schema folder.
 </para>
 <para>
-  Each java type, from the jvmquery source, map to an XML schema
+  Each java type, from the jvmquery source, maps to an XML schema
   complex type. Each XML schema element has special Cobol annotations
   with default attributes, such as maximum character string sizes.
 </para>
 <para>
   Run command <emphasis>ant -f build-coxb.xml</emphasis> from the
   samples/quickstarts/proxy_pojo_jvmquery folder and check the result.
-  This should create a src folder containing generated JAXB classes
+  This should add to the src folder generated JAXB classes
   and Transformers from the sample XML Schema in the schema folder.
 </para>
 <para>
@@ -281,29 +283,26 @@
 <section>
 <title>Service Proxy to a Web Service</title>
 <para>
-  In order to run the sample proxy for a Web Service, you need to run
-  the build-war.xml first. This will generate a target Web service,
-  ready for deployment into a J2EE container such as Tomcat.
+  Change directory to samples/quickstarts/proxy_ws_cultureinfo/.
 </para>
 <para>
-  The war file contains a simple JAX-WS endpoint that provides a Web
-  Service implementation.
+  The distribution contains a simple Web Service called cultureinfo. 
+  It is  provided as a war file in the samples/quickstarts/proxy_ws_cultureinfo/war folder.
 </para>
 <para>
-  From the samples/quickstarts/proxy_ws_cultureinfo folder, run
-  command <emphasis>ant -f build-war.xml</emphasis> and check the result.
+  The war file contains a simple JAX-WS endpoint. If the JAX-WS libraries are not available in
+  your target J2EE container, you can get them from &lt;installDir&gt;/lib.
 </para>
 <para>
-  Deploy the generated war file from the war folder into your
-  J2EE container deployment folder (ex $CATALINA_BASE/webapps).
+  Deploy this war file to your J2EE container deployment folder (ex $CATALINA_BASE/webapps).
 </para>
 <para>
-  Check the build-xsd2xs.xml in.uri parameter. It assumes the J2EE
+  Check the build-xsd2cob.xml inputXsdUri parameter. It assumes the J2EE
   container you deployed the target Web Service to, is listening on
   localhost, port 8080. You might need to customize this.
 </para>
 <para>
-  You can now run command <emphasis>ant -f build-xsd2xs.xml</emphasis> which generates
+  You can now run command <emphasis>ant -f build-xsd2cob.xml</emphasis> which generates
   a COBOL-annotated XML schema named cultureinfo.xsd in the schema folder.
   It does so by reading the target Web Service WSDL.
 </para>
