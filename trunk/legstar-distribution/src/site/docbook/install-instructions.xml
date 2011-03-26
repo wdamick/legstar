@@ -94,8 +94,8 @@
                 |-->legstar-pooling-config.xml
             |--><proxy_pojo_jvmquery>
                 |-->build-*.xml
-                |--><ava>
-                    |-->legstar-test-jvmquery-classes.jar
+                |--><java>
+                    |-->*.jar
                 |--><jcl>
                     |-->COBCJVMQ
                 |--><schema>
@@ -133,9 +133,6 @@
 <para>
  if you plan on using the Service Generation capabilities, copy the content of
  &lt;installDir&gt;/lib to your J2EE container shared libraries (ex $CATALINA_BASE/shared/lib).
-</para>
-<para>
-   At this stage, you will probably want to <link linkend="running-ant-samples">run the samples provided</link>
 </para>
 </section>
    
@@ -229,12 +226,12 @@
 <title>Service Proxy to a POJO</title>
 
 <para>
+  Change directory to samples/quickstarts/proxy_pojo_jvmquery/.
+</para>
+<para>
   The distribution contains a simple POJO called jvmquery. 
   It is  provided as a jar file in the samples/quickstarts/proxy_pojo_jvmquery/java folder
   and as source are in samples/quickstarts/proxy_pojo_jvmquery/src.
-</para>
-<para>
-  Change directory to samples/quickstarts/proxy_pojo_jvmquery/.
 </para>
 <para>
   Run command <emphasis>ant -f build-java2cob.xml</emphasis> which generates
