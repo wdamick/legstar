@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.legstar.host.invoke;
 
-
 import com.legstar.config.LegStarConfigurationException;
 import com.legstar.config.commons.LegStarConfigCommons;
 import com.legstar.host.access.HostAccessStrategy;
@@ -40,18 +39,16 @@ public final class HostInvokerFactory {
     /**
      * An Invoker is constructed from a configuration file, for a particular
      * host address and target host program.
+     * 
      * @param generalConfigFileName an XML configuration file name
      * @param address the host address
-     * @param hostProgram the host program bean
-     * file
+     * @param hostProgram the host program bean file
      * @return a Host invoke implementation
      * @throws HostInvokerException in construction fails
      */
     public static HostInvoker createHostInvoker(
-            final String generalConfigFileName,
-            final LegStarAddress address,
-            final HostProgram hostProgram)
-    throws HostInvokerException {
+            final String generalConfigFileName, final LegStarAddress address,
+            final HostProgram hostProgram) throws HostInvokerException {
 
         try {
             /* Load the LegStar configuration, if necessary */
@@ -59,32 +56,36 @@ public final class HostInvokerFactory {
                 _config = new LegStarConfigCommons(generalConfigFileName);
             }
 
-            /* Load endpoint configuration specified in requested address or the
-             * default one if address is empty.  */
+            /*
+             * Load endpoint configuration specified in requested address or the
+             * default one if address is empty.
+             */
             HostEndpoint endpoint = _config.getHostEndpoint(address);
 
-            /* Create a complete address by merging requested address attributes
+            /*
+             * Create a complete address by merging requested address attributes
              * with the endpoint configuration ones. For instance if requested
              * address does not specify credentials, we will pick up the default
-             * credentials from the configuration. */
-            LegStarAddress completeAddress =
-                new LegStarAddress(address, endpoint);
+             * credentials from the configuration.
+             */
+            LegStarAddress completeAddress = new LegStarAddress(address,
+                    endpoint);
 
             /* Load a host access strategy */
             HostAccessStrategy hostAccessStrategy;
-            hostAccessStrategy =
-                HostAccessStrategyFactory.createAccessStrategy(endpoint);
+            hostAccessStrategy = HostAccessStrategyFactory
+                    .createAccessStrategy(endpoint);
 
             /* If a Channel is specified, this is a request for LINK CHANNEL */
-            String channel = hostProgram.getChannel();
-            if (channel != null && channel.length() > 0) {
-                return new ContainerInvoker(
-                        hostAccessStrategy, completeAddress, hostProgram);
+            String channelName = hostProgram.getChannelName();
+            if (channelName != null && channelName.length() > 0) {
+                return new ContainerInvoker(hostAccessStrategy,
+                        completeAddress, hostProgram);
             }
 
             /* The default is a commarea invoke */
-            return new CommareaInvoker(
-                    hostAccessStrategy, completeAddress, hostProgram);
+            return new CommareaInvoker(hostAccessStrategy, completeAddress,
+                    hostProgram);
         } catch (HostAccessStrategyException e) {
             throw new HostInvokerException(e);
         } catch (LegStarConfigurationException e) {
@@ -93,21 +94,17 @@ public final class HostInvokerFactory {
     }
 
     /**
-     * @deprecated
-     * An Invoker is constructed from a configuration file, for a particular
-     * host address and target host program.
+     * @deprecated An Invoker is constructed from a configuration file, for a
+     *             particular host address and target host program.
      * @param generalConfigFileName an XML configuration file name
      * @param address the host address
-     * @param cicsProgramFileName the host program attributes properties
-     * file
+     * @param cicsProgramFileName the host program attributes properties file
      * @return a Host invoke implementation
      * @throws HostInvokerException in construction fails
      */
     public static HostInvoker createHostInvoker(
-            final String generalConfigFileName,
-            final LegStarAddress address,
-            final String cicsProgramFileName)
-    throws HostInvokerException {
+            final String generalConfigFileName, final LegStarAddress address,
+            final String cicsProgramFileName) throws HostInvokerException {
 
         try {
             return createHostInvoker(generalConfigFileName, address,

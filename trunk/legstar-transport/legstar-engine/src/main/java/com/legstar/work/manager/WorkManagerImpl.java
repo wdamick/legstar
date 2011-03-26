@@ -26,9 +26,9 @@ import commonj.work.WorkListener;
 import commonj.work.WorkManager;
 
 /**
- * This Work Manager implementation can be used when there is none provided
- * (by a J2EE container for instance).
- * Original work from Apache Software Foundation.
+ * This Work Manager implementation can be used when there is none provided (by
+ * a J2EE container for instance). Original work from Apache Software
+ * Foundation.
  */
 public class WorkManagerImpl implements WorkManager {
 
@@ -64,11 +64,9 @@ public class WorkManagerImpl implements WorkManager {
      * @param workListener Work listener for callbacks.
      * @return Work Work item representing the asynchronous work
      */
-    public WorkItem schedule(
-            final Work work,
-            final WorkListener workListener) {
-        WorkItemImpl workItem = new WorkItemImpl(
-                UUID.randomUUID().toString(), work);
+    public WorkItem schedule(final Work work, final WorkListener workListener) {
+        WorkItemImpl workItem = new WorkItemImpl(UUID.randomUUID().toString(),
+                work);
         if (_log.isDebugEnabled()) {
             _log.debug("Scheduling new work item " + workItem.getId());
         }
@@ -89,9 +87,8 @@ public class WorkManagerImpl implements WorkManager {
      * @param timeout Timeout for waiting for the units of work to finish.
      * @return true if wait for all succeeded
      */
-    @SuppressWarnings("unchecked")
-    public boolean waitForAll(
-            final Collection works, final long timeout) {
+    @SuppressWarnings("rawtypes")
+    public boolean waitForAll(final Collection works, final long timeout) {
         throw new UnsupportedOperationException("waitForAll not supported");
     }
 
@@ -102,9 +99,8 @@ public class WorkManagerImpl implements WorkManager {
      * @param timeout Timeout for waiting for the units of work to finish.
      * @return true if wait for any succeeded
      */
-    @SuppressWarnings("unchecked")
-    public Collection waitForAny(
-            final Collection works, final long timeout) {
+    @SuppressWarnings("rawtypes")
+    public Collection waitForAny(final Collection works, final long timeout) {
         throw new UnsupportedOperationException("waitForAny not supported");
     }
 
@@ -114,8 +110,7 @@ public class WorkManagerImpl implements WorkManager {
      * @param workItem Work item representing the work that was accepted.
      * @param workListener Work listener for callbacks.
      */
-    private void workAccepted(
-            final WorkItemImpl workItem,
+    private void workAccepted(final WorkItemImpl workItem,
             final WorkListener workListener) {
         synchronized (workItem) {
             if (_log.isDebugEnabled()) {
@@ -135,8 +130,7 @@ public class WorkManagerImpl implements WorkManager {
      * @param workItem Work item representing the work that was started.
      * @param workListener Work listener for callbacks.
      */
-    private void workRejected(
-            final WorkItemImpl workItem,
+    private void workRejected(final WorkItemImpl workItem,
             final WorkListener workListener) {
         synchronized (workItem) {
             if (_log.isDebugEnabled()) {
@@ -155,8 +149,7 @@ public class WorkManagerImpl implements WorkManager {
      * @param workItem Work item representing the work that was started.
      * @param decoratingWork Work that was started with additional properties.
      */
-    private void workStarted(
-            final WorkItemImpl workItem,
+    private void workStarted(final WorkItemImpl workItem,
             final DecoratingWork decoratingWork) {
         synchronized (workItem) {
             if (_log.isDebugEnabled()) {
@@ -177,8 +170,8 @@ public class WorkManagerImpl implements WorkManager {
      * @param workItem Work item representing the work that was completed.
      * @param decoratingWork Work that was completed with additional properties.
      */
-    private void workCompleted(
-            final WorkItemImpl workItem, final DecoratingWork decoratingWork) {
+    private void workCompleted(final WorkItemImpl workItem,
+            final DecoratingWork decoratingWork) {
         workCompleted(workItem, decoratingWork, null);
     }
 
@@ -189,10 +182,8 @@ public class WorkManagerImpl implements WorkManager {
      * @param decoratingWork Work that was completed with additional properties.
      * @param exception the exception that was raised
      */
-    private void workCompleted(
-            final WorkItemImpl workItem,
-            final DecoratingWork decoratingWork,
-            final WorkException exception) {
+    private void workCompleted(final WorkItemImpl workItem,
+            final DecoratingWork decoratingWork, final WorkException exception) {
         synchronized (workItem) {
             if (_log.isDebugEnabled()) {
                 _log.debug("Work item " + workItem.getId() + " completed");
@@ -234,10 +225,8 @@ public class WorkManagerImpl implements WorkManager {
          * @param decoratedWork original work.
          * @param workListener an listener on the work events.
          */
-        public DecoratingWork(
-                final WorkItemImpl workItem,
-                final Work decoratedWork,
-                final WorkListener workListener) {
+        public DecoratingWork(final WorkItemImpl workItem,
+                final Work decoratedWork, final WorkListener workListener) {
             mWorkItem = workItem;
             mDecoratedWork = decoratedWork;
             mWorkListener = workListener;
