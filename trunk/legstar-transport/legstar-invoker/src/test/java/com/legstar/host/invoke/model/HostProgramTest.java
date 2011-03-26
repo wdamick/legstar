@@ -126,12 +126,35 @@ public class HostProgramTest extends TestCase {
             hostProgram.setMaxDataLength(18);
             hostProgram.setDataLength(4);
             hostProgram.setSysID("MYsysID");
+            hostProgram.setSyncOnReturn(false);
+            hostProgram.setTransID("MYtransID");
+            assertEquals("{\"CICSProgramName\":\"krakatoa\","
+                    + "\"CICSLength\":\"18\"," + "\"CICSDataLength\":\"4\","
+                    + "\"CICSSysID\":\"MYsysID\","
+                    + "\"CICSSyncOnReturn\":\"0\","
+                    + "\"CICSTransID\":\"MYtransID\"}",
+                    hostProgram.toJSONHost());
+        } catch (HostProgramException e) {
+            fail(e.toString());
+        }
+    }
+
+    /**
+     * Check with SyncOnReturn true.
+     */
+    public void testToHostSyncOnReturn() {
+        try {
+            HostProgram hostProgram = new HostProgram();
+            hostProgram.setName("krakatoa");
+            hostProgram.setMaxDataLength(18);
+            hostProgram.setDataLength(4);
+            hostProgram.setSysID("MYsysID");
             hostProgram.setSyncOnReturn(true);
             hostProgram.setTransID("MYtransID");
             assertEquals("{\"CICSProgramName\":\"krakatoa\","
                     + "\"CICSLength\":\"18\"," + "\"CICSDataLength\":\"4\","
                     + "\"CICSSysID\":\"MYsysID\","
-                    + "\"CICSSyncOnReturn\":\"true\","
+                    + "\"CICSSyncOnReturn\":\"1\","
                     + "\"CICSTransID\":\"MYtransID\"}",
                     hostProgram.toJSONHost());
         } catch (HostProgramException e) {

@@ -420,8 +420,11 @@ public class HostProgram {
             }
             if (getSyncOnReturn() != null) {
                 stringer.key(Constants.CICS_SYNCONRET_KEY);
-                /* Host is not expecting boolean types, only strings */
-                stringer.value(getSyncOnReturn().toString());
+                /*
+                 * Host is not expecting boolean types like "true" or "false",
+                 * rather is expects "1" for true and "0" for false
+                 */
+                stringer.value(isSyncOnReturn() ? "1" : "0");
             }
             if (getTransID() != null) {
                 stringer.key(Constants.CICS_TRANSID_KEY);
