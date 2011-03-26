@@ -25,7 +25,7 @@
 </listitem>
 <listitem>
 <para>
-    <ulink url="http://www.legsem.com/legstar/legstar-xsdcgen">Complex Types mapping Generator</ulink>:
+    <ulink url="http://code.google.com/p/legstar-xsd2cob/">XML Schema to COBOL Translator</ulink>:
      used when the starting point is a Java class, an XML Schema or a WSDL.
 </para>
 </listitem>
@@ -39,7 +39,7 @@
 </para>
 <para>
   However, if you feel comfortable enough, you can also download a standalone distribution
-  by following <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/download.html">this link</ulink>.
+  by following <ulink url="download.html">this link</ulink>.
 </para>
 <para>
   The COBOL Transformers generator can be installed as an Eclipse plugin which
@@ -72,7 +72,7 @@
   providing meta-data to map Java types with COBOL types.
 </para>
 <para>
-  An important class is <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/coxb/CobolElement.html">CobolElement</ulink>
+  An important class is <ulink url="http://www.legsem.com/legstar/legstar-core/legstar-coxbapi/apidocs/com/legstar/coxb/CobolElement.html">CobolElement</ulink>
   which is a java annotation that represent the mapping between Java properties and a Cobol data elements. 
 </para>
 <para>
@@ -84,10 +84,10 @@
 <section>
 <title>Learn more</title>
 <para>
-  For instructions on how to use coxbgen follow <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/legstar-coxbgen-user-guide.html">this link</ulink>.
+  For instructions on how to use coxbgen follow <ulink url="legstar-coxbgen-user-guide.html">this link</ulink>.
 </para>
 <para>
-  For answers to common questions about LegStar coxbgen, see the <ulink url="http://www.legsem.com/legstar/legstar-coxbgen/faq.html">FAQ</ulink>.
+  For answers to common questions about LegStar coxbgen, see the <ulink url="faq.html">FAQ</ulink>.
 </para>
 </section>
 
