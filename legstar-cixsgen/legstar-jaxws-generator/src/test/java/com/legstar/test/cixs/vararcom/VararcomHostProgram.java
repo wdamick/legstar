@@ -13,7 +13,7 @@ public class VararcomHostProgram extends HostProgram {
      */
     public VararcomHostProgram() {
         setName("VARARCOM");
-        setLength(1752);
+        setMaxDataLength(1752);
         setDataLength(1752);
     }
 

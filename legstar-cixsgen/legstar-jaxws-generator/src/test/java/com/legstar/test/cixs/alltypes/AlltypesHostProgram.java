@@ -13,7 +13,7 @@ public class AlltypesHostProgram extends HostProgram {
      */
     public AlltypesHostProgram() {
         setName("ALLTYPES");
-        setLength(267);
+        setMaxDataLength(267);
         setDataLength(267);
     }
 

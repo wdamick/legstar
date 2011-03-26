@@ -13,7 +13,7 @@ public class DoublmixHostProgram extends HostProgram {
      */
     public DoublmixHostProgram() {
         setName("DOUBLMIX");
-        setLength(48);
+        setMaxDataLength(48);
         setDataLength(48);
     }
 

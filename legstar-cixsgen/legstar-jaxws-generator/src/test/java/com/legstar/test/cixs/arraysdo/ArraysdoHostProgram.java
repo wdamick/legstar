@@ -13,7 +13,7 @@ public class ArraysdoHostProgram extends HostProgram {
      */
     public ArraysdoHostProgram() {
         setName("ARRAYSDO");
-        setLength(502);
+        setMaxDataLength(502);
         setDataLength(502);
     }
 

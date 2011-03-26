@@ -13,7 +13,7 @@ public class FloatmixHostProgram extends HostProgram {
      */
     public FloatmixHostProgram() {
         setName("FLOATMIX");
-        setLength(24);
+        setMaxDataLength(24);
         setDataLength(24);
     }
 

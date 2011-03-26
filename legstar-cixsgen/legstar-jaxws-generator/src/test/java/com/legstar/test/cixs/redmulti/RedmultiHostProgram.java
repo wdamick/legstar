@@ -13,7 +13,7 @@ public class RedmultiHostProgram extends HostProgram {
      */
     public RedmultiHostProgram() {
         setName("REDMULTI");
-        setLength(206);
+        setMaxDataLength(206);
         setDataLength(206);
     }
 

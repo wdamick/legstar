@@ -13,7 +13,7 @@ public class ListssdoHostProgram extends HostProgram {
      */
     public ListssdoHostProgram() {
         setName("LISTSSDO");
-        setLength(504);
+        setMaxDataLength(504);
         setDataLength(504);
     }
 

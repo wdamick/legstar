@@ -13,7 +13,7 @@ public class LsfileaeHostProgram extends HostProgram {
      */
     public LsfileaeHostProgram() {
         setName("LSFILEAE");
-        setLength(79);
+        setMaxDataLength(79);
         setDataLength(79);
     }
 

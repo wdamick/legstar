@@ -13,7 +13,7 @@ public class FixarcomHostProgram extends HostProgram {
      */
     public FixarcomHostProgram() {
         setName("FIXARCOM");
-        setLength(49);
+        setMaxDataLength(49);
         setDataLength(49);
     }
 

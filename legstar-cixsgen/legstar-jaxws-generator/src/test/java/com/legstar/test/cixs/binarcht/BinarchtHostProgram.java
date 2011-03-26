@@ -13,7 +13,7 @@ public class BinarchtHostProgram extends HostProgram {
      */
     public BinarchtHostProgram() {
         setName("BINARCHT");
-        setLength(56);
+        setMaxDataLength(56);
         setDataLength(56);
     }
 

@@ -13,7 +13,7 @@ public class FixarnumHostProgram extends HostProgram {
      */
     public FixarnumHostProgram() {
         setName("FIXARNUM");
-        setLength(78);
+        setMaxDataLength(78);
         setDataLength(78);
     }
 

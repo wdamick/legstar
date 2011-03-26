@@ -13,7 +13,7 @@ public class ArraygrpHostProgram extends HostProgram {
      */
     public ArraygrpHostProgram() {
         setName("ARRAYGRP");
-        setLength(76);
+        setMaxDataLength(76);
         setDataLength(76);
     }
 

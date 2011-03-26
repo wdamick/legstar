@@ -13,7 +13,7 @@ public class BinpkdusHostProgram extends HostProgram {
      */
     public BinpkdusHostProgram() {
         setName("BINPKDUS");
-        setLength(44);
+        setMaxDataLength(44);
         setDataLength(44);
     }
 

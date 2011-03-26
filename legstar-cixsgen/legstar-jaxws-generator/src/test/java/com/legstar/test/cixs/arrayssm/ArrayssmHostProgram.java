@@ -13,7 +13,7 @@ public class ArrayssmHostProgram extends HostProgram {
      */
     public ArrayssmHostProgram() {
         setName("ARRAYSSM");
-        setLength(54);
+        setMaxDataLength(54);
         setDataLength(54);
     }
 

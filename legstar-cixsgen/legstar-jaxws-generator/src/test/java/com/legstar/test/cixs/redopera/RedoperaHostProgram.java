@@ -13,7 +13,7 @@ public class RedoperaHostProgram extends HostProgram {
      */
     public RedoperaHostProgram() {
         setName("REDOPERA");
-        setLength(218);
+        setMaxDataLength(218);
         setDataLength(218);
     }
 

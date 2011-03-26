@@ -13,7 +13,7 @@ public class OsarraysHostProgram extends HostProgram {
      */
     public OsarraysHostProgram() {
         setName("OSARRAYS");
-        setLength(24);
+        setMaxDataLength(24);
         setDataLength(24);
     }
 

@@ -13,7 +13,7 @@ public class RedinoutHostProgram extends HostProgram {
      */
     public RedinoutHostProgram() {
         setName("REDINOUT");
-        setLength(502);
+        setMaxDataLength(502);
         setDataLength(502);
     }
 

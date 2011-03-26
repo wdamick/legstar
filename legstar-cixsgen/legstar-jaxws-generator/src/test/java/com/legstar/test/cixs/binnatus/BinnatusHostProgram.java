@@ -13,7 +13,7 @@ public class BinnatusHostProgram extends HostProgram {
      */
     public BinnatusHostProgram() {
         setName("BINNATUS");
-        setLength(56);
+        setMaxDataLength(56);
         setDataLength(56);
     }
 
