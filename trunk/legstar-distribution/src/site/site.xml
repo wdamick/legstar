@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project>
+  <publishDate format="dd-MMMM-yyyy"/>
+  <bannerLeft>
+    <name>LegStar</name>
+    <src>images/legstar-logo.png</src>
+    <href>http://www.legsem.com/legstar</href>
+  </bannerLeft>
+  <version position="navigation-top"/>
+  <skin>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-skin</artifactId>
+    <version>1.0.4</version>
+  </skin>
   <body>
-
-    <menu name="Installation instructions">
-      <item name="Instructions for Java" href="install-instructions.html" />
-      <item name="Instructions for z/OS" href="../legstar-distribution-zos/install-instructions.html"/>
-      <item name="Instructions for Eclipse" href="../legstar-common-plugin/install-instructions.html"/>
+    <links>
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user" />
+      <item name="Mail" href="mailto:admin@legsem.com" />
+      <item name="Blog" href="http://legstar.blogspot.com/" />
+    </links>
+    <menu name="Parent Project">
+        <item name="LegStar" href="http://www.legsem.com/legstar" />
     </menu>
     <menu name="More downloads">
       <item name="LegStar for JBoss ESB" href="http://code.google.com/p/legstar-jbossesb/" />
       <item name="LegStar for Mule ESB" href="http://code.google.com/p/legstar-mule/"/>
+      <item name="LegStar for Talend" href="http://code.google.com/p/legstar-tos/"/>
+      <item name="LegStar for PDI" href="http://code.google.com/p/legstar-pdi/"/>
       <item name="PL/I to COBOL Translator" href="http://code.google.com/p/legstar-pli2cob/"/>
     </menu>
   </body>
