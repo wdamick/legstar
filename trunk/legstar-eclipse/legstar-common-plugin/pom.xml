@@ -1,32 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-eclipse</artifactId>
-        <version>1.4.5-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
-    <version>1.4.5-SNAPSHOT</version>
+
     <artifactId>legstar-common-plugin</artifactId>
-    <packaging>jar</packaging>
+
     <name>LegStar Common Eclipse plugin</name>
     <description>Common Eclipse plugin.</description>
-    <url>http://www.legsem.com/legstar</url>
 
     <dependencies>
     
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-coxbgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-cixsgen</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-codegen</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cob2xsd</artifactId>
@@ -38,6 +25,18 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-java2cob</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxws-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-codegen</artifactId>
         </dependency>
    
         <!-- Generated Web Services will need this to compile
