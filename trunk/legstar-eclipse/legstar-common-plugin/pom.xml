@@ -156,6 +156,30 @@
             </plugin>
 
             <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+      
+                <executions>
+                    <!-- Cleanup the lib folder before it is filled by dependency plugin. -->
+                    <execution>
+                        <id>clean-lib-folder</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.basedir}/lib"/>
+                                <delete includeemptydirs="true">
+                                  <fileset dir="${project.basedir}/lib" includes="**/*"/>
+                                </delete>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <!-- Copy all dependencies to the lib folder where PDE will find them -->
@@ -166,12 +190,13 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <excludeArtifactIds>log4j,antlr,junit,servlet-api,stringtemplate</excludeArtifactIds>
                             <includeScope>runtime</includeScope>
                             <outputDirectory>${project.basedir}/lib</outputDirectory>
                         </configuration>
                     </execution>
                     <!-- Copy all dependencies to the lib folder where MAVEN will find them.
-                         We avoid to use the resources mechanism because we don't want
+                         We avoid using the resources mechanism because we don't want
                          the dependencies to end up in the sources archive. -->
                     <execution>
                         <id>copy-dependencies-for-MAVEN</id>
@@ -180,6 +205,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <excludeArtifactIds>log4j,antlr,junit,servlet-api,stringtemplate</excludeArtifactIds>
                             <includeScope>runtime</includeScope>
                             <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
                         </configuration>
