@@ -79,5 +79,15 @@
             </filtermapper>
         </copy>
 
+        <echo message="Prepare the publishing command"/>
+        <copy todir="${basedir}/target">
+            <fileset dir="${basedir}/src/main/templates">
+                <include name="publish.bat.template"/>
+            </fileset>
+            <filterset>
+                <filter token="LEGSTAR-LOCAL-SITE-LOCATION" value="${basedir}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
     </target>
 </project>

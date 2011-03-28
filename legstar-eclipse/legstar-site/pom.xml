@@ -19,7 +19,6 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>site.xml</include>
-                    <include>publish.bat</include>
                 </includes>
                  <!-- PDE expects this file at the root -->
                 <targetPath>${project.basedir}</targetPath>
@@ -38,7 +37,7 @@
                         <configuration>
                             <tasks>
                                 <ant antfile="${basedir}/src/main/ant/populate-site.xml" />
-                                <exec dir="${basedir}" executable="${project.basedir}/publish.bat" failonerror="true" />
+                                <exec dir="${basedir}" executable="${project.build.directory}/publish.bat" failonerror="true" />
                             </tasks>
                         </configuration>
                         <goals>
