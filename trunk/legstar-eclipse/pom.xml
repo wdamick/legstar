@@ -645,10 +645,25 @@
             </plugin>
 
             <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <generateReports>false</generateReports>
-                </configuration>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <executions>
+
+                    <!-- Produce a readme file to be included with distribution -->
+                    <execution>
+                        <id>build-readme</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <sourceDirectory>src/site/docbook</sourceDirectory>
+                            <targetDirectory>target/doc</targetDirectory>
+                            <includes>install-instructions.xml</includes>
+                            <chunkedOutput>false</chunkedOutput>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
           </plugins>
