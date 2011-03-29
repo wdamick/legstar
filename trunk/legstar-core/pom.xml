@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-core</artifactId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.3</version>
     <packaging>pom</packaging>
 
     <name>LegStar Transformers</name>
@@ -33,9 +33,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-core/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-core/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/legstar-core/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-core-1.5.3</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-core-1.5.3</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/legstar-core-1.5.3</url>
     </scm>
 
     <distributionManagement>
