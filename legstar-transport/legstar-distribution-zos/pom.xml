@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-transport</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.5.0</version>
     </parent>
     <artifactId>legstar-distribution-zos</artifactId>
     <name>LegStar Distribution for z/OS</name>
@@ -68,21 +68,17 @@
                         <phase>package</phase>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${project.build.directory}/xmit"/> 
-                                <echo message="Downloading XMIT release ${legstarZosVersion}"/>
+                                <mkdir dir="${project.build.directory}/xmit" /> 
+                                <echo message="Downloading XMIT release ${legstarZosVersion}" />
                                 
-                                <ftp server="${legstar-dev-zos-host}"
-                                        action="get"
-                                        userid="${legstar-dev-zos-userid}"
-                                        password="${legstar-dev-zos-password}"
-                                        binary="yes">
+                                <ftp server="${legstar-dev-zos-host}" action="get" userid="${legstar-dev-zos-userid}" password="${legstar-dev-zos-password}" binary="yes">
                                     <fileset dir="${project.build.directory}/xmit">
-                                        <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT"/>
-                                        <include name="LEGSTAR.${legstarZosVersion}.OBJ.XMIT"/>
-                                        <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT"/>
-                                        <include name="LEGSTAR.${legstarZosVersion}.H370.XMIT"/>
-                                        <include name="LEGSTAR.${legstarZosVersion}.CNTL.XMIT"/>
-                                        <include name="LEGSTAR.${legstarZosVersion}.COBOL.XMIT"/>
+                                        <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.OBJ.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.H370.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.CNTL.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.COBOL.XMIT" />
                                     </fileset>
                                 </ftp>
                             </tasks>
