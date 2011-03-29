@@ -42,7 +42,6 @@
         <item name="HTML version" href="legstar-user-guide.html"/>
       </item>
       <item name="On the web" href="ontheweb.html"/>
-      <item name="JavaDocs" href="apidocs/index.html"/>
     </menu>
 
     <menu name="Get help">
@@ -51,6 +50,5 @@
       <item name="LegSem services" href="../index.php" />
     </menu>
 
-    <menu ref="reports" inherit="bottom" />
   </body>
 </project>
