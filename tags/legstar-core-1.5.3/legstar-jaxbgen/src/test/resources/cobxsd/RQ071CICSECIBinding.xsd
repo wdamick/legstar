@@ -1,0 +1,436 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cb="http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd" xmlns:cicseci="http://schemas.xmlsoap.org/wsdl/cicseci/" xmlns:tns="http://creditstatus.customer.ibg/" xmlns:xsd1="http://creditstatus.customer.ibg/" attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://creditstatus.customer.ibg/">
+    <complexType name="RQ071Input">
+        <sequence>
+            <element name="fill__0">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="fill--0" levelNumber="3" picture="X(16)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="16"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__bp__id">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--bp--id" levelNumber="3" picture="X(9)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="9"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="RQ071Output">
+        <sequence>
+            <element name="rq071__error__code">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--error--code" levelNumber="3" picture="X(3)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="3"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__total__bal">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--total--bal" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__cst__tp__cd">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--cst--tp--cd" levelNumber="3" picture="X(2)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="2"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__open__date">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--open--date" levelNumber="3" picture="X(10)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__future__due">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--future--due" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__current__due">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--current--due" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__past__due__1">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--past--due--1" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__past__due__2">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--past--due--2" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__past__due__3">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--past--due--3" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__cr__amnt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--cr--amnt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__total__bal__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--total--bal--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__future__due__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--future--due--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__current__due__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--current--due--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__past__due__1__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--past--due--1--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__past__due__2__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--past--due--2--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__past__due__3__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--past--due--3--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__cr__amnt__stmt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--cr--amnt--stmt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element maxOccurs="15" minOccurs="15" name="rq071__check" type="tns:Eb017output_rq071__check">
+                <annotation>
+                    <appinfo>
+                        <cb:cobolElement cobolName="rq071--check" levelNumber="3" maxOccurs="15" minOccurs="15" type="GROUP_ITEM"/>
+                    </appinfo>
+                </annotation>
+            </element>
+            <element name="rq071__last__stmnt__date">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--last--stmnt--date" levelNumber="3" picture="X(10)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__ar__term__desc">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--ar--term--desc" levelNumber="3" picture="X(40)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="40"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__amnt__due">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--amnt--due" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__curr__disc">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--curr--disc" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__avail__disc">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--avail--disc" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__due__date">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--due--date" levelNumber="3" picture="X(10)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__final__due__amnt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--final--due--amnt" fractionDigits="2" levelNumber="3" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Eb017output_rq071__check">
+        <sequence>
+            <group ref="tns:rq071output_rq071__check"/>
+        </sequence>
+    </complexType>
+    <group name="rq071output_rq071__check">
+        <sequence>
+            <element name="rq071__check__date">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--check--date" levelNumber="5" picture="X(10)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="10"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__check__no">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="SPACE"/>
+                            <cb:cobolElement cobolName="rq071--check--no" levelNumber="5" picture="X(12)" type="ALPHANUMERIC_ITEM" usage="DISPLAY"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="12"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="rq071__check__amnt">
+                <annotation>
+                    <appinfo source="http://www.wsadie.com/appinfo">
+                                <initialValue kind="ZERO"/>
+                            <cb:cobolElement cobolName="rq071--check--amnt" fractionDigits="2" levelNumber="5" picture="9(11)V9(2)" signed="true" totalDigits="13" type="PACKED_DECIMAL_ITEM" usage="COMP-3"/>
+                    </appinfo>
+                </annotation>
+                <simpleType>
+                    <restriction base="decimal">
+                        <minInclusive value="-99999999999.99"/>
+                        <maxInclusive value="99999999999.99"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </group>
+    <element name="rQ071Input" type="tns:RQ071Input">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="rQ071Input" levelNumber="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+    <element name="RQ071OutputPart" type="tns:RQ071Output">
+        <annotation>
+            <appinfo>
+                <cb:cobolElement cobolName="RQ071OutputPart" levelNumber="1" type="GROUP_ITEM"/>
+            </appinfo>
+        </annotation>
+    </element>
+</schema>

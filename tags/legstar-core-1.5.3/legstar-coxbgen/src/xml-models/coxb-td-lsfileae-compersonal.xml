@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<coxb-type name="ComPersonalTypeBinding" type="complex" jaxb-type="ComPersonalType" jaxb-package="com.legstar.test.coxb.lsfileae">
+	<!-- Repeat for each property (order is important). -->
+	<coxb-property var-name="comName" binding-name="ComName" jaxb-name="ComName" type="simple" jaxb-type="java.lang.String" binding-type="CStringBinding" cobol-byteLength="20" cobol-isJustifiedRight="false"/>
+	<coxb-property var-name="comAddress" binding-name="ComAddress" jaxb-name="ComAddress" type="simple" jaxb-type="java.lang.String" binding-type="CStringBinding" cobol-byteLength="20" cobol-isJustifiedRight="false"/>
+	<coxb-property var-name="comPhone" binding-name="ComPhone" jaxb-name="ComPhone" type="simple" jaxb-type="java.lang.String" binding-type="CStringBinding" cobol-byteLength="8" cobol-isJustifiedRight="false"/>
+</coxb-type>
