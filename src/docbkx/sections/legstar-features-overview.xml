@@ -71,7 +71,7 @@
 </para>
 <para>
   Integration targets are not limited to Web Services. There are various projects using LegStar to integrate
-  directly with major ESBs for instance.
+  directly with major ESBs or ETLs for instance.
 </para>
 </section>
 

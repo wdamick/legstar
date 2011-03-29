@@ -98,13 +98,13 @@
 </itemizedlist>
 <para>
   For a complete list of options for the cixs2jaxwsgen task, you can refer to
-  <ulink url="http://www.legsem.com/legstar/apidocs/com/legstar/cixs/jaxws/gen/Cixs2JaxwsGenerator.html">Cixs2JaxwsGenerator</ulink>.
+  <ulink url="http://www.legsem.com/legstar/legstar-cixsgen/legstar-jaxws-generator/apidocs/com/legstar/cixs/jaxws/gen/Cixs2JaxwsGenerator.html">Cixs2JaxwsGenerator</ulink>.
 </para>
 <para>
-  After you run the script, you should a new set artifacts which implement a JAX-WS client.
+  After you run the script, you should get a new set of artifacts which implement a JAX-WS client.
 </para>
 <para>
-  The Mainframe proxy is Servlet to be deployed in a J2EE container.
+  The Mainframe proxy is a Servlet to be deployed in a J2EE container.
   The implementation uses Sun's JAX-WS RI (Metro) as a Web Service client. The build-war.xml
   ant file that is generated allows you to bundle the servlet ready for deployment.
 </para>
