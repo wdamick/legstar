@@ -134,7 +134,7 @@
   Start by creating a new standard Java Eclipse Project named <emphasis>LIVESearch</emphasis>.
   It is important that the project be of a Java nature. 
 </para>
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-xsd2xsd-translator.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-xsd2cob-translator.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="../../legstar-core/legstar-coxbgen/src/docbkx/sections/using-eclipse-generator-proxy.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude"  href="sections/using-eclipse-jaxws-proxy.xml" />
 </section>
