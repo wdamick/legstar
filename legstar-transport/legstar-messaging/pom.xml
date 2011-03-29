@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-transport</artifactId>
-        <version>1.5.0</version>
+        <version>1.5.1-SNAPSHOT</version>
     </parent>
     <artifactId>legstar-messaging</artifactId>
     <name>LegStar Messaging Protocol</name>
