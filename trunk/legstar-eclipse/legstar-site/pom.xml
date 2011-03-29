@@ -48,6 +48,25 @@
             </plugin>
         
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <!--  Create zip with all plugins   -->
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-site-plugin</artifactId>
                 <configuration>
                     <generateReports>false</generateReports>

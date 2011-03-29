@@ -31,8 +31,13 @@
   Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site
 </programlisting>
 <para>
-  Have the URL point to http://www.legsem.com/legstar/eclipse/update and select all the
-  features.
+  Have the URL point to:
+</para>
+<programlisting>
+  http://www.legsem.com/legstar/eclipse/update
+</programlisting>
+<para>
+  and select all the features.
 </para>
 <para>
   Uncomment the "Contact all update sites during install to find required software" check box.
@@ -41,7 +46,7 @@
 <para>
   If you get complaints about MD5 checksum being incorrect, you probably have a proxy issue.
   As an alternative, you can download the update site from
-  <ulink url="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/legstar-site/1.5.0-SNAPSHOT/legstar-site-1.5.0-SNAPSHOT.zip">this link</ulink>,
+  <ulink url="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/legstar-site/@LEGSTAR-ECLIPSE-VERSION@/legstar-site-@LEGSTAR-ECLIPSE-VERSION@.zip">this link</ulink>,
     add a local site to Eclipse and install from there.
 </para>
 

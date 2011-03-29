@@ -444,7 +444,8 @@
             <filter>${project.basedir}/bundle-version.properties</filter>
         </filters>
         <resources>
-            <!-- Filter MANIFEST and plugin properties file -->
+            <!-- Filter MANIFEST and plugin properties file
+                 This is inherited by all plugins and overriden by features. -->
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
@@ -512,34 +513,6 @@
                 </plugin>
        
                 <plugin>
-                    <groupId>com.agilejava.docbkx</groupId> 
-                    <artifactId>docbkx-maven-plugin</artifactId> 
-                    <version>2.0.11</version> 
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.docbook</groupId>
-                            <artifactId>docbook-xml</artifactId>
-                            <version>4.4</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <xincludeSupported>true</xincludeSupported>
-                        <chunkedOutput>true</chunkedOutput>
-                        <entities>
-                            <entity>
-                                <name>version</name>
-                                <value>${pom.version}</value>
-                            </entity>
-                            <entity>
-                                <name>year</name>
-                                <value>2011</value>
-                            </entity>
-                        </entities>
-                    </configuration>
-                </plugin>
-
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>1.1</version>
@@ -587,9 +560,11 @@
 
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
+                <inherited>false</inherited>
                 <executions>
+
+                    <!-- Create a file with an OSGI version derived from the Maven version. -->
                     <execution>
-                        <!-- Update version numbers in PDE resources so that they match Maven versions -->
                         <id>maven-to-pde</id>
                         <phase>generate-sources</phase>
                         <configuration>
@@ -609,6 +584,30 @@
                             <goal>run</goal>
                         </goals>
                     </execution>
+                    
+                    <!-- Filter the docbook document manually because entity resolution does
+                         not work when docbook is driven by the site plugin. -->
+                    <execution>
+                        <id>filter-docbook</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="src/site/docbook">
+                                    <fileset dir="${basedir}/src/main/templates">
+                                        <include name="install-instructions.xml.template"/>
+                                    </fileset>
+                                    <filterset>
+                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}"/>
+                                    </filterset>
+                                    <globmapper from="*.template" to="*"/>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    
                 </executions>
             </plugin>
 
@@ -644,29 +643,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>com.agilejava.docbkx</groupId>
-                <artifactId>docbkx-maven-plugin</artifactId>
-                <executions>
-
-                    <!-- Produce a readme file to be included with distribution -->
-                    <execution>
-                        <id>build-readme</id>
-                        <goals>
-                            <goal>generate-html</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <sourceDirectory>src/site/docbook</sourceDirectory>
-                            <targetDirectory>target/doc</targetDirectory>
-                            <includes>install-instructions.xml</includes>
-                            <chunkedOutput>false</chunkedOutput>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-          </plugins>
+        </plugins>
 
     </build>
 
