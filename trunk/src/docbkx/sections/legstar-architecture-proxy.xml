@@ -17,7 +17,7 @@
 </mediaobject>
 </figure>
 <para>
-  The LegStar <emphasis>Complex Types Mapping Generator</emphasis> takes a WSDL or XML Schema file as
+  The LegStar <emphasis>Xml Schema to COBOL Translator</emphasis> takes a WSDL or XML Schema file as
   input and produces a Mapping XML Schema with COBOL annotations. Alternatively, it can use pure Java
   objects as input when the target is a POJO rather than a Web Service.
 </para>
@@ -31,7 +31,7 @@
   the conversion capabilities from mainframe data to XML, JSON or Java.
 </para>
 <para>
-  The third step, the LegStar <emphasis>Mainframe Service Generator</emphasis>, also used for adapers,
+  The third step, the LegStar <emphasis>Mainframe Service Generator</emphasis>, also used for adapters,
   is used here to produce a Mainframe Proxy and COBOL CICS sample program. The
   Mainframe Proxy acts as an intermediary between the mainframe client program and the target Web Service
   or POJO at runtime. It can be deployed as a Servlet.

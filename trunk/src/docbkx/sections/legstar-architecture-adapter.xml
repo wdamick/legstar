@@ -25,7 +25,7 @@
   since the COBOL annotations form the meta-data that maps each COBOL data item to an XML element type. 
 </para>
 <para>
-  Some COBOL program accept several input structures and several output structures,
+  Some COBOL programs accept several input structures and several output structures,
   each described by a different code fragment. This step can therefore be repeated as
   necessary for each COBOL code fragment involved.
 </para>
@@ -57,13 +57,13 @@
 <para>
   It is important to note that the tools behind each step are completely independent from each other.
   For instance, without an initial COBOL code fragment, developers could start from an XML Schema, edit the
-  XML Schema (or use LegStar Complex Types Mapping Generator) to add COBOL binding annotations and then
+  XML Schema to add COBOL binding annotations and then
   continue the remaining steps. This is not an uncommon use case, where the mainframe program is actually new
   and the starting point is an XML schema (An approach sometimes referred to as Contract-first).
 </para>
 <para>
   For each of these steps, LegStar provides both Ant scripts and Eclipse plug-ins. Moving forward,
-  the Eclipse plug-ins are the recommended tool as the parameter set needed by generators keeps increasing.
+  the Eclipse plugins are the recommended tool as the parameter set needed by generators keeps increasing.
 </para>
 </section>
 
@@ -98,7 +98,7 @@
 </para>
 <para>
   The LegStar <emphasis>Messaging Protocol</emphasis> used by the Mainframe Adapter Runtime is binary and
-  implements a request/reply exchange pattern. It is designed to reduce the payload size and support
+  implements a request/reply exchange pattern. It is designed to reduce the payload size and supports
   multiple input/output named structures such as CICS containers.
   Alternatively, the adapter runtime can use transport specific messaging protocols such as IBM
   CICS MQ Bridge.

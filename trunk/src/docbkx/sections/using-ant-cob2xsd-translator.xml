@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<section id="schemagen-using-ant-adapter">
+<section id="cob2xsd-using-ant-adapter">
 <title>COBOL structures to XML Schema translation</title>
 <para>
   The process starts by translating COBOL Structures to XML Schema.
