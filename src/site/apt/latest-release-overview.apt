@@ -8,7 +8,7 @@ Version 1.5.0
  
  Apart from Eclipse plugins, all LegStar modules have moved to Maven central.
  
- The old legstar-xsdcgen module, known as Complex Types Mapping Generator, has been replaced by {{{http://code.google.com/p/legstar-xsd2cob/}}XML Schema to COBOL Translator}.
+ The old legstar-xsdcgen module, known as Complex Types Mapping Generator, has been replaced by {{{http://code.google.com/p/legstar-xsd2cob/}XML Schema to COBOL Translator}}.
 
  The WebSphere MQ Transport has been rewritten to use JMS instead of the low level WMQ API.
  
