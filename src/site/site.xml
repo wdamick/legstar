@@ -3,7 +3,7 @@
   <publishDate format="dd-MMMM-yyyy"/>
   <bannerLeft>
     <name>LegStar</name>
-    <src>images/legstar-logo-2008.png</src>
+    <src>images/legstar-logo.png</src>
     <href>index.html</href>
   </bannerLeft>
   <bannerRight>
@@ -11,16 +11,12 @@
     <src>images/legstar-new-version.png</src>
     <href>latest-release-overview.html</href>
   </bannerRight>
-  <poweredBy>
-    <logo name="JavaNet" href="http://www.java.net/" img="./images/javanet_button_90.gif" />
-    <logo name="Build with Maven 2" href="http://maven.apache.org" img="./images/logos/maven-feather.png" />
-  </poweredBy>
   <version position="navigation-top"/>
   
   <skin>
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-skin</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
   </skin>
   
   <body>
@@ -55,6 +51,6 @@
       <item name="LegSem services" href="../index.php" />
     </menu>
 
-    ${reports}
+    <menu ref="reports" inherit="bottom" />
   </body>
 </project>

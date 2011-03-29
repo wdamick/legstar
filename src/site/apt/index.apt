@@ -12,7 +12,7 @@ LegStar Open Source Mainframe Integration
     
 * Transform COBOL payloads to Java, XML or JSON
 
-    LegStar generates {{{./legstar-coxbgen/index.html}COBOL Transformers}}.
+    LegStar generates {{{./legstar-core/legstar-coxbgen/index.html}COBOL Transformers}}.
  
     At runtime, mainframe data (containing EBCDIC, COMP, etc.) is transformed to Java, XML or JSON.
  
@@ -45,27 +45,17 @@ LegStar Open Source Mainframe Integration
 
     * {{{http://code.google.com/p/legstar-cob2xsd/}legstar-cob2xsd}} COBOL to XML Schema Translator
 
-    * {{{./legstar-xsdcgen/index.html}legstar-xsdcgen}} Complex Types Mapping Generator
+    * {{{http://code.google.com/p/legstar-xsd2cob/}legstar-xsd2cob}} XML Schema to COBOL Translator
 
-    * {{{./legstar-coxbgen/index.html}legstar-coxbgen}} COBOL Transformers Generator
+    * {{{./legstar-core/legstar-coxbgen/index.html}legstar-coxbgen}} COBOL Transformers Generator
 
-    * {{{./legstar-cixsgen/index.html}legstar-cixsgen}} JAX-WS Mainframe Service Generator
+    * {{{./legstar-cixsgen/index.html}legstar-cixsgen}} Mainframe Service Generator
 
-    * {{{./legstar-invoker/index.html}legstar-invoker}} Mainframe Adapter execution runtime
-
-    * {{{./legstar-c2wsrt/index.html}legstar-c2wsrt}} Mainframe Proxy execution runtime
-
-    * {{{./legstar-csokrt/index.html}legstar-csokrt}} Sockets Transport
-
-    * {{{./legstar-chttprt/index.html}legstar-chttprt}} HTTP Transport
-
-    * {{{./legstar-cmqrt/index.html}legstar-cmqrt}} WebSphere MQ Transport
-
-    * {{{./legstar-engine/index.html}legstar-engine}} Connection Pooling Engine
+    * {{{./legstar-transport/index.html}legstar-invoker}} Transports runtime
 
 * Are you an IMS/DC user?
 
-    You can use LegStar {{{./legstar-coxbgen/index.html}COBOL Transformation}} capabilities of course but also {{{./legstar-cixsgen/index.html}Service-enable}} your IMS programs over {{{./legstar-cmqrt/index.html}Websphere MQ}}.
+    You can use LegStar {{{./legstar-core/legstar-coxbgen/index.html}COBOL Transformation}} capabilities of course but also {{{./legstar-cixsgen/index.html}Service-enable}} your IMS programs over {{{./legstar-transport/legstar-cmqrt/index.html}Websphere MQ}}.
 
 * Are you a PL/I user?
 

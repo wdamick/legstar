@@ -28,19 +28,19 @@ Quick tour
   
   The translation process can start from COBOL code fragments, XML Schema, Web Service WSDL or Java classes.
   For more details see {{{http://code.google.com/p/legstar-cob2xsd/}COBOL Structures to XML Schema Translator}},
-  and {{{./legstar-xsdcgen/index.html}Complex Types Mapping Generator}}.
+  and {{{http://code.google.com/p/legstar-xsd2cob/}XML Schema to COBOL Structures Translator}}.
   
 {Transforming} mainframe data streams to Java objects, XML or JSON
 
   To support runtime transformation from mainframe data to Java and vice-versa, a design time tool called the
-  {{{./legstar-coxbgen/}COBOL Transformers Generator}} produces Transformer Java classes. The
+  {{{./legstar-core/legstar-coxbgen/}COBOL Transformers Generator}} produces Transformer Java classes. The
   tool starts from a COBOL-annotated XML Schema such as the one produced by the {{{Mapping}Structure Mapping}} tools.
   
   This feature is built on top of the standard {{{http://www.jcp.org/en/jsr/detail?id=222}JAXB framework}}
   which provides Java to XML binding. As a result of this combination, LegStar can convert mainframe data
   streams to/from Java objects, XML or JSON.
   
-  Using the generated marshaling/unmarshaling Java classes, the {{{./apidocs/com/legstar/coxb/impl/package-summary.html}COBOL Binding Runtime}}
+  Using the generated marshaling/unmarshaling Java classes, the {{{legstar/legstar-core/legstar-coxbrt/index.html}COBOL Binding Runtime}}
   handles:
 
   * The various COBOL numeric data types (Zoned decimals, packed decimals, binary, float, double)
@@ -61,7 +61,7 @@ Quick tour
 
 [images/architecture-binding.png] Transformers generation and runtime
   
-  2 sets of Java classes are produced by the COBOL Transformers Generator. The first is actually a set
+  Two sets of Java classes are produced by the COBOL Transformers Generator. The first is actually a set
   of JAXB classes with additional COBOL annotations and the second is used to improve runtime
   conversion performances.
   
@@ -78,7 +78,7 @@ Quick tour
   
 Generating Mainframe Adapter and Proxy Services
 
-  LegStar provides a {{{./legstar-cixsgen/index.html}Mainframe Service Generator}} which allows you to map
+  LegStar provides {{{./legstar-cixsgen/index.html}Mainframe Service Generators}} which allows you to map
   mainframe programs to service operations in a bi-directional fashion. An operation is either a
   Web Service operation or a pure java object (POJO) method.
   
@@ -120,12 +120,12 @@ Generating Mainframe Adapter and Proxy Services
   a J2EE container such as Tomcat or Jetty.
   
   Mainframe Adapters are JAX-WS endpoints while Mainframe Proxies are JAX-WS clients when they need to
-  invoke a Web Service. Both use the {{{./legstar-coxbrt/}COBOL Binding Runtime}} to marshal/unmarshal
+  invoke a Web Service. Both use the {{{./legstar-core/legstar-coxbrt/}COBOL Binding Runtime}} to marshal/unmarshal
   the mainframe data payloads.
   
 * Mainframe Adapter Runtime 
   
-  The {{{./legstar-invoker/index.html}Mainframe Adapter Runtime}} provides the runtime
+  The {{{./legstar-transport/legstar-invoker/index.html}Mainframe Adapter Runtime}} provides the runtime
   mechanism to invoke a mainframe program. The Adapter Runtime uses a binary protocol
   that optimizes the payload size. This significantly reduces resource consumption on the mainframe.
   
@@ -137,11 +137,11 @@ Generating Mainframe Adapter and Proxy Services
   
   In term of transport protocols to CICS, LegStar offers:
   
-  * {{{./legstar-csokrt/index.html}Socket Transport}}
+  * {{{./legstar-transport/legstar-csokrt/index.html}Socket Transport}}
   
-  * {{{./legstar-chttprt/index.html}HTTP Transport}}
+  * {{{./legstar-transport/legstar-chttprt/index.html}HTTP Transport}}
   
-  * {{{./legstar-cmqrt/index.html}WebSphere MQ Transport}}
+  * {{{./legstar-transport/legstar-cmqrt/index.html}WebSphere MQ Transport}}
   
 []
   
@@ -153,7 +153,7 @@ Generating Mainframe Adapter and Proxy Services
   Mainframe programs invoke the Proxy over HTTP. The Mainframe Service Generator produces sample
   COBOL code for IBM CICS to show how to perform such a call.
 
-  The {{{./legstar-c2wsrt/index.html}Mainframe Proxy Runtime}} provides the servlet-based
+  The {{{./legstar-transport/legstar-c2wsrt/index.html}Mainframe Proxy Runtime}} provides the servlet-based
   architecture needed to call the target Web Service( using JAX-WS client API) or target POJO.
   
    
