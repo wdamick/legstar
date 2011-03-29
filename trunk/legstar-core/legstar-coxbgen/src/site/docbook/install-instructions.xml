@@ -11,8 +11,9 @@
 </para>
 <para>
   Alternatively, the COBOL Transformers generator can be installed as an Eclipse plugin which
-  contains all the necessary components. You can get the plugin from the
-  <ulink url="http://www.legsem.com/legstar/eclipse/update">LegStar update site</ulink>.
+  contains all the necessary components. More details
+  on this option are available on the
+  <ulink url="http://www.legsem.com/legstar/legstar-eclipse/index.html">LegStar Eclipse site</ulink>.
   However, the plugin does not include the samples. Furthermore, the libraries that you
   would need to run your Transformers are not easily accessible with the plugin so we still
   recommend that you perform a standalone installation as described in this document.
