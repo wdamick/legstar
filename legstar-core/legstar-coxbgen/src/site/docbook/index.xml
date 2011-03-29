@@ -42,9 +42,9 @@
   by following <ulink url="download.html">this link</ulink>.
 </para>
 <para>
-  The COBOL Transformers generator can be installed as an Eclipse plugin which
-  you can get from the
-  <ulink url="http://www.legsem.com/legstar/eclipse/update">LegStar update site</ulink>.
+  The COBOL Transformers generator can be installed as an Eclipse plugin. More details
+  on this option are available on the
+  <ulink url="http://www.legsem.com/legstar/legstar-eclipse/index.html">LegStar Eclipse site</ulink>.
 </para>
 </section>
 

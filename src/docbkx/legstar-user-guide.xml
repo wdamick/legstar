@@ -61,7 +61,7 @@
 <title>Installation</title>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions" href="../../legstar-distribution/src/site/docbook/install-instructions.xml" />
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-zos"  href="../../legstar-distribution-zos/src/site/docbook/install-instructions.xml" />
-<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-eclipse"  href="../../legstar-common-plugin/src/site/docbook/install-instructions.xml" />
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" xpointer="legstar-install-instructions-eclipse"  href="../../legstar-eclipse/src/site/docbook/install-instructions.xml" />
 </chapter>
 
 <chapter>
