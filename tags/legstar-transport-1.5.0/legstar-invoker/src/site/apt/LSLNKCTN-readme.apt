@@ -1,0 +1,31 @@
+CICS CONTAINERS LINK library LSLNKCTN
+
+* Overview:
+
+ This C/370 library provides an interface for CICS program linking
+ using CONTAINERS and the CHANNEL mechanism.
+ 
+ The main method issues an EXEC CICS LINK on behalf of the caller,
+ passing various LINK options depending on the request.
+ 
+ The request message is expected to hold multiple parts, one for each
+ input CONTAINER and, on return from the CICS program,
+ each output CONTAINER content becomes content of one of the parts in
+ the multiple parts response.
+  
+ LSLNKCTN uses the LSCOMLOG also part of this delivery.
+ 
+* This program has been tested for:
+
+  - CICS TS 3.1 (6.4.0)
+ 
+  - C/370 for OS/390 V2 R10
+
+* How to use:
+
+ Once LSLNKCTN is compiled in a library available to your CICS
+ region in the RPL list, you might need to define it using RDO
+ (unless programs get autoinstalled).
+
+ LSLNKCTN is not a standalone program.
+ 

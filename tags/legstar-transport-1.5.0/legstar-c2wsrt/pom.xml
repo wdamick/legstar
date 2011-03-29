@@ -1,0 +1,184 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-transport</artifactId>
+        <version>1.5.0</version>
+    </parent>
+    <artifactId>legstar-c2wsrt</artifactId>
+    <name>LegStar Mainframe Proxy Runtime</name>
+    <description>Mainframe Proxy Runtime.</description>
+
+    <dependencies>
+    
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jsr173_api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>saaj-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxbgen</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-coxbgen</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <!-- POJO test cases -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-test-jvmquery</artifactId>
+            <classifier>classes</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+
+        <plugins>
+        
+            <plugin>
+            
+                <artifactId>maven-antrun-plugin</artifactId>
+        
+                <executions>
+                
+                   <!-- This will prepare the zos sources for upload. -->
+                    <execution>
+                        <id>prepare-deploy-to-zos</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/prepare-deploy-to-zos.xml">
+                                    <property name="legstarZosVersion" value="${legstarZosVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+ 
+                    <!-- This will check that the distribution file is valid. -->
+                    <execution>
+                        <id>prepare-integration-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/src/main/ant/test-distribution.xml" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate site files that needs automatic update. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
+                                    <property name="productID" value="${pom.artifactId}" />
+                                    <property name="productName" value="${pom.name}" />
+                                    <property name="legstarVersion" value="${parent.version}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+                
+            </plugin>
+            
+            <!-- Upload z/OS sources. -->
+            <plugin>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>zosupload-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>upload-zos-programs</id>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <hostName>${legstar-dev-zos-host}</hostName>
+                            <hostUserId>${legstar-dev-zos-userid}</hostUserId>
+                            <hostPassword>${legstar-dev-zos-password}</hostPassword>
+                            <inputFolder>target/zos</inputFolder>
+                            <remoteFilesPrefix>${legstar-dev-zos-pds-pfx}.${legstarZosVersion}</remoteFilesPrefix>
+                        </configuration>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Assembly generation plugin. Put the result in the source site
+                so that it gets uploaded with the site.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the packaging phase. -->
+                        <goals>
+                             <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+          
+        </plugins>
+    
+    </build>
+    
+</project>
