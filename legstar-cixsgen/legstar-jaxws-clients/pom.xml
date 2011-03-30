@@ -28,14 +28,6 @@
             <artifactId>jaxws-rt</artifactId>
         </dependency>
 
-        <!-- Compile time dependency on legstar-jaxws-generator cases -->    
-        <dependency>
-            <groupId>com.legsem.legstar</groupId>
-            <artifactId>legstar-jaxws-generator</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Web services produced by legstar-jaxws-generator -->    
         <dependency>
             <groupId>com.legsem.legstar</groupId>
