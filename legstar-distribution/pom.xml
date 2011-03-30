@@ -8,7 +8,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-distribution</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0</version>
 
     <name>LegStar Distribution</name>
     <description>Used to create a single distribution for the entire LegStar project.</description>
@@ -35,9 +35,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-distribution/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-distribution/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/legstar-distribution/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-distribution-1.5.0</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-distribution-1.5.0</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/legstar-distribution-1.5.0</url>
     </scm>
 
     <distributionManagement>
@@ -446,8 +446,8 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <delete dir="${project.build.directory}/gen-distro/cultureinfo/WEB-INF/lib"/>
-                                <jar basedir="${project.build.directory}/gen-distro/cultureinfo/" destfile="${project.build.directory}/gen-distro/cultureinfo/jaxws-cultureinfo.war"/>
+                                <delete dir="${project.build.directory}/gen-distro/cultureinfo/WEB-INF/lib" />
+                                <jar basedir="${project.build.directory}/gen-distro/cultureinfo/" destfile="${project.build.directory}/gen-distro/cultureinfo/jaxws-cultureinfo.war" />
                             </tasks>
                         </configuration>
                         <goals>
