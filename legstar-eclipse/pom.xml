@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.legsem.legstar</groupId>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <artifactId>legstar-eclipse</artifactId>
     <packaging>pom</packaging>
 
@@ -569,8 +569,14 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-                                <propertyregex property="legstarPluginVersion" input="${version}" regexp="(\d|\.)-(.*)" replace="\1\.\2" defaultValue="${version}" />
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+                                <propertyregex
+                                    property="legstarPluginVersion"
+                                    input="${version}"
+                                    regexp="(\d|\.)-(.*)"
+                                    replace="\1\.\2"
+                                    defaultValue="${version}"
+                                />
                                 <echo file="${basedir}/bundle-version.properties">legstarPluginVersion=${legstarPluginVersion}</echo>
                             </tasks>
                         </configuration>
@@ -588,12 +594,12 @@
                             <tasks>
                                 <copy todir="src/site/docbook">
                                     <fileset dir="${basedir}/src/main/templates">
-                                        <include name="install-instructions.xml.template" />
+                                        <include name="install-instructions.xml.template"/>
                                     </fileset>
                                     <filterset>
-                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}" />
+                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}"/>
                                     </filterset>
-                                    <globmapper from="*.template" to="*" />
+                                    <globmapper from="*.template" to="*"/>
                                 </copy>
                             </tasks>
                         </configuration>
