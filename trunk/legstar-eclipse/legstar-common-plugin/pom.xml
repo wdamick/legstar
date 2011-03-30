@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-eclipse</artifactId>
-        <version>1.5.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>legstar-common-plugin</artifactId>
@@ -165,9 +165,9 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${project.basedir}/lib" />
+                                <mkdir dir="${project.basedir}/lib"/>
                                 <delete includeemptydirs="true">
-                                  <fileset dir="${project.basedir}/lib" includes="**/*" />
+                                  <fileset dir="${project.basedir}/lib" includes="**/*"/>
                                 </delete>
                             </tasks>
                         </configuration>
