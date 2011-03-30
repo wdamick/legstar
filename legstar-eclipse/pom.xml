@@ -11,11 +11,11 @@
     <url>http://www.legsem.com/legstar/legstar-eclipse</url>
 
     <properties>
-        <legstarCoreVersion>1.5.3-SNAPSHOT</legstarCoreVersion>
+        <legstarCoreVersion>1.5.3</legstarCoreVersion>
         <legstarCob2XsdVersion>0.3.3</legstarCob2XsdVersion>
         <legstarXsd2CobVersion>0.2.0</legstarXsd2CobVersion>
-        <legstarTransportVersion>1.5.0-SNAPSHOT</legstarTransportVersion>
-        <legstarCixsgenVersion>1.5.0-SNAPSHOT</legstarCixsgenVersion>
+        <legstarTransportVersion>1.5.0</legstarTransportVersion>
+        <legstarCixsgenVersion>1.5.0</legstarCixsgenVersion>
         <legstarSamplesVersion>0.2.0</legstarSamplesVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
