@@ -32,7 +32,6 @@
         <dependency>
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-jaxws-generator</artifactId>
-            <version>${parent.version}</version>
             <classifier>int</classifier>
             <type>zip</type>
             <scope>test</scope>
