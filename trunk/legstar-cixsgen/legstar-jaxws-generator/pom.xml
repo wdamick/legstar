@@ -137,6 +137,19 @@
         <plugins>
       
             <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <!--  Make test classes and resources available via maven -->
+                     <execution>
+                        <id>bundle-test-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <!-- Coxbgen cases are used to mass generate cixsgen cases and for integration testing. -->
