@@ -1,0 +1,35 @@
+<assembly>
+
+    <id>test</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <!-- Put jars at root to ease deployment to JMeter -->
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- Copy over the test jar -->
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*-test.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>test</scope>
+            <excludes>
+                <exclude>org.codehaus.jackson:*</exclude>
+                <exclude>junit:*</exclude>
+                <exclude>org.apache.velocity:*</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+  
+</assembly>

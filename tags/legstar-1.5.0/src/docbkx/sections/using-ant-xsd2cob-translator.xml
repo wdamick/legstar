@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="xsd2cob-using-ant-proxy">
+<title>WSDL/XSD Structures Mapping</title>
+<para>
+  The process starts by mapping XML schema types, from the target Web Service WSDL, to COBOL data items.
+</para>
+<para>
+  You can use the <emphasis>build-xsd2cob.xml</emphasis> ant script from the
+  samples/quickstarts/proxy_ws_cultureinfo folder as your starting point.
+</para>
+<para>
+  The script executes a single ant task, xsd2cob, which can process WSDL or XML Schema as input to
+  produce a new XML Schema with COBOL annotations.
+</para>
+<para>
+  Assuming you want to customize <emphasis>build-xsd2cob.xml</emphasis> for the Microsoft LIVE search
+  SOAP service. Follow these steps: 
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  Make sure the classpath setting for the xsd2cob task is correct.
+  The fileset should point to the location where you installed LegStar.
+</para>
+</listitem>
+<listitem>
+<para>
+  The inputXsdUri is the location of your input WSDL or XML Schema. In the case of
+  Microsoft LIVE Web Service you can use:
+  <ulink url="http://soap.search.msn.com/webservices.asmx?wsdl">http://soap.search.msn.com/webservices.asmx?wsdl</ulink> 
+</para>
+</listitem>
+<listitem>
+<para>
+  The targetXsdFile parameter should point to the file name for
+  the generated XML Schema with COBOL annotations (Can also be a folder name in which case the file name is derived from inputXsdUri).
+</para>
+<para>
+  The targetCobolFile parameter should point to the file name for
+  the generated COBOL copybook (Can also be a folder name in which case the file name is derived from inputXsdUri).
+</para>
+</listitem>
+</itemizedlist>
+<para>
+  For a complete list of options for the xsd2cob task, you can refer to
+  <ulink url="http://www.legsem.com/legstar/legstar-xsd2cob-pom/legstar-xsd2cob/apidocs/com/legstar/xsd/def/Xsd2CobTask.html">Xsd2CobTask</ulink>.
+</para>
+<para>
+  After you run the script, you should get a new XML Schema file with the name you specified. You should also get a COBOL copybook.
+</para>
+<para>
+  Open this file and notice that each root Elements and Complex Types in the WSDL source
+  has been mapped to a COBOL data item.
+  Each Schema type has COBOL annotations that serves as mapping meta-data for other tools.
+</para>
+<para>
+  Since we started from a WSDL, a certain number of default COBOL data attributes were assigned. For instance,
+  all character strings are 32 characters long. While this might be an acceptable default, it is not always
+  the case. In our situation, the application ID (AppID) must be 40 characters long. We need to change
+  the COBOL picture from X(32) to X(40).
+</para>
+</section>

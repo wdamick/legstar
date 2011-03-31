@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<section id="cob2xsd-using-ant-adapter">
+<title>COBOL structures to XML Schema translation</title>
+<para>
+  The process starts by translating COBOL Structures to XML Schema.
+</para>
+<para>
+  You can use the <emphasis>build-cob2xsd.xml</emphasis> ant script from the
+  samples/quickstarts/adapter_lsfileae folder
+  as your starting point.
+</para>
+<para>
+  The sample script translates the lsfileae COBOL program from the cobol folder
+  to an XML schema called lsfileae.xsd in the schema folder.
+</para>
+
+<para>
+  The script executes a single ant task: cob2xsd.
+</para>
+<para>
+  Generally, there are 4 things you will need to check in <emphasis>build-cob2xsd.xml</emphasis>
+  in order to adapt it to your needs:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+  Make sure the classpath setting for the cob2xsd task is correct.
+  The fileset should point to the location where you installed LegStar.
+</para>
+</listitem>
+<listitem>
+<para>
+  The target parameter should point to the location where you want the translated XML Schemas to go.
+</para>
+</listitem>
+<listitem>
+<para>
+  The targetNamespace parameter will become the translated XML Schema target namespace. It must
+  be a valid URI.
+</para>
+</listitem>
+<listitem>
+<para>
+  The fileset parameter of the cob2xsd ant task must designate one, or more, COBOL source fragments
+  that you want to translate to XML Schema.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+  For a complete list of options for the cob2xsd task, you can refer to
+  <ulink url="http://www.legsem.com/legstar/legstar-cob2xsd/apidocs/com/legstar/cob2xsd/task/CobolStructureToXsdTask.html">CobolStructureToXsdTask</ulink>.
+</para>
+<para>
+  After you run the script, you should get XML Schema files such as lsfileae.xsd which are named
+  after the COBOL fragments translated.
+</para>
+<para>
+  Open one of these files and notice that each COBOL data structure in the LSFILEAE COBOL source has been mapped to an XML Schema type. Each Schema type has COBOL annotations that serves as mapping meta-data for other tools.
+</para>
+</section>

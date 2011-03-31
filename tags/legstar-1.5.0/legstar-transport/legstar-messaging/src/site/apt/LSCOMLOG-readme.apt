@@ -1,0 +1,23 @@
+Tracing and logging library LSCOMLOG
+
+* Overview:
+
+ This C/370 library provides methods to help with tracing and logging.
+ 
+ LSCOMLOG is used by the other LegStar z/OS modules to produce meaningful
+ error message texts, produce formatted dumps of data transferred, etc.
+ 
+* This program has been tested for:
+
+  - CICS TS 2.3 (6.3.0 Command language translator) and TS 3.1 (6.4.0)
+ 
+  - C/370 for OS/390 V2 R10
+
+* How to use:
+
+ Once LSCOMLOG is compiled in a library available to your CICS
+ region in the RPL list, you might need to define it using RDO
+ (unless programs get autoinstalled).
+
+ LSCOMLOG is not a standalone program.
+ 

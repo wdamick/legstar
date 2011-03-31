@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+      This is a sample LegStar invoker configuration files.
+      More details at http://www.legsem.com/legstar/modules/legstar-invoker
+     -->
+    <hostEndPoints>
+    
+        <hostEndPoint name="CICSTS23">
+            <hostConnectionfactoryClass>com.legstar.mock.client.MockConnectionFactory</hostConnectionfactoryClass>
+            <hostTraceMode>false</hostTraceMode>
+            <hostAccessStrategy>direct</hostAccessStrategy>
+        </hostEndPoint>
+    
+    </hostEndPoints>
+</configuration>
+   

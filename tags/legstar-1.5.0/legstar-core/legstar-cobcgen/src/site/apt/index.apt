@@ -1,0 +1,16 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+Structures generator (cobcgen) overview
+
+  This module generates COBOL data structures using COBOL-annotated XML schemas
+  produced by the {{{../legstar-coxbgen}COBOL Transformers generator}}.
+  
+  This is useful when you target a POJO or Web Service and need to write the
+  COBOL program that invokes the POJO or Web Service.   
+  
+  This module is typically used by other legstar modules. If you would like
+  to use it directly please refer to the javadoc.
