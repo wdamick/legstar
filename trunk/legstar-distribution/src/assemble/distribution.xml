@@ -117,15 +117,6 @@
             </includes>
         </fileSet>
 
-        <!-- java2cob sample (as sources) -->
-        <fileSet>
-            <directory>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}/samples/quickstarts/proxy_pojo_jvmquery/src</directory>
-            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </fileSet>
-
         <fileSet>
             <directory>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}</directory>
             <outputDirectory>/</outputDirectory>
