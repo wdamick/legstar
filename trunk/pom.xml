@@ -182,6 +182,36 @@
 
         <plugins>
 
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+
+                    <!-- Need to filter the legstar-eclipse documentation before
+                         it is included in the general documentation. -->
+                    <execution>
+                        <id>filter-docbook</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="legstar-eclipse/src/site/docbook">
+                                    <fileset dir="legstar-eclipse/src/main/templates">
+                                        <include name="install-instructions.xml.template" />
+                                    </fileset>
+                                    <filterset>
+                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}" />
+                                    </filterset>
+                                    <globmapper from="*.template" to="*" />
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    
+                </executions>
+            </plugin>
+
             <!-- Produce the site documentation -->
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
