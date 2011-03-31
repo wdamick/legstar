@@ -560,7 +560,6 @@
 
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <inherited>false</inherited>
                 <executions>
 
                     <!-- Create a file with an OSGI version derived from the Maven version. -->
@@ -590,6 +589,7 @@
                     <execution>
                         <id>filter-docbook</id>
                         <phase>pre-site</phase>
+                        <inherited>false</inherited>
                         <configuration>
                             <tasks>
                                 <copy todir="src/site/docbook">
