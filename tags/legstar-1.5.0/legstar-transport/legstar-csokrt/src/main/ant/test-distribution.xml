@@ -1,0 +1,36 @@
+<!-- =================================================================================
+     This script tests the distribution file. It unzips the distro to a temporary
+     location and runs the quickstarts.
+ -->
+<project basedir="../../.." default="testDistro" name="build-sample">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+        
+        <!-- Temporary location  -->
+        <property name="test.dir" value="target/test-distro" />
+        <!-- Distribution name  -->
+        <property name="dist.name" value="${project.artifactId}-${project.parent.version}" />
+        <!-- Distribution zip file  -->
+        <property name="dist.zip" value="${dist.name}-bin.zip" />
+        <!-- Distribution file location   -->
+        <property name="dist.dir" value="${basedir}/target" />
+        <!-- Distribution zip file   -->
+        <property name="zip.file" value="${dist.dir}/${dist.zip}" />
+        <!-- Distribution sample location   -->
+        <property name="sample.dir" value="${test.dir}/${dist.name}/samples/quickstarts/csokrt" />
+    
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Build the samples and run test
+    -->
+    <target name="testDistro" depends="init">
+        <unzip src="${zip.file}" dest="${test.dir}"/>
+        <ant antfile="build.xml" dir="${sample.dir}"/>
+    </target>
+  
+</project>

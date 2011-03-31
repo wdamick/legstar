@@ -1,0 +1,30 @@
+##/////////////////////////////////////////////////////////////////////
+##Jaxws Component Common Velocity Template.
+##These are the directives and macros shared by the Jaxws component
+##generation artifacts.
+##@author Fady
+##/////////////////////////////////////////////////////////////////////
+## ==================================================================
+## Create a list of unique objects
+##
+#macro(addUnique $list $object)
+#if (!$list.contains($object))
+#set($ret = $list.add($object))
+#end
+#end
+## ==================================================================
+## Operations with single input or output need an import of the jaxb
+## type as well as the binding type. But the same type should not be
+## imported twice. This macro makes sure we have a single import per
+## jaxb and coxb type.
+##
+#macro(getImportTypes $cixsStructures)
+#foreach ($cixsStructure in $cixsStructures)
+#if($cixsStructures.size() == 1)
+#set($newType = ${helper.getQualClassName(${cixsStructure.jaxbPackageName}, ${cixsStructure.jaxbType})})
+#addUnique($importTypes $newType)
+#end
+#addUnique($jaxbTypes ${cixsStructure.jaxbType})
+#end
+#end
+## ==================================================================
