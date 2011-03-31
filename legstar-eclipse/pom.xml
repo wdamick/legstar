@@ -558,6 +558,7 @@
 
         <plugins>
 
+            <!-- next 2 executions of antrun have to be separated because inherit does not work at the execution level. -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
@@ -568,14 +569,8 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <tasks>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
-                                <propertyregex
-                                    property="legstarPluginVersion"
-                                    input="${version}"
-                                    regexp="(\d|\.)-(.*)"
-                                    replace="\1\.\2"
-                                    defaultValue="${version}"
-                                />
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+                                <propertyregex property="legstarPluginVersion" input="${version}" regexp="(\d|\.)-(.*)" replace="\1\.\2" defaultValue="${version}" />
                                 <echo file="${basedir}/bundle-version.properties">legstarPluginVersion=${legstarPluginVersion}</echo>
                             </tasks>
                         </configuration>
@@ -584,22 +579,29 @@
                         </goals>
                     </execution>
                     
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+
                     <!-- Filter the docbook document manually because entity resolution does
                          not work when docbook is driven by the site plugin. -->
                     <execution>
                         <id>filter-docbook</id>
                         <phase>pre-site</phase>
-                        <inherited>false</inherited>
                         <configuration>
                             <tasks>
                                 <copy todir="src/site/docbook">
                                     <fileset dir="${basedir}/src/main/templates">
-                                        <include name="install-instructions.xml.template"/>
+                                        <include name="install-instructions.xml.template" />
                                     </fileset>
                                     <filterset>
-                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}"/>
+                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}" />
                                     </filterset>
-                                    <globmapper from="*.template" to="*"/>
+                                    <globmapper from="*.template" to="*" />
                                 </copy>
                             </tasks>
                         </configuration>
