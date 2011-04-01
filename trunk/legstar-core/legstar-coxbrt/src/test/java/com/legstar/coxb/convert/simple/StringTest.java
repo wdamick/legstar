@@ -10,11 +10,11 @@
  ******************************************************************************/
 package com.legstar.coxb.convert.simple;
 
+import junit.framework.TestCase;
+
 import com.legstar.coxb.convert.CobolConversionException;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
-
-import junit.framework.TestCase;
 
 /**
  * Test the COBOL PIC X TYPE with conversion.
@@ -40,18 +40,15 @@ public class StringTest extends TestCase {
      * @param inputValue the string value
      * @param expectedValue the expected value as a hex string
      */
-    public static void toHost(
-            final String hostCharset,
-            final int byteLength,
-            final boolean isJustifiedRight,
-            final String inputValue,
+    public static void toHost(final String hostCharset, final int byteLength,
+            final boolean isJustifiedRight, final String inputValue,
             final String expectedValue) {
         byte[] hostBytes = new byte[byteLength];
         try {
             String javaString = inputValue;
             assertEquals(byteLength, CobolStringSimpleConverter.toHostSingle(
-                    javaString, hostCharset, byteLength, isJustifiedRight,
-                    hostBytes, 0));
+                    javaString, hostCharset, null, byteLength,
+                    isJustifiedRight, hostBytes, 0));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -66,11 +63,8 @@ public class StringTest extends TestCase {
      * @param inputValue the input value as a hex string
      * @param expectedValue the expected value as a string
      */
-    public static void fromHost(
-            final String hostCharset,
-            final int byteLength,
-            final String inputValue,
-            final String expectedValue) {
+    public static void fromHost(final String hostCharset, final int byteLength,
+            final String inputValue, final String expectedValue) {
         try {
             byte[] hostSource = HostData.toByteArray(inputValue);
             String javaString = CobolStringSimpleConverter.fromHostSingle(
@@ -89,12 +83,12 @@ public class StringTest extends TestCase {
             String unknownCharSet = "IBM0114Q"; // An unavailable charset
             byte[] hostBytes = new byte[4];
             String javaString = "ABCD";
-            CobolStringSimpleConverter.toHostSingle(
-                    javaString, unknownCharSet, 4, false, hostBytes, 0);
+            CobolStringSimpleConverter.toHostSingle(javaString, unknownCharSet,
+                    null, 4, false, hostBytes, 0);
             fail("charset not tested correctly");
         } catch (HostException he) {
-            assertEquals("UnsupportedEncodingException:IBM0114Q", he
-                    .getMessage());
+            assertEquals("UnsupportedEncodingException:IBM0114Q",
+                    he.getMessage());
         }
     }
 
@@ -139,6 +133,21 @@ public class StringTest extends TestCase {
     }
 
     /**
+     * Test padding character.
+     */
+    public void testPaddingCharacter() {
+        byte[] hostBytes = new byte[6];
+        try {
+            String javaString = "AB";
+            assertEquals(6, CobolStringSimpleConverter.toHostSingle(javaString,
+                    US_HOST_CHARSET, (byte) 0x0, 6, false, hostBytes, 0));
+            assertEquals("c1c200000000", HostData.toHexString(hostBytes));
+        } catch (CobolConversionException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
      * Test truncation.
      */
     public void testToHostTruncate() {
@@ -152,13 +161,12 @@ public class StringTest extends TestCase {
         try {
             byte[] hostBytes = new byte[4];
             String javaString = "ABCDEFG";
-            CobolStringSimpleConverter.toHostSingle(
-                    javaString, US_HOST_CHARSET, 6, false, hostBytes, 0);
+            CobolStringSimpleConverter.toHostSingle(javaString,
+                    US_HOST_CHARSET, null, 6, false, hostBytes, 0);
             fail("overflow not detected");
         } catch (HostException he) {
             assertEquals("Attempt to write past end of host source buffer."
-                    + " Host data at offset 0=0x00000000",
-                    he.getMessage());
+                    + " Host data at offset 0=0x00000000", he.getMessage());
         }
     }
 
@@ -166,15 +174,13 @@ public class StringTest extends TestCase {
      * Test character set.
      */
     public void testToHostCharset() {
-        toHost(
-                FRENCH_HOST_CHARSET,
+        toHost(FRENCH_HOST_CHARSET,
                 43,
                 false,
                 "ça c'est un problème élémentaire à résoudre",
                 "e08140837d85a2a340a495409799968293d0948540c093c0948595a381899985407c4099c0a296a4849985");
 
-        toHost(
-                US_HOST_CHARSET,
+        toHost(US_HOST_CHARSET,
                 43,
                 false,
                 "ça c'est un problème élémentaire à résoudre",
@@ -207,8 +213,7 @@ public class StringTest extends TestCase {
 
     /**
      * Case where the host truncated that data so there are not enough bytes.
-     * Code
-     * should pad with null bytes.
+     * Code should pad with null bytes.
      */
     public void testFromHostPartialData() {
         fromHost(US_HOST_CHARSET, 8, "c1c2c3c4", "ABCD");
