@@ -19,8 +19,8 @@ import java.util.regex.Pattern;
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.ICobolArrayStringBinding;
 import com.legstar.coxb.ICobolStringBinding;
-import com.legstar.coxb.convert.ICobolStringConverter;
 import com.legstar.coxb.convert.CobolConversionException;
+import com.legstar.coxb.convert.ICobolStringConverter;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
@@ -31,8 +31,8 @@ import com.legstar.coxb.host.HostException;
  * @author Fady Moussallam
  * 
  */
-public class CobolStringSimpleConverter extends CobolSimpleConverter
-        implements ICobolStringConverter {
+public class CobolStringSimpleConverter extends CobolSimpleConverter implements
+        ICobolStringConverter {
 
     /** Detects a string content as binary data. */
     private static final Pattern BINARY_CONTENT_PATTERN = Pattern
@@ -41,25 +41,19 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
     /**
      * @param cobolContext the Cobol compiler parameters in effect
      */
-    public CobolStringSimpleConverter(
-            final CobolContext cobolContext) {
+    public CobolStringSimpleConverter(final CobolContext cobolContext) {
         super(cobolContext);
     }
 
     /** {@inheritDoc} */
-    public int toHost(
-            final ICobolStringBinding ce,
-            final byte[] hostTarget,
-            final int offset)
-            throws HostException {
+    public int toHost(final ICobolStringBinding ce, final byte[] hostTarget,
+            final int offset) throws HostException {
         int newOffset = 0;
         try {
-            newOffset = toHostSingle(ce.getStringValue(),
-                    getCobolContext().getHostCharsetName(),
-                    ce.getByteLength(),
-                    ce.isJustifiedRight(),
-                    hostTarget,
-                    offset);
+            newOffset = toHostSingle(ce.getStringValue(), getCobolContext()
+                    .getHostCharsetName(), getCobolContext()
+                    .getAlphanumPaddingChar(), ce.getByteLength(),
+                    ce.isJustifiedRight(), hostTarget, offset);
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
         }
@@ -67,30 +61,23 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int toHost(
-            final ICobolArrayStringBinding ce,
-            final byte[] hostTarget,
-            final int offset,
-            final int currentOccurs)
+    public int toHost(final ICobolArrayStringBinding ce,
+            final byte[] hostTarget, final int offset, final int currentOccurs)
             throws HostException {
         int newOffset = offset;
         try {
             for (String javaSource : ce.getStringList()) {
-                newOffset = toHostSingle(javaSource,
-                        getCobolContext().getHostCharsetName(),
-                        ce.getItemByteLength(),
-                        ce.isJustifiedRight(),
-                        hostTarget,
-                        newOffset);
+                newOffset = toHostSingle(javaSource, getCobolContext()
+                        .getHostCharsetName(), getCobolContext()
+                        .getAlphanumPaddingChar(), ce.getItemByteLength(),
+                        ce.isJustifiedRight(), hostTarget, newOffset);
             }
             /* If necessary, fill in the array with missing items */
             for (int i = ce.getStringList().size(); i < currentOccurs; i++) {
-                newOffset = toHostSingle("",
-                        getCobolContext().getHostCharsetName(),
-                        ce.getItemByteLength(),
-                        ce.isJustifiedRight(),
-                        hostTarget,
-                        newOffset);
+                newOffset = toHostSingle("", getCobolContext()
+                        .getHostCharsetName(), getCobolContext()
+                        .getAlphanumPaddingChar(), ce.getItemByteLength(),
+                        ce.isJustifiedRight(), hostTarget, newOffset);
             }
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
@@ -99,17 +86,12 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int fromHost(
-            final ICobolStringBinding ce,
-            final byte[] hostSource,
-            final int offset)
-            throws HostException {
+    public int fromHost(final ICobolStringBinding ce, final byte[] hostSource,
+            final int offset) throws HostException {
         int newOffset = offset;
         try {
-            String javaString = fromHostSingle(
-                    getCobolContext().getHostCharsetName(),
-                    ce.getByteLength(),
-                    hostSource,
+            String javaString = fromHostSingle(getCobolContext()
+                    .getHostCharsetName(), ce.getByteLength(), hostSource,
                     newOffset);
             ce.setStringValue(javaString);
             newOffset += ce.getByteLength();
@@ -120,21 +102,16 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int fromHost(
-            final ICobolArrayStringBinding ce,
-            final byte[] hostSource,
-            final int offset,
-            final int currentOccurs)
+    public int fromHost(final ICobolArrayStringBinding ce,
+            final byte[] hostSource, final int offset, final int currentOccurs)
             throws HostException {
         List < String > lArray = new ArrayList < String >();
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
-                String javaString = fromHostSingle(
-                        getCobolContext().getHostCharsetName(),
-                        ce.getItemByteLength(),
-                        hostSource,
-                        newOffset);
+                String javaString = fromHostSingle(getCobolContext()
+                        .getHostCharsetName(), ce.getItemByteLength(),
+                        hostSource, newOffset);
                 lArray.add(javaString);
                 newOffset += ce.getItemByteLength();
             }
@@ -154,6 +131,7 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
      * 
      * @param javaString java string to convert
      * @param hostCharsetName host character set
+     * @param paddingChar padding character
      * @param cobolByteLength host byte length
      * @param isJustifiedRight is Cobol data right justified
      * @param hostTarget target host buffer
@@ -161,13 +139,10 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
      * @return offset after host buffer is updated
      * @throws CobolConversionException if conversion fails
      */
-    public static final int toHostSingle(
-            final String javaString,
-            final String hostCharsetName,
-            final int cobolByteLength,
-            final boolean isJustifiedRight,
-            final byte[] hostTarget,
-            final int offset)
+    public static final int toHostSingle(final String javaString,
+            final String hostCharsetName, final Byte paddingChar,
+            final int cobolByteLength, final boolean isJustifiedRight,
+            final byte[] hostTarget, final int offset)
             throws CobolConversionException {
 
         /* Check that we are still within the host target range */
@@ -183,15 +158,16 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
         byte padChar;
 
         /*
-         * If data being passed represent binary content convert from
-         * hex string otherwise use the host charset for conversion.
+         * If data being passed represent binary content convert from hex string
+         * otherwise use the host charset for conversion.
          */
         if (isBinaryContent(javaString)) {
-            padChar = 0x0;
+            padChar = (paddingChar == null) ? 0x0 : paddingChar;
             hostSource = HostData.toByteArray(javaString.substring(2));
         } else {
             try {
-                padChar = " ".getBytes(hostCharsetName)[0];
+                padChar = (paddingChar == null) ? " ".getBytes(hostCharsetName)[0]
+                        : paddingChar;
                 if (javaString != null) {
                     hostSource = javaString.getBytes(hostCharsetName);
                 }
@@ -238,8 +214,7 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
      * @return true if content represents a valid hexadecimal string
      */
     private static boolean isBinaryContent(final String javaString) {
-        if (javaString != null
-                && javaString.length() > 2
+        if (javaString != null && javaString.length() > 2
                 && javaString.charAt(0) == '0') {
             Matcher matcher = BINARY_CONTENT_PATTERN.matcher(javaString);
             if (matcher.matches()) {
@@ -259,21 +234,18 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
      * @return offset after host buffer is read
      * @throws CobolConversionException if conversion fails
      */
-    public static final String fromHostSingle(
-            final String hostCharsetName,
-            final int cobolByteLength,
-            final byte[] hostSource,
-            final int offset)
+    public static final String fromHostSingle(final String hostCharsetName,
+            final int cobolByteLength, final byte[] hostSource, final int offset)
             throws CobolConversionException {
 
         String javaString = null;
         int javaStringLength = cobolByteLength;
 
         /*
-         * Check that we are still within the host source range.
-         * If not, consider the host optimized its payload by truncating
-         * trailing nulls in which case, we just need to process the
-         * characters returned if any.
+         * Check that we are still within the host source range. If not,
+         * consider the host optimized its payload by truncating trailing nulls
+         * in which case, we just need to process the characters returned if
+         * any.
          */
         int lastOffset = offset + cobolByteLength;
         if (lastOffset > hostSource.length) {
@@ -285,21 +257,20 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
         }
 
         /*
-         * The Java String is obtained by translating from the host code page
-         * to the local code page.
+         * The Java String is obtained by translating from the host code page to
+         * the local code page.
          */
         try {
             /* Trim trailing spaces and low-values unless there is only one */
             int i = javaStringLength;
             while (i > 0
-                    && (hostSource[offset + i - 1] == 0x40
-                            || hostSource[offset + i - 1] == 0)) {
+                    && (hostSource[offset + i - 1] == 0x40 || hostSource[offset
+                            + i - 1] == 0)) {
                 i--;
             }
             javaStringLength = i;
 
-            javaString = new String(
-                    hostSource, offset, javaStringLength,
+            javaString = new String(hostSource, offset, javaStringLength,
                     hostCharsetName);
 
             /*
@@ -312,8 +283,8 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter
 
             return javaString;
         } catch (UnsupportedEncodingException uee) {
-            throw new CobolConversionException(
-                    "UnsupportedEncodingException:" + uee.getMessage());
+            throw new CobolConversionException("UnsupportedEncodingException:"
+                    + uee.getMessage());
         }
 
     }

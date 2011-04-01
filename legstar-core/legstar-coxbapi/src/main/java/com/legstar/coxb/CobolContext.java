@@ -14,62 +14,87 @@ import com.legstar.coxb.host.HostContext;
 
 /**
  * 
- * This class encapsulates all Cobol compiler options that might influence
- * the conversion from Cobol representation to Java representation.
- *
+ * This class encapsulates all Cobol compiler options that might influence the
+ * conversion from Cobol representation to Java representation.
+ * 
  * @author Fady Moussallam
  * 
  */
 public class CobolContext extends HostContext {
 
     /** True if cobol option for extended arithmetics (31 digits) is set. */
-    private boolean mArithExtend = false;
+    private boolean _arithExtend = false;
 
     /** True if PIC N items are to be handled as DBCS items. */
-    private boolean mNsymbolDbcs = false;
+    private boolean _nsymbolDbcs = false;
+
+    /**
+     * Incomplete alphanumeric data items need to be padded before they are sent
+     * to the mainframe. If this is not null, then the specified byte will be
+     * used for padding.
+     */
+    private Byte _alphanumPaddingChar = null;
 
     /**
      * This enumeration class represents how binary data is truncated depending
      * on the number of digits specified in the PICTURE clause.
-     *
+     * 
      */
     public enum Trunc {
-        /** TRUNC(OPT) Leaves it up to the compiler to decide to truncate or
-         *             not, based on performance considerations. */
+        /**
+         * TRUNC(OPT) Leaves it up to the compiler to decide to truncate or not,
+         * based on performance considerations.
+         */
         OPT,
         /** TRUNC(BIN) No truncation occurs, this is equivalent to COMP-5. */
         BIN,
-        /** TRUNC(STD) Data truncated to the number of digits in the 
-         *             PICTURE clause. */
-        STD 
+        /**
+         * TRUNC(STD) Data truncated to the number of digits in the PICTURE
+         * clause.
+         */
+        STD
     }
 
     /**
      * @return Returns the arithExtend.
      */
     public boolean isArithExtend() {
-        return mArithExtend;
+        return _arithExtend;
     }
 
     /**
      * @param arithExtend The arithExtend to set.
      */
     public void setArithExtend(final boolean arithExtend) {
-        mArithExtend = arithExtend;
+        _arithExtend = arithExtend;
     }
 
     /**
      * @return Returns the symbol Dbcs.
      */
     public boolean isSymbolDbcs() {
-        return mNsymbolDbcs;
+        return _nsymbolDbcs;
     }
 
     /**
      * @param nsymbolDbcs The symbol Dbcs to set.
      */
     public void setSymbolDbcs(final boolean nsymbolDbcs) {
-        mNsymbolDbcs = nsymbolDbcs;
+        _nsymbolDbcs = nsymbolDbcs;
+    }
+
+    /**
+     * @return the alphanumerics padding character
+     */
+    public Byte getAlphanumPaddingChar() {
+        return _alphanumPaddingChar;
+    }
+
+    /**
+     * @param alphanumPaddingChar the alphanumerics padding character to set
+     */
+    public void setAlphanumPaddingChar(final Byte alphanumPaddingChar) {
+        _alphanumPaddingChar = alphanumPaddingChar;
     }
 
 }
