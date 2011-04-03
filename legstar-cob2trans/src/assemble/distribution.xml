@@ -14,7 +14,7 @@
     <files>
         <!-- Put out some doc -->
         <file>
-            <source>${project.basedir}/../legstar-distribution/LICENSE</source>
+            <source>${project.basedir}/LICENSE</source>
             <outputDirectory>/</outputDirectory>
             <destName>LICENSE</destName>
         </file>
