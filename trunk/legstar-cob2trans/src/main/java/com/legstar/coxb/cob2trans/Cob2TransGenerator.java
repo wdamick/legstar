@@ -662,7 +662,6 @@ public class Cob2TransGenerator {
      *         processed
      * @throws Cob2TransException if generation fails
      */
-    @SuppressWarnings("unchecked")
     public static CoxbgenResult coxbgen(
             final File xsdFile,
             final String xsdEncoding,
@@ -684,7 +683,7 @@ public class Cob2TransGenerator {
             XmlSchema xsd = schemaCol.read(new InputStreamReader(
                     new FileInputStream(xsdFile), xsdEncoding), null);
             XmlSchemaObjectTable schemaElements = xsd.getElements();
-            Iterator it = schemaElements.getValues();
+            Iterator < ? > it = schemaElements.getValues();
             while (it.hasNext()) {
                 Object element = it.next();
                 if (element instanceof XmlSchemaElement) {
