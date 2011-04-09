@@ -217,11 +217,16 @@ public final class ClassUtil {
     }
 
     /**
-     * Helper method to extract the type name as used by JAXB create methods
-     * Property type (as returned from Field.getGenericType() can take 3 forms:
-     * form1: type form1: package.type form3: java.util.List &lts; package.type
-     * &gt;. Furthermore, primitive types are returned as their Object
-     * equivalent.
+     * Helper method to extract the type name as used by JAXB create methods.
+     * <p/>
+     * Property type (as returned from Field.getGenericType()) can take 4 forms:
+     * <ul>
+     * <li>type</li>
+     * <li>package.type</li>
+     * <li>java.util.List &lt; package.type &gt;</li>
+     * <li>type$nestedType</li>
+     * </ul>
+     * Furthermore, primitive types are returned as their Object equivalent.
      * 
      * 
      * @param genericType as returned from hostField.getGenericType()
@@ -239,6 +244,8 @@ public final class ClassUtil {
                 type = type.substring(0, type.length() - 1);
             }
         }
+        // type = type.replace("$", ".");
+
         if (type.compareTo("byte") == 0) {
             return "Byte";
         } else if (type.compareTo("[B") == 0) {
