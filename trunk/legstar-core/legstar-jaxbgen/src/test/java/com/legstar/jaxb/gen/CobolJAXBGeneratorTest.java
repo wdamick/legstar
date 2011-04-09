@@ -296,6 +296,15 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     }
 
     /**
+     * Level 88 case.
+     */
+    public void testRQ074() throws Exception {
+        jaxbgen("rq074", new File(COB_XSD_DIR, "rq074.xsd"), true, 1L, true,
+                null, null, null, null, false, false);
+        check("rq074");
+    }
+
+    /**
      * A helper method to check generated code against reference.
      * 
      * @param schemaFile the schema file

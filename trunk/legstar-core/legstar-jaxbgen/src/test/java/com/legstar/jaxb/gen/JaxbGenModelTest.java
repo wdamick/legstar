@@ -12,8 +12,6 @@ package com.legstar.jaxb.gen;
 
 import java.io.File;
 
-import org.apache.ws.commons.schema.XmlSchema;
-
 import com.legstar.jaxb.AbstractJaxbGenTest;
 
 /**
@@ -101,128 +99,6 @@ public class JaxbGenModelTest extends AbstractJaxbGenTest {
         _model.setTypeNameSuffix("D");
         _model.generateXjb(_xjbFile);
         assertTrue(getSource(_xjbFile).contains("suffix=\"D\""));
-    }
-
-    /**
-     * Test injecting default JAXB annotations in a schema.
-     * 
-     * @throws Exception if test fails
-     */
-    public void testInjectDefaultAnnotations() throws Exception {
-        XmlSchema xsd = getXmlSchema("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
-                + " xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\""
-                + " targetNamespace=\"http://schemas.test.com\">" + "</schema>");
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        String result = toString(xsd);
-        assertTrue(result
-                .contains("<jaxb:globalBindings generateIsSetMethod=\"true\">"));
-        assertTrue(result.contains("<jaxb:serializable uid=\"1\"/>"));
-    }
-
-    /**
-     * Test injecting global JAXB annotations in a schema.
-     * 
-     * @throws Exception if test fails
-     */
-    public void testInjectGlobalAnnotations() throws Exception {
-        XmlSchema xsd = getXmlSchema("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
-                + " xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\""
-                + " targetNamespace=\"http://schemas.test.com\">" + "</schema>");
-        _model.setGenerateIsSetMethod(false);
-        _model.setSerializableUid(1236895452412L);
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        String result = toString(xsd);
-        assertTrue(result
-                .contains("<jaxb:globalBindings generateIsSetMethod=\"false\">"));
-        assertTrue(result
-                .contains("<jaxb:serializable uid=\"1236895452412\"/>"));
-    }
-
-    /**
-     * Test injecting schema JAXB annotations in a schema.
-     * 
-     * @throws Exception if test fails
-     */
-    public void testInjectSchemaAnnotations() throws Exception {
-        XmlSchema xsd = getXmlSchema("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
-                + " xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\""
-                + " targetNamespace=\"http://schemas.test.com\">" + "</schema>");
-        _model.setElementNamePrefix("ElementNamePrefix");
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        String result = toString(xsd);
-        assertTrue(result
-                .contains("<jaxb:elementName prefix=\"ElementNamePrefix\"/>"));
-
-        _model.setElementNameSuffix("ElementNameSuffix");
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        result = toString(xsd);
-        assertTrue(result
-                .contains("<jaxb:elementName prefix=\"ElementNamePrefix\" suffix=\"ElementNameSuffix\"/>"));
-
-        _model.setTypeNamePrefix("TypeNamePrefix");
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        result = toString(xsd);
-        assertTrue(result
-                .contains("<jaxb:typeName prefix=\"TypeNamePrefix\"/>"));
-
-        _model.setTypeNameSuffix("TypeNameSuffix");
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        result = toString(xsd);
-        assertTrue(result
-                .contains("<jaxb:typeName prefix=\"TypeNamePrefix\" suffix=\"TypeNameSuffix\"/>"));
-    }
-
-    /**
-     * Test injecting global JAXB annotations in a schema that already contains
-     * global annotations.
-     * 
-     * @throws Exception if test fails
-     */
-    public void testInjectGlobalAnnotationsAboveExisting() throws Exception {
-        XmlSchema xsd = getXmlSchema("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
-                + " xmlns:jaxb=\"http://java.sun.com/xml/ns/jaxb\""
-                + " targetNamespace=\"http://schemas.test.com\""
-                + " jaxb:version=\"2.0\">"
-                + "<annotation>"
-                + "<appinfo>"
-                + "<jaxb:globalBindings underscoreBinding=\"asCharInWord\""
-                + " generateElementProperty=\"false\">"
-                + "<jaxb:serializable />"
-                + "</jaxb:globalBindings>"
-                + "</appinfo>" + "</annotation>" + "</schema>");
-        _model.setGenerateIsSetMethod(false);
-        _model.setSerializableUid(1236895452412L);
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        String result = toString(xsd);
-        assertTrue(result.contains("<jaxb:globalBindings"));
-        assertTrue(result.contains("generateIsSetMethod=\"false\""));
-        assertTrue(result.contains("underscoreBinding=\"asCharInWord\""));
-        assertTrue(result.contains("generateElementProperty=\"false\""));
-        assertTrue(result
-                .contains("<jaxb:serializable uid=\"1236895452412\"/>"));
-    }
-
-    /**
-     * Test JAXB customization in ECI compatible mode.
-     * 
-     * @throws Exception if test fails
-     */
-    public void testCustomizationWithEciCompatible() throws Exception {
-        XmlSchema xsd = getXmlSchema("<schema xmlns=\"http://www.w3.org/2001/XMLSchema\""
-                + " targetNamespace=\"http://schemas.test.com\">" + "</schema>");
-        _model.setEciCompatible(true);
-        _model.injectJaxbAnnotations(xsd, "http://java.sun.com/xml/ns/jaxb",
-                "jaxb", newDocument());
-        String result = toString(xsd);
-        assertTrue(result.contains("<jaxb:globalBindings"));
-        assertTrue(result.contains("collectionType=\"indexed\""));
     }
 
 }
