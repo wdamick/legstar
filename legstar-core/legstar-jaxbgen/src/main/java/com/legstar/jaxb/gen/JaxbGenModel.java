@@ -13,21 +13,12 @@ package com.legstar.jaxb.gen;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ws.commons.schema.XmlSchema;
-import org.apache.ws.commons.schema.XmlSchemaAnnotation;
-import org.apache.ws.commons.schema.XmlSchemaAppInfo;
-import org.apache.ws.commons.schema.XmlSchemaObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.legstar.codegen.CodeGenHelper;
 import com.legstar.codegen.CodeGenMakeException;
@@ -68,43 +59,6 @@ public class JaxbGenModel extends AbstractPropertiesModel {
 
     /** Default value for no package-info generation. */
     public static final boolean DEFAULT_NOPACKAGEINFO = false;
-
-    /* ====================================================================== */
-    /* Following are XML identifiers for XJB Binding. = */
-    /* ====================================================================== */
-
-    /** JAXB annotation for global binding parameters. */
-    private static final String JAXB_GLOBALBINDINGS = "globalBindings";
-
-    /** JAXB annotation for generate isset method parameters. */
-    private static final String JAXB_GENERATEISSETMETHOD = "generateIsSetMethod";
-
-    /** JAXB annotation for serialization parameters. */
-    private static final String JAXB_SERIALIZABLE = "serializable";
-
-    /** JAXB annotation for serialization unique ID. */
-    private static final String JAXB_UID = "uid";
-
-    /** JAXB annotation for schema binding parameters. */
-    private static final String JAXB_SCHEMABINDINGS = "schemaBindings";
-
-    /** JAXB annotation for name transformation. */
-    private static final String JAXB_XMLTRANSFORM = "nameXmlTransform";
-
-    /** JAXB annotation for a type name transformation. */
-    private static final String JAXB_TYPENAME = "typeName";
-
-    /** JAXB annotation for an element name transformation. */
-    private static final String JAXB_ELEMENTNAME = "elementName";
-
-    /** JAXB annotation for a type name prefix transformation. */
-    private static final String JAXB_PREFIX = "prefix";
-
-    /** JAXB annotation for a type name suffix transformation. */
-    private static final String JAXB_SUFFIX = "suffix";
-
-    /** JAXB annotation for collection type. */
-    private static final String JAXB_COLLECTION_TYPE = "collectionType";
 
     /* ====================================================================== */
     /* Following are key identifiers for this model persistence. = */
@@ -223,6 +177,10 @@ public class JaxbGenModel extends AbstractPropertiesModel {
 
     /**
      * Creates an external binding customization file ready for JAXB.
+     * <p/>
+     * This external binding file has less capabilities than the alternative
+     * which is to inject annotations inline in the XML schema but has the
+     * advantage of not messing up with the original XML schema.
      * 
      * @param targetFile the xjb file that must be created
      * @throws CodeGenMakeException if generation fails
@@ -249,290 +207,6 @@ public class JaxbGenModel extends AbstractPropertiesModel {
             throw new CodeGenMakeException(e);
         } catch (IOException e) {
             throw new CodeGenMakeException(e);
-        }
-    }
-
-    /**
-     * Given an XML Schema, this will inject or replace custom JAXB bindings
-     * annotations.
-     * <p/>
-     * The generated schema holds JAXB annotations needed when, later on, the
-     * schema is used to generate JAXB classes. The markup looks like this:
-     * 
-     * <pre>
-     * &lt;xsd:appinfo>
-     *    &lt;jaxb:globalBindings generateIsSetMethod="true">
-     *       &lt;jxb:serializable uid="1"/>
-     *    &lt;/jaxb:globalBindings>
-     *    &lt;jaxb:schemaBindings>
-     *       &lt;jaxb:nameXmlTransform>
-     *          &lt;jaxb:typeName prefix="Type" suffix="Type" />
-     *          &lt;jaxb:elementName prefix="Type" suffix="Type" />
-     *        &lt;/jaxb:nameXmlTransform>
-     *    &lt;/jaxb:schemaBindings>
-     * &lt;/xsd:appinfo>
-     * </pre>
-     * 
-     * @param schema the XML Schema
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     * @param doc a DOM document to hold nodes used for annotations
-     */
-    @SuppressWarnings("unchecked")
-    public void injectJaxbAnnotations(final XmlSchema schema,
-            final String jaxbNamespace, final String jaxbNamespacePrefix,
-            final Document doc) {
-
-        /* Schema object might already be annotated */
-        XmlSchemaAnnotation annotation = null;
-        if (schema.getAnnotation() == null) {
-            annotation = new XmlSchemaAnnotation();
-        } else {
-            annotation = schema.getAnnotation();
-        }
-
-        /* Annotation might already contain an appinfo */
-        XmlSchemaAppInfo appInfo = null;
-        for (Iterator < XmlSchemaObject > i = annotation.getItems()
-                .getIterator(); i.hasNext();) {
-            XmlSchemaObject subAnnotation = i.next();
-            if (subAnnotation instanceof XmlSchemaAppInfo) {
-                appInfo = (XmlSchemaAppInfo) subAnnotation;
-                break;
-            }
-        }
-        if (appInfo == null) {
-            appInfo = new XmlSchemaAppInfo();
-            annotation.getItems().add(appInfo);
-        }
-
-        /* Preserve any previous markup from appinfo */
-        NodeList markup = appInfo.getMarkup();
-        DocumentFragment markupParent = null;
-        if (markup == null || markup.getLength() == 0) {
-            markupParent = doc.createDocumentFragment();
-        } else {
-            markupParent = (DocumentFragment) markup.item(0).getParentNode();
-        }
-
-        injectJaxbGlobalBindingsAnnotations(markupParent, jaxbNamespace,
-                jaxbNamespacePrefix);
-
-        injectJaxbSchemaBindingsAnnotations(markupParent, jaxbNamespace,
-                jaxbNamespacePrefix);
-
-        appInfo.setMarkup(markupParent.getChildNodes());
-        schema.setAnnotation(annotation);
-    }
-
-    /**
-     * Inject a global bindings element in the parent annotation node.
-     * <p/>
-     * If the element is already present we update its attributes.
-     * 
-     * @param markupParent the parent annotation node (its a document fragment)
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     */
-    public void injectJaxbGlobalBindingsAnnotations(
-            final DocumentFragment markupParent, final String jaxbNamespace,
-            final String jaxbNamespacePrefix) {
-
-        Element globalbindingsEl = null;
-        NodeList nl = markupParent.getChildNodes();
-        for (int i = 0; i < nl.getLength(); i++) {
-            if (nl.item(i) instanceof Element
-                    && nl.item(i).getNamespaceURI().equals(jaxbNamespace)
-                    && nl.item(i).getLocalName().equals(JAXB_GLOBALBINDINGS)) {
-                globalbindingsEl = (Element) nl.item(i);
-                break;
-            }
-        }
-        if (globalbindingsEl == null) {
-            globalbindingsEl = markupParent.getOwnerDocument().createElementNS(
-                    jaxbNamespace,
-                    jaxbNamespacePrefix + ':' + JAXB_GLOBALBINDINGS);
-            markupParent.appendChild(globalbindingsEl);
-        }
-        globalbindingsEl.setAttribute(JAXB_GENERATEISSETMETHOD,
-                Boolean.toString(isGenerateIsSetMethod()));
-
-        /* ECI expects indexed collections not Lists (the default JAXB) */
-        if (isEciCompatible()) {
-            globalbindingsEl.setAttribute(JAXB_COLLECTION_TYPE, "indexed");
-        }
-
-        injectJaxbSerializableAnnotation(globalbindingsEl, jaxbNamespace,
-                jaxbNamespacePrefix);
-
-    }
-
-    /**
-     * Inject a serializable element in the JAXB global bindings annotation.
-     * <p/>
-     * If the element is already present we update its attributes.
-     * 
-     * @param globalbindingsEl the global bindings node
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     */
-    public void injectJaxbSerializableAnnotation(
-            final Element globalbindingsEl, final String jaxbNamespace,
-            final String jaxbNamespacePrefix) {
-
-        Element serializableEl = null;
-        NodeList nl = globalbindingsEl.getElementsByTagNameNS(jaxbNamespace,
-                JAXB_SERIALIZABLE);
-        if (nl.getLength() > 0) {
-            serializableEl = (Element) nl.item(0);
-        } else {
-            serializableEl = globalbindingsEl.getOwnerDocument()
-                    .createElementNS(jaxbNamespace,
-                            jaxbNamespacePrefix + ':' + JAXB_SERIALIZABLE);
-            globalbindingsEl.appendChild(serializableEl);
-        }
-        serializableEl.setAttribute(JAXB_UID,
-                Long.toString(getSerializableUid()));
-    }
-
-    /**
-     * Inject a schema bindings element in the parent annotation node.
-     * <p/>
-     * If the element is already present we update its attributes.
-     * 
-     * @param markupParent the parent annotation node (its a document fragment)
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     */
-    public void injectJaxbSchemaBindingsAnnotations(
-            final DocumentFragment markupParent, final String jaxbNamespace,
-            final String jaxbNamespacePrefix) {
-
-        Element schemabindingsEl = null;
-        NodeList nl = markupParent.getChildNodes();
-        for (int i = 0; i < nl.getLength(); i++) {
-            if (nl.item(i) instanceof Element
-                    && nl.item(i).getNamespaceURI().equals(jaxbNamespace)
-                    && nl.item(i).getLocalName().equals(JAXB_SCHEMABINDINGS)) {
-                schemabindingsEl = (Element) nl.item(i);
-                break;
-            }
-        }
-        if (schemabindingsEl == null) {
-            schemabindingsEl = markupParent.getOwnerDocument().createElementNS(
-                    jaxbNamespace,
-                    jaxbNamespacePrefix + ':' + JAXB_SCHEMABINDINGS);
-            markupParent.appendChild(schemabindingsEl);
-        }
-
-        if (needXmlTransform()) {
-            injectJaxbXmlTransformAnnotation(schemabindingsEl, jaxbNamespace,
-                    jaxbNamespacePrefix);
-        }
-
-    }
-
-    /**
-     * Inject a XmlTransform element in the JAXB schema bindings annotation.
-     * <p/>
-     * If the element is already present we update its attributes.
-     * 
-     * @param schemabindingsEl the schema bindings node
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     */
-    public void injectJaxbXmlTransformAnnotation(
-            final Element schemabindingsEl, final String jaxbNamespace,
-            final String jaxbNamespacePrefix) {
-
-        Element xmltransformEl = null;
-        NodeList nl = schemabindingsEl.getElementsByTagNameNS(jaxbNamespace,
-                JAXB_XMLTRANSFORM);
-        if (nl.getLength() > 0) {
-            xmltransformEl = (Element) nl.item(0);
-        } else {
-            xmltransformEl = schemabindingsEl.getOwnerDocument()
-                    .createElementNS(jaxbNamespace,
-                            jaxbNamespacePrefix + ':' + JAXB_XMLTRANSFORM);
-            schemabindingsEl.appendChild(xmltransformEl);
-        }
-        if (needTypeNameXmlTransform()) {
-            injectJaxbTypeNameXmlTransformAnnotation(xmltransformEl,
-                    jaxbNamespace, jaxbNamespacePrefix);
-        }
-        if (needElementNameXmlTransform()) {
-            injectJaxbElementNameXmlTransformAnnotation(xmltransformEl,
-                    jaxbNamespace, jaxbNamespacePrefix);
-        }
-    }
-
-    /**
-     * Inject a TypeNameXmlTransform element in the JAXB XmlTransform
-     * annotation.
-     * <p/>
-     * If the element is already present we update its attributes.
-     * 
-     * @param xmltransformEl the XmlTransform node
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     */
-    public void injectJaxbTypeNameXmlTransformAnnotation(
-            final Element xmltransformEl, final String jaxbNamespace,
-            final String jaxbNamespacePrefix) {
-
-        Element typenamexmltransformEl = null;
-        NodeList nl = xmltransformEl.getElementsByTagNameNS(jaxbNamespace,
-                JAXB_TYPENAME);
-        if (nl.getLength() > 0) {
-            typenamexmltransformEl = (Element) nl.item(0);
-        } else {
-            typenamexmltransformEl = xmltransformEl.getOwnerDocument()
-                    .createElementNS(jaxbNamespace,
-                            jaxbNamespacePrefix + ':' + JAXB_TYPENAME);
-            xmltransformEl.appendChild(typenamexmltransformEl);
-        }
-        if (getTypeNamePrefix() != null) {
-            typenamexmltransformEl.setAttribute(JAXB_PREFIX,
-                    getTypeNamePrefix());
-        }
-        if (getTypeNameSuffix() != null) {
-            typenamexmltransformEl.setAttribute(JAXB_SUFFIX,
-                    getTypeNameSuffix());
-        }
-    }
-
-    /**
-     * Inject a ElementNameXmlTransform element in the JAXB XmlTransform
-     * annotation.
-     * <p/>
-     * If the element is already present we update its attributes.
-     * 
-     * @param xmltransformEl the XmlTransform node
-     * @param jaxbNamespace the JAXB namespace
-     * @param jaxbNamespacePrefix the JAXB namespace prefix
-     */
-    public void injectJaxbElementNameXmlTransformAnnotation(
-            final Element xmltransformEl, final String jaxbNamespace,
-            final String jaxbNamespacePrefix) {
-
-        Element elementnamexmltransformEl = null;
-        NodeList nl = xmltransformEl.getElementsByTagNameNS(jaxbNamespace,
-                JAXB_ELEMENTNAME);
-        if (nl.getLength() > 0) {
-            elementnamexmltransformEl = (Element) nl.item(0);
-        } else {
-            elementnamexmltransformEl = xmltransformEl.getOwnerDocument()
-                    .createElementNS(jaxbNamespace,
-                            jaxbNamespacePrefix + ':' + JAXB_ELEMENTNAME);
-            xmltransformEl.appendChild(elementnamexmltransformEl);
-        }
-        if (getElementNamePrefix() != null) {
-            elementnamexmltransformEl.setAttribute(JAXB_PREFIX,
-                    getElementNamePrefix());
-        }
-        if (getElementNameSuffix() != null) {
-            elementnamexmltransformEl.setAttribute(JAXB_SUFFIX,
-                    getElementNameSuffix());
         }
     }
 
