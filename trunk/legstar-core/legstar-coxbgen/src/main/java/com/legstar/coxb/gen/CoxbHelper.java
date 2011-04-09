@@ -213,16 +213,25 @@ public class CoxbHelper {
     /**
      * Retrieve the bound object type. Since there are more precise methods for
      * complex objects, this will apply for simple objects.
+     * <p/>
+     * For nested classes, the jaxb type name would have the form
+     * parentType$nestedType. We change that here to parentType.nestedType
+     * because this form lends itself to to direct usage in java sentences such
+     * as parentType.nestedType.class.
      * 
      * @param binding a binding element
      * @return the bound object type name
      */
     public String getBoundTypeName(final ICobolBinding binding) {
-        return BindingUtil.getJaxbTypeName(binding);
+        String boundTypeName = BindingUtil.getJaxbTypeName(binding);
+        if (boundTypeName != null) {
+            boundTypeName = boundTypeName.replace("$", ".");
+        }
+        return boundTypeName;
     }
 
     /**
-     * Retrieve the bound object type. Complex objects can be bound t JAXB
+     * Retrieve the bound object type. Complex objects can be bound to JAXB
      * objects or straight POJOs.
      * 
      * @param binding a complex element

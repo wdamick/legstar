@@ -40,7 +40,10 @@ Common imports Velocity Template.
 ##TODO allow enums to bind to POJOs
 #if($coxbHelper.getGenericType($child).equals("enum"))
 #set($newType = $child.getJaxbType().getName())
+##don't import nested classes
+#if(!$newType.contains("$"))
 #addType()
+#end
 #end
 #if($child.maxOccurs > 0 || $coxbHelper.getGenericType($child).equals("complexArray"))
 #set($newType = "java.util.List")

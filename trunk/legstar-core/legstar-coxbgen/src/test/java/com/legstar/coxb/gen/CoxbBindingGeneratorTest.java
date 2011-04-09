@@ -32,7 +32,7 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
             .asList(new String[] { "LSFILEAL.xsd", "LSFILEAC.xsd",
                     "enumvar.xsd", "MSNSearch.xsd", "cultureinfo.xsd",
                     "jvmquery.xsd", "jvmquery-ws.xsd", "VARAR021.xsd",
-                    "TCOBWVB.xsd", "RQ071CICSECIBinding.xsd" });
+                    "TCOBWVB.xsd", "RQ071CICSECIBinding.xsd", "rq074.xsd" });
 
     /** Make sure we have a clean output folder. */
     public void setUp() throws Exception {
@@ -140,8 +140,8 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
      * @throws Exception if generation fails
      */
     public void testCultureInfo() throws Exception {
-        genSourceAndCheck("cultureinfo", new String[] {
-                "GetInfo", "GetInfoResponse" });
+        genSourceAndCheck("cultureinfo", new String[] { "GetInfo",
+                "GetInfoResponse" });
     }
 
     /**
@@ -189,6 +189,16 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
      */
     public void testRq071() throws Exception {
         genSourceAndCheck("rq071", new String[] { "RQ071Input", "RQ071Output" });
+    }
+
+    /**
+     * Generate a transformer with level 88 handling.
+     * 
+     * @throws Exception
+     */
+    public void testRq074() throws Exception {
+        genSourceAndCheck("rq074",
+                new String[] { "Dfhcommarea", "Dfhcommarea" });
     }
 
     /**
