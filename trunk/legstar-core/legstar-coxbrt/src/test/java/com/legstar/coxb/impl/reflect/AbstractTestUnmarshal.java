@@ -10,19 +10,18 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
+import junit.framework.TestCase;
 
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
-
-import junit.framework.TestCase;
+import com.legstar.coxb.impl.visitor.CobolUnmarshalVisitor;
 
 /**
  * Generic methods shared by all unmarshaling tests (Host to Java).
- *
+ * 
  */
 public class AbstractTestUnmarshal extends TestCase {
 
@@ -36,28 +35,30 @@ public class AbstractTestUnmarshal extends TestCase {
 
     /**
      * A generic method to convert from host to java (unmarshaling).
+     * 
      * @param objectFactory the JAXB object factory
      * @param hostBytesHex the input hex string representing host data
      * @param expectedValue the expected JAXB value object
      * @return the JAXB value object
      */
-    public Object convert(
-            final Object objectFactory,
-            final String hostBytesHex,
-            final Object expectedValue) {
+    public Object convert(final Object objectFactory,
+            final String hostBytesHex, final Object expectedValue) {
         try {
             byte[] hostBytes = HostData.toByteArray(hostBytesHex);
-            CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(
-                    hostBytes, 0, getConverters());
+            CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0,
+                    getConverters());
 
-            // Traverse the object structure, visiting each node with the visitor
+            // Traverse the object structure, visiting each node with the
+            // visitor
             CComplexReflectBinding ccem = new CComplexReflectBinding(
                     objectFactory, expectedValue.getClass());
             ccem.accept(uv);
             return ccem.getObjectValue(expectedValue.getClass());
         } catch (ReflectBindingException e) {
+            e.printStackTrace();
             fail(e.getMessage());
         } catch (HostException e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
         return null;
@@ -69,7 +70,5 @@ public class AbstractTestUnmarshal extends TestCase {
     public ICobolConverters getConverters() {
         return mConverters;
     }
-
-
 
 }
