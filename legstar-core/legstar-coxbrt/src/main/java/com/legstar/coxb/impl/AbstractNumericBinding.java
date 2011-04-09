@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.legstar.coxb.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -136,6 +138,60 @@ public abstract class AbstractNumericBinding extends CBinding {
         return true;
     }
 
+    /**
+     * With enumerations we need to recover the actual value type using
+     * reflection.
+     * 
+     * @param type the enum member type
+     * @return an enum member
+     * @throws HostException if something wrong with the Enum methods
+     */
+    public Object getEnumValue(final Class < ? > type) throws HostException {
+        try {
+            Method value = type.getMethod("value");
+            Method fromValue = type.getMethod("fromValue",
+                    value.getReturnType());
+            return fromValue
+                    .invoke(null, getObjectValue(value.getReturnType()));
+        } catch (SecurityException e) {
+            throw new HostException(e);
+        } catch (IllegalArgumentException e) {
+            throw new HostException(e);
+        } catch (IllegalAccessException e) {
+            throw new HostException(e);
+        } catch (NoSuchMethodException e) {
+            throw new HostException(e);
+        } catch (InvocationTargetException e) {
+            throw new HostException(e);
+        }
+    }
+
+    /**
+     * Enums cannot be manipulated directly because we have no idea what the
+     * values types actually are. Here we use reflection to recover the real
+     * value type.
+     * 
+     * @param value
+     * @throws HostException
+     */
+    public void setEnumValue(Enum < ? > value) throws HostException {
+        try {
+            Method valueMethod = value.getClass().getMethod("value");
+            Object numValue = valueMethod.invoke(value);
+            setObjectValue(numValue);
+        } catch (SecurityException e) {
+            throw new HostException(e);
+        } catch (IllegalArgumentException e) {
+            throw new HostException(e);
+        } catch (IllegalAccessException e) {
+            throw new HostException(e);
+        } catch (NoSuchMethodException e) {
+            throw new HostException(e);
+        } catch (InvocationTargetException e) {
+            throw new HostException(e);
+        }
+    }
+
     /** {@inheritDoc} */
     public Object getObjectValue(final Class < ? > type) throws HostException {
         if (type.equals(BigDecimal.class)) {
@@ -156,6 +212,8 @@ public abstract class AbstractNumericBinding extends CBinding {
             return getByteValue();
         } else if (type.equals(Boolean.class) || type.equals(boolean.class)) {
             return getBooleanValue();
+        } else if (type.isEnum()) {
+            return getEnumValue(type);
         } else {
             throw new HostException("Attempt to get binding "
                     + getBindingName() + " as an incompatible type " + type);
@@ -186,6 +244,8 @@ public abstract class AbstractNumericBinding extends CBinding {
             setByteValue((Byte) value);
         } else if (value instanceof Boolean) {
             setBooleanValue((Boolean) value);
+        } else if (value instanceof Enum) {
+            setEnumValue((Enum < ? >) value);
         } else {
             throw new HostException("Attempt to set binding "
                     + getBindingName() + " from an incompatible value " + value);

@@ -10,25 +10,24 @@
  ******************************************************************************/
 package com.legstar.coxb.impl.reflect;
 
+import junit.framework.TestCase;
 
 import com.legstar.coxb.CobolContext;
 import com.legstar.coxb.convert.ICobolConverters;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
-import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
-
-import junit.framework.TestCase;
+import com.legstar.coxb.impl.visitor.CobolMarshalVisitor;
 
 /**
  * Generic methods shared by all marshaling tests 5java to Host).
- *
+ * 
  */
 public class AbstractTestMarshal extends TestCase {
-    
+
     /** An implementation of COBOL to Java converters. */
     private ICobolConverters mConverters;
-    
+
     /** {@inheritDoc} */
     public void setUp() {
         mConverters = new CobolSimpleConverters(new CobolContext());
@@ -36,27 +35,29 @@ public class AbstractTestMarshal extends TestCase {
 
     /**
      * A generic method to convert from java to host (marshaling).
+     * 
      * @param objectFactory the JAXB object factory
      * @param valueObject the input JAXB value object
      * @param expectedValue the hex string representing host result data
      */
-    public void convertAndCheck(
-            final Object objectFactory,
-            final Object valueObject,
-            final String expectedValue) {
+    public void convertAndCheck(final Object objectFactory,
+            final Object valueObject, final String expectedValue) {
         try {
             byte[] hostBytes = new byte[expectedValue.length() / 2];
-            CobolMarshalVisitor mv = new CobolMarshalVisitor(
-                    hostBytes, 0, getConverters());
+            CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0,
+                    getConverters());
 
-            // Traverse the object structure, visiting each node with the visitor
+            // Traverse the object structure, visiting each node with the
+            // visitor
             CComplexReflectBinding ccem = new CComplexReflectBinding(
                     objectFactory, valueObject);
             ccem.accept(mv);
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (ReflectBindingException e) {
+            e.printStackTrace();
             fail(e.getMessage());
         } catch (HostException e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
     }
@@ -67,7 +68,5 @@ public class AbstractTestMarshal extends TestCase {
     public ICobolConverters getConverters() {
         return mConverters;
     }
-    
-    
 
 }
