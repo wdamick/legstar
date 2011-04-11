@@ -85,7 +85,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setJaxbPackageName("com.alternate.pkg.lsfileaq");
         _task.execute();
-        String srce = getSource("lsfileaq", "com/alternate/pkg", "DfhCommarea");
+        String srce = getSource("lsfileaq", "com/alternate/pkg", "Dfhcommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"QUERY-DATA\","
                 + " type = CobolType.GROUP_ITEM," + " levelNumber = 5,"
                 + " srceLine = 36)"));
@@ -120,23 +120,23 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      */
     protected void globalBindings(final boolean internalBindings)
             throws Exception {
-        jaxbgen("lsfileaq", internalBindings, 1L, true, null, null, null, null,
-                false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true, null,
+                null, null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
-        jaxbgen("lsfileaq", internalBindings, 1L, false, null, null, null,
-                null, false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, false, null,
+                null, null, null, false, false);
         assertFalse(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "public boolean isSetReplyData()"));
 
-        jaxbgen("lsfileaq", internalBindings, 1L, true, null, null, null, null,
-                false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true, null,
+                null, null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
                 "private final static long serialVersionUID = 1L;"));
 
-        jaxbgen("lsfileaq", internalBindings, 123589357872112454L, true, null,
-                null, null, null, false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings,
+                123589357872112454L, true, null, null, null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommarea")
                 .contains(
                         "private final static long serialVersionUID = 123589357872112454L;"));
@@ -149,33 +149,33 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @throws Exception if generation fails
      */
     public void nameTransform(final boolean internalBindings) throws Exception {
-        jaxbgen("lsfileaq", internalBindings, 1L, true, "SomePrefix", null,
-                null, null, false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true,
+                "SomePrefix", null, null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommarea").contains(
                 "public class SomePrefixDfhcommarea"));
 
-        jaxbgen("lsfileaq", internalBindings, 1L, true, null, "SomeSuffix",
-                null, null, false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true, null,
+                "SomeSuffix", null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "DfhCommareaSomeSuffix").contains(
                 "public class DfhcommareaSomeSuffix"));
 
-        jaxbgen("lsfileaq", internalBindings, 1L, true, "SomePrefix",
-                "SomeSuffix", null, null, false, false);
+        jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true,
+                "SomePrefix", "SomeSuffix", null, null, false, false);
         assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
                 .contains("public class SomePrefixDfhcommareaSomeSuffix"));
 
-        jaxbgen("MSNSearch", internalBindings, 1L, true, null, null,
-                "SomePrefix", null, false, false);
+        jaxbgen("MSNSearch.xsd", "MSNSearch", internalBindings, 1L, true, null,
+                null, "SomePrefix", null, false, false);
         assertTrue(getJaxbSource("MSNSearch", "SomePrefixSearchResponse")
                 .contains("public class SomePrefixSearchResponse"));
 
-        jaxbgen("MSNSearch", internalBindings, 1L, true, null, null, null,
-                "SomeSuffix", false, false);
+        jaxbgen("MSNSearch.xsd", "MSNSearch", internalBindings, 1L, true, null,
+                null, null, "SomeSuffix", false, false);
         assertTrue(getJaxbSource("MSNSearch", "SearchResponseSomeSuffix")
                 .contains("public class SearchResponseSomeSuffix"));
 
-        jaxbgen("MSNSearch", internalBindings, 1L, true, null, null,
-                "SomePrefix", "SomeSuffix", false, false);
+        jaxbgen("MSNSearch.xsd", "MSNSearch", internalBindings, 1L, true, null,
+                null, "SomePrefix", "SomeSuffix", false, false);
         assertTrue(getJaxbSource("MSNSearch",
                 "SomePrefixSearchResponseSomeSuffix").contains(
                 "public class SomePrefixSearchResponseSomeSuffix"));
@@ -333,7 +333,9 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     /**
      * A helper method for JAXB generation.
      * 
-     * @param schemaName the schema name
+     * @param schemaFileName the schema file name
+     * @param jaxbPackageSuffix the name used to create a unique package name
+     *            for the generated JAXB classes
      * @param internalBindings uses internal or external bindings
      * @param serializableUid the serial unique ID
      * @param generateIsSetMethod if generate is set methods
@@ -345,13 +347,14 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @param noPackageInfo if package-info should not be generated
      * @throws Exception if generation fails
      */
-    protected void jaxbgen(final String schemaName,
-            final boolean internalBindings, final long serializableUid,
-            final boolean generateIsSetMethod, final String typeNamePrefix,
-            final String typeNameSuffix, final String elementNamePrefix,
-            final String elementNameSuffix, final boolean eciCompatible,
-            final boolean noPackageInfo) throws Exception {
-        jaxbgen(schemaName, new File(COB_XSD_DIR, schemaName + ".xsd"),
+    protected void jaxbgen(final String schemaFileName,
+            final String jaxbPackageSuffix, final boolean internalBindings,
+            final long serializableUid, final boolean generateIsSetMethod,
+            final String typeNamePrefix, final String typeNameSuffix,
+            final String elementNamePrefix, final String elementNameSuffix,
+            final boolean eciCompatible, final boolean noPackageInfo)
+            throws Exception {
+        jaxbgen(jaxbPackageSuffix, new File(COB_XSD_DIR, schemaFileName),
                 internalBindings, serializableUid, generateIsSetMethod,
                 typeNamePrefix, typeNameSuffix, elementNamePrefix,
                 elementNameSuffix, eciCompatible, noPackageInfo);
@@ -360,7 +363,8 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     /**
      * A helper method for JAXB generation.
      * 
-     * @param schemaName the schema name
+     * @param jaxbPackageSuffix the name used to create a unique package name
+     *            for the generated JAXB classes
      * @param xsdFile the XML schema file
      * @param internalBindings uses internal or external bindings
      * @param serializableUid the serial unique ID
@@ -373,7 +377,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * @param noPackageInfo if package-info should not be generated
      * @throws Exception if generation fails
      */
-    protected void jaxbgen(final String schemaName, final File xsdFile,
+    protected void jaxbgen(final String jaxbPackageSuffix, final File xsdFile,
             final boolean internalBindings, final long serializableUid,
             final boolean generateIsSetMethod, final String typeNamePrefix,
             final String typeNameSuffix, final String elementNamePrefix,
@@ -381,7 +385,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
             final boolean noPackageInfo) throws Exception {
         _task.setInternalBindings(internalBindings);
         _task.setXsdFile(xsdFile);
-        _task.setJaxbPackageName(JAXB_PKG_PFX + "." + schemaName);
+        _task.setJaxbPackageName(JAXB_PKG_PFX + "." + jaxbPackageSuffix);
         _task.setTargetDir(GEN_SRC_DIR);
         _task.setSerializableUid(serializableUid);
         _task.setGenerateIsSetMethod(generateIsSetMethod);
