@@ -100,11 +100,13 @@ public class CoxbGenModelTest extends AbstractCoxbGenTest {
         assertTrue(resStr
                 .contains("<echo message=\"Generating Transformers for [class1, class2]\" level=\"info\"/>"));
         assertTrue(resStr.contains("xsdFile=\"myXsd.xsd\""));
-        assertTrue(resStr.contains("targetDir=\"coxb\\src\""));
+        assertTrue(resStr.contains("targetDir=\"coxb" + File.separator
+                + "src\""));
         assertTrue(resStr.contains("<jaxbRootClass name=\"class1\"/>"));
         assertTrue(resStr.contains("<jaxbRootClass name=\"class2\"/>"));
-        assertTrue(resStr.contains("<javac srcdir=\"coxb\\src\""));
-        assertTrue(resStr.contains("destdir=\"coxb\\bin\""));
+        assertTrue(resStr.contains("<javac srcdir=\"coxb" + File.separator
+                + "src\""));
+        assertTrue(resStr.contains("destdir=\"coxb" + File.separator + "bin\""));
     }
 
     /**
