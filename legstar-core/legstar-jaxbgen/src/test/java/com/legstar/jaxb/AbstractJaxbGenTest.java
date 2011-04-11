@@ -106,8 +106,8 @@ public abstract class AbstractJaxbGenTest extends TestCase {
      */
     public String getSource(final String schemaName, final String srcSubDir,
             final String className) {
-        File srcFile = new File(GEN_SRC_DIR, srcSubDir + '/' + schemaName + '/'
-                + className + ".java");
+        File srcFile = new File(GEN_SRC_DIR, srcSubDir + '/'
+                + schemaName.toLowerCase() + '/' + className + ".java");
         return getSource(srcFile);
     }
 
