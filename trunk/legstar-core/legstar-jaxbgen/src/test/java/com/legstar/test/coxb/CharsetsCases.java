@@ -12,13 +12,13 @@ package com.legstar.test.coxb;
 
 import junit.framework.TestCase;
 
-import com.legstar.test.coxb.charsets.ObjectFactory;
 import com.legstar.test.coxb.charsets.Dfhcommarea;
+import com.legstar.test.coxb.charsets.ObjectFactory;
 
 /**
- * Provides data samples for testing throughout LegStar.
- * This is meant to be used with the french character set IMB01147.
- * That character set is not DBCS. 
+ * Provides data samples for testing throughout LegStar. This is meant to be
+ * used with the french character set IMB01147. That character set is not DBCS.
+ * It is important to UTF-8 encode this file.
  */
 public class CharsetsCases extends TestCase {
 
@@ -34,8 +34,8 @@ public class CharsetsCases extends TestCase {
         ObjectFactory of = new ObjectFactory();
         Dfhcommarea dfhcommarea = of.createDfhcommarea();
 
-        dfhcommarea.setComLocal("ça c'est un problème");
-        dfhcommarea.setComNational("élémentaire à résoudre");
+        dfhcommarea.setComLocal("Ã§a c'est un problÃ¨me");
+        dfhcommarea.setComNational("Ã©lÃ©mentaire Ã  rÃ©soudre");
 
         return dfhcommarea;
     }
@@ -45,11 +45,11 @@ public class CharsetsCases extends TestCase {
      */
     public static String getXml() {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/charsets\">"
-        + "<ComLocal>ça c'est un problème</ComLocal>"
-        + "<ComDbcs></ComDbcs>"
-        + "<ComNational>élémentaire à résoudre          </ComNational>"
-        + "</Dfhcommarea>";
+                + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/charsets\">"
+                + "<ComLocal>Ã§a c'est un problÃ¨me</ComLocal>"
+                + "<ComDbcs></ComDbcs>"
+                + "<ComNational>Ã©lÃ©mentaire Ã  rÃ©soudre          </ComNational>"
+                + "</Dfhcommarea>";
     }
 
     /**
@@ -57,44 +57,50 @@ public class CharsetsCases extends TestCase {
      */
     public static String getXmlIBM01140() {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-        + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/charsets\">"
-        + "<ComLocal>\\a c'est un probl}me</ComLocal>"
-        + "<ComDbcs></ComDbcs>"
-        + "<ComNational>élémentaire à résoudre          </ComNational>"
-        + "</Dfhcommarea>";
+                + "<Dfhcommarea xmlns=\"http://legstar.com/test/coxb/charsets\">"
+                + "<ComLocal>\\a c'est un probl}me</ComLocal>"
+                + "<ComDbcs></ComDbcs>"
+                + "<ComNational>Ã©lÃ©mentaire Ã  rÃ©soudre          </ComNational>"
+                + "</Dfhcommarea>";
     }
+
     /**
      * Check that data object contains the expected values.
+     * 
      * @param dfhcommarea the java object to check
      */
     public static void checkJavaObject(final Dfhcommarea dfhcommarea) {
-        assertEquals("ça c'est un problème", dfhcommarea.getComLocal());
+        assertEquals("Ã§a c'est un problÃ¨me", dfhcommarea.getComLocal());
         assertEquals("", dfhcommarea.getComDbcs());
-        assertEquals("élémentaire à résoudre          ", dfhcommarea.getComNational());
+        assertEquals("Ã©lÃ©mentaire Ã  rÃ©soudre          ",
+                dfhcommarea.getComNational());
     }
+
     /**
      * @return a hexadecimal representation of host data.
      */
-    public static String getHostBytesHex() { 
+    public static String getHostBytesHex() {
 
         return "e08140837d85a2a340a495409799968293d09485404040404040404040404040"
-        + "4040404040404040404040404040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040404040404040404040404040"
-        + "00e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
-        + "0020002000200020002000200020002000200020";
+                + "4040404040404040404040404040404040404040404040404040404040404040"
+                + "4040404040404040404040404040404040404040404040404040404040404040"
+                + "00e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
+                + "0020002000200020002000200020002000200020";
     }
 
     /**
-     * @return a hexadecimal representation of host data with a US character set.
+     * @return a hexadecimal representation of host data with a US character
+     *         set.
      */
-    public static String getHostBytesHexIBM01140() { 
+    public static String getHostBytesHexIBM01140() {
 
         return "488140837d85a2a340a495409799968293549485404040404040404040404040"
-        + "4040404040404040404040404040404040404040404040404040404040404040"
-        + "4040404040404040404040404040404040404040404040404040404040404040"
-        + "00e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
-        + "0020002000200020002000200020002000200020";
+                + "4040404040404040404040404040404040404040404040404040404040404040"
+                + "4040404040404040404040404040404040404040404040404040404040404040"
+                + "00e9006c00e9006d0065006e00740061006900720065002000e00020007200e90073006f0075006400720065"
+                + "0020002000200020002000200020002000200020";
     }
+
     /**
      * @return a JAXB object factory for this type of object
      */
