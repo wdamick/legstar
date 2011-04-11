@@ -194,6 +194,9 @@ public abstract class AbstractJaxbGenTest extends TestCase {
      * <p/>
      * ObjectFactories are not compared because their content is not ordered in
      * a consistent way.
+     * <p/>
+     * When comparing file contents we neutralize any platform specific line
+     * ending character such as CR (\r).
      * 
      * @param refFolder the reference folder (containing reference files)
      * @param resultFolder the result folder (containing generated files)
