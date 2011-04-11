@@ -194,9 +194,6 @@ public abstract class AbstractJaxbGenTest extends TestCase {
      * <p/>
      * ObjectFactories are not compared because their content is not ordered in
      * a consistent way.
-     * <p/>
-     * When comparing file contents we neutralize any platform specific line
-     * ending character such as CR (\r).
      * 
      * @param refFolder the reference folder (containing reference files)
      * @param resultFolder the result folder (containing generated files)
@@ -222,11 +219,7 @@ public abstract class AbstractJaxbGenTest extends TestCase {
                 }
                 File resultFile = new File(resultFolder,
                         FilenameUtils.getName(referenceFile.getPath()));
-                String expected = FileUtils.readFileToString(referenceFile);
-                String result = FileUtils.readFileToString(resultFile);
-                assertEquals(String.format("comparing result file %s with %s",
-                        resultFile.getName(), referenceFile.getName()),
-                        expected.replace("\r", ""), result.replace("\r", ""));
+                assertEquals(referenceFile, resultFile);
             }
         }
 
@@ -282,12 +275,26 @@ public abstract class AbstractJaxbGenTest extends TestCase {
             FileUtils.copyFileToDirectory(resultFile, refFolder);
         } else {
             File referenceFile = new File(refFolder, fileName);
-            String expected = FileUtils.readFileToString(referenceFile);
-            String result = FileUtils.readFileToString(resultFile);
-            assertEquals(String.format("comparing result file %s with %s",
-                    resultFile.getName(), referenceFile.getName()), expected,
-                    result);
+            assertEquals(referenceFile, resultFile);
         }
+    }
+
+    /**
+     * When comparing file contents we neutralize any platform specific line
+     * ending character such as CR (\r).
+     * 
+     * @param referenceFile the expected file
+     * @param resultFile the result file
+     * @throws Exception if something fails
+     */
+    protected void assertEquals(final File referenceFile, final File resultFile)
+            throws Exception {
+        String expected = FileUtils.readFileToString(referenceFile);
+        String result = FileUtils.readFileToString(resultFile);
+        assertEquals(
+                String.format("comparing result file %s with %s",
+                        resultFile.getName(), referenceFile.getName()),
+                expected.replace("\r", ""), result.replace("\r", ""));
     }
 
     /**
