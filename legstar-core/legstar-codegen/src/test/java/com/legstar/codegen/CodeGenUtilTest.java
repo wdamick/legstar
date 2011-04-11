@@ -11,6 +11,8 @@
 package com.legstar.codegen;
 
 import java.io.File;
+import java.io.IOException;
+
 import junit.framework.TestCase;
 
 /**
@@ -20,6 +22,7 @@ public class CodeGenUtilTest extends TestCase {
 
     /**
      * Check that getFile works with an absolute file name.
+     * 
      * @throws Exception if test fails
      */
     public void testNoDirAbsoluteFileName() throws Exception {
@@ -33,6 +36,7 @@ public class CodeGenUtilTest extends TestCase {
 
     /**
      * Check that getFile works with a relative file name.
+     * 
      * @throws Exception if test fails
      */
     public void testDirRelativeFileName() throws Exception {
@@ -46,6 +50,7 @@ public class CodeGenUtilTest extends TestCase {
 
     /**
      * Check that location from pakage name works.
+     * 
      * @throws Exception if test fails
      */
     public void testRelativeLocation() throws Exception {
@@ -56,19 +61,25 @@ public class CodeGenUtilTest extends TestCase {
 
     /**
      * Check package concatenation.
+     * 
+     * @throws IOException if temporary location is unusable
      */
-    public void testPackageConcatenation() {
-        File dir = new File("c:\\root\\com\\legstar\\zut");
+    public void testPackageConcatenation() throws IOException {
+        File dir = File.createTempFile("tempDir", "");
         dir.delete();
-        assertEquals("c:\\root\\com\\legstar\\zut",
-                CodeGenUtil.classFilesLocation(new File("c:/root"),
-                        "com.legstar.zut", true).getAbsolutePath());
-        dir = new File("c:\\root\\com\\legstar\\zut");
-        assertTrue(dir.exists());
+        dir.mkdir();
+        String newDirPath = CodeGenUtil.classFilesLocation(dir,
+                "com.legstar.zut", true).getAbsolutePath();
+        assertEquals(dir.getAbsolutePath() + File.separator + "com"
+                + File.separator + "legstar" + File.separator + "zut",
+                newDirPath);
+        assertTrue(new File(newDirPath).exists());
+        dir.delete();
     }
 
     /**
      * Check field name from property name.
+     * 
      * @throws Exception if test fails
      */
     public void testFieldNameFromPropertyName() throws Exception {
@@ -79,6 +90,7 @@ public class CodeGenUtilTest extends TestCase {
 
     /**
      * Check property name from field name.
+     * 
      * @throws Exception if test fails
      */
     public void testPropertyNameFromFieldName() throws Exception {
@@ -89,6 +101,7 @@ public class CodeGenUtilTest extends TestCase {
 
     /**
      * Check property name from JAXB name.
+     * 
      * @throws Exception if test fails
      */
     public void testPropertyNameFromJaxbType() throws Exception {
