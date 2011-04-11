@@ -45,7 +45,7 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
      */
     public void testSimpleAnnotation() throws Exception {
         genSource("alltypes", "ALLTYPES.xsd");
-        String srce = getJaxbSource("ALLTYPES", "DfhCommarea");
+        String srce = getJaxbSource("alltypes", "Dfhcommarea");
         assertTrue(srce.contains("@CobolElement(cobolName = \"S-STRING\","
                 + " type = CobolType.ALPHANUMERIC_ITEM," + " levelNumber = 5,"
                 + " picture = \"X(4)\"," + " srceLine = 24)"));

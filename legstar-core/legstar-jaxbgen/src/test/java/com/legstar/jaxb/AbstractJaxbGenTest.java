@@ -106,8 +106,8 @@ public abstract class AbstractJaxbGenTest extends TestCase {
      */
     public String getSource(final String schemaName, final String srcSubDir,
             final String className) {
-        File srcFile = new File(GEN_SRC_DIR, srcSubDir + '/'
-                + schemaName.toLowerCase() + '/' + className + ".java");
+        File srcFile = new File(GEN_SRC_DIR, srcSubDir + '/' + schemaName + '/'
+                + className + ".java");
         return getSource(srcFile);
     }
 
@@ -223,7 +223,7 @@ public abstract class AbstractJaxbGenTest extends TestCase {
                 String result = FileUtils.readFileToString(resultFile);
                 assertEquals(String.format("comparing result file %s with %s",
                         resultFile.getName(), referenceFile.getName()),
-                        expected, result);
+                        expected.replace("\r", ""), result.replace("\r", ""));
             }
         }
 
