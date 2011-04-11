@@ -122,22 +122,22 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
             throws Exception {
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true, null,
                 null, null, null, false, false);
-        assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
+        assertTrue(getJaxbSource("lsfileaq", "Dfhcommarea").contains(
                 "public boolean isSetReplyData()"));
 
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, false, null,
                 null, null, null, false, false);
-        assertFalse(getJaxbSource("lsfileaq", "DfhCommarea").contains(
+        assertFalse(getJaxbSource("lsfileaq", "Dfhcommarea").contains(
                 "public boolean isSetReplyData()"));
 
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true, null,
                 null, null, null, false, false);
-        assertTrue(getJaxbSource("lsfileaq", "DfhCommarea").contains(
+        assertTrue(getJaxbSource("lsfileaq", "Dfhcommarea").contains(
                 "private final static long serialVersionUID = 1L;"));
 
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings,
                 123589357872112454L, true, null, null, null, null, false, false);
-        assertTrue(getJaxbSource("lsfileaq", "DfhCommarea")
+        assertTrue(getJaxbSource("lsfileaq", "Dfhcommarea")
                 .contains(
                         "private final static long serialVersionUID = 123589357872112454L;"));
     }
@@ -151,17 +151,17 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     public void nameTransform(final boolean internalBindings) throws Exception {
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true,
                 "SomePrefix", null, null, null, false, false);
-        assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommarea").contains(
+        assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhcommarea").contains(
                 "public class SomePrefixDfhcommarea"));
 
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true, null,
                 "SomeSuffix", null, null, false, false);
-        assertTrue(getJaxbSource("lsfileaq", "DfhCommareaSomeSuffix").contains(
+        assertTrue(getJaxbSource("lsfileaq", "DfhcommareaSomeSuffix").contains(
                 "public class DfhcommareaSomeSuffix"));
 
         jaxbgen("LSFILEAQ.xsd", "lsfileaq", internalBindings, 1L, true,
                 "SomePrefix", "SomeSuffix", null, null, false, false);
-        assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhCommareaSomeSuffix")
+        assertTrue(getJaxbSource("lsfileaq", "SomePrefixDfhcommareaSomeSuffix")
                 .contains("public class SomePrefixDfhcommareaSomeSuffix"));
 
         jaxbgen("MSNSearch.xsd", "MSNSearch", internalBindings, 1L, true, null,
