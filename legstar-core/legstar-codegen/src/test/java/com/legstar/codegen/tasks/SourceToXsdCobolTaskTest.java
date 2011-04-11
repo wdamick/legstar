@@ -13,12 +13,12 @@ package com.legstar.codegen.tasks;
 import java.io.File;
 import java.util.Properties;
 
+import junit.framework.TestCase;
+
 import org.apache.tools.ant.BuildException;
 
 import com.legstar.codegen.CodeGenMakeException;
 import com.legstar.codegen.models.SourceToXsdCobolModel;
-
-import junit.framework.TestCase;
 
 /**
  * Test source to xsd generic code.
@@ -57,8 +57,9 @@ public class SourceToXsdCobolTaskTest extends TestCase {
             xca.checkInput(true, true);
             fail("testInvalidTargetDir");
         } catch (BuildException e) {
-            assertEquals(
-                    "src\\test\\resources\\log4j.properties is not a directory or is not writable",
+            assertEquals("src" + File.separator + "test" + File.separator
+                    + "resources" + File.separator
+                    + "log4j.properties is not a directory or is not writable",
                     e.getMessage());
         }
     }
