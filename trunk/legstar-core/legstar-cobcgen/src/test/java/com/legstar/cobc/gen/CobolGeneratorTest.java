@@ -22,6 +22,9 @@ import org.apache.tools.ant.BuildException;
  */
 public class CobolGeneratorTest extends AbstractTester {
 
+    /** Need to be platform independent. */
+    private static final String CRLF = System.getProperty("line.separator");
+
     /** Logger. */
     private final Log _log = LogFactory.getLog(CobolGeneratorTest.class);
 
@@ -173,91 +176,99 @@ public class CobolGeneratorTest extends AbstractTester {
     public void testGenerateDirect() {
         try {
             String code = CobolGenerator.generate(
-                    "com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea",
-                    "COM-LSFILEAE",
-                    5,
-                    5);
+                    "com.legstar.test.coxb.lsfileae", "Dfhcommarea",
+                    "COM-LSFILEAE", 5, 5);
             _log.debug(code);
-            assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-                    "           05 COM-LSFILEAE." + "\r\n"
-                            + "               10 COM-NUMBER PIC 9(6)." + "\r\n"
-                            + "               10 COM-PERSONAL." + "\r\n"
-                            + "                   15 COM-NAME PIC X(20)."
-                            + "\r\n"
-                            + "                   15 COM-ADDRESS PIC X(20)."
-                            + "\r\n"
-                            + "                   15 COM-PHONE PIC X(8)."
-                            + "\r\n"
-                            + "               10 COM-DATE PIC X(8)." + "\r\n"
-                            + "               10 COM-AMOUNT PIC X(8)." + "\r\n"
-                            + "               10 COM-COMMENT PIC X(9)."
-                            + "\r\n", code);
+            assertEquals(""
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           05 COM-LSFILEAE." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               10 COM-NUMBER PIC 9(6)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               10 COM-PERSONAL." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "                   15 COM-NAME PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "                   15 COM-ADDRESS PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "                   15 COM-PHONE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               10 COM-DATE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               10 COM-AMOUNT PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               10 COM-COMMENT PIC X(9)." + CRLF, code);
 
-            code = CobolGenerator.generate(
-                    "com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea",
-                    "COM-LSFILEAE",
-                    1,
-                    1);
+            code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                    "Dfhcommarea", "COM-LSFILEAE", 1, 1);
             _log.debug(code);
-            assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-                    "       01 COM-LSFILEAE." + "\r\n"
-                            + "           02 COM-NUMBER PIC 9(6)." + "\r\n"
-                            + "           02 COM-PERSONAL." + "\r\n"
-                            + "               03 COM-NAME PIC X(20)." + "\r\n"
-                            + "               03 COM-ADDRESS PIC X(20)."
-                            + "\r\n"
-                            + "               03 COM-PHONE PIC X(8)." + "\r\n"
-                            + "           02 COM-DATE PIC X(8)." + "\r\n"
-                            + "           02 COM-AMOUNT PIC X(8)." + "\r\n"
-                            + "           02 COM-COMMENT PIC X(9)." + "\r\n",
-                    code);
 
-            code = CobolGenerator.generate(
-                    "com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea",
-                    "COM-LSFILEAE",
-                    2,
-                    1);
+            assertEquals(""
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "       01 COM-LSFILEAE." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           02 COM-NUMBER PIC 9(6)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           02 COM-PERSONAL." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-NAME PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-ADDRESS PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-PHONE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           02 COM-DATE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           02 COM-AMOUNT PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           02 COM-COMMENT PIC X(9)." + CRLF, code);
+
+            code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                    "Dfhcommarea", "COM-LSFILEAE", 2, 1);
             _log.debug(code);
-            assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-                    "           02 COM-LSFILEAE." + "\r\n"
-                            + "               03 COM-NUMBER PIC 9(6)." + "\r\n"
-                            + "               03 COM-PERSONAL." + "\r\n"
-                            + "                   04 COM-NAME PIC X(20)."
-                            + "\r\n"
-                            + "                   04 COM-ADDRESS PIC X(20)."
-                            + "\r\n"
-                            + "                   04 COM-PHONE PIC X(8)."
-                            + "\r\n"
-                            + "               03 COM-DATE PIC X(8)." + "\r\n"
-                            + "               03 COM-AMOUNT PIC X(8)." + "\r\n"
-                            + "               03 COM-COMMENT PIC X(9)."
-                            + "\r\n", code);
-            code = CobolGenerator.generate(
-                    "com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea",
-                    "COM-LSFILEAE",
-                    1,
-                    2);
+
+            assertEquals(""
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           02 COM-LSFILEAE." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-NUMBER PIC 9(6)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-PERSONAL." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "                   04 COM-NAME PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "                   04 COM-ADDRESS PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "                   04 COM-PHONE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-DATE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-AMOUNT PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               03 COM-COMMENT PIC X(9)." + CRLF, code);
+            code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                    "Dfhcommarea", "COM-LSFILEAE", 1, 2);
             _log.debug(code);
-            assertEquals(
-                    /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-                    "       01 COM-LSFILEAE." + "\r\n"
-                            + "           03 COM-NUMBER PIC 9(6)." + "\r\n"
-                            + "           03 COM-PERSONAL." + "\r\n"
-                            + "               05 COM-NAME PIC X(20)." + "\r\n"
-                            + "               05 COM-ADDRESS PIC X(20)."
-                            + "\r\n"
-                            + "               05 COM-PHONE PIC X(8)." + "\r\n"
-                            + "           03 COM-DATE PIC X(8)." + "\r\n"
-                            + "           03 COM-AMOUNT PIC X(8)." + "\r\n"
-                            + "           03 COM-COMMENT PIC X(9)." + "\r\n",
-                    code);
+
+            assertEquals(""
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "       01 COM-LSFILEAE." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           03 COM-NUMBER PIC 9(6)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           03 COM-PERSONAL." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               05 COM-NAME PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               05 COM-ADDRESS PIC X(20)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "               05 COM-PHONE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           03 COM-DATE PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           03 COM-AMOUNT PIC X(8)." + CRLF
+            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
+            + "           03 COM-COMMENT PIC X(9)." + CRLF, code);
         } catch (CobolGenerationException e) {
             fail(e.getMessage());
         }
