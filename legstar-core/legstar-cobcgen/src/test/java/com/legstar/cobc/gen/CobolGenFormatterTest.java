@@ -10,24 +10,28 @@
  ******************************************************************************/
 package com.legstar.cobc.gen;
 
+import junit.framework.TestCase;
+
 import com.legstar.coxb.impl.CArrayStringBinding;
 import com.legstar.coxb.impl.CDbcsBinding;
 import com.legstar.coxb.impl.CStringBinding;
 import com.legstar.coxb.impl.CZonedDecimalBinding;
 
-import junit.framework.TestCase;
-
 /**
  * The COBOL formatter produces COBOL sentences.
- *
+ * 
  */
 public class CobolGenFormatterTest extends TestCase {
+
+    /** Need to be platform independent. */
+    private static final String CRLF = System.getProperty("line.separator");
 
     /**
      * Test elementary string.
      */
     public void testElementaryStringItem() {
-        CStringBinding cb = new CStringBinding("astring", null, null, null, null);
+        CStringBinding cb = new CStringBinding("astring", null, null, null,
+                null);
         cb.setLevelNumber(5);
         cb.setCobolName("A-STRING");
         cb.setUsage("DISPLAY");
@@ -35,8 +39,8 @@ public class CobolGenFormatterTest extends TestCase {
         cb.setIsJustifiedRight(true);
         cb.setDefaultValue("\"BIG\"");
 
-        /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-        /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
+        /* ...........0000000001111111111222222222233333333334444444444555 */
+        /* ...........1234567890123456789012345678901234567890123456789012 */
         assertEquals("           05 A-STRING PIC X(8) JUST VALUE \"BIG\".",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
@@ -51,8 +55,8 @@ public class CobolGenFormatterTest extends TestCase {
         cb.setUsage("DISPLAY-1");
         cb.setPicture("G(8)");
 
-        /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-        /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
+        /* ...........0000000001111111111222222222233333333334444444444555 */
+        /* ...........1234567890123456789012345678901234567890123456789012 */
         assertEquals("           05 A-STRING PIC G(8) DISPLAY-1.",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
@@ -61,7 +65,8 @@ public class CobolGenFormatterTest extends TestCase {
      * Test elementary zoned decimal.
      */
     public void testElementaryZonedDecimalItem() {
-        CZonedDecimalBinding cb = new CZonedDecimalBinding("astring", null, null, null, null);
+        CZonedDecimalBinding cb = new CZonedDecimalBinding("astring", null,
+                null, null, null);
         cb.setLevelNumber(10);
         cb.setCobolName("A-ZONED-DEC");
         cb.setUsage("DISPLAY");
@@ -69,9 +74,10 @@ public class CobolGenFormatterTest extends TestCase {
         cb.setIsSignLeading(true);
         cb.setIsSignSeparate(true);
 
-        /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-        /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
-        assertEquals("           10 A-ZONED-DEC PIC S9(8)V99 LEADING SEPARATE.",
+        /* ......00000000011111111112222222222333333333344444444445555555 */
+        /* ......12345678901234567890123456789012345678901234567890123456 */
+        assertEquals(
+                "           10 A-ZONED-DEC PIC S9(8)V99 LEADING SEPARATE.",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
 
@@ -79,7 +85,8 @@ public class CobolGenFormatterTest extends TestCase {
      * Test an array of strings (fixed size).
      */
     public void testFixedArrayElementaryStringItem() {
-        CArrayStringBinding cb = new CArrayStringBinding("astringArray", null, null, null, null);
+        CArrayStringBinding cb = new CArrayStringBinding("astringArray", null,
+                null, null, null);
         cb.setLevelNumber(5);
         cb.setCobolName("A-STRING-ARRAY");
         cb.setUsage("DISPLAY");
@@ -87,8 +94,8 @@ public class CobolGenFormatterTest extends TestCase {
         cb.setMinOccurs(3);
         cb.setMaxOccurs(3);
 
-        /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-        /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
+        /* ...........0000000001111111111222222222233333333334444444444555 */
+        /* ...........1234567890123456789012345678901234567890123456789012 */
         assertEquals("           05 A-STRING-ARRAY PIC X(8) OCCURS 3.",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
@@ -97,7 +104,8 @@ public class CobolGenFormatterTest extends TestCase {
      * Test an array of strings (variable size). Split on 2 lines.
      */
     public void testVariableArrayElementaryStringItem() {
-        CArrayStringBinding cb = new CArrayStringBinding("astringArray", null, null, null, null);
+        CArrayStringBinding cb = new CArrayStringBinding("astringArray", null,
+                null, null, null);
         cb.setLevelNumber(5);
         cb.setCobolName("A-STRING-ARRAY");
         cb.setUsage("DISPLAY");
@@ -107,12 +115,10 @@ public class CobolGenFormatterTest extends TestCase {
         cb.setDependingOn("ODO-COUNTER");
 
         assertEquals(
-                /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-                /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
-                             "           05 A-STRING-ARRAY PIC X(8) OCCURS 0 TO 3 DEPENDING ON"
-                /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-                /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
-                +        "\r\n               ODO-COUNTER.",
+        /* 0000000111111111122222222223333333333444444444455555555556666666666777 */
+        /* 3456789012345678901234567890123456789012345678901234567890123456789012 */
+        "           05 A-STRING-ARRAY PIC X(8) OCCURS 0 TO 3 DEPENDING ON"
+                + CRLF + "               ODO-COUNTER.",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
 
@@ -120,16 +126,18 @@ public class CobolGenFormatterTest extends TestCase {
      * Test a redefined item.
      */
     public void testRedefinesItem() {
-        CStringBinding cb = new CStringBinding("astring", null, null, null, null);
+        CStringBinding cb = new CStringBinding("astring", null, null, null,
+                null);
         cb.setLevelNumber(5);
         cb.setCobolName("A-STRING");
         cb.setUsage("DISPLAY");
         cb.setPicture("X(8)");
         cb.setRedefines("A-REDEFINED-STRING");
 
-        /*            000000000111111111122222222223333333333444444444455555555556666666666777*/
-        /*            123456789012345678901234567890123456789012345678901234567890123456789012*/
-        assertEquals("           05 A-STRING PIC X(8) REDEFINES A-REDEFINED-STRING.",
+        /* ......0000000001111111111222222222233333333334444444444555555555566 */
+        /* ......1234567890123456789012345678901234567890123456789012345678901 */
+        assertEquals(
+                "           05 A-STRING PIC X(8) REDEFINES A-REDEFINED-STRING.",
                 CobolGenFormatter.formatCobolClause(cb, 1));
     }
 
