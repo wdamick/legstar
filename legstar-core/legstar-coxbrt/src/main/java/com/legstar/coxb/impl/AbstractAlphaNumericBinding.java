@@ -12,6 +12,8 @@ package com.legstar.coxb.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.ICobolComplexBinding;
@@ -36,10 +38,8 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding
      */
-    public AbstractAlphaNumericBinding(
-            final String bindingName,
-            final String jaxbName,
-            final Class < ? > jaxbType,
+    public AbstractAlphaNumericBinding(final String bindingName,
+            final String jaxbName, final Class < ? > jaxbType,
             final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
@@ -56,13 +56,16 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
     }
 
     /** {@inheritDoc} */
-    public Object getObjectValue(
-            final Class < ? > type) throws HostException {
+    public Object getObjectValue(final Class < ? > type) throws HostException {
         if (type.equals(String.class)) {
             return mValue;
+        } else if (type.equals(Date.class)) {
+            return new Date(Timestamp.valueOf(mValue).getTime());
         } else if (type.isEnum()) {
-            /* If result is request to be an enum, return instance corresponding
-             * to this value */
+            /*
+             * If result is request to be an enum, return instance corresponding
+             * to this value
+             */
             try {
                 Method fromValue = type.getMethod("fromValue", String.class);
                 return fromValue.invoke(null, mValue.trim());
@@ -79,8 +82,8 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
             }
 
         } else {
-            throw new HostException("Attempt to get binding " + getBindingName()
-                    + " as an incompatible type " + type);
+            throw new HostException("Attempt to get binding "
+                    + getBindingName() + " as an incompatible type " + type);
         }
     }
 
@@ -92,6 +95,8 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
         }
         if (value instanceof String) {
             mValue = (String) value;
+        } else if (value instanceof Date) {
+            mValue = new Timestamp(((Date) value).getTime()).toString();
         } else if (value instanceof Enum < ? >) {
             try {
                 Method valueMethod = value.getClass().getMethod("value");
@@ -108,8 +113,8 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
                 throw new HostException(e);
             }
         } else {
-            throw new HostException("Attempt to set binding " + getBindingName()
-                    + " from an incompatible value " + value);
+            throw new HostException("Attempt to set binding "
+                    + getBindingName() + " from an incompatible value " + value);
         }
     }
 
