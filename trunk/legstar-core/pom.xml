@@ -175,7 +175,7 @@
                         <entities>
                             <entity>
                                 <name>version</name>
-                                <value>${pom.version}</value>
+                                <value>${project.version}</value>
                             </entity>
                             <entity>
                                 <name>year</name>
@@ -497,35 +497,35 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbapi</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- LegStar Code Generation API -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-codegen</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- LegStar COBOL binding runtime -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbrt</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- LegStar JAXB generator -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- LegStar JAXB generator test classes/resources -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxbgen</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
@@ -534,14 +534,14 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- LegStar COBOL binding test classes/resources -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-coxbgen</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
