@@ -17,10 +17,10 @@ import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.util.PictureUtil;
 
 /**
- * This class is a superclass of all other element types implementing
- * binding between a java type and cobol. The Cobol properties are
- * the exact equivalent of the CobolElement annotation.
- *
+ * This class is a superclass of all other element types implementing binding
+ * between a java type and cobol. The Cobol properties are the exact equivalent
+ * of the CobolElement annotation.
+ * 
  * @author Fady Moussallam
  * 
  */
@@ -86,12 +86,16 @@ public abstract class CBinding implements ICobolBinding {
     /** True if this element is used in custom code. */
     private boolean mIsCustomVariable = false;
 
-    /** Name of class providing logic to help with alternative selection. 
-     *  Host to Java. */
+    /**
+     * Name of class providing logic to help with alternative selection. Host to
+     * Java.
+     */
     private String mUnmarshalChoiceStrategyClassName;
 
-    /** Name of class providing logic to help with alternative selection. 
-     *  Java to Host. */
+    /**
+     * Name of class providing logic to help with alternative selection. Java to
+     * Host.
+     */
     private String mMarshalChoiceStrategyClassName;
 
     /** Level in the hierarchy this element was parsed from. */
@@ -116,8 +120,8 @@ public abstract class CBinding implements ICobolBinding {
     private boolean mGeneratedBinding = false;
 
     /**
-     * Constructor for a cobol element to java binding.
-     * Dynamic bindings are built from cobol annotations.
+     * Constructor for a cobol element to java binding. Dynamic bindings are
+     * built from cobol annotations.
      * 
      * @param name the identifier for this binding
      * @param jaxbName the name of the bound java property
@@ -125,11 +129,8 @@ public abstract class CBinding implements ICobolBinding {
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding
      */
-    public CBinding(
-            final String name,
-            final String jaxbName,
-            final Class < ? > jaxbType,
-            final CobolElement cobolAnnotations,
+    public CBinding(final String name, final String jaxbName,
+            final Class < ? > jaxbType, final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         setBindingName(name);
         setJaxbName(jaxbName);
@@ -154,10 +155,10 @@ public abstract class CBinding implements ICobolBinding {
         setRedefines(cobolAnnotations.redefines());
         setIsRedefined(cobolAnnotations.isRedefined());
         setIsCustomVariable(cobolAnnotations.isCustomVariable());
-        setUnmarshalChoiceStrategyClassName(
-                cobolAnnotations.unmarshalChoiceStrategyClassName());
-        setMarshalChoiceStrategyClassName(
-                cobolAnnotations.marshalChoiceStrategyClassName());
+        setUnmarshalChoiceStrategyClassName(cobolAnnotations
+                .unmarshalChoiceStrategyClassName());
+        setMarshalChoiceStrategyClassName(cobolAnnotations
+                .marshalChoiceStrategyClassName());
         setLevelNumber(cobolAnnotations.levelNumber());
         setPicture(PictureUtil.preparePicture(cobolAnnotations.picture()));
         setUsage(cobolAnnotations.usage());
@@ -196,8 +197,9 @@ public abstract class CBinding implements ICobolBinding {
 
     /**
      * The host byte length calculation is not performed at construction time.
-     * This is because some information such as children of complex elements
-     * or dimension of arrays might not be known at construction time.
+     * This is because some information such as children of complex elements or
+     * dimension of arrays might not be known at construction time.
+     * 
      * @return the Cobol element length in bytes
      */
     public int getByteLength() {
@@ -224,8 +226,7 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @param isJustifiedRight true if String is right justified
      */
-    public void setIsJustifiedRight(
-            final boolean isJustifiedRight) {
+    public void setIsJustifiedRight(final boolean isJustifiedRight) {
         mIsJustifiedRight = isJustifiedRight;
     }
 
@@ -393,14 +394,14 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @param isCustomVariable true if element is used in custom code
      */
-    public void setIsCustomVariable(
-            final boolean isCustomVariable) {
+    public void setIsCustomVariable(final boolean isCustomVariable) {
         mIsCustomVariable = isCustomVariable;
     }
 
     /**
      * @return the name of a class providing additional logic to select an
-     * alternative within a choice element at unmarshaling (Host to Java) time.
+     *         alternative within a choice element at unmarshaling (Host to
+     *         Java) time.
      */
     public String getUnmarshalChoiceStrategyClassName() {
         return mUnmarshalChoiceStrategyClassName;
@@ -408,8 +409,8 @@ public abstract class CBinding implements ICobolBinding {
 
     /**
      * @param unmarshalChoiceStrategyClassName the the name of a class providing
-     * additional logic to select an alternative within a choice element at
-     * unmarshaling (Host to Java) time.
+     *            additional logic to select an alternative within a choice
+     *            element at unmarshaling (Host to Java) time.
      */
     public void setUnmarshalChoiceStrategyClassName(
             final String unmarshalChoiceStrategyClassName) {
@@ -418,7 +419,8 @@ public abstract class CBinding implements ICobolBinding {
 
     /**
      * @return the name of a class providing additional logic to select an
-     * alternative within a choice element at marshaling (Java to Host) time.
+     *         alternative within a choice element at marshaling (Java to Host)
+     *         time.
      */
     public String getMarshalChoiceStrategyClassName() {
         return mMarshalChoiceStrategyClassName;
@@ -426,8 +428,8 @@ public abstract class CBinding implements ICobolBinding {
 
     /**
      * @param marshalChoiceStrategyClassName the name of a class providing
-     * additional logic to select an alternative within a choice element at
-     * marshaling (Java to Host) time.
+     *            additional logic to select an alternative within a choice
+     *            element at marshaling (Java to Host) time.
      */
     public void setMarshalChoiceStrategyClassName(
             final String marshalChoiceStrategyClassName) {
@@ -519,14 +521,14 @@ public abstract class CBinding implements ICobolBinding {
     }
 
     /**
-     * @return the Line number in the original source file 
+     * @return the Line number in the original source file
      */
     public int getSrceLine() {
         return mSrceLine;
     }
 
     /**
-     * @param srceLine the Line number in the original source file  to set
+     * @param srceLine the Line number in the original source file to set
      */
     public void setSrceLine(final int srceLine) {
         mSrceLine = srceLine;
@@ -534,8 +536,9 @@ public abstract class CBinding implements ICobolBinding {
 
     /**
      * Determines if this Cobol element is bound to a Jaxb property.
+     * 
      * @return true if element is bound to a jaxb property which name and type
-     * are known
+     *         are known
      */
     public boolean isBound() {
         return (mJaxbName != null && mJaxbType != null);
@@ -565,20 +568,20 @@ public abstract class CBinding implements ICobolBinding {
     /**
      * @param parentBinding the parent binding to set
      */
-    public void setParentBinding(
-            final ICobolComplexBinding parentBinding) {
+    public void setParentBinding(final ICobolComplexBinding parentBinding) {
         mParentBinding = parentBinding;
     }
 
     /**
      * This utility method is used to suppress the need for @SuppressWarnings
      * when we cast objects to List < ? >.
+     * 
      * @param <T> the list type
      * @param x the object to cast
      * @return a list object
      */
     @SuppressWarnings("unchecked")
-    public < T > T cast(final Object x) {
+    public <T> T cast(final Object x) {
         return (T) x;
     }
 
@@ -587,5 +590,37 @@ public abstract class CBinding implements ICobolBinding {
      */
     public boolean isGeneratedBinding() {
         return mGeneratedBinding;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "CBinding [mBindingName="
+                + mBindingName
+                + ", mParentBindingName="
+                + ((mParentBinding == null) ? "" : mParentBinding
+                        .getBindingName()) + ", mJaxbName=" + mJaxbName
+                + ", mJaxbType=" + mJaxbType + ", mCobolName=" + mCobolName
+                + ", mCobolType=" + mCobolType + ", mByteLength=" + mByteLength
+                + ", mIsJustifiedRight=" + mIsJustifiedRight
+                + ", mTotalDigits=" + mTotalDigits + ", mFractionDigits="
+                + mFractionDigits + ", mIsSigned=" + mIsSigned
+                + ", mIsSignLeading=" + mIsSignLeading + ", mIsSignSeparate="
+                + mIsSignSeparate + ", mMinOccurs=" + mMinOccurs
+                + ", mMaxOccurs=" + mMaxOccurs + ", mDependingOn="
+                + mDependingOn + ", mIsODOObject=" + mIsODOObject
+                + ", mRedefines=" + mRedefines + ", mIsRedefined="
+                + mIsRedefined + ", mIsCustomVariable=" + mIsCustomVariable
+                + ", mUnmarshalChoiceStrategyClassName="
+                + mUnmarshalChoiceStrategyClassName
+                + ", mMarshalChoiceStrategyClassName="
+                + mMarshalChoiceStrategyClassName + ", mLevelNumber="
+                + mLevelNumber + ", mPicture=" + mPicture + ", mUsage="
+                + mUsage + ", mDefaultValue=" + mDefaultValue + ", mSrceLine="
+                + mSrceLine + ", mGeneratedBinding=" + mGeneratedBinding + "]";
     }
 }

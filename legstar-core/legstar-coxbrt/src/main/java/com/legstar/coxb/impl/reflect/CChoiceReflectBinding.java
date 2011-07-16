@@ -48,6 +48,20 @@ public class CChoiceReflectBinding extends CChoiceBinding {
         super(bindingName, cobolAnnotations, parentBinding);
     }
 
+    /**
+     * A choice element only needs to know its alternatives list. This
+     * constructor does not require the COBOL annotations for the redefined
+     * item.
+     * 
+     * @param bindingName the identifier for this binding
+     * @param parentBinding a reference to the parent binding if any
+     */
+    public CChoiceReflectBinding(final String bindingName,
+            final ICobolComplexBinding parentBinding) {
+
+        super(bindingName, null, parentBinding);
+    }
+
     /** {@inheritDoc} */
     public void setAlternativesValues() throws HostException {
         for (ICobolBinding alt : getAlternativesList()) {
