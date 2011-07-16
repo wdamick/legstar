@@ -1,6 +1,8 @@
 package com.legstar.coxb.impl.reflect;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -86,7 +88,8 @@ public final class ReflectBindingFactory {
         CobolJavaTypeAdapter adapter = field
                 .getAnnotation(CobolJavaTypeAdapter.class);
         if (adapter != null) {
-            return null; // FIXME implement
+            return getCustomAdapter(adapter, jaxbName, jaxbType,
+                    cobolAnnotations, parentBinding);
         }
 
         return createBinding(jaxbName, jaxbType, cobolAnnotations,
@@ -224,6 +227,7 @@ public final class ReflectBindingFactory {
                 .getMarshalChoiceStrategyClassName());
         choice.setUnmarshalChoiceStrategyClassName(cobolBinding
                 .getUnmarshalChoiceStrategyClassName());
+        choice.setCobolName(cobolBinding.getCobolName());
 
         /*
          * Add the redefined item as the first alternative in the choice element
@@ -518,6 +522,51 @@ public final class ReflectBindingFactory {
             }
         }
         return getter.getName().substring(getterPrefix.length());
+
+    }
+
+    /**
+     * Elements might be associated with a custom adapter.
+     * <p/>
+     * Custom adapters will usually inherit from
+     * {@link com.legstar.coxb.common.CBinding} or one of its subclasses.
+     * <p/>
+     * The adapter must implement a constructor that takes the same parameters
+     * as CBinding.
+     * 
+     * @param adapter the adapter annotations
+     * @param jaxbName the JAXB name of the bound property
+     * @param jaxbType the JAXB type of the bound property
+     * @param cobolAnnotations the COBOL annotations
+     * @param parentBinding the parent binding
+     * @return an instance of the adapter
+     * @throws ReflectBindingException if instantiation fails
+     */
+    protected static ICobolBinding getCustomAdapter(
+            CobolJavaTypeAdapter adapter, final String jaxbName,
+            final Class < ? > jaxbType, final CobolElement cobolAnnotations,
+            final ICobolComplexBinding parentBinding)
+            throws ReflectBindingException {
+        try {
+            Class < ? extends ICobolBinding > adapterClass = adapter.value();
+            Constructor < ? extends ICobolBinding > ctor = adapterClass
+                    .getConstructor(String.class, String.class, Class.class,
+                            CobolElement.class, ICobolComplexBinding.class);
+            return ctor.newInstance(jaxbName, jaxbName, jaxbType,
+                    cobolAnnotations, parentBinding);
+        } catch (SecurityException e) {
+            throw new ReflectBindingException(e);
+        } catch (NoSuchMethodException e) {
+            throw new ReflectBindingException(e);
+        } catch (IllegalArgumentException e) {
+            throw new ReflectBindingException(e);
+        } catch (InstantiationException e) {
+            throw new ReflectBindingException(e);
+        } catch (IllegalAccessException e) {
+            throw new ReflectBindingException(e);
+        } catch (InvocationTargetException e) {
+            throw new ReflectBindingException(e);
+        }
 
     }
 
