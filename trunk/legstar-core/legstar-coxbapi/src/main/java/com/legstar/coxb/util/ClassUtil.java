@@ -182,14 +182,26 @@ public final class ClassUtil {
     public static Method getGetterMethod(final Object parentObject,
             final String getterPrefix, final String jaxbName)
             throws ClassMethodException {
-        String getterName = getterPrefix + NameUtil.upperFirstChar(jaxbName)
-                + jaxbName.substring(1);
+        String getterName = getGetterName(getterPrefix, jaxbName);
         try {
             Method getter = parentObject.getClass().getMethod(getterName);
             return getter;
         } catch (NoSuchMethodException e) {
             throw (new ClassMethodException(e));
         }
+    }
+
+    /**
+     * Build a conventional bean getter method name from a field name.
+     * 
+     * @param getterPrefix the getter method name prefix (get or is)
+     * @param fieldName the field name
+     * @return a getter method name
+     */
+    public static String getGetterName(final String getterPrefix,
+            final String fieldName) {
+        return getterPrefix + Character.toUpperCase(fieldName.charAt(0))
+                + fieldName.substring(1);
     }
 
     /**
