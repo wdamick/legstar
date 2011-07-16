@@ -1,7 +1,7 @@
 package com.legstar.coxb.impl;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +15,6 @@ import com.legstar.coxb.CobolComplexType;
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolJavaTypeAdapter;
 import com.legstar.coxb.CobolType;
-import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.convert.simple.CobolSimpleConverters;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
@@ -37,7 +36,7 @@ public class CustomBindingTest extends TestCase {
     public void testDateToHost() throws Exception {
 
         MyCustomClass valueObject = new MyCustomClass();
-        valueObject.setFieldDate(new Date(1307773945303L));
+        valueObject.setFieldDate(new Timestamp(1307773945303L));
 
         byte[] hostBytes = new byte[32];
         CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0,
@@ -74,8 +73,8 @@ public class CustomBindingTest extends TestCase {
 
         MyCustomClass valueObject = (MyCustomClass) ccem
                 .getObjectValue(MyCustomClass.class);
-        assertEquals("Sat Jun 11 08:32:25 CEST 2011", valueObject
-                .getFieldDate().toString());
+        assertEquals("2011-06-11 08:32:25.303", valueObject.getFieldDate()
+                .toString());
     }
 
     /**
@@ -107,7 +106,7 @@ public class CustomBindingTest extends TestCase {
         @XmlSchemaType(name = "dateTime")
         @CobolJavaTypeAdapter(value = CustomBinding.class)
         @CobolElement(cobolName = "fieldDate", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 3, picture = "X(32)", usage = "DISPLAY")
-        protected Date fieldDate;
+        protected Timestamp fieldDate;
 
         /**
          * Gets the value of the fieldDate property.
@@ -115,7 +114,7 @@ public class CustomBindingTest extends TestCase {
          * @return possible object is {@link String }
          * 
          */
-        public Date getFieldDate() {
+        public Timestamp getFieldDate() {
             return fieldDate;
         }
 
@@ -125,7 +124,7 @@ public class CustomBindingTest extends TestCase {
          * @param value allowed object is {@link String }
          * 
          */
-        public void setFieldDate(Date value) {
+        public void setFieldDate(Timestamp value) {
             this.fieldDate = value;
         }
 
@@ -135,15 +134,4 @@ public class CustomBindingTest extends TestCase {
 
     }
 
-    public class CustomBinding extends CStringBinding {
-
-        public CustomBinding(String bindingName, String jaxbName,
-                Class < ? > jaxbType, CobolElement cobolAnnotations,
-                ICobolComplexBinding parentBinding) {
-            super(bindingName, jaxbName, jaxbType, cobolAnnotations,
-                    parentBinding);
-            // TODO Auto-generated constructor stub
-        }
-
-    }
 }

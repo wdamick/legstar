@@ -99,7 +99,6 @@ public class DfhcommareaBinding
         _cNumericChoice = new CNumericChoiceBinding("CNumericChoice", this);
         _cNumericChoice.setCobolName("C-NUMERIC");
         _cNumericChoice.setByteLength(2);
-        _cNumericChoice.setTotalDigits(4);
         _cNumericChoice.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.redbotha.ChoiceSelector");
 
