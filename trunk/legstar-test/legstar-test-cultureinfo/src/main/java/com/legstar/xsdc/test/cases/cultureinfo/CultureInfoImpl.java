@@ -70,7 +70,7 @@ public class CultureInfoImpl {
         NumberFormat nf = NumberFormat.getInstance(locale);
         reply.setFormattedDecimalNumber(nf.format(request.getDecimalNumber()));
 
-        /* Simulate a french server */
+        /* Simulate a French server */
         Locale serverLocale = Locale.FRANCE;
         ServerCultureInfo serverCultureInfo = new ServerCultureInfo();
         serverCultureInfo.setDisplayCountry(serverLocale.getDisplayCountry());
