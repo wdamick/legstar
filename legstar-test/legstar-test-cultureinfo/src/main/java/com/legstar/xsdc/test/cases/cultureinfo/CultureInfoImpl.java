@@ -36,7 +36,7 @@ public class CultureInfoImpl {
     public CultureInfoReply getInfo(
             final CultureInfoRequest request) throws CultureInfoException {
 
-        /* Validate request */
+    	/* Validate request */
         if (request.getCultureCode() == null
                 || request.getCultureCode().length() == 0) {
             throw new CultureInfoException("You must provide a CultureInfo");
@@ -58,7 +58,7 @@ public class CultureInfoImpl {
         reply.setDisplayCountry(locale.getDisplayCountry());
 
         /* Format date and time  */
-        Date date = new Date();
+        Date date = new Date(1225197900000L);
         reply.setFormattedDate(
                 DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL,
                         locale).format(date));
@@ -70,8 +70,8 @@ public class CultureInfoImpl {
         NumberFormat nf = NumberFormat.getInstance(locale);
         reply.setFormattedDecimalNumber(nf.format(request.getDecimalNumber()));
 
-        /* Extract server locale and culture info */
-        Locale serverLocale = Locale.getDefault();
+        /* Simulate a french server */
+        Locale serverLocale = Locale.FRANCE;
         ServerCultureInfo serverCultureInfo = new ServerCultureInfo();
         serverCultureInfo.setDisplayCountry(serverLocale.getDisplayCountry());
         serverCultureInfo.setDisplayLanguage(serverLocale.getDisplayLanguage());
