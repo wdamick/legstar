@@ -10,23 +10,20 @@
  ******************************************************************************/
 package com.legstar.proxy.invoke.jaxws;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.legstar.test.coxb.MSNSearch.ArrayOfSourceRequestRequestsType;
-import com.legstar.test.coxb.MSNSearch.Search;
-import com.legstar.test.coxb.MSNSearch.SearchRequestType;
-import com.legstar.test.coxb.MSNSearch.SearchResponse;
-import com.legstar.test.coxb.MSNSearch.SourceRequestType;
-import com.legstar.test.coxb.MSNSearch.SourceTypeType;
-
-import junit.framework.TestCase;
+import com.legstar.proxy.invoke.AbstractWebServiceTest;
+import com.legstar.test.coxb.cultureinfo.CultureInfoParameters;
+import com.legstar.test.coxb.cultureinfo.GetInfo;
+import com.legstar.test.coxb.cultureinfo.GetInfoResponse;
 
 /**
  * Test WebServiceInvoker.
  * 
  */
-public class WebServiceInvokerTest extends TestCase {
+public class WebServiceInvokerTest extends AbstractWebServiceTest {
 
     /**
      * Test configuration parameters.
@@ -105,24 +102,24 @@ public class WebServiceInvokerTest extends TestCase {
         } catch (WebServiceInvokerException e) {
             assertEquals(
                     "com.legstar.coxb.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
-                            + " jaxbPackage.ObjectFactory",
-                    e.getMessage());
+                            + " jaxbPackage.ObjectFactory", e.getMessage());
         }
-        config.put(WebServiceInvoker.REQUEST_JAXB_TYPE_PROPERTY, "Search");
+        config.put(WebServiceInvoker.REQUEST_JAXB_TYPE_PROPERTY,
+                "CultureInfoParameters");
         config.put(WebServiceInvoker.REQUEST_JAXB_PACKAGE_NAME_PROPERTY,
-                "com.legstar.test.coxb.MSNSearch");
+                "com.legstar.test.coxb.cultureinfo");
         try {
             new WebServiceInvoker(config);
+            fail();
         } catch (WebServiceInvokerException e) {
             assertEquals(
                     "com.legstar.coxb.util.JAXBAnnotationException: java.lang.ClassNotFoundException:"
-                            + " jaxbPackage.ObjectFactory",
-                    e.getMessage());
+                            + " jaxbPackage.ObjectFactory", e.getMessage());
         }
         config.put(WebServiceInvoker.RESPONSE_JAXB_TYPE_PROPERTY,
-                "SearchResponse");
+                "CultureInfoReply");
         config.put(WebServiceInvoker.RESPONSE_JAXB_PACKAGE_NAME_PROPERTY,
-                "com.legstar.test.coxb.MSNSearch");
+                "com.legstar.test.coxb.cultureinfo");
         try {
             new WebServiceInvoker(config);
         } catch (WebServiceInvokerException e) {
@@ -136,65 +133,44 @@ public class WebServiceInvokerTest extends TestCase {
      * 
      * @throws Exception if test fails
      */
-    public void testInvokeMSNSearch() throws Exception {
+    public void testInvokeCultureinfo() throws Exception {
 
         /* Setup a configuration and instantiate action. */
-        WebServiceInvoker invoker = new WebServiceInvoker(MSNSearchJaxwsCases
-                .getReflectConfig());
+        WebServiceInvoker invoker = new WebServiceInvoker(
+                CultureinfoJaxwsCases.getReflectConfig());
 
-        /* Invoke the web service several times. */
-        try {
-            for (int i = 0; i < 5; i++) {
-                SearchResponse searchResponse = invoker.invoke(getName(),
-                        getSearchRequest());
-                assertTrue(searchResponse.getResponse().getResponses()
-                        .getSourceResponse().size() > 0);
-            }
-
-        } catch (Exception e) {
-            fail(e.getMessage());
+        for (int i = 0; i < 5; i++) {
+            GetInfoResponse reply = invoker.invoke(getName(),
+                    getCultureInfoRequest());
+            assertEquals("fr-FR", reply.getReturn().getServerCultureInfo()
+                    .getCultureCode());
         }
-
     }
 
     /**
-     * @return a sample MSNSearch request
+     * @return a sample Cultureinfo request
      */
-    public static Search getSearchRequest() {
-        /* Create a JAXB request object. */
-        com.legstar.test.coxb.MSNSearch.ObjectFactory jaxbFactory =
-                new com.legstar.test.coxb.MSNSearch.ObjectFactory();
-
-        SourceRequestType sourceRequestType = new SourceRequestType();
-        sourceRequestType.setSource(SourceTypeType.WEB);
-        sourceRequestType.setCount(10);
-
-        ArrayOfSourceRequestRequestsType sr = jaxbFactory
-                .createArrayOfSourceRequestRequestsType();
-        sr.getSourceRequest().add(sourceRequestType);
-
-        SearchRequestType searchRequestType = jaxbFactory
-                .createSearchRequestType();
-        searchRequestType.setAppID("5588C3ACE949315B3ECAADDA908611BDF5D8D5AA");
-        searchRequestType.setRequests(sr);
-        searchRequestType.setQuery("LegStar");
-        searchRequestType.setCultureInfo("en-US");
-
-        Search search = jaxbFactory.createSearch();
-        search.setRequest(searchRequestType);
-        return search;
+    public static GetInfo getCultureInfoRequest() {
+        GetInfo wrapper = new GetInfo();
+        CultureInfoParameters request = new CultureInfoParameters();
+        request.setCultureCode("fr-FR");
+        request.setDecimalNumber(BigDecimal.valueOf(275.36));
+        wrapper.setArg0(request);
+        return wrapper;
     }
 
     /**
      * Check the dispatcher caching mechanism.
-     * Have to disable this one. MSN does not like it anymore.
+     * 
+     * @FIXME Does not work with Cargo (Not related with Dispatcher reuse it
+     *        seems?)
      * 
      * @throws Exception when test fails
      */
-    public void notestWebServiceInvokerReuse() throws Exception {
+    public void testWebServiceInvokerReuse() throws Exception {
         /* Setup a configuration and instantiate action. */
-        WebServiceInvoker invoker = new WebServiceInvoker(MSNSearchJaxwsCases
-                .getReflectConfig());
+        WebServiceInvoker invoker = new WebServiceInvoker(
+                CultureinfoJaxwsCases.getReflectConfig());
 
         int threadsSize = 5;
         Thread[] threads = new Thread[threadsSize];
@@ -238,10 +214,13 @@ public class WebServiceInvokerTest extends TestCase {
         public void run() {
             try {
                 String id = Thread.currentThread().getName();
-                SearchResponse searchResponse = _invoker.invoke(id,
-                        getSearchRequest());
-                assertTrue(searchResponse.getResponse().getResponses()
-                        .getSourceResponse().size() > 0);
+                for (int i = 0; i < 5; i++) {
+
+                    GetInfoResponse reply = _invoker.invoke(id,
+                            getCultureInfoRequest());
+                    assertEquals("fr-FR", reply.getReturn()
+                            .getServerCultureInfo().getCultureCode());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 _exception = e;

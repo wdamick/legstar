@@ -15,17 +15,14 @@ import java.util.Map;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.proxy.invoke.jaxws.CultureinfoJaxwsCases;
-import com.legstar.proxy.invoke.jaxws.MSNSearchJaxwsCases;
-import com.legstar.test.coxb.MSNSearchCases;
-
-import junit.framework.TestCase;
+import com.legstar.test.coxb.CultureinfoCases;
 
 /**
  * Test ReflectOperationProxy.
- *
+ * 
  */
-public class ReflectOperationProxyTest extends TestCase {
-    
+public class ReflectOperationProxyTest extends AbstractWebServiceTest {
+
     /**
      * Check instantiation.
      */
@@ -34,40 +31,40 @@ public class ReflectOperationProxyTest extends TestCase {
             Map < String, String > config = new HashMap < String, String >();
             new ReflectOperationProxy(config);
         } catch (ProxyConfigurationException e) {
-            assertEquals("com.legstar.proxy.invoke.ProxyInvokerException:"
-                    + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
-                    + " You must specify a wsdl URL using the wsdlUrl attribute",
+            assertEquals(
+                    "com.legstar.proxy.invoke.ProxyInvokerException:"
+                            + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
+                            + " You must specify a wsdl URL using the wsdlUrl attribute",
                     e.getMessage());
         }
         try {
-            
-            ReflectOperationProxy operationProxy =
-                new ReflectOperationProxy(CultureinfoJaxwsCases.getReflectConfig());
+
+            ReflectOperationProxy operationProxy = new ReflectOperationProxy(
+                    CultureinfoJaxwsCases.getReflectConfig());
             assertEquals("com.legstar.coxb.impl.reflect.ReflectTransformers",
-                    operationProxy.getRequestTransformers().getClass().getName());
+                    operationProxy.getRequestTransformers().getClass()
+                            .getName());
             assertEquals("com.legstar.coxb.impl.reflect.ReflectTransformers",
-                    operationProxy.getResponseTransformers().getClass().getName());
+                    operationProxy.getResponseTransformers().getClass()
+                            .getName());
         } catch (ProxyConfigurationException e) {
             fail(e.getMessage());
         }
     }
-    
+
     /**
      * Test invoke.
+     * 
+     * @throws Exception if something abnormal
      */
-    public void testInvoke() {
-        try {
-            ReflectOperationProxy operationProxy =
-                new ReflectOperationProxy(MSNSearchJaxwsCases.getDirectConfig());
-            byte[] replyBytes = operationProxy.invoke(
-                    MSNSearchJaxwsCases.getDirectConfig(), getName(),
-                    HostData.toByteArray(MSNSearchCases.getHostBytesHexRequest()));
-            MSNSearchJaxwsCases.checkHostBytesResponse(replyBytes);
-        } catch (ProxyConfigurationException e) {
-            fail(e.getMessage());
-        } catch (ProxyInvokerException e) {
-            fail(e.getMessage());
-        }
+    public void testInvoke() throws Exception {
+
+        ReflectOperationProxy operationProxy = new ReflectOperationProxy(
+                CultureinfoJaxwsCases.getDirectConfig());
+        byte[] replyBytes = operationProxy.invoke(CultureinfoJaxwsCases
+                .getDirectConfig(), getName(), HostData
+                .toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
+        CultureinfoCases.checkHostBytesReplyFr(replyBytes);
     }
 
 }

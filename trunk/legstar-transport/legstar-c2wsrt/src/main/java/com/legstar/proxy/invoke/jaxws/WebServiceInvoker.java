@@ -210,10 +210,14 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * 
+     * Had to synchronize because the JAX-WS RI dispatcher 2.1.3
+     * */
     @SuppressWarnings("unchecked")
-    public <T> T invoke(final String requestID, final Object oRequest)
-            throws ProxyInvokerException {
+    public synchronized <T> T invoke(final String requestID,
+            final Object oRequest) throws ProxyInvokerException {
         if (_log.isDebugEnabled()) {
             _log.debug("About to call invokeDispatch for service="
                     + getWsdlServiceName() + " request ID=" + requestID);

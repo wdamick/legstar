@@ -12,14 +12,14 @@ package com.legstar.c2ws.servlet;
 
 import javax.servlet.ServletException;
 
-import com.legstar.proxy.invoke.ReflectOperationProxy;
-import com.legstar.proxy.invoke.jaxws.MSNSearchJaxwsCases;
-
 import junit.framework.TestCase;
+
+import com.legstar.proxy.invoke.ReflectOperationProxy;
+import com.legstar.proxy.invoke.jaxws.CultureinfoJaxwsCases;
 
 /**
  * Test the servlet proxy.
- *
+ * 
  */
 public class C2wsProxyTest extends TestCase {
 
@@ -29,14 +29,15 @@ public class C2wsProxyTest extends TestCase {
     public void testInstantiate() {
         try {
             MockServletConfig servletConfig = new MockServletConfig();
-            servletConfig.addInitParameters(MSNSearchJaxwsCases.getReflectConfig());
+            servletConfig.addInitParameters(CultureinfoJaxwsCases
+                    .getReflectConfig());
             C2wsProxy c2wsProxy = new C2wsProxy();
             c2wsProxy.init(servletConfig);
-            assertEquals("Search", c2wsProxy.getServiceProxy().getConfig().get(
-                    ReflectOperationProxy.REQUEST_JAXB_TYPE_PROPERTY));
+            assertEquals("GetInfo", c2wsProxy.getServiceProxy().getConfig()
+                    .get(ReflectOperationProxy.REQUEST_JAXB_TYPE_PROPERTY));
         } catch (ServletException e) {
             fail(e.getMessage());
         }
     }
-    
+
 }
