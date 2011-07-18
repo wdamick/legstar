@@ -48,11 +48,11 @@ public class CultureinfoCases extends TestCase {
 
         /** Sample raw mainframe response sample. */
         return
-        /* € 275.36 */
+        /* â‚¬ 275.36 */
         "9f40404040404040404040404040404040404040404040404040404040404040"
         /* F r a n c e */
         + "c699819583854040404040404040404040404040404040404040404040404040"
-        /* f r a n ç a i s */
+        /* f r a n Ã§ a i s */
         + "86998195e08189a2404040404040404040404040404040404040404040404040"
         /* m a r d i 2 8 o c t o b r e 2 0 0 8 1 3 h 4 5 C E */
         + "948199848940f2f8409683a39682998540f2f0f0f840f1f3408840f4f540c3c5"
@@ -62,7 +62,7 @@ public class CultureinfoCases extends TestCase {
         + "869960c6d9404040404040404040404040404040404040404040404040404040"
         /* F r a n c e */
         + "c699819583854040404040404040404040404040404040404040404040404040"
-        /* f r a n ç a i s */
+        /* f r a n Ã§ a i s */
         + "86998195e08189a2404040404040404040404040404040404040404040404040";
     }
 
@@ -74,10 +74,7 @@ public class CultureinfoCases extends TestCase {
      */
     public static void checkHostBytesReplyFr(final byte[] hostBytes) {
         String response = HostData.toHexString(hostBytes);
-        assertEquals(response.substring(0, 191), getHostBytesHexReplyFr()
-                .substring(0, 191));
-        assertEquals(response.substring(256, 511), getHostBytesHexReplyFr()
-                .substring(256, 511));
+        assertEquals(getHostBytesHexReplyFr(), response);
     }
 
     /**
@@ -100,7 +97,7 @@ public class CultureinfoCases extends TestCase {
      */
     public static CultureInfoReply getJavaObjectResponseFr() {
         CultureInfoReply response = new CultureInfoReply();
-        response.setCurrencySymbol("€");
+        response.setCurrencySymbol("â‚¬");
         response.setDisplayCountry("France");
         response.setDisplayLanguage("French");
         response.setFormattedDate("18 avril 1992 18:38");
