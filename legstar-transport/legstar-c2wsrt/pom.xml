@@ -9,6 +9,10 @@
     <name>LegStar Mainframe Proxy Runtime</name>
     <description>Mainframe Proxy Runtime.</description>
 
+    <properties>
+        <test.samples.version>0.2.1-SNAPSHOT</test.samples.version>
+    </properties>
+
     <dependencies>
     
         <dependency>
@@ -71,6 +75,18 @@
             <artifactId>jaxws-rt</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Cargo -->    
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-api-container</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-container-tomcat</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -176,7 +192,42 @@
                     </execution>
                 </executions>
             </plugin>
-          
+            
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Samples needed for testing. Provide web services. Will de deployed to Cargo.-->
+                    <execution>
+                        <id>copy-samples</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-cultureinfo</artifactId>
+                                    <version>${test.samples.version}</version>
+                                    <type>war</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.legsem.legstar</groupId>
+                                    <artifactId>legstar-test-jvmquery</artifactId>
+                                    <version>${test.samples.version}</version>
+                                    <type>war</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <stripVersion>true</stripVersion>
+                            <outputDirectory>${project.build.directory}/wars</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+
         </plugins>
     
     </build>

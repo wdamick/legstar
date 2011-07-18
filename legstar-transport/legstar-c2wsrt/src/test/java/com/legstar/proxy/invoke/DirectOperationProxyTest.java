@@ -15,17 +15,13 @@ import java.util.Map;
 
 import com.legstar.coxb.host.HostData;
 import com.legstar.proxy.invoke.jaxws.CultureinfoJaxwsCases;
-import com.legstar.proxy.invoke.jaxws.MSNSearchJaxwsCases;
-import com.legstar.test.coxb.MSNSearchCases;
-
-import junit.framework.TestCase;
+import com.legstar.test.coxb.CultureinfoCases;
 
 /**
  * Test DirectOperationProxy.
- *
+ * 
  */
-public class DirectOperationProxyTest extends TestCase {
-
+public class DirectOperationProxyTest extends AbstractWebServiceTest {
 
     /**
      * Check constructors.
@@ -35,25 +31,30 @@ public class DirectOperationProxyTest extends TestCase {
             new DirectOperationProxy(new HashMap < String, String >());
             fail();
         } catch (ProxyConfigurationException e) {
-            assertEquals("com.legstar.proxy.invoke.ProxyInvokerException:"
-                    + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
-                    + " You must specify a wsdl URL using the wsdlUrl attribute",
+            assertEquals(
+                    "com.legstar.proxy.invoke.ProxyInvokerException:"
+                            + " com.legstar.proxy.invoke.jaxws.WebServiceInvokerException:"
+                            + " You must specify a wsdl URL using the wsdlUrl attribute",
                     e.getMessage());
         }
         try {
-            Map < String, String > config = CultureinfoJaxwsCases.getDirectConfig();
-            config.put(DirectOperationProxy.REQUEST_TRANSFORMERS_CLASS_NAME_PROPERTY,
+            Map < String, String > config = CultureinfoJaxwsCases
+                    .getDirectConfig();
+            config.put(
+                    DirectOperationProxy.REQUEST_TRANSFORMERS_CLASS_NAME_PROPERTY,
                     "titi.toto.TATA");
-            config.put(DirectOperationProxy.RESPONSE_TRANSFORMERS_CLASS_NAME_PROPERTY,
+            config.put(
+                    DirectOperationProxy.RESPONSE_TRANSFORMERS_CLASS_NAME_PROPERTY,
                     "titi.toto.TATA");
             new DirectOperationProxy(config);
             fail();
         } catch (ProxyConfigurationException e) {
-            assertEquals("java.lang.ClassNotFoundException: titi.toto.TATA", e.getMessage());
+            assertEquals("java.lang.ClassNotFoundException: titi.toto.TATA",
+                    e.getMessage());
         }
         try {
-            DirectOperationProxy proxyInvoker =
-                new DirectOperationProxy(CultureinfoJaxwsCases.getDirectConfig());
+            DirectOperationProxy proxyInvoker = new DirectOperationProxy(
+                    CultureinfoJaxwsCases.getDirectConfig());
             assertTrue(null != proxyInvoker.getRequestTransformers());
             assertTrue(null != proxyInvoker.getResponseTransformers());
         } catch (ProxyConfigurationException e) {
@@ -63,20 +64,17 @@ public class DirectOperationProxyTest extends TestCase {
 
     /**
      * Test actual invoke using the proxy classes.
+     * 
+     * @throws Exception if something abnormal
      */
-    public void testProxyInvokeDirectMSNSearch() {
-        try {
-            DirectOperationProxy invoker =
-                new DirectOperationProxy(MSNSearchJaxwsCases.getDirectConfig());
-            byte[] replyBytes = invoker.invoke(
-                    MSNSearchJaxwsCases.getDirectConfig(), getName(),
-                    HostData.toByteArray(MSNSearchCases.getHostBytesHexRequest()));
-            MSNSearchJaxwsCases.checkHostBytesResponse(replyBytes);
-        } catch (ProxyInvokerException e) {
-            fail(e.getMessage());
-        } catch (ProxyConfigurationException e) {
-            fail(e.getMessage());
-        }
+    public void testProxyInvokeDirectCultureInfo() throws Exception {
+
+        DirectOperationProxy invoker = new DirectOperationProxy(
+                CultureinfoJaxwsCases.getDirectConfig());
+        byte[] replyBytes = invoker.invoke(CultureinfoJaxwsCases
+                .getDirectConfig(), getName(), HostData
+                .toByteArray(CultureinfoCases.getHostBytesHexRequestFr()));
+        CultureinfoCases.checkHostBytesReplyFr(replyBytes);
 
     }
 

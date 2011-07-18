@@ -13,18 +13,18 @@ package com.legstar.proxy.invoke.jaxws;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import com.legstar.proxy.invoke.DirectOperationProxy;
+import com.legstar.proxy.invoke.IOperationProxy;
 import com.legstar.proxy.invoke.IProxyInvoker;
 import com.legstar.proxy.invoke.ReflectOperationProxy;
 
-import junit.framework.TestCase;
-
 /**
  * Centralize data for Cultureinfo test case.
- *
+ * 
  */
 public class CultureinfoJaxwsCases extends TestCase {
-
 
     /**
      * @return a valid proxy configuration
@@ -33,16 +33,16 @@ public class CultureinfoJaxwsCases extends TestCase {
         Map < String, String > config = new HashMap < String, String >();
 
         config.put(IProxyInvoker.PROXY_INVOKER_CLASS_NAME_PROPERTY,
-        "com.legstar.proxy.invoke.jaxws.WebServiceInvoker");
+                "com.legstar.proxy.invoke.jaxws.WebServiceInvoker");
 
         config.put(WebServiceInvoker.WSDL_URL_PROPERTY,
-        "http://localhost:8080/jaxws-cultureinfo/getinfo?wsdl");
+                "http://localhost:8080/legstar-test-cultureinfo/getinfo?wsdl");
         config.put(WebServiceInvoker.WSDL_TARGET_NAMESPACE_PROPERTY,
-        "http://cultureinfo.cases.test.xsdc.legstar.com/");
+                "http://cultureinfo.cases.test.xsdc.legstar.com/");
         config.put(WebServiceInvoker.WSDL_SERVICE_NAME_PROPERTY,
-        "CultureInfoImplService");
+                "CultureInfoImplService");
         config.put(WebServiceInvoker.WSDL_PORT_NAME_PROPERTY,
-        "CultureInfoImplPort");
+                "CultureInfoImplPort");
         return config;
     }
 
@@ -51,10 +51,13 @@ public class CultureinfoJaxwsCases extends TestCase {
      */
     public static Map < String, String > getDirectConfig() {
         Map < String, String > config = getReflectConfig();
-        config.put(DirectOperationProxy.REQUEST_TRANSFORMERS_CLASS_NAME_PROPERTY,
-        "com.legstar.test.coxb.cultureinfo.bind.GetInfoTransformers");
-        config.put(DirectOperationProxy.RESPONSE_TRANSFORMERS_CLASS_NAME_PROPERTY,
-        "com.legstar.test.coxb.cultureinfo.bind.GetInfoResponseTransformers");
+        config.put(
+                DirectOperationProxy.REQUEST_TRANSFORMERS_CLASS_NAME_PROPERTY,
+                "com.legstar.test.coxb.cultureinfo.bind.GetInfoTransformers");
+        config.put(
+                DirectOperationProxy.RESPONSE_TRANSFORMERS_CLASS_NAME_PROPERTY,
+                "com.legstar.test.coxb.cultureinfo.bind.GetInfoResponseTransformers");
+        config.put(IOperationProxy.HOST_CHARSET_PROPERTY, "IBM01147");
         return config;
     }
 
@@ -63,14 +66,14 @@ public class CultureinfoJaxwsCases extends TestCase {
      */
     public static Map < String, String > getReflectConfig() {
         Map < String, String > config = getConfig();
-        config.put(ReflectOperationProxy.REQUEST_JAXB_TYPE_PROPERTY,
-        "GetInfo");
+        config.put(ReflectOperationProxy.REQUEST_JAXB_TYPE_PROPERTY, "GetInfo");
         config.put(ReflectOperationProxy.REQUEST_JAXB_PACKAGE_NAME_PROPERTY,
-        "com.legstar.test.coxb.cultureinfo");
+                "com.legstar.test.coxb.cultureinfo");
         config.put(ReflectOperationProxy.RESPONSE_JAXB_TYPE_PROPERTY,
-        "GetInfoResponse");
+                "GetInfoResponse");
         config.put(ReflectOperationProxy.RESPONSE_JAXB_PACKAGE_NAME_PROPERTY,
-        "com.legstar.test.coxb.cultureinfo");
+                "com.legstar.test.coxb.cultureinfo");
         return config;
     }
+
 }
