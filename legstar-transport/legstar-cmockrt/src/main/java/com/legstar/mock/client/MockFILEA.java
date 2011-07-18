@@ -30,25 +30,26 @@ import com.legstar.coxb.convert.simple.CobolZonedDecimalSimpleConverter;
 
 /**
  * Simulates the FILEA VSAM file with predefined access types.
- *
+ * 
  */
 public class MockFILEA {
-    
-    /** A character file with formatted data.*/
+
+    /** A character file with formatted data. */
     public static final String TEXT_DATA_FILE = "/dfh$fain";
-    
+
     /** Store host data per customer Id. */
-    private Map < BigDecimal,  byte[] > _hostCustomersList;
+    private Map < BigDecimal, byte[] > _hostCustomersList;
 
     /** Logger. */
     private final Log _log = LogFactory.getLog(MockFILEA.class);
 
     /**
-     * At construction time, we load a text file data content into a map of host byte arrays.
+     * At construction time, we load a text file data content into a map of host
+     * byte arrays.
      */
     public MockFILEA() {
         try {
-            _hostCustomersList = new LinkedHashMap < BigDecimal,  byte[] >();
+            _hostCustomersList = new LinkedHashMap < BigDecimal, byte[] >();
             InputStream is = getClass().getResourceAsStream(TEXT_DATA_FILE);
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
             String record = null;
@@ -56,7 +57,8 @@ public class MockFILEA {
                 _log.debug(record);
                 byte[] hostRecord = getHostRecord(record);
                 if (hostRecord != null) {
-                    _hostCustomersList.put(new BigDecimal(record.substring(1, 7)), hostRecord);
+                    _hostCustomersList.put(
+                            new BigDecimal(record.substring(1, 7)), hostRecord);
                 }
             }
             in.close();
@@ -64,9 +66,10 @@ public class MockFILEA {
             throw new IllegalStateException(e);
         }
     }
-    
+
     /**
      * Retrieve customer data in host format.
+     * 
      * @param customerId the customer Id in host format
      * @return the customer record in host format
      */
@@ -81,47 +84,51 @@ public class MockFILEA {
             return null;
         }
     }
-    
+
     /**
      * @return the total number of customers
      */
     public int getCustomersNumber() {
         return _hostCustomersList.size();
     }
-    
+
     /**
      * The list will match customers by name. If name pattern is null all
      * customers are returned otherwise the pattern can contain *.
+     * 
      * @param namePattern the pattern that a name must match.
      * @return a list of customers whose name matches a certain (simple) pattern
      */
-    public List < byte[] > getCustomers(
-            final String namePattern) {
+    public List < byte[] > getCustomers(final String namePattern) {
         return getCustomers(namePattern, -1, _hostCustomersList.size());
     }
 
     /**
      * The list will match customers by name. If name pattern is null all
      * customers are returned otherwise the pattern can contain *.
+     * 
      * @param namePattern the pattern that a name must match.
      * @param maxItems the maximum number of items to examine for a match
      * @return a list of customers whose name matches a certain (simple) pattern
      */
-    public List < byte[] > getCustomers(
-            final String namePattern, final long maxItems) {
+    public List < byte[] > getCustomers(final String namePattern,
+            final long maxItems) {
         return getCustomers(namePattern, -1, maxItems);
     }
 
     /**
      * The list will match customers by name. If name pattern is null all
      * customers are returned otherwise the pattern can contain *.
+     * 
      * @param namePattern the pattern that a name must match.
-     * @param maxItems the maximum number of items to examine for a match (-1 for no limit)
-     * @param maxReplies the maximum number of matches to return (-1 for no limit)
+     * @param maxItems the maximum number of items to examine for a match (-1
+     *            for no limit)
+     * @param maxReplies the maximum number of matches to return (-1 for no
+     *            limit)
      * @return a list of customers whose name matches a certain (simple) pattern
      */
-    public List < byte[] > getCustomers(
-            final String namePattern, final long maxItems, final long maxReplies) {
+    public List < byte[] > getCustomers(final String namePattern,
+            final long maxItems, final long maxReplies) {
         List < byte[] > list = new ArrayList < byte[] >();
         int itemsExamined = 0;
         for (byte[] dfhcommarea : _hostCustomersList.values()) {
@@ -152,25 +159,28 @@ public class MockFILEA {
         }
         return list;
     }
-    
+
     /**
      * Get the name from a host byte array.
+     * 
      * @param dfhcommarea the host byte array
      * @return the customer name
      */
     private String getCustomerName(final byte[] dfhcommarea) {
         try {
             return CobolStringSimpleConverter.fromHostSingle(
-                    CobolContext.getDefaultHostCharsetName(), 20, dfhcommarea, 6);
+                    CobolContext.getDefaultHostCharsetName(), 20, dfhcommarea,
+                    6);
         } catch (CobolConversionException e) {
             e.printStackTrace();
             return null;
         }
     }
-    
+
     /**
-     * Create a host record from a text record.
-     * On CICS when the VSAM file is loaded, the comment gets replaced by all stars.
+     * Create a host record from a text record. On CICS when the VSAM file is
+     * loaded, the comment gets replaced by all stars.
+     * 
      * @param record from text file
      * @return a new host record or null if record is invalid
      */
@@ -185,44 +195,38 @@ public class MockFILEA {
         try {
             /* number */
             CobolZonedDecimalSimpleConverter.toHostSingle(
-                    new BigDecimal(record.substring(1, 7)),
-                    6, 6, 0, false, false, false, hostRecord, offset, hostCharsetName);
+                    new BigDecimal(record.substring(1, 7)), 6, 6, 0, false,
+                    false, false, hostRecord, offset, hostCharsetName);
             offset += 6;
 
             /* name */
-            CobolStringSimpleConverter.toHostSingle(
-                    record.substring(7, 27),
-                    hostCharsetName, 20, false, hostRecord, offset);
+            CobolStringSimpleConverter.toHostSingle(record.substring(7, 27),
+                    hostCharsetName, null, 20, false, hostRecord, offset);
             offset += 20;
-            
+
             /* address */
-            CobolStringSimpleConverter.toHostSingle(
-                    record.substring(27, 47),
-                    hostCharsetName, 20, false, hostRecord, offset);
+            CobolStringSimpleConverter.toHostSingle(record.substring(27, 47),
+                    hostCharsetName, null, 20, false, hostRecord, offset);
             offset += 20;
-            
+
             /* phone */
-            CobolStringSimpleConverter.toHostSingle(
-                    record.substring(47, 55),
-                    hostCharsetName, 8, false, hostRecord, offset);
+            CobolStringSimpleConverter.toHostSingle(record.substring(47, 55),
+                    hostCharsetName, null, 8, false, hostRecord, offset);
             offset += 8;
-            
+
             /* date */
-            CobolStringSimpleConverter.toHostSingle(
-                    record.substring(55, 63),
-                    hostCharsetName, 8, false, hostRecord, offset);
+            CobolStringSimpleConverter.toHostSingle(record.substring(55, 63),
+                    hostCharsetName, null, 8, false, hostRecord, offset);
             offset += 8;
 
             /* amount */
-            CobolStringSimpleConverter.toHostSingle(
-                    record.substring(63, 71),
-                    hostCharsetName, 8, false, hostRecord, offset);
+            CobolStringSimpleConverter.toHostSingle(record.substring(63, 71),
+                    hostCharsetName, null, 8, false, hostRecord, offset);
             offset += 8;
 
             /* comment */
-            CobolStringSimpleConverter.toHostSingle(
-                    "*********",
-                    hostCharsetName, 9, false, hostRecord, offset);
+            CobolStringSimpleConverter.toHostSingle("*********",
+                    hostCharsetName, null, 9, false, hostRecord, offset);
             offset += 9;
         } catch (CobolConversionException e) {
             e.printStackTrace();

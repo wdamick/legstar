@@ -29,29 +29,30 @@ import com.legstar.messaging.RequestException;
 
 /**
  * Mocks the behavior of the LSFILEAE program.
- *
+ * 
  */
 public final class MockLsfileac {
 
     /** Logger. */
     private static final Log LOG = LogFactory.getLog(MockLsfileac.class);
-    
+
     /** In memory representation if the FILEA content. */
     private static final MockFILEA FILEA = new MockFILEA();;
-    
-    /** Utility class.*/
+
+    /** Utility class. */
     private MockLsfileac() {
-        
+
     }
 
     /**
      * Create a response to LSFILEAE execution request.
+     * 
      * @param requestMessage the request message
      * @return formatted response
      * @throws RequestException if response cannot be built
      */
-    public static  LegStarMessage getResponse(
-            final LegStarMessage requestMessage) throws RequestException {
+    public static LegStarMessage getResponse(final LegStarMessage requestMessage)
+            throws RequestException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Building response for program LSFILEAC");
         }
@@ -66,61 +67,62 @@ public final class MockLsfileac {
                     queryLimit = part.getContent();
                 }
             }
-            String namePattern = (queryData == null) ? "*" : getQueryName(queryData);
+            String namePattern = (queryData == null) ? "*"
+                    : getQueryName(queryData);
             List < byte[] > customers;
             if (queryLimit == null) {
                 customers = FILEA.getCustomers(namePattern);
             } else {
-                customers = FILEA.getCustomers(namePattern, getMaxItems(queryLimit));
+                customers = FILEA.getCustomers(namePattern,
+                        getMaxItems(queryLimit));
             }
-            
+
             int offset = 0;
             String hostCharsetName = CobolContext.getDefaultHostCharsetName();
             byte[] hostReplyStatus = new byte[151];
 
             /* reply type */
-            CobolBinarySimpleConverter.toHostSingle(
-                    BigDecimal.ZERO, 2, false, hostReplyStatus, offset);
+            CobolBinarySimpleConverter.toHostSingle(BigDecimal.ZERO, 2, false,
+                    hostReplyStatus, offset);
             offset += 2;
 
             /* search duration */
-            CobolStringSimpleConverter.toHostSingle(
-                    "00:00:00",
-                    hostCharsetName, 8, false, hostReplyStatus, offset);
+            CobolStringSimpleConverter.toHostSingle("00:00:00",
+                    hostCharsetName, null, 8, false, hostReplyStatus, offset);
             offset += 8;
 
             /* total items */
             CobolPackedDecimalSimpleConverter.toHostSingle(
-                    new BigDecimal(FILEA.getCustomersNumber()),
-                    5, 8, 0, false, hostReplyStatus, offset);
+                    new BigDecimal(FILEA.getCustomersNumber()), 5, 8, 0, false,
+                    hostReplyStatus, offset);
             offset += 5;
 
             /* resp */
-            CobolBinarySimpleConverter.toHostSingle(
-                    BigDecimal.ZERO, 4, true, hostReplyStatus, offset);
+            CobolBinarySimpleConverter.toHostSingle(BigDecimal.ZERO, 4, true,
+                    hostReplyStatus, offset);
             offset += 4;
 
             /* resp2 */
-            CobolBinarySimpleConverter.toHostSingle(
-                    BigDecimal.ZERO, 4, true, hostReplyStatus, offset);
+            CobolBinarySimpleConverter.toHostSingle(BigDecimal.ZERO, 4, true,
+                    hostReplyStatus, offset);
             offset += 4;
 
             /* reply message */
-            CobolStringSimpleConverter.toHostSingle(
-                    (customers.size() > 0) ? "" : "NO CUSTOMER SATISFIES YOUR QUERY",
-                    hostCharsetName, 128, false, hostReplyStatus, offset);
+            CobolStringSimpleConverter.toHostSingle((customers.size() > 0) ? ""
+                    : "NO CUSTOMER SATISFIES YOUR QUERY", hostCharsetName,
+                    null, 128, false, hostReplyStatus, offset);
             offset += 128;
-            
+
             offset = 0;
             byte[] hostReplyData = null;
             if (customers.size() > 0) {
                 hostReplyData = new byte[5 + 79 * customers.size()];
                 /* items number */
-                CobolPackedDecimalSimpleConverter.toHostSingle(
-                        new BigDecimal(customers.size()),
-                        5, 8, 0, false, hostReplyData, offset);
+                CobolPackedDecimalSimpleConverter.toHostSingle(new BigDecimal(
+                        customers.size()), 5, 8, 0, false, hostReplyData,
+                        offset);
                 offset += 5;
-    
+
                 /* items */
                 for (byte[] customer : customers) {
                     System.arraycopy(customer, 0, hostReplyData, offset, 79);
@@ -129,8 +131,10 @@ public final class MockLsfileac {
             }
 
             LegStarMessage replyMessage = new LegStarMessage();
-            replyMessage.addDataPart(new ContainerPart("ReplyStatus", hostReplyStatus));
-            replyMessage.addDataPart(new ContainerPart("ReplyData", hostReplyData));
+            replyMessage.addDataPart(new ContainerPart("ReplyStatus",
+                    hostReplyStatus));
+            replyMessage.addDataPart(new ContainerPart("ReplyData",
+                    hostReplyData));
             return replyMessage;
 
         } catch (HeaderPartException e) {
@@ -139,9 +143,10 @@ public final class MockLsfileac {
             throw new RequestException(e);
         }
     }
-    
+
     /**
      * Get the request name pattern from a host byte array.
+     * 
      * @param hostData the host byte array
      * @return the request name pattern
      */
@@ -157,6 +162,7 @@ public final class MockLsfileac {
 
     /**
      * Get the max number of items from a host byte array.
+     * 
      * @param hostData the host byte array
      * @return the max number of items
      */

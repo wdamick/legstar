@@ -18,10 +18,10 @@
 
     <properties>
         <legstarZosVersion>V1R5M0</legstarZosVersion>
-        <legstarCoreVersion>1.5.3</legstarCoreVersion>
+        <legstarCoreVersion>1.5.4-SNAPSHOT</legstarCoreVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
-        <jaxwsVersion>2.1.3</jaxwsVersion>
+        <jaxwsVersion>2.1.4</jaxwsVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -279,7 +279,7 @@
             <dependency>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>jaxws-rt</artifactId>
-                <version>2.1.3</version>
+                <version>${jaxwsVersion}</version>
             </dependency>
 
             <!-- Sun SOAP  -->    
@@ -293,13 +293,13 @@
             <dependency>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-core-api-container</artifactId>
-                <version>1.0.5</version>
+                <version>1.1.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-core-container-tomcat</artifactId>
-                <version>1.0.5</version>
+                <version>1.1.1</version>
                 <scope>test</scope>
             </dependency>
 
@@ -336,63 +336,77 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- Cargo -->    
+            <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-api-container</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-container-tomcat</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+    
             <!-- LegStar internal dependencies sub-section -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-commons-transport</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-commons-transport</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-messaging</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-config</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-csokrt</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-chttprt</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cmqrt</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cmockrt</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-engine</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-invoker</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-c2wsrt</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
         </dependencies>
@@ -455,6 +469,7 @@
                     <configuration>
                         <source>1.5</source>
                         <target>1.5</target>
+                        <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
 
