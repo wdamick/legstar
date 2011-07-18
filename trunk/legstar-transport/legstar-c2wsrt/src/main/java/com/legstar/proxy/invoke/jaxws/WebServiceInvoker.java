@@ -213,7 +213,8 @@ public class WebServiceInvoker extends AbstractProxyInvoker {
     /**
      * {@inheritDoc}
      * 
-     * Had to synchronize because the JAX-WS RI dispatcher 2.1.3
+     * Had to synchronize because the JAX-WS RI dispatcher 2.1.3/2.1.4 is not
+     * threadsafe (@see WebServiceInvokerTest)
      * */
     @SuppressWarnings("unchecked")
     public synchronized <T> T invoke(final String requestID,
