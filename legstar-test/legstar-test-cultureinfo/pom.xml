@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-test</artifactId>
@@ -69,18 +69,18 @@
                         <version>${jaxwsVersion}</version>
                     </dependency>
                     <!-- WSGEN invokes a compiler and won't respect compiler plugin configuration.-->
-                    <dependency> 
-                        <groupId>com.sun</groupId> 
-                        <artifactId>tools</artifactId> 
-                        <version>1.5.0</version> 
-                        <scope>system</scope> 
-                        <systemPath>${legstar-dev-jdk15}/lib/tools.jar</systemPath> 
-                    </dependency> 
+                    <dependency>
+                        <groupId>com.sun</groupId>
+                        <artifactId>tools</artifactId>
+                        <version>1.5.0</version>
+                        <scope>system</scope>
+                        <systemPath>${legstar-dev-jdk15}/lib/tools.jar</systemPath>
+                    </dependency>
                 </dependencies>
             </plugin>
-  
+
             <plugin>
-                <artifactId>maven-site-plugin</artifactId> 
+                <artifactId>maven-site-plugin</artifactId>
                 <configuration>
                     <generateReports>false</generateReports>
                 </configuration>
@@ -113,10 +113,10 @@
                           </goals>
                       </execution>
                 </executions>
-    
+
             </plugin>
-            
+
         </plugins>
-  
+
     </build>
 </project>
