@@ -20,7 +20,8 @@
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
         <jacksonVersion>1.6.0</jacksonVersion>
-        <legstarSamplesVersion>0.2.0</legstarSamplesVersion>
+        <legstarSamplesVersion>0.2.2</legstarSamplesVersion>
+        <jaxbVersion>2.1.7</jaxbVersion>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -449,14 +450,14 @@
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-xjc</artifactId>
-                <version>2.1.6</version>
+                <version>${jaxbVersion}</version>
             </dependency>
 
             <!-- Sun JAXB implementation (RI)  -->
             <dependency>
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
-                <version>2.1.6</version>
+                <version>${jaxbVersion}</version>
             </dependency>
 
             <!-- Jackson  -->
