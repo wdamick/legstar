@@ -32,9 +32,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-test/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-test/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-test/</url>
     </scm>
 
     <distributionManagement>
