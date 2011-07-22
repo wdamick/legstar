@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-test</artifactId>
-        <version>0.2.1-SNAPSHOT</version>
+        <version>0.2.1</version>
     </parent>
 
     <artifactId>legstar-test-cultureinfo</artifactId>
