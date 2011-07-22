@@ -35,27 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ElementOne }
-     * 
-     */
-    public ElementOne createElementOne() {
-        return new ElementOne();
-    }
-
-    /**
      * Create an instance of {@link TableRedef }
      * 
      */
     public TableRedef createTableRedef() {
         return new TableRedef();
-    }
-
-    /**
-     * Create an instance of {@link ElementTwo }
-     * 
-     */
-    public ElementTwo createElementTwo() {
-        return new ElementTwo();
     }
 
     /**
@@ -67,6 +51,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link TableThree }
+     * 
+     */
+    public TableThree createTableThree() {
+        return new TableThree();
+    }
+
+    /**
      * Create an instance of {@link Dfhcommarea }
      * 
      */
@@ -75,11 +67,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link TableThree }
+     * Create an instance of {@link ElementOne }
      * 
      */
-    public TableThree createTableThree() {
-        return new TableThree();
+    public ElementOne createElementOne() {
+        return new ElementOne();
+    }
+
+    /**
+     * Create an instance of {@link ElementTwo }
+     * 
+     */
+    public ElementTwo createElementTwo() {
+        return new ElementTwo();
     }
 
     /**

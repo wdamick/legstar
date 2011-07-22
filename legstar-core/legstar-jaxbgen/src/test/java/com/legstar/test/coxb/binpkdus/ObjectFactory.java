@@ -52,22 +52,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsExtend }
-     * 
-     */
-    public WsExtend createWsExtend() {
-        return new WsExtend();
-    }
-
-    /**
-     * Create an instance of {@link LsExtend }
-     * 
-     */
-    public LsExtend createLsExtend() {
-        return new LsExtend();
-    }
-
-    /**
      * Create an instance of {@link Filler45 }
      * 
      */
@@ -84,19 +68,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
      * Create an instance of {@link LsUnsignedPackedDecimal }
      * 
      */
     public LsUnsignedPackedDecimal createLsUnsignedPackedDecimal() {
         return new LsUnsignedPackedDecimal();
+    }
+
+    /**
+     * Create an instance of {@link LsExtend }
+     * 
+     */
+    public LsExtend createLsExtend() {
+        return new LsExtend();
+    }
+
+    /**
+     * Create an instance of {@link WsExtend }
+     * 
+     */
+    public WsExtend createWsExtend() {
+        return new WsExtend();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**

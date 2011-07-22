@@ -35,27 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ReplyData }
+     * Create an instance of {@link Dfhcommarea }
      * 
      */
-    public ReplyData createReplyData() {
-        return new ReplyData();
-    }
-
-    /**
-     * Create an instance of {@link PersonalData }
-     * 
-     */
-    public PersonalData createPersonalData() {
-        return new PersonalData();
-    }
-
-    /**
-     * Create an instance of {@link Customer }
-     * 
-     */
-    public Customer createCustomer() {
-        return new Customer();
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**
@@ -67,19 +51,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
      * Create an instance of {@link QueryData }
      * 
      */
     public QueryData createQueryData() {
         return new QueryData();
+    }
+
+    /**
+     * Create an instance of {@link ReplyData }
+     * 
+     */
+    public ReplyData createReplyData() {
+        return new ReplyData();
+    }
+
+    /**
+     * Create an instance of {@link Customer }
+     * 
+     */
+    public Customer createCustomer() {
+        return new Customer();
+    }
+
+    /**
+     * Create an instance of {@link PersonalData }
+     * 
+     */
+    public PersonalData createPersonalData() {
+        return new PersonalData();
     }
 
     /**

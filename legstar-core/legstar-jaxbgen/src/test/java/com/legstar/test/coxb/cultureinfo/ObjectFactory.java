@@ -36,11 +36,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CultureInfoReply }
+     * Create an instance of {@link CultureInfoParameters }
      * 
      */
-    public CultureInfoReply createCultureInfoReply() {
-        return new CultureInfoReply();
+    public CultureInfoParameters createCultureInfoParameters() {
+        return new CultureInfoParameters();
     }
 
     /**
@@ -68,11 +68,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CultureInfoParameters }
+     * Create an instance of {@link CultureInfoReply }
      * 
      */
-    public CultureInfoParameters createCultureInfoParameters() {
-        return new CultureInfoParameters();
+    public CultureInfoReply createCultureInfoReply() {
+        return new CultureInfoReply();
     }
 
     /**

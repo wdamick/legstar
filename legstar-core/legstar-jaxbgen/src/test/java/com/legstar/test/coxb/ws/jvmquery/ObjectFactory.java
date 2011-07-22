@@ -36,11 +36,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JVMQueryException }
+     * 
+     */
+    public JVMQueryException createJVMQueryException() {
+        return new JVMQueryException();
+    }
+
+    /**
      * Create an instance of {@link QueryJvmResponse }
      * 
      */
     public QueryJvmResponse createQueryJvmResponse() {
         return new QueryJvmResponse();
+    }
+
+    /**
+     * Create an instance of {@link QueryJvm }
+     * 
+     */
+    public QueryJvm createQueryJvm() {
+        return new QueryJvm();
     }
 
     /**
@@ -57,22 +73,6 @@ public class ObjectFactory {
      */
     public JvmQueryRequest createJvmQueryRequest() {
         return new JvmQueryRequest();
-    }
-
-    /**
-     * Create an instance of {@link JVMQueryException }
-     * 
-     */
-    public JVMQueryException createJVMQueryException() {
-        return new JVMQueryException();
-    }
-
-    /**
-     * Create an instance of {@link QueryJvm }
-     * 
-     */
-    public QueryJvm createQueryJvm() {
-        return new QueryJvm();
     }
 
     /**

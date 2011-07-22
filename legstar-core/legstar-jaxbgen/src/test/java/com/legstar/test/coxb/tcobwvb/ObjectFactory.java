@@ -44,30 +44,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler63 }
-     * 
-     */
-    public Filler63 createFiller63() {
-        return new Filler63();
-    }
-
-    /**
-     * Create an instance of {@link Filler40 }
-     * 
-     */
-    public Filler40 createFiller40() {
-        return new Filler40();
-    }
-
-    /**
-     * Create an instance of {@link WAddresses }
-     * 
-     */
-    public WAddresses createWAddresses() {
-        return new WAddresses();
-    }
-
-    /**
      * Create an instance of {@link WPhones }
      * 
      */
@@ -84,27 +60,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CustomerData }
+     * Create an instance of {@link Transactions }
      * 
      */
-    public CustomerData createCustomerData() {
-        return new CustomerData();
+    public Transactions createTransactions() {
+        return new Transactions();
     }
 
     /**
-     * Create an instance of {@link WDates }
+     * Create an instance of {@link Filler79 }
      * 
      */
-    public WDates createWDates() {
-        return new WDates();
+    public Filler79 createFiller79() {
+        return new Filler79();
     }
 
     /**
-     * Create an instance of {@link Filler95 }
+     * Create an instance of {@link Filler63 }
      * 
      */
-    public Filler95 createFiller95() {
-        return new Filler95();
+    public Filler63 createFiller63() {
+        return new Filler63();
     }
 
     /**
@@ -124,6 +100,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link CustomerData }
+     * 
+     */
+    public CustomerData createCustomerData() {
+        return new CustomerData();
+    }
+
+    /**
+     * Create an instance of {@link WDates }
+     * 
+     */
+    public WDates createWDates() {
+        return new WDates();
+    }
+
+    /**
      * Create an instance of {@link Filler71 }
      * 
      */
@@ -132,19 +124,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler79 }
+     * Create an instance of {@link Filler95 }
      * 
      */
-    public Filler79 createFiller79() {
-        return new Filler79();
-    }
-
-    /**
-     * Create an instance of {@link Transactions }
-     * 
-     */
-    public Transactions createTransactions() {
-        return new Transactions();
+    public Filler95 createFiller95() {
+        return new Filler95();
     }
 
     /**
@@ -153,6 +137,22 @@ public class ObjectFactory {
      */
     public PersonalData createPersonalData() {
         return new PersonalData();
+    }
+
+    /**
+     * Create an instance of {@link Filler40 }
+     * 
+     */
+    public Filler40 createFiller40() {
+        return new Filler40();
+    }
+
+    /**
+     * Create an instance of {@link WAddresses }
+     * 
+     */
+    public WAddresses createWAddresses() {
+        return new WAddresses();
     }
 
     /**
