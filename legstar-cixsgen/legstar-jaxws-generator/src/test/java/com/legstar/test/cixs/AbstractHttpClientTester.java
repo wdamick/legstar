@@ -78,13 +78,13 @@ public abstract class AbstractHttpClientTester extends TestCase {
      * Setup Tomcat.
      */
     public AbstractHttpClientTester() {
-        _webapp = getContainer();
     }
 
     /**
      * Start a Tomcat instance.
      * */
     public void setUp() throws Exception {
+        _webapp = getContainer();
         _webapp.start();
     }
 
@@ -290,7 +290,8 @@ public abstract class AbstractHttpClientTester extends TestCase {
         webapp.addSharedClasspath(new File("src/test/resources")
                 .getAbsolutePath());
         webapp.setHome(System.getenv("CATALINA_HOME"));
-        webapp.setOutput("target/cargo" + getName() + ".log");
+        webapp.setOutput("target/cargo" + getClass().getSimpleName()
+                + getName() + ".log");
         return webapp;
     }
 
