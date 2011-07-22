@@ -24,10 +24,10 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _RequestParms_QNAME = new QName("http://legstar.com/test/coxb/lsfileal", "RequestParms");
     private final static QName _WNameMatch_QNAME = new QName("http://legstar.com/test/coxb/lsfileal", "WNameMatch");
-    private final static QName _WVisitMode_QNAME = new QName("http://legstar.com/test/coxb/lsfileal", "WVisitMode");
     private final static QName _ReplyData_QNAME = new QName("http://legstar.com/test/coxb/lsfileal", "ReplyData");
+    private final static QName _WVisitMode_QNAME = new QName("http://legstar.com/test/coxb/lsfileal", "WVisitMode");
+    private final static QName _RequestParms_QNAME = new QName("http://legstar.com/test/coxb/lsfileal", "RequestParms");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.lsfileal
@@ -45,11 +45,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ReplySuccessHeader }
+     * Create an instance of {@link ReplyData }
      * 
      */
-    public ReplySuccessHeader createReplySuccessHeader() {
-        return new ReplySuccessHeader();
+    public ReplyData createReplyData() {
+        return new ReplyData();
     }
 
     /**
@@ -61,27 +61,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler65 }
+     * Create an instance of {@link ReplySuccessHeader }
      * 
      */
-    public Filler65 createFiller65() {
-        return new Filler65();
-    }
-
-    /**
-     * Create an instance of {@link ReplyItem }
-     * 
-     */
-    public ReplyItem createReplyItem() {
-        return new ReplyItem();
-    }
-
-    /**
-     * Create an instance of {@link ReplyData }
-     * 
-     */
-    public ReplyData createReplyData() {
-        return new ReplyData();
+    public ReplySuccessHeader createReplySuccessHeader() {
+        return new ReplySuccessHeader();
     }
 
     /**
@@ -93,12 +77,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RequestParms }{@code >}}
+     * Create an instance of {@link ReplyItem }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileal", name = "RequestParms")
-    public JAXBElement<RequestParms> createRequestParms(RequestParms value) {
-        return new JAXBElement<RequestParms>(_RequestParms_QNAME, RequestParms.class, null, value);
+    public ReplyItem createReplyItem() {
+        return new ReplyItem();
+    }
+
+    /**
+     * Create an instance of {@link Filler65 }
+     * 
+     */
+    public Filler65 createFiller65() {
+        return new Filler65();
     }
 
     /**
@@ -111,6 +102,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReplyData }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileal", name = "ReplyData")
+    public JAXBElement<ReplyData> createReplyData(ReplyData value) {
+        return new JAXBElement<ReplyData>(_ReplyData_QNAME, ReplyData.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
      * 
      */
@@ -120,12 +120,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReplyData }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RequestParms }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileal", name = "ReplyData")
-    public JAXBElement<ReplyData> createReplyData(ReplyData value) {
-        return new JAXBElement<ReplyData>(_ReplyData_QNAME, ReplyData.class, null, value);
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileal", name = "RequestParms")
+    public JAXBElement<RequestParms> createRequestParms(RequestParms value) {
+        return new JAXBElement<RequestParms>(_RequestParms_QNAME, RequestParms.class, null, value);
     }
 
 }

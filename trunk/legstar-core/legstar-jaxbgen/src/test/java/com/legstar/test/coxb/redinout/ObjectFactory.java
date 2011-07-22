@@ -34,6 +34,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
      * Create an instance of {@link CParain }
      * 
      */
@@ -47,14 +55,6 @@ public class ObjectFactory {
      */
     public CParaout createCParaout() {
         return new CParaout();
-    }
-
-    /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
     }
 
     /**

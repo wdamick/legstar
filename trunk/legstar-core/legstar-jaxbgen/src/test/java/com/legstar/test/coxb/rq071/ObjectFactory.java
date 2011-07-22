@@ -24,14 +24,22 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _RQ071Input_QNAME = new QName("http://creditstatus.customer.ibg/", "rQ071Input");
     private final static QName _RQ071OutputPart_QNAME = new QName("http://creditstatus.customer.ibg/", "RQ071OutputPart");
+    private final static QName _RQ071Input_QNAME = new QName("http://creditstatus.customer.ibg/", "rQ071Input");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.rq071
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link RQ071Output }
+     * 
+     */
+    public RQ071Output createRQ071Output() {
+        return new RQ071Output();
     }
 
     /**
@@ -51,11 +59,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RQ071Output }
+     * Create an instance of {@link JAXBElement }{@code <}{@link RQ071Output }{@code >}}
      * 
      */
-    public RQ071Output createRQ071Output() {
-        return new RQ071Output();
+    @XmlElementDecl(namespace = "http://creditstatus.customer.ibg/", name = "RQ071OutputPart")
+    public JAXBElement<RQ071Output> createRQ071OutputPart(RQ071Output value) {
+        return new JAXBElement<RQ071Output>(_RQ071OutputPart_QNAME, RQ071Output.class, null, value);
     }
 
     /**
@@ -65,15 +74,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://creditstatus.customer.ibg/", name = "rQ071Input")
     public JAXBElement<RQ071Input> createRQ071Input(RQ071Input value) {
         return new JAXBElement<RQ071Input>(_RQ071Input_QNAME, RQ071Input.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RQ071Output }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://creditstatus.customer.ibg/", name = "RQ071OutputPart")
-    public JAXBElement<RQ071Output> createRQ071OutputPart(RQ071Output value) {
-        return new JAXBElement<RQ071Output>(_RQ071OutputPart_QNAME, RQ071Output.class, null, value);
     }
 
 }

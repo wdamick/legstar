@@ -24,17 +24,17 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _WLastNames_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WLastNames");
-    private final static QName _WAddresses_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WAddresses");
-    private final static QName _Filler79_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler79");
-    private final static QName _WPhones_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WPhones");
     private final static QName _Filler95_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler95");
-    private final static QName _CustomerData_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "CustomerData");
-    private final static QName _Filler63_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler63");
-    private final static QName _Filler71_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler71");
-    private final static QName _WDates_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WDates");
     private final static QName _Filler87_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler87");
+    private final static QName _Filler79_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler79");
+    private final static QName _CustomerData_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "CustomerData");
+    private final static QName _WDates_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WDates");
     private final static QName _WFirstNames_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WFirstNames");
+    private final static QName _Filler71_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler71");
+    private final static QName _WAddresses_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WAddresses");
+    private final static QName _Filler63_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "Filler63");
+    private final static QName _WLastNames_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WLastNames");
+    private final static QName _WPhones_QNAME = new QName("http://legstar.com/test/coxb/tcobwvb", "WPhones");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.tcobwvb
@@ -60,35 +60,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WPhones }
-     * 
-     */
-    public WPhones createWPhones() {
-        return new WPhones();
-    }
-
-    /**
-     * Create an instance of {@link WLastNames }
-     * 
-     */
-    public WLastNames createWLastNames() {
-        return new WLastNames();
-    }
-
-    /**
-     * Create an instance of {@link WFirstNames }
-     * 
-     */
-    public WFirstNames createWFirstNames() {
-        return new WFirstNames();
-    }
-
-    /**
      * Create an instance of {@link WAddresses }
      * 
      */
     public WAddresses createWAddresses() {
         return new WAddresses();
+    }
+
+    /**
+     * Create an instance of {@link WPhones }
+     * 
+     */
+    public WPhones createWPhones() {
+        return new WPhones();
     }
 
     /**
@@ -100,27 +84,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler71 }
+     * Create an instance of {@link CustomerData }
      * 
      */
-    public Filler71 createFiller71() {
-        return new Filler71();
-    }
-
-    /**
-     * Create an instance of {@link Filler95 }
-     * 
-     */
-    public Filler95 createFiller95() {
-        return new Filler95();
-    }
-
-    /**
-     * Create an instance of {@link Filler87 }
-     * 
-     */
-    public Filler87 createFiller87() {
-        return new Filler87();
+    public CustomerData createCustomerData() {
+        return new CustomerData();
     }
 
     /**
@@ -132,11 +100,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PersonalData }
+     * Create an instance of {@link Filler95 }
      * 
      */
-    public PersonalData createPersonalData() {
-        return new PersonalData();
+    public Filler95 createFiller95() {
+        return new Filler95();
+    }
+
+    /**
+     * Create an instance of {@link WFirstNames }
+     * 
+     */
+    public WFirstNames createWFirstNames() {
+        return new WFirstNames();
+    }
+
+    /**
+     * Create an instance of {@link Filler87 }
+     * 
+     */
+    public Filler87 createFiller87() {
+        return new Filler87();
+    }
+
+    /**
+     * Create an instance of {@link Filler71 }
+     * 
+     */
+    public Filler71 createFiller71() {
+        return new Filler71();
     }
 
     /**
@@ -156,47 +148,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CustomerData }
+     * Create an instance of {@link PersonalData }
      * 
      */
-    public CustomerData createCustomerData() {
-        return new CustomerData();
+    public PersonalData createPersonalData() {
+        return new PersonalData();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link WLastNames }{@code >}}
+     * Create an instance of {@link WLastNames }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WLastNames")
-    public JAXBElement<WLastNames> createWLastNames(WLastNames value) {
-        return new JAXBElement<WLastNames>(_WLastNames_QNAME, WLastNames.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link WAddresses }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WAddresses")
-    public JAXBElement<WAddresses> createWAddresses(WAddresses value) {
-        return new JAXBElement<WAddresses>(_WAddresses_QNAME, WAddresses.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Filler79 }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler79")
-    public JAXBElement<Filler79> createFiller79(Filler79 value) {
-        return new JAXBElement<Filler79>(_Filler79_QNAME, Filler79 .class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link WPhones }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WPhones")
-    public JAXBElement<WPhones> createWPhones(WPhones value) {
-        return new JAXBElement<WPhones>(_WPhones_QNAME, WPhones.class, null, value);
+    public WLastNames createWLastNames() {
+        return new WLastNames();
     }
 
     /**
@@ -209,30 +173,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Filler87 }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler87")
+    public JAXBElement<Filler87> createFiller87(Filler87 value) {
+        return new JAXBElement<Filler87>(_Filler87_QNAME, Filler87 .class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Filler79 }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler79")
+    public JAXBElement<Filler79> createFiller79(Filler79 value) {
+        return new JAXBElement<Filler79>(_Filler79_QNAME, Filler79 .class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CustomerData }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "CustomerData")
     public JAXBElement<CustomerData> createCustomerData(CustomerData value) {
         return new JAXBElement<CustomerData>(_CustomerData_QNAME, CustomerData.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Filler63 }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler63")
-    public JAXBElement<Filler63> createFiller63(Filler63 value) {
-        return new JAXBElement<Filler63>(_Filler63_QNAME, Filler63 .class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Filler71 }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler71")
-    public JAXBElement<Filler71> createFiller71(Filler71 value) {
-        return new JAXBElement<Filler71>(_Filler71_QNAME, Filler71 .class, null, value);
     }
 
     /**
@@ -245,21 +209,57 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Filler87 }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler87")
-    public JAXBElement<Filler87> createFiller87(Filler87 value) {
-        return new JAXBElement<Filler87>(_Filler87_QNAME, Filler87 .class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link WFirstNames }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WFirstNames")
     public JAXBElement<WFirstNames> createWFirstNames(WFirstNames value) {
         return new JAXBElement<WFirstNames>(_WFirstNames_QNAME, WFirstNames.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Filler71 }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler71")
+    public JAXBElement<Filler71> createFiller71(Filler71 value) {
+        return new JAXBElement<Filler71>(_Filler71_QNAME, Filler71 .class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link WAddresses }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WAddresses")
+    public JAXBElement<WAddresses> createWAddresses(WAddresses value) {
+        return new JAXBElement<WAddresses>(_WAddresses_QNAME, WAddresses.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Filler63 }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "Filler63")
+    public JAXBElement<Filler63> createFiller63(Filler63 value) {
+        return new JAXBElement<Filler63>(_Filler63_QNAME, Filler63 .class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link WLastNames }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WLastNames")
+    public JAXBElement<WLastNames> createWLastNames(WLastNames value) {
+        return new JAXBElement<WLastNames>(_WLastNames_QNAME, WLastNames.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link WPhones }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/tcobwvb", name = "WPhones")
+    public JAXBElement<WPhones> createWPhones(WPhones value) {
+        return new JAXBElement<WPhones>(_WPhones_QNAME, WPhones.class, null, value);
     }
 
 }

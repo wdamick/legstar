@@ -24,30 +24,14 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Filler23_QNAME = new QName("http://legstar.com/test/coxb/arrayscx", "Filler23");
     private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/arrayscx", "Dfhcommarea");
+    private final static QName _Filler23_QNAME = new QName("http://legstar.com/test/coxb/arrayscx", "Filler23");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.arrayscx
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
-     * Create an instance of {@link Filler23 }
-     * 
-     */
-    public Filler23 createFiller23() {
-        return new Filler23();
     }
 
     /**
@@ -75,20 +59,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Filler23 }
+     * 
+     */
+    public Filler23 createFiller23() {
+        return new Filler23();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
      * Create an instance of {@link TableThree }
      * 
      */
     public TableThree createTableThree() {
         return new TableThree();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Filler23 }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayscx", name = "Filler23")
-    public JAXBElement<Filler23> createFiller23(Filler23 value) {
-        return new JAXBElement<Filler23>(_Filler23_QNAME, Filler23 .class, null, value);
     }
 
     /**
@@ -98,6 +89,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayscx", name = "Dfhcommarea")
     public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
         return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Filler23 }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayscx", name = "Filler23")
+    public JAXBElement<Filler23> createFiller23(Filler23 value) {
+        return new JAXBElement<Filler23>(_Filler23_QNAME, Filler23 .class, null, value);
     }
 
 }
