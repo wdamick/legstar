@@ -208,11 +208,11 @@ public class Dfhcommarea
     @CobolElement(cobolName = "WS-LOW-VALUES", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, picture = "X(05)", value = "0x0000000000", srceLine = 16)
     protected String wsLowValues = "0x0000000000";
     @XmlElement(name = "WsQuote", required = true)
-    @CobolElement(cobolName = "WS-QUOTE", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, picture = "X(05)", value = "\'", srceLine = 17)
-    protected String wsQuote = "\'";
+    @CobolElement(cobolName = "WS-QUOTE", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, picture = "X(05)", value = "'", srceLine = 17)
+    protected String wsQuote = "'";
     @XmlElement(name = "WsQuotes", required = true)
-    @CobolElement(cobolName = "WS-QUOTES", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, picture = "X(05)", value = "\'", srceLine = 18)
-    protected String wsQuotes = "\'";
+    @CobolElement(cobolName = "WS-QUOTES", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, picture = "X(05)", value = "'", srceLine = 18)
+    protected String wsQuotes = "'";
     @XmlElement(name = "WsNull", required = true)
     @CobolElement(cobolName = "WS-NULL", type = CobolType.ALPHANUMERIC_ITEM, levelNumber = 5, picture = "X(05)", value = "0x0000000000", srceLine = 19)
     protected String wsNull = "0x0000000000";

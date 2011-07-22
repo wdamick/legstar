@@ -35,11 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler20 }
+     * Create an instance of {@link Filler38 }
      * 
      */
-    public Filler20 createFiller20() {
-        return new Filler20();
+    public Filler38 createFiller38() {
+        return new Filler38();
     }
 
     /**
@@ -59,11 +59,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler38 }
+     * Create an instance of {@link Filler20 }
      * 
      */
-    public Filler38 createFiller38() {
-        return new Filler38();
+    public Filler20 createFiller20() {
+        return new Filler20();
     }
 
     /**

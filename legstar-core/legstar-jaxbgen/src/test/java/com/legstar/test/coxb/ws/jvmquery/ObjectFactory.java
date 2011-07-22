@@ -24,15 +24,23 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _QueryJvm_QNAME = new QName("http://jvmquery.ws.cases.test.xsdc.legstar.com/", "queryJvm");
-    private final static QName _JVMQueryException_QNAME = new QName("http://jvmquery.ws.cases.test.xsdc.legstar.com/", "JVMQueryException");
     private final static QName _QueryJvmResponse_QNAME = new QName("http://jvmquery.ws.cases.test.xsdc.legstar.com/", "queryJvmResponse");
+    private final static QName _JVMQueryException_QNAME = new QName("http://jvmquery.ws.cases.test.xsdc.legstar.com/", "JVMQueryException");
+    private final static QName _QueryJvm_QNAME = new QName("http://jvmquery.ws.cases.test.xsdc.legstar.com/", "queryJvm");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.ws.jvmquery
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link QueryJvmResponse }
+     * 
+     */
+    public QueryJvmResponse createQueryJvmResponse() {
+        return new QueryJvmResponse();
     }
 
     /**
@@ -52,14 +60,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryJvmResponse }
-     * 
-     */
-    public QueryJvmResponse createQueryJvmResponse() {
-        return new QueryJvmResponse();
-    }
-
-    /**
      * Create an instance of {@link JVMQueryException }
      * 
      */
@@ -76,12 +76,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryJvm }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryJvmResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://jvmquery.ws.cases.test.xsdc.legstar.com/", name = "queryJvm")
-    public JAXBElement<QueryJvm> createQueryJvm(QueryJvm value) {
-        return new JAXBElement<QueryJvm>(_QueryJvm_QNAME, QueryJvm.class, null, value);
+    @XmlElementDecl(namespace = "http://jvmquery.ws.cases.test.xsdc.legstar.com/", name = "queryJvmResponse")
+    public JAXBElement<QueryJvmResponse> createQueryJvmResponse(QueryJvmResponse value) {
+        return new JAXBElement<QueryJvmResponse>(_QueryJvmResponse_QNAME, QueryJvmResponse.class, null, value);
     }
 
     /**
@@ -94,12 +94,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryJvmResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryJvm }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://jvmquery.ws.cases.test.xsdc.legstar.com/", name = "queryJvmResponse")
-    public JAXBElement<QueryJvmResponse> createQueryJvmResponse(QueryJvmResponse value) {
-        return new JAXBElement<QueryJvmResponse>(_QueryJvmResponse_QNAME, QueryJvmResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://jvmquery.ws.cases.test.xsdc.legstar.com/", name = "queryJvm")
+    public JAXBElement<QueryJvm> createQueryJvm(QueryJvm value) {
+        return new JAXBElement<QueryJvm>(_QueryJvm_QNAME, QueryJvm.class, null, value);
     }
 
 }

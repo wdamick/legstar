@@ -25,22 +25,14 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _Filler45_QNAME = new QName("http://legstar.com/test/coxb/binpkdus", "Filler45");
-    private final static QName _WsExpectedIncomingData_QNAME = new QName("http://legstar.com/test/coxb/binpkdus", "WsExpectedIncomingData");
     private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/binpkdus", "Dfhcommarea");
+    private final static QName _WsExpectedIncomingData_QNAME = new QName("http://legstar.com/test/coxb/binpkdus", "WsExpectedIncomingData");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.binpkdus
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link LsExtend }
-     * 
-     */
-    public LsExtend createLsExtend() {
-        return new LsExtend();
     }
 
     /**
@@ -52,11 +44,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler45 }
+     * Create an instance of {@link LsCompat }
      * 
      */
-    public Filler45 createFiller45() {
-        return new Filler45();
+    public LsCompat createLsCompat() {
+        return new LsCompat();
     }
 
     /**
@@ -68,11 +60,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LsCompat }
+     * Create an instance of {@link LsExtend }
      * 
      */
-    public LsCompat createLsCompat() {
-        return new LsCompat();
+    public LsExtend createLsExtend() {
+        return new LsExtend();
+    }
+
+    /**
+     * Create an instance of {@link Filler45 }
+     * 
+     */
+    public Filler45 createFiller45() {
+        return new Filler45();
     }
 
     /**
@@ -84,11 +84,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsExpectedIncomingData }
+     * Create an instance of {@link Dfhcommarea }
      * 
      */
-    public WsExpectedIncomingData createWsExpectedIncomingData() {
-        return new WsExpectedIncomingData();
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**
@@ -100,11 +100,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
+     * Create an instance of {@link WsExpectedIncomingData }
      * 
      */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
+    public WsExpectedIncomingData createWsExpectedIncomingData() {
+        return new WsExpectedIncomingData();
     }
 
     /**
@@ -117,21 +117,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link WsExpectedIncomingData }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binpkdus", name = "WsExpectedIncomingData")
-    public JAXBElement<WsExpectedIncomingData> createWsExpectedIncomingData(WsExpectedIncomingData value) {
-        return new JAXBElement<WsExpectedIncomingData>(_WsExpectedIncomingData_QNAME, WsExpectedIncomingData.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Dfhcommarea }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binpkdus", name = "Dfhcommarea")
     public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
         return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link WsExpectedIncomingData }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binpkdus", name = "WsExpectedIncomingData")
+    public JAXBElement<WsExpectedIncomingData> createWsExpectedIncomingData(WsExpectedIncomingData value) {
+        return new JAXBElement<WsExpectedIncomingData>(_WsExpectedIncomingData_QNAME, WsExpectedIncomingData.class, null, value);
     }
 
 }

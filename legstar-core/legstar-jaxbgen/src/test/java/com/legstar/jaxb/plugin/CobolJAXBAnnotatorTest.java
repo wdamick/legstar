@@ -169,8 +169,8 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
                 .contains("protected String wsLowValue = \"0x0000000000\";"));
         assertTrue(srce
                 .contains("protected String wsLowValues = \"0x0000000000\";"));
-        assertTrue(srce.contains("protected String wsQuote = \"\\'\";"));
-        assertTrue(srce.contains("protected String wsQuotes = \"\\'\";"));
+        assertTrue(srce.contains("protected String wsQuote = \"\'\";"));
+        assertTrue(srce.contains("protected String wsQuotes = \"\'\";"));
         assertTrue(srce.contains("protected String wsNull = \"0x0000000000\";"));
         assertTrue(srce
                 .contains("protected String wsNulls = \"0x0000000000\";"));

@@ -34,14 +34,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
      * Create an instance of {@link Filler28 }
      * 
      */
@@ -55,6 +47,14 @@ public class ObjectFactory {
      */
     public Filler25 createFiller25() {
         return new Filler25();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**
