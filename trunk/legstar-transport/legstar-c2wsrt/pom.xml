@@ -9,10 +9,6 @@
     <name>LegStar Mainframe Proxy Runtime</name>
     <description>Mainframe Proxy Runtime.</description>
 
-    <properties>
-        <test.samples.version>0.2.1-SNAPSHOT</test.samples.version>
-    </properties>
-
     <dependencies>
     
         <dependency>
@@ -24,20 +20,12 @@
             <artifactId>servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jsr173_api</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>saaj-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.legsem.legstar</groupId>
@@ -68,11 +56,6 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-test-jvmquery</artifactId>
             <classifier>classes</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
             <scope>test</scope>
         </dependency>
 

@@ -18,7 +18,8 @@
 
     <properties>
         <legstarZosVersion>V1R5M0</legstarZosVersion>
-        <legstarCoreVersion>1.5.4-SNAPSHOT</legstarCoreVersion>
+        <legstarCoreVersion>1.5.4</legstarCoreVersion>
+        <legstarSamplesVersion>0.2.2</legstarSamplesVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
         <jaxwsVersion>2.1.4</jaxwsVersion>
@@ -270,25 +271,6 @@
                 <version>2.1</version>
             </dependency>
 
-            <!-- Sun JAX-WS  -->    
-            <dependency>
-                <groupId>javax.xml.ws</groupId>
-                <artifactId>jaxws-api</artifactId>
-                <version>2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-rt</artifactId>
-                <version>${jaxwsVersion}</version>
-            </dependency>
-
-            <!-- Sun SOAP  -->    
-            <dependency>
-                <groupId>javax.xml.soap</groupId>
-                <artifactId>saaj-api</artifactId>
-                <version>1.3</version>
-            </dependency>
-
             <!-- Cargo -->    
             <dependency>
                 <groupId>org.codehaus.cargo</groupId>
@@ -331,7 +313,7 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-test-jvmquery</artifactId>
-                <version>0.2.0</version>
+                <version>${legstarSamplesVersion}</version>
                 <classifier>classes</classifier>
                 <scope>test</scope>
             </dependency>
