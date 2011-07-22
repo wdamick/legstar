@@ -17,9 +17,9 @@
     <url>http://www.legsem.com/legstar/legstar-cixsgen</url>
 
     <properties>
-        <legstarCoreVersion>1.5.3</legstarCoreVersion>
-        <legstarTransportVersion>1.5.0</legstarTransportVersion>
-        <legstarSamplesVersion>0.2.0</legstarSamplesVersion>
+        <legstarCoreVersion>1.5.4-SNAPSHOT</legstarCoreVersion>
+        <legstarTransportVersion>1.5.1-SNAPSHOT</legstarTransportVersion>
+        <legstarSamplesVersion>0.2.1-SNAPSHOT</legstarSamplesVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -295,24 +295,24 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-model</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixsgen-model</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
                 <type>test-jar</type>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxws-generator</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxws-generator</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
                 <classifier>int</classifier>
                 <type>zip</type>
                 <scope>test</scope>
@@ -320,7 +320,7 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-jaxws-clients</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
         </dependencies>

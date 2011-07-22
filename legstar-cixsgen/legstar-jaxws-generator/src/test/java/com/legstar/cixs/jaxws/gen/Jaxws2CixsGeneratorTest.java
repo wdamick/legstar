@@ -36,8 +36,9 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
     private static final List < String > NON_STANDARD_COXB = Arrays
             .asList(new String[] { "lsfileal", "lsfileac", "enumvar",
                     "MSNSearch", "cultureinfo", "jvmquery", "ws", "varar021",
-                    "tcobwvb", "perf", "rq071", "redopera", "redmulti",
-                    "dplarcht", "redsimpt", "redinout", "redbotha", "coxb137" });
+                    "tcobwvb", "perf", "rq071", "rq074", "redopera",
+                    "redmulti", "dplarcht", "redsimpt", "redinout", "redbotha",
+                    "coxb137" });
 
     /** An instance of the generator. */
     private Jaxws2CixsGenerator _generator;
