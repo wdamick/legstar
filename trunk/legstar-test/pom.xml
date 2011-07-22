@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-test</artifactId>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.2.1</version>
     <packaging>pom</packaging>
     
     <name>LegStar test samples</name>
@@ -32,9 +32,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-test-0.2.1</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-test-0.2.1</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/legstar-test-0.2.1</url>
     </scm>
 
     <distributionManagement>
