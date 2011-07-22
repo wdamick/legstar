@@ -1,0 +1,67 @@
+<component>
+
+    <fileSets>
+
+        <!-- C/370 for CICS Server program -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-chttprt/src/main/zos</directory>
+            <outputDirectory>/zos</outputDirectory>
+            <includes>
+                <include>**</include>
+            </includes>
+        </fileSet>
+
+        <!-- Invoker sample source code and ant script -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/main/java</directory>
+            <outputDirectory>/samples/quickstarts/chttprt/src</outputDirectory>
+            <includes>
+                <include>**/AdapterInvokerSample.java</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/main/ant</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>build.xml</include>
+            </includes>
+        </fileSet>
+ 
+        <!-- The sample target program properties file -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-invoker/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- The sample configuration file -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-chttprt/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- The sample documentation -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-chttprt/src/site/resources/samples</directory>
+            <outputDirectory>/samples/quickstarts/chttprt</outputDirectory>
+            <includes>
+                <include>readme.txt</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+    
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-chttprt/src/site/apt/LSWEBBIN-readme.apt</source>
+            <outputDirectory>/zos/docs</outputDirectory>
+            <destName>LSWEBBIN-README</destName>
+        </file>
+    </files>
+  
+</component>

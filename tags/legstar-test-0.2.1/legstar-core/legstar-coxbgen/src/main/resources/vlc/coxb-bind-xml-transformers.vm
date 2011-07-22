@@ -1,0 +1,23 @@
+## Determine the value Object type
+#set ($valueObjectType = $coxbHelper.getBoundTypeName($binding))
+package ${coxbContext.getCoxbPackageName()};
+
+import com.legstar.coxb.transform.AbstractXmlTransformers;
+import com.legstar.coxb.transform.HostTransformException;
+
+/**
+ * XML Transformers provider for ${valueObjectType}.
+ *
+ */
+public class ${binding.jaxbName}XmlTransformers extends AbstractXmlTransformers {
+
+    /**
+     * Create a set of directional transformers.
+     * @throws HostTransformException if transformer cannot be created
+     */
+    public ${binding.jaxbName}XmlTransformers() throws HostTransformException {
+        super(new ${binding.jaxbName}XmlToHostTransformer(),
+                new ${binding.jaxbName}HostToXmlTransformer());
+    }
+
+}
