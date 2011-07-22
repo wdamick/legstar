@@ -35,19 +35,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
      * Create an instance of {@link WsOdo }
      * 
      */
     public WsOdo createWsOdo() {
         return new WsOdo();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**

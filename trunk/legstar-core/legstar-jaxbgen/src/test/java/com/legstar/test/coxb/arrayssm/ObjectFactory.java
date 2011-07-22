@@ -37,11 +37,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
+     * Create an instance of {@link TableComplex }
+     * 
+     */
+    public TableComplex createTableComplex() {
+        return new TableComplex();
+    }
+
+    /**
      * Create an instance of {@link WsTs }
      * 
      */
     public WsTs createWsTs() {
         return new WsTs();
+    }
+
+    /**
+     * Create an instance of {@link WsTc }
+     * 
+     */
+    public WsTc createWsTc() {
+        return new WsTc();
     }
 
     /**
@@ -58,30 +82,6 @@ public class ObjectFactory {
      */
     public TableComplex2 createTableComplex2() {
         return new TableComplex2();
-    }
-
-    /**
-     * Create an instance of {@link WsTc }
-     * 
-     */
-    public WsTc createWsTc() {
-        return new WsTc();
-    }
-
-    /**
-     * Create an instance of {@link TableComplex }
-     * 
-     */
-    public TableComplex createTableComplex() {
-        return new TableComplex();
-    }
-
-    /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
     }
 
     /**

@@ -36,19 +36,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsFullwords }
+     * Create an instance of {@link LsHalfwords }
      * 
      */
-    public WsFullwords createWsFullwords() {
-        return new WsFullwords();
-    }
-
-    /**
-     * Create an instance of {@link WsUnsignedNative }
-     * 
-     */
-    public WsUnsignedNative createWsUnsignedNative() {
-        return new WsUnsignedNative();
+    public LsHalfwords createLsHalfwords() {
+        return new LsHalfwords();
     }
 
     /**
@@ -60,35 +52,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsPs9X18MaxB }
+     * Create an instance of {@link WsFullwords }
      * 
      */
-    public WsPs9X18MaxB createWsPs9X18MaxB() {
-        return new WsPs9X18MaxB();
-    }
-
-    /**
-     * Create an instance of {@link WsDoublewords }
-     * 
-     */
-    public WsDoublewords createWsDoublewords() {
-        return new WsDoublewords();
-    }
-
-    /**
-     * Create an instance of {@link WsHalfwords }
-     * 
-     */
-    public WsHalfwords createWsHalfwords() {
-        return new WsHalfwords();
-    }
-
-    /**
-     * Create an instance of {@link LsHalfwords }
-     * 
-     */
-    public LsHalfwords createLsHalfwords() {
-        return new LsHalfwords();
+    public WsFullwords createWsFullwords() {
+        return new WsFullwords();
     }
 
     /**
@@ -100,11 +68,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LsFullwords }
+     * Create an instance of {@link WsPs9X18HighB }
      * 
      */
-    public LsFullwords createLsFullwords() {
-        return new LsFullwords();
+    public WsPs9X18HighB createWsPs9X18HighB() {
+        return new WsPs9X18HighB();
+    }
+
+    /**
+     * Create an instance of {@link WsUnsignedNative }
+     * 
+     */
+    public WsUnsignedNative createWsUnsignedNative() {
+        return new WsUnsignedNative();
+    }
+
+    /**
+     * Create an instance of {@link WsDoublewords }
+     * 
+     */
+    public WsDoublewords createWsDoublewords() {
+        return new WsDoublewords();
     }
 
     /**
@@ -116,19 +100,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsPs9X18HighB }
+     * Create an instance of {@link WsHalfwords }
      * 
      */
-    public WsPs9X18HighB createWsPs9X18HighB() {
-        return new WsPs9X18HighB();
+    public WsHalfwords createWsHalfwords() {
+        return new WsHalfwords();
     }
 
     /**
-     * Create an instance of {@link WsPs9X18MinB }
+     * Create an instance of {@link Dfhcommarea }
      * 
      */
-    public WsPs9X18MinB createWsPs9X18MinB() {
-        return new WsPs9X18MinB();
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**
@@ -140,11 +124,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
+     * Create an instance of {@link LsFullwords }
      * 
      */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
+    public LsFullwords createLsFullwords() {
+        return new LsFullwords();
+    }
+
+    /**
+     * Create an instance of {@link WsPs9X18MinB }
+     * 
+     */
+    public WsPs9X18MinB createWsPs9X18MinB() {
+        return new WsPs9X18MinB();
+    }
+
+    /**
+     * Create an instance of {@link WsPs9X18MaxB }
+     * 
+     */
+    public WsPs9X18MaxB createWsPs9X18MaxB() {
+        return new WsPs9X18MaxB();
     }
 
     /**

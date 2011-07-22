@@ -36,59 +36,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
+     * Create an instance of {@link WsP9X18MaxB }
      * 
      */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
-     * Create an instance of {@link WsUnsignedNative }
-     * 
-     */
-    public WsUnsignedNative createWsUnsignedNative() {
-        return new WsUnsignedNative();
-    }
-
-    /**
-     * Create an instance of {@link LsDoublewords }
-     * 
-     */
-    public LsDoublewords createLsDoublewords() {
-        return new LsDoublewords();
-    }
-
-    /**
-     * Create an instance of {@link LsFullwords }
-     * 
-     */
-    public LsFullwords createLsFullwords() {
-        return new LsFullwords();
-    }
-
-    /**
-     * Create an instance of {@link WsDoublewords }
-     * 
-     */
-    public WsDoublewords createWsDoublewords() {
-        return new WsDoublewords();
-    }
-
-    /**
-     * Create an instance of {@link WsP9X18HighB }
-     * 
-     */
-    public WsP9X18HighB createWsP9X18HighB() {
-        return new WsP9X18HighB();
-    }
-
-    /**
-     * Create an instance of {@link WsHalfwords }
-     * 
-     */
-    public WsHalfwords createWsHalfwords() {
-        return new WsHalfwords();
+    public WsP9X18MaxB createWsP9X18MaxB() {
+        return new WsP9X18MaxB();
     }
 
     /**
@@ -100,11 +52,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler55 }
+     * Create an instance of {@link WsP9X18HighB }
      * 
      */
-    public Filler55 createFiller55() {
-        return new Filler55();
+    public WsP9X18HighB createWsP9X18HighB() {
+        return new WsP9X18HighB();
+    }
+
+    /**
+     * Create an instance of {@link LsUnsignedNative }
+     * 
+     */
+    public LsUnsignedNative createLsUnsignedNative() {
+        return new LsUnsignedNative();
+    }
+
+    /**
+     * Create an instance of {@link LsFullwords }
+     * 
+     */
+    public LsFullwords createLsFullwords() {
+        return new LsFullwords();
     }
 
     /**
@@ -116,11 +84,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsP9X18MaxB }
+     * Create an instance of {@link WsUnsignedNative }
      * 
      */
-    public WsP9X18MaxB createWsP9X18MaxB() {
-        return new WsP9X18MaxB();
+    public WsUnsignedNative createWsUnsignedNative() {
+        return new WsUnsignedNative();
+    }
+
+    /**
+     * Create an instance of {@link WsDoublewords }
+     * 
+     */
+    public WsDoublewords createWsDoublewords() {
+        return new WsDoublewords();
+    }
+
+    /**
+     * Create an instance of {@link Filler55 }
+     * 
+     */
+    public Filler55 createFiller55() {
+        return new Filler55();
     }
 
     /**
@@ -132,11 +116,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LsUnsignedNative }
+     * Create an instance of {@link Dfhcommarea }
      * 
      */
-    public LsUnsignedNative createLsUnsignedNative() {
-        return new LsUnsignedNative();
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
+     * Create an instance of {@link LsDoublewords }
+     * 
+     */
+    public LsDoublewords createLsDoublewords() {
+        return new LsDoublewords();
+    }
+
+    /**
+     * Create an instance of {@link WsHalfwords }
+     * 
+     */
+    public WsHalfwords createWsHalfwords() {
+        return new WsHalfwords();
     }
 
     /**

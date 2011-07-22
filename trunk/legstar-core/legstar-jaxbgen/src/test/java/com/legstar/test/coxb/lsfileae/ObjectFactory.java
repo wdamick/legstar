@@ -34,19 +34,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ComPersonal }
-     * 
-     */
-    public ComPersonal createComPersonal() {
-        return new ComPersonal();
-    }
-
-    /**
      * Create an instance of {@link Dfhcommarea }
      * 
      */
     public Dfhcommarea createDfhcommarea() {
         return new Dfhcommarea();
+    }
+
+    /**
+     * Create an instance of {@link ComPersonal }
+     * 
+     */
+    public ComPersonal createComPersonal() {
+        return new ComPersonal();
     }
 
     /**

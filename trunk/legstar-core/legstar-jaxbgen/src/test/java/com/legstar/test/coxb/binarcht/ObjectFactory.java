@@ -35,19 +35,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LsUnsignedNative }
-     * 
-     */
-    public LsUnsignedNative createLsUnsignedNative() {
-        return new LsUnsignedNative();
-    }
-
-    /**
      * Create an instance of {@link LsSignedNative }
      * 
      */
     public LsSignedNative createLsSignedNative() {
         return new LsSignedNative();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**
@@ -59,11 +59,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
+     * Create an instance of {@link LsUnsignedNative }
      * 
      */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
+    public LsUnsignedNative createLsUnsignedNative() {
+        return new LsUnsignedNative();
     }
 
     /**

@@ -42,54 +42,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryData }
-     * 
-     */
-    public QueryData createQueryData() {
-        return new QueryData();
-    }
-
-    /**
-     * Create an instance of {@link ReplyItem }
-     * 
-     */
-    public ReplyItem createReplyItem() {
-        return new ReplyItem();
-    }
-
-    /**
-     * Create an instance of {@link QueryLimit }
-     * 
-     */
-    public QueryLimit createQueryLimit() {
-        return new QueryLimit();
-    }
-
-    /**
-     * Create an instance of {@link ReplyPersonal }
-     * 
-     */
-    public ReplyPersonal createReplyPersonal() {
-        return new ReplyPersonal();
-    }
-
-    /**
-     * Create an instance of {@link WQueryLimit }
-     * 
-     */
-    public WQueryLimit createWQueryLimit() {
-        return new WQueryLimit();
-    }
-
-    /**
-     * Create an instance of {@link WQueryData }
-     * 
-     */
-    public WQueryData createWQueryData() {
-        return new WQueryData();
-    }
-
-    /**
      * Create an instance of {@link ReplyStatus }
      * 
      */
@@ -103,6 +55,54 @@ public class ObjectFactory {
      */
     public ReplyData createReplyData() {
         return new ReplyData();
+    }
+
+    /**
+     * Create an instance of {@link ReplyItem }
+     * 
+     */
+    public ReplyItem createReplyItem() {
+        return new ReplyItem();
+    }
+
+    /**
+     * Create an instance of {@link WQueryData }
+     * 
+     */
+    public WQueryData createWQueryData() {
+        return new WQueryData();
+    }
+
+    /**
+     * Create an instance of {@link WQueryLimit }
+     * 
+     */
+    public WQueryLimit createWQueryLimit() {
+        return new WQueryLimit();
+    }
+
+    /**
+     * Create an instance of {@link QueryData }
+     * 
+     */
+    public QueryData createQueryData() {
+        return new QueryData();
+    }
+
+    /**
+     * Create an instance of {@link ReplyPersonal }
+     * 
+     */
+    public ReplyPersonal createReplyPersonal() {
+        return new ReplyPersonal();
+    }
+
+    /**
+     * Create an instance of {@link QueryLimit }
+     * 
+     */
+    public QueryLimit createQueryLimit() {
+        return new QueryLimit();
     }
 
     /**

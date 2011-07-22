@@ -40,11 +40,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LsItemsArray }
+     * Create an instance of {@link LsReplyData }
      * 
      */
-    public LsItemsArray createLsItemsArray() {
-        return new LsItemsArray();
+    public LsReplyData createLsReplyData() {
+        return new LsReplyData();
+    }
+
+    /**
+     * Create an instance of {@link WsTransactionDescription }
+     * 
+     */
+    public WsTransactionDescription createWsTransactionDescription() {
+        return new WsTransactionDescription();
     }
 
     /**
@@ -53,6 +61,30 @@ public class ObjectFactory {
      */
     public LsTransactionsData createLsTransactionsData() {
         return new LsTransactionsData();
+    }
+
+    /**
+     * Create an instance of {@link WsFileDescription }
+     * 
+     */
+    public WsFileDescription createWsFileDescription() {
+        return new WsFileDescription();
+    }
+
+    /**
+     * Create an instance of {@link LsItemsArray }
+     * 
+     */
+    public LsItemsArray createLsItemsArray() {
+        return new LsItemsArray();
+    }
+
+    /**
+     * Create an instance of {@link LsReply }
+     * 
+     */
+    public LsReply createLsReply() {
+        return new LsReply();
     }
 
     /**
@@ -72,11 +104,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsFileDescription }
+     * Create an instance of {@link LsRequest }
      * 
      */
-    public WsFileDescription createWsFileDescription() {
-        return new WsFileDescription();
+    public LsRequest createLsRequest() {
+        return new LsRequest();
+    }
+
+    /**
+     * Create an instance of {@link LsFilesData }
+     * 
+     */
+    public LsFilesData createLsFilesData() {
+        return new LsFilesData();
     }
 
     /**
@@ -93,46 +133,6 @@ public class ObjectFactory {
      */
     public WsProgramDescription createWsProgramDescription() {
         return new WsProgramDescription();
-    }
-
-    /**
-     * Create an instance of {@link LsRequest }
-     * 
-     */
-    public LsRequest createLsRequest() {
-        return new LsRequest();
-    }
-
-    /**
-     * Create an instance of {@link LsReplyData }
-     * 
-     */
-    public LsReplyData createLsReplyData() {
-        return new LsReplyData();
-    }
-
-    /**
-     * Create an instance of {@link WsTransactionDescription }
-     * 
-     */
-    public WsTransactionDescription createWsTransactionDescription() {
-        return new WsTransactionDescription();
-    }
-
-    /**
-     * Create an instance of {@link LsFilesData }
-     * 
-     */
-    public LsFilesData createLsFilesData() {
-        return new LsFilesData();
-    }
-
-    /**
-     * Create an instance of {@link LsReply }
-     * 
-     */
-    public LsReply createLsReply() {
-        return new LsReply();
     }
 
     /**

@@ -37,22 +37,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ReplyErrorHeader }
-     * 
-     */
-    public ReplyErrorHeader createReplyErrorHeader() {
-        return new ReplyErrorHeader();
-    }
-
-    /**
-     * Create an instance of {@link ReplyData }
-     * 
-     */
-    public ReplyData createReplyData() {
-        return new ReplyData();
-    }
-
-    /**
      * Create an instance of {@link ReplyPersonal }
      * 
      */
@@ -77,11 +61,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ReplyData }
+     * 
+     */
+    public ReplyData createReplyData() {
+        return new ReplyData();
+    }
+
+    /**
      * Create an instance of {@link ReplyItem }
      * 
      */
     public ReplyItem createReplyItem() {
         return new ReplyItem();
+    }
+
+    /**
+     * Create an instance of {@link ReplyErrorHeader }
+     * 
+     */
+    public ReplyErrorHeader createReplyErrorHeader() {
+        return new ReplyErrorHeader();
     }
 
     /**

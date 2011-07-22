@@ -35,51 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LkupInfo44 }
-     * 
-     */
-    public LkupInfo44 createLkupInfo44() {
-        return new LkupInfo44();
-    }
-
-    /**
-     * Create an instance of {@link WellpointEaiEbsErrorRow }
-     * 
-     */
-    public WellpointEaiEbsErrorRow createWellpointEaiEbsErrorRow() {
-        return new WellpointEaiEbsErrorRow();
-    }
-
-    /**
      * Create an instance of {@link SearchGrplst }
      * 
      */
     public SearchGrplst createSearchGrplst() {
         return new SearchGrplst();
-    }
-
-    /**
-     * Create an instance of {@link IStaticData }
-     * 
-     */
-    public IStaticData createIStaticData() {
-        return new IStaticData();
-    }
-
-    /**
-     * Create an instance of {@link LkupInfo39 }
-     * 
-     */
-    public LkupInfo39 createLkupInfo39() {
-        return new LkupInfo39();
-    }
-
-    /**
-     * Create an instance of {@link ODynamicData }
-     * 
-     */
-    public ODynamicData createODynamicData() {
-        return new ODynamicData();
     }
 
     /**
@@ -91,11 +51,51 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link LkupInfo39 }
+     * 
+     */
+    public LkupInfo39 createLkupInfo39() {
+        return new LkupInfo39();
+    }
+
+    /**
      * Create an instance of {@link Payload }
      * 
      */
     public Payload createPayload() {
         return new Payload();
+    }
+
+    /**
+     * Create an instance of {@link IStaticData }
+     * 
+     */
+    public IStaticData createIStaticData() {
+        return new IStaticData();
+    }
+
+    /**
+     * Create an instance of {@link WellpointEaiEbsErrorRow }
+     * 
+     */
+    public WellpointEaiEbsErrorRow createWellpointEaiEbsErrorRow() {
+        return new WellpointEaiEbsErrorRow();
+    }
+
+    /**
+     * Create an instance of {@link ODynamicData }
+     * 
+     */
+    public ODynamicData createODynamicData() {
+        return new ODynamicData();
+    }
+
+    /**
+     * Create an instance of {@link LkupInfo44 }
+     * 
+     */
+    public LkupInfo44 createLkupInfo44() {
+        return new LkupInfo44();
     }
 
     /**
