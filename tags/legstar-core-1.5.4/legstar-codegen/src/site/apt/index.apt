@@ -1,0 +1,12 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+Code generation common code (codegen) overview
+
+  A set of utility classes used to generate artifacts across all legstar modules.
+  
+  Uses Apache Velocity templates.   
+  
