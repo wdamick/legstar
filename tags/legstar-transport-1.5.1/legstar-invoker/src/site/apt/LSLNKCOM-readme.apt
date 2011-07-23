@@ -1,0 +1,30 @@
+CICS COMMAREA LINK library LSLNKCOM
+
+* Overview:
+
+ This C/370 library provides an interface for CICS program linking
+ using COMMAREA.
+ 
+ The main method issues an EXEC CICS LINK on behalf of the caller,
+ passing various LINK options depending on the request.
+ 
+ The request message is expected to hold a single part which content
+ becomes the COMMAREA content and, on return from the CICS program,
+ the COMMAREA provides content for the single response part.
+  
+ LSLNKCOM uses the LSCOMLOG also part of this delivery.
+ 
+* This program has been tested for:
+
+  - CICS TS 2.3 (6.3.0 Command language translator) and TS 3.1 (6.4.0)
+ 
+  - C/370 for OS/390 V2 R10
+
+* How to use:
+
+ Once LSLNKCOM is compiled in a library available to your CICS
+ region in the RPL list, you might need to define it using RDO
+ (unless programs get autoinstalled).
+
+ LSLNKCOM is not a standalone program.
+ 
