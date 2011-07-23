@@ -191,13 +191,13 @@
                                 <artifactItem>
                                     <groupId>com.legsem.legstar</groupId>
                                     <artifactId>legstar-test-cultureinfo</artifactId>
-                                    <version>${test.samples.version}</version>
+                                    <version>${legstarSamplesVersion}</version>
                                     <type>war</type>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.legsem.legstar</groupId>
                                     <artifactId>legstar-test-jvmquery</artifactId>
-                                    <version>${test.samples.version}</version>
+                                    <version>${legstarSamplesVersion}</version>
                                     <type>war</type>
                                 </artifactItem>
                             </artifactItems>
