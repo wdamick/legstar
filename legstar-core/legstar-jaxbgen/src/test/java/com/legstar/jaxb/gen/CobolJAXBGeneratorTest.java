@@ -32,7 +32,7 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
     private CobolJAXBGenerator _task;
 
     /** True when references should be created. */
-    private static final boolean CREATE_REFERENCES = true;
+    private static final boolean CREATE_REFERENCES = false;
 
     /** List of XSDs which need special generation parameters. */
     private static final List < String > NON_STANDARD_XSDS = Arrays
