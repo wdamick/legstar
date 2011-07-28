@@ -170,8 +170,7 @@ public class SampleCobolClientTemplatesTest extends AbstractTestTemplate {
     protected void check(final CixsJaxwsService model,
             final CixsOperation operation) throws Exception {
         String resFileName = operation.getCicsProgramName() + ".cbl";
-        String refFileName = getUnqualName(getClass()) + "/" + getName() + "/"
-                + resFileName;
+        String refFileName = getRefFileName(resFileName);
         check(new File(REF_RES_DIR, refFileName), new File(GEN_COBOL_DIR,
                 resFileName));
     }

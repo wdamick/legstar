@@ -447,4 +447,17 @@ public class AbstractTestTemplate extends TestCase {
         }
         return unqname;
     }
+
+    /**
+     * Creates a unique reference file name by appending the test class name and
+     * the test case name.
+     * 
+     * @param resFileName the original reference file name
+     * @return a unique reference file name
+     */
+    public String getRefFileName(String resFileName) {
+        return getUnqualName(getClass()) + "/" + getName() + "/" + resFileName;
+
+    }
+
 }
