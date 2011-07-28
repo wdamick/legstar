@@ -18,7 +18,7 @@
 
     <properties>
         <legstarCoreVersion>1.5.4</legstarCoreVersion>
-        <legstarTransportVersion>1.5.1-SNAPSHOT</legstarTransportVersion>
+        <legstarTransportVersion>1.5.1</legstarTransportVersion>
         <legstarSamplesVersion>0.2.2</legstarSamplesVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
