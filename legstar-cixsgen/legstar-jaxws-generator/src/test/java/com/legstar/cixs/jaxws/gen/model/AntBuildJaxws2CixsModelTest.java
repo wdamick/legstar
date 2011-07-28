@@ -20,12 +20,22 @@ import com.legstar.codegen.CodeGenUtil;
 
 /**
  * Test the generation of a generation ant script.
- *
+ * 
  */
 public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
 
+    /** True when references should be created. */
+    private static final boolean CREATE_REFERENCES = false;
+
+    /** {@inheritDoc} */
+    public void setUp() {
+        super.setUp();
+        setCreateReferences(CREATE_REFERENCES);
+    }
+
     /**
      * Generate and test the ant script.
+     * 
      * @throws Exception if test fails
      */
     public void testJaxws2CixsBuild() throws Exception {
@@ -48,38 +58,15 @@ public class AntBuildJaxws2CixsModelTest extends AbstractTestTemplate {
         antModel.setTargetWDDDir(GEN_WDD_DIR);
         antModel.setHostCharset("IBM01147");
         antModel.setWebServiceParameters(getDefaultWebServiceParameters(cixsJaxwsService));
+        antModel.setNoPackageInfo(true);
 
-        antModel.generateBuild(CodeGenUtil.getFile(GEN_SRC_DIR, "test.txt"));
-        String resStr = getSource(GEN_SRC_DIR, "test.txt");
+        String resFileName = "build.xml";
+        antModel.generateBuild(CodeGenUtil.getFile(GEN_DIR, resFileName));
 
-        assertTrue(resStr.contains("<project basedir=\"/Users/Fady/sandbox/legstar-version\""
-                + " default=\"signalSuccess\" name=\"generate-jaxws2cixs\">"));
-        assertTrue(resStr.replace('\\', '/').contains("<pathelement location=\"target/src/gen/target/classes\"/>"));
-        assertTrue(resStr.contains("<taskdef name=\"jaxws2cixsgen\""));
-        assertTrue(resStr.contains("classname=\"com.legstar.cixs.jaxws.gen.Jaxws2CixsGenerator\""));
-        assertTrue(resStr.replace('\\', '/').contains("<jaxws2cixsgen targetSrcDir=\"target/src/gen/java\""));
-        assertTrue(resStr.replace('\\', '/').contains("targetWDDDir=\"target/src/gen/webapp\""));
-        assertTrue(resStr.replace('\\', '/').contains("targetDistDir=\"target/src/gen/target\""));
-        assertTrue(resStr.replace('\\', '/').contains("targetAntDir=\"target/src/gen/ant\""));
-        assertTrue(resStr.replace('\\', '/').contains("targetWarDir=\"${env.CATALINA_BASE}/webapp\""));
-        assertTrue(resStr.replace('\\', '/').contains("targetBinDir=\"target/src/gen/target/classes\""));
-        assertTrue(resStr.replace('\\', '/').contains("jaxbBinDir=\"target/src/gen/target/classes\""));
-        assertTrue(resStr.replace('\\', '/').contains("coxbBinDir=\"target/src/gen/target/classes\""));
-        assertTrue(resStr.replace('\\', '/').contains("custBinDir=\"target/src/gen/target/classes\""));
+        String refFileName = getRefFileName(resFileName);
+        check(new File(REF_RES_DIR, refFileName),
+                new File(GEN_DIR, resFileName));
 
-        assertTrue(resStr.contains("<cixsJaxwsService name=\"lsfileae\""));
-        assertTrue(resStr.contains("packageName=\"com.legstar.test.cixs.lsfileae\""));
-        assertTrue(resStr.contains("<cixsOperation name=\"lsfileae\""));
-        assertTrue(resStr.contains("cicsProgramName=\"LSFILEAE\""));
-        assertTrue(resStr.contains("jaxbType=\"Dfhcommarea\""));
-        assertTrue(resStr.contains("jaxbPackageName=\"com.legstar.test.coxb.lsfileae\""));
-        assertTrue(resStr.replace('\\', '/').contains("<mkdir dir=\"target/src/gen/target/classes\"/>"));
-        assertTrue(resStr.replace('\\', '/').contains("<javac srcdir=\"target/src/gen/java\""));
-
-        assertTrue(resStr.contains("<webServiceParameters"));
-        assertTrue(resStr.contains("wsdlTargetNamespace=\"http://cixs.test.legstar.com/lsfileae\""));
-        assertTrue(resStr.contains("wsdlServiceName=\"lsfileaeService\""));
-        assertTrue(resStr.contains("wsdlPortName=\"lsfileaePort\""));
     }
 
 }

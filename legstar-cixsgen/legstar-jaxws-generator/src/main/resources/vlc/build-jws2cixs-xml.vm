@@ -44,6 +44,9 @@
             coxbBinDir="${antModel.coxbBinDir}"
             custBinDir="${antModel.custBinDir}"
             hostCharset="${antModel.hostCharset}"
+#if(${antModel.noPackageInfo})
+            noPackageInfo="${antModel.noPackageInfo}"
+#end
         >
             <cixsJaxwsService name="${antModel.cixsJaxwsService.name}"
                 packageName="${antModel.cixsJaxwsService.packageName}"
