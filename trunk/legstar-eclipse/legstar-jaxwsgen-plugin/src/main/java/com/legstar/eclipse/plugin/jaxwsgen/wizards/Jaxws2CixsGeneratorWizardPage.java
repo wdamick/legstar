@@ -13,8 +13,13 @@ package com.legstar.eclipse.plugin.jaxwsgen.wizards;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
@@ -28,8 +33,8 @@ import com.legstar.eclipse.plugin.jaxwsgen.preferences.PreferenceConstants;
  * A wizard page displaying widgets that are specific to the Jaxws to Cixs
  * generation.
  */
-public class Jaxws2CixsGeneratorWizardPage
-        extends AbstractCixsJaxwsGeneratorWizardPage {
+public class Jaxws2CixsGeneratorWizardPage extends
+        AbstractCixsJaxwsGeneratorWizardPage {
 
     /** Page name. */
     private static final String PAGE_NAME = "Jaxws2CixsGeneratorWizardPage";
@@ -46,6 +51,9 @@ public class Jaxws2CixsGeneratorWizardPage
     /** Generated Web service port name. */
     private Text _wsdlPortNameText = null;
 
+    /** Whether we should not generate package-info.java. */
+    private Button _noPackageInfo;
+
     /**
      * Construct the page.
      * 
@@ -54,15 +62,22 @@ public class Jaxws2CixsGeneratorWizardPage
      * @param genModel the generation model
      */
     protected Jaxws2CixsGeneratorWizardPage(
-            final IStructuredSelection selection,
-            final IFile mappingFile,
+            final IStructuredSelection selection, final IFile mappingFile,
             final AntBuildJaxws2CixsModel genModel) {
-        super(selection, PAGE_NAME,
-                Messages.jaxws_to_cixs_wizard_page_title,
-                Messages.jaxws_to_cixs_wizard_page_description,
-                mappingFile,
+        super(selection, PAGE_NAME, Messages.jaxws_to_cixs_wizard_page_title,
+                Messages.jaxws_to_cixs_wizard_page_description, mappingFile,
                 genModel);
         _genModel = genModel;
+    }
+
+    /** {@inheritDoc} */
+    public void addWidgetsToCixsGroup(final Composite container) {
+        _noPackageInfo = new Button(container, SWT.CHECK);
+        _noPackageInfo.setText(Messages.jaxws_to_cixs_no_package_info_label);
+        _noPackageInfo.setSelection(getGenModel().isNoPackageInfo());
+        final GridData gridData = new GridData();
+        gridData.horizontalSpan = 2;
+        _noPackageInfo.setLayoutData(gridData);
     }
 
     /** {@inheritDoc} */
@@ -70,16 +85,13 @@ public class Jaxws2CixsGeneratorWizardPage
 
         super.addWidgetsToDeploymentGroup(container);
 
-        _wsdlTargetNamespaceText = createTextField(container, getStore(),
-                null,
+        _wsdlTargetNamespaceText = createTextField(container, getStore(), null,
                 Messages.adapter_wsdl_target_namespace_label + ':');
 
-        _wsdlServiceNameText = createTextField(container, getStore(),
-                null,
+        _wsdlServiceNameText = createTextField(container, getStore(), null,
                 Messages.adapter_wsdl_service_name_label + ':');
 
-        _wsdlPortNameText = createTextField(container, getStore(),
-                null,
+        _wsdlPortNameText = createTextField(container, getStore(), null,
                 Messages.adapter_wsdl_port_name_label + ':');
 
     }
@@ -103,6 +115,18 @@ public class Jaxws2CixsGeneratorWizardPage
             public void modifyText(final ModifyEvent e) {
                 dialogChanged();
             }
+        });
+
+        _noPackageInfo.addSelectionListener(new SelectionListener() {
+
+            public void widgetSelected(SelectionEvent e) {
+                dialogChanged();
+            }
+
+            public void widgetDefaultSelected(SelectionEvent e) {
+                dialogChanged();
+            }
+
         });
 
     }
@@ -164,9 +188,9 @@ public class Jaxws2CixsGeneratorWizardPage
     }
 
     /**
-     * Attempt to retrieve last wsdl port name from the project preferences.
-     * If not found, wsdl port name is built from the service name
-     * potentially followed by a preferred suffix.
+     * Attempt to retrieve last wsdl port name from the project preferences. If
+     * not found, wsdl port name is built from the service name potentially
+     * followed by a preferred suffix.
      * 
      * @param serviceName the service name
      * @return a valid initial value
@@ -220,6 +244,8 @@ public class Jaxws2CixsGeneratorWizardPage
                 getWsdlServiceName());
         getGenModel().getWebServiceParameters().setWsdlPortName(
                 getWsdlPortName());
+
+        getGenModel().setNoPackageInfo(isNoPackageInfo());
     }
 
     /**
@@ -262,6 +288,13 @@ public class Jaxws2CixsGeneratorWizardPage
      */
     public String getWsdlPortName() {
         return _wsdlPortNameText.getText();
+    }
+
+    /**
+     * @return true if no package-info generation option is set
+     */
+    public boolean isNoPackageInfo() {
+        return _noPackageInfo.getSelection();
     }
 
     /** {@inheritDoc} */
