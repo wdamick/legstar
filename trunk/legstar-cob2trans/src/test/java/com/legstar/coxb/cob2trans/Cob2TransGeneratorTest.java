@@ -22,7 +22,6 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      */
     public void testCob2Xsd() throws Exception {
         Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
-                null,
                 _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
@@ -43,7 +42,6 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      */
     public void testJaxbgen() throws Exception {
         Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
-                null,
                 _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
@@ -74,7 +72,6 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      */
     public void testCompile() throws Exception {
         Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
-                null,
                 _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
@@ -104,7 +101,6 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      */
     public void testCoxbgen() throws Exception {
         Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
-                null,
                 _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
@@ -138,7 +134,6 @@ public class Cob2TransGeneratorTest extends AbstractCob2TransTester {
      */
     public void testJar() throws Exception {
         Cob2XsdResult cob2xsdResult = Cob2TransGenerator.cob2xsd(_cobolFile,
-                null,
                 _baseName,
                 _dirs.getXsdDir(),
                 _context.getCob2XsdModel());
