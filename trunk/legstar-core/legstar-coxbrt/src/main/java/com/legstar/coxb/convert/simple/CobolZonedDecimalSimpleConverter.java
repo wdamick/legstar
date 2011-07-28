@@ -60,9 +60,8 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             0x00, 0x40, 0x4E, 0x60 };
 
     /** Java characters corresponding to the previous array. */
-    private static final char[] UNORDERED_JAVA_CHARS = new char[] { '0',
-            '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '0', '+', '-' };
+    private static final char[] UNORDERED_JAVA_CHARS = new char[] { '0', '1',
+            '2', '3', '4', '5', '6', '7', '8', '9', '0', '0', '+', '-' };
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -72,22 +71,15 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int toHost(
-            final ICobolZonedDecimalBinding ce,
-            final byte[] hostTarget,
-            final int offset) throws HostException {
+    public int toHost(final ICobolZonedDecimalBinding ce,
+            final byte[] hostTarget, final int offset) throws HostException {
         int newOffset = 0;
         try {
             newOffset = toHostSingle(ce.getBigDecimalValue(),
-                    ce.getByteLength(),
-                    ce.getTotalDigits(),
-                    ce.getFractionDigits(),
-                    ce.isSigned(),
-                    ce.isSignSeparate(),
-                    ce.isSignLeading(),
-                    hostTarget,
-                    offset,
-                    getCobolContext().getHostCharsetName());
+                    ce.getByteLength(), ce.getTotalDigits(),
+                    ce.getFractionDigits(), ce.isSigned(), ce.isSignSeparate(),
+                    ce.isSignLeading(), hostTarget, offset, getCobolContext()
+                            .getHostCharsetName());
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
         }
@@ -95,38 +87,25 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int toHost(
-            final ICobolArrayZonedDecimalBinding ce,
-            final byte[] hostTarget,
-            final int offset,
-            final int currentOccurs)
+    public int toHost(final ICobolArrayZonedDecimalBinding ce,
+            final byte[] hostTarget, final int offset, final int currentOccurs)
             throws HostException {
         int newOffset = offset;
         try {
             for (BigDecimal javaSource : ce.getBigDecimalList()) {
-                newOffset = toHostSingle(javaSource,
-                        ce.getItemByteLength(),
-                        ce.getTotalDigits(),
-                        ce.getFractionDigits(),
-                        ce.isSigned(),
-                        ce.isSignSeparate(),
-                        ce.isSignLeading(),
-                        hostTarget,
-                        newOffset,
-                        getCobolContext().getHostCharsetName());
+                newOffset = toHostSingle(javaSource, ce.getItemByteLength(),
+                        ce.getTotalDigits(), ce.getFractionDigits(),
+                        ce.isSigned(), ce.isSignSeparate(), ce.isSignLeading(),
+                        hostTarget, newOffset, getCobolContext()
+                                .getHostCharsetName());
             }
             /* If necessary, fill in the array with missing items */
             for (int i = ce.getBigDecimalList().size(); i < currentOccurs; i++) {
                 newOffset = toHostSingle(BigDecimal.ZERO,
-                        ce.getItemByteLength(),
-                        ce.getTotalDigits(),
-                        ce.getFractionDigits(),
-                        ce.isSignSeparate(),
-                        ce.isSignLeading(),
-                        ce.isSigned(),
-                        hostTarget,
-                        newOffset,
-                        getCobolContext().getHostCharsetName());
+                        ce.getItemByteLength(), ce.getTotalDigits(),
+                        ce.getFractionDigits(), ce.isSignSeparate(),
+                        ce.isSignLeading(), ce.isSigned(), hostTarget,
+                        newOffset, getCobolContext().getHostCharsetName());
             }
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
@@ -135,22 +114,14 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int fromHost(
-            final ICobolZonedDecimalBinding ce,
-            final byte[] hostSource,
-            final int offset)
-            throws HostException {
+    public int fromHost(final ICobolZonedDecimalBinding ce,
+            final byte[] hostSource, final int offset) throws HostException {
         int newOffset = offset;
         try {
             BigDecimal javaDecimal = fromHostSingle(ce.getByteLength(),
-                    ce.getTotalDigits(),
-                    ce.getFractionDigits(),
-                    ce.isSigned(),
-                    ce.isSignSeparate(),
-                    ce.isSignLeading(),
-                    hostSource,
-                    newOffset,
-                    getCobolContext().getHostCharsetName());
+                    ce.getTotalDigits(), ce.getFractionDigits(), ce.isSigned(),
+                    ce.isSignSeparate(), ce.isSignLeading(), hostSource,
+                    newOffset, getCobolContext().getHostCharsetName());
             ce.setBigDecimalValue(javaDecimal);
             newOffset += ce.getByteLength();
         } catch (CobolConversionException e) {
@@ -160,25 +131,18 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     }
 
     /** {@inheritDoc} */
-    public int fromHost(
-            final ICobolArrayZonedDecimalBinding ce,
-            final byte[] hostSource,
-            final int offset,
-            final int currentOccurs)
+    public int fromHost(final ICobolArrayZonedDecimalBinding ce,
+            final byte[] hostSource, final int offset, final int currentOccurs)
             throws HostException {
         List < BigDecimal > lArray = new ArrayList < BigDecimal >();
         int newOffset = offset;
         try {
             for (int i = 0; i < currentOccurs; i++) {
                 BigDecimal javaDecimal = fromHostSingle(ce.getItemByteLength(),
-                        ce.getTotalDigits(),
-                        ce.getFractionDigits(),
-                        ce.isSigned(),
-                        ce.isSignSeparate(),
-                        ce.isSignLeading(),
-                        hostSource,
-                        newOffset,
-                        getCobolContext().getHostCharsetName());
+                        ce.getTotalDigits(), ce.getFractionDigits(),
+                        ce.isSigned(), ce.isSignSeparate(), ce.isSignLeading(),
+                        hostSource, newOffset, getCobolContext()
+                                .getHostCharsetName());
                 lArray.add(javaDecimal);
                 newOffset += ce.getItemByteLength();
             }
@@ -205,18 +169,12 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * @param hostCharsetName host character set
      * @throws CobolConversionException if conversion fails
      */
-    public static final int toHostSingle(
-            final BigDecimal javaDecimal,
-            final int cobolByteLength,
-            final int totalDigits,
-            final int fractionDigits,
-            final boolean isSigned,
-            final boolean isSignSeparate,
-            final boolean isSignLeading,
-            final byte[] hostTarget,
-            final int offset,
-            final String hostCharsetName)
-            throws CobolConversionException {
+    public static final int toHostSingle(final BigDecimal javaDecimal,
+            final int cobolByteLength, final int totalDigits,
+            final int fractionDigits, final boolean isSigned,
+            final boolean isSignSeparate, final boolean isSignLeading,
+            final byte[] hostTarget, final int offset,
+            final String hostCharsetName) throws CobolConversionException {
 
         /* Check that we are still within the host target range */
         int lastOffset = offset + cobolByteLength;
@@ -258,8 +216,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         }
 
         /* Evaluate the java entire and fractional digits we got. */
-        int totalJavaDigits = (intJavaPrecision > fractionJavaDigits)
-                ? intJavaPrecision
+        int totalJavaDigits = (intJavaPrecision > fractionJavaDigits) ? intJavaPrecision
                 : fractionJavaDigits + 1;
 
         /* Java decimal is too large. */
@@ -351,11 +308,9 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                     }
                 } else {
                     if (isNegative) {
-                        hostTarget[iTarget - 1] =
-                                (byte) (hostTarget[iTarget - 1] - 0x20);
+                        hostTarget[iTarget - 1] = (byte) (hostTarget[iTarget - 1] - 0x20);
                     } else {
-                        hostTarget[iTarget - 1] =
-                                (byte) (hostTarget[iTarget - 1] - 0x30);
+                        hostTarget[iTarget - 1] = (byte) (hostTarget[iTarget - 1] - 0x30);
                     }
                 }
             }
@@ -379,31 +334,25 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * @return offset after host buffer is read
      * @throws CobolConversionException if conversion fails
      */
-    public static final BigDecimal fromHostSingle(
-            final int cobolByteLength,
-            final int totalDigits,
-            final int fractionDigits,
-            final boolean isSigned,
-            final boolean isSignSeparate,
-            final boolean isSignLeading,
-            final byte[] hostSource,
-            final int offset,
-            final String hostCharsetName)
+    public static final BigDecimal fromHostSingle(final int cobolByteLength,
+            final int totalDigits, final int fractionDigits,
+            final boolean isSigned, final boolean isSignSeparate,
+            final boolean isSignLeading, final byte[] hostSource,
+            final int offset, final String hostCharsetName)
             throws CobolConversionException {
 
         int lastOffset = offset + cobolByteLength;
 
         /*
-         * Check that we are still within the host source range.
-         * If not, consider the host optimized its payload by truncating
-         * trailing nulls in which case, we just need to initialize and return.
+         * Check that we are still within the host source range. If not,
+         * consider the host optimized its payload by truncating trailing nulls
+         * in which case, we just need to initialize and return.
          */
         if (lastOffset > hostSource.length) {
             return new BigDecimal(0).setScale(fractionDigits);
         }
         if (lastOffset < 1) {
-            throw (new CobolConversionException(
-                    "Invalid host byte length",
+            throw (new CobolConversionException("Invalid host byte length",
                     new HostData(hostSource), offset, cobolByteLength));
         }
 
@@ -414,78 +363,42 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         char[] workDecimal = new char[sourceSize];
 
         /*
-         * Transfer source bytes to work byte array. The objective is that
-         * the work byte array contains only valid digits ready for code
-         * page translation.
-         * The first and last source bytes might be sign bytes. These happen
-         * for signed decimals with imbedded sign (not separate). Such a byte
-         * encodes both the sign (high order 4 bits) and a digit (low order
-         * 4 bits) so it results in 2 bytes in the work byte array.
+         * Transfer source bytes to work byte array. The objective is that the
+         * work byte array contains only valid digits ready for code page
+         * translation. The first and last source bytes might be sign bytes.
+         * These happen for signed decimals with overpunch sign (not separate).
+         * Such a byte encodes both the sign (high order 4 bits) and a digit
+         * (low order 4 bits) so it results in 2 bytes in the work byte array.
          */
-        int i = 0;
+
+        /*
+         * reserve first java character for sign when it cannot be determined
+         * right away from the host byte.
+         */
+        int i = (isSigned && (!isSignLeading || (isSignLeading && !isSignSeparate))) ? 1
+                : 0;
         byte hostByte;
         for (int iSource = offset; iSource < lastOffset; iSource++) {
             hostByte = hostSource[iSource];
             if (isSigned) {
-                if (i == 0) {
-                    if (isSignLeading) {
-                        if (isSignSeparate) {
-                            workDecimal[i] = toJavaChar(hostByte);
-                        } else {
-                            /*
-                             * Sign code gives the first target byte and the
-                             * embedded digit gives the next byte.
-                             */
-                            int signCode = hostByte & 0xF0;
-                            if (signCode == 0xd0) {
-                                workDecimal[i] = toJavaChar(MINUS_EBCDIC);
-                            } else {
-                                workDecimal[i] = toJavaChar(PLUS_EBCDIC);
-                            }
-                            i++;
-                            workDecimal[i] = toJavaChar(
-                                    (byte) ((hostByte & 0x0F) + 0xF0));
-                        }
-                    } else {
-                        /*
-                         * reserve first byte for sign which will only be
-                         * determined when we reach the last source byte
-                         */
-                        i++;
-                        workDecimal[i] = toJavaChar(hostByte);
-                    }
-                } else if (i == (sourceSize - 1)) {
-                    if (!isSignLeading && !isSignSeparate) {
-                        /*
-                         * Sign code gives the first target byte and the
-                         * embedded digit gives the last byte.
-                         */
-                        int signCode = hostByte & 0xF0;
-                        if (signCode == 0xd0) {
-                            workDecimal[0] = toJavaChar(MINUS_EBCDIC);
-                        } else {
-                            workDecimal[0] = toJavaChar(PLUS_EBCDIC);
-                        }
-                        workDecimal[i] = toJavaChar((byte) ((hostByte & 0x0F) + 0xF0));
-                    } else {
-                        workDecimal[i] = toJavaChar(hostByte);
-                    }
-                } else if (i == sourceSize) {
-                    /*
-                     * last character from source is the sign.
-                     * Java expects it at the beginning.
-                     */
-                    if (!isSignLeading && isSignSeparate) {
+                if (iSource == offset && isSignLeading && !isSignSeparate) {
+                    setFromOverPunch(workDecimal, hostByte, i);
+                    i++;
+                    continue;
+                }
+
+                if (iSource == lastOffset - 1 && !isSignLeading) {
+                    if (isSignSeparate) {
                         workDecimal[0] = toJavaChar(hostByte);
                     } else {
-                        workDecimal[i] = toJavaChar(hostByte);
+                        setFromOverPunch(workDecimal, hostByte, i);
                     }
-                } else {
-                    workDecimal[i] = toJavaChar(hostByte);
+                    i++;
+                    continue;
                 }
-            } else {
-                workDecimal[i] = toJavaChar(hostByte);
+
             }
+            workDecimal[i] = toJavaChar(hostByte);
             i++;
         }
 
@@ -496,8 +409,8 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         } catch (NumberFormatException e) {
             throw (new CobolConversionException(
                     "Host data contains a byte that is not a valid zoned"
-                            + " decimal byte",
-                    new HostData(hostSource), offset, cobolByteLength));
+                            + " decimal byte", new HostData(hostSource),
+                    offset, cobolByteLength));
         }
         if (fractionDigits == 0) {
             return result;
@@ -507,10 +420,30 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     }
 
     /**
+     * Sets the java sign as the first character, based on the zoned decimal
+     * byte that holds the sign as an overpunch character the second half byte
+     * of the overpunch byte is the actual digit.
+     * 
+     * @param workDecimal the Java decimal being built
+     * @param hostByte the host byte with overpunch sign
+     * @param i the current index in the java decimal being built
+     */
+    protected static void setFromOverPunch(char[] workDecimal, byte hostByte,
+            int i) {
+        int signCode = hostByte & 0xF0;
+        if (signCode == 0xd0) {
+            workDecimal[0] = toJavaChar(MINUS_EBCDIC);
+        } else {
+            workDecimal[0] = toJavaChar(PLUS_EBCDIC);
+        }
+        workDecimal[i] = toJavaChar((byte) ((hostByte & 0x0F) + 0xF0));
+    }
+
+    /**
      * Lookup an assumed EBCDIC digit or sign character. If found, this will
-     * return the equivalent java digit or sign.
-     * If not found, there is a slight chance that the payload is already
-     * in java encoding so we give it a chance.
+     * return the equivalent java digit or sign. If not found, there is a slight
+     * chance that the payload is already in java encoding so we give it a
+     * chance.
      * 
      * @param hostByte the mainframe digit or sign
      * @return the corresponding java digit or '\0' if not found
