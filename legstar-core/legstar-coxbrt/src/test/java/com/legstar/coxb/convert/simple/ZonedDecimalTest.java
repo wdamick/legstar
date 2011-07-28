@@ -12,11 +12,11 @@ package com.legstar.coxb.convert.simple;
 
 import java.math.BigDecimal;
 
+import junit.framework.TestCase;
+
 import com.legstar.coxb.convert.CobolConversionException;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
-
-import junit.framework.TestCase;
 
 /**
  * Test the COBOL ZONED DECIMAL TYPE.
@@ -46,15 +46,10 @@ public class ZonedDecimalTest extends TestCase {
      * @param inputValue the input value as a string
      * @param expectedValue the expected value as a hex string
      */
-    public static void toHost(
-            final int byteLength,
-            final int totalDigits,
-            final int fractionDigits,
-            final boolean signed,
-            final boolean isSignSeparate,
-            final boolean isSignLeading,
-            final String hostCharset,
-            final String inputValue,
+    public static void toHost(final int byteLength, final int totalDigits,
+            final int fractionDigits, final boolean signed,
+            final boolean isSignSeparate, final boolean isSignLeading,
+            final String hostCharset, final String inputValue,
             final String expectedValue) {
         try {
             byte[] hostBytes = new byte[byteLength];
@@ -64,12 +59,11 @@ public class ZonedDecimalTest extends TestCase {
             } else {
                 javaDecimal = new BigDecimal(inputValue);
             }
-            assertEquals(byteLength, CobolZonedDecimalSimpleConverter
-                    .toHostSingle(
-                            javaDecimal, byteLength, totalDigits,
-                            fractionDigits,
-                            signed, isSignSeparate, isSignLeading, hostBytes,
-                            0, hostCharset));
+            assertEquals(byteLength,
+                    CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal,
+                            byteLength, totalDigits, fractionDigits, signed,
+                            isSignSeparate, isSignLeading, hostBytes, 0,
+                            hostCharset));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -89,21 +83,15 @@ public class ZonedDecimalTest extends TestCase {
      * @param inputValue the input value as a hex string
      * @param expectedValue the expected value as a string
      */
-    public static void fromHost(
-            final int byteLength,
-            final int totalDigits,
-            final int fractionDigits,
-            final boolean signed,
-            final boolean isSignSeparate,
-            final boolean isSignLeading,
-            final String hostCharset,
-            final String inputValue,
+    public static void fromHost(final int byteLength, final int totalDigits,
+            final int fractionDigits, final boolean signed,
+            final boolean isSignSeparate, final boolean isSignLeading,
+            final String hostCharset, final String inputValue,
             final String expectedValue) {
         try {
             byte[] hostBytes = HostData.toByteArray(inputValue);
             BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter
-                    .fromHostSingle(
-                            byteLength, totalDigits, fractionDigits,
+                    .fromHostSingle(byteLength, totalDigits, fractionDigits,
                             signed, isSignSeparate, isSignLeading, hostBytes,
                             0, hostCharset);
             assertEquals(expectedValue, javaDecimal.toString());
@@ -116,36 +104,36 @@ public class ZonedDecimalTest extends TestCase {
      * Test scaling.
      */
     public void testScaling() {
-        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
-                "256.85", "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f0f0f0");
-        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
-                "256.852568", "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f2f5f6");
-        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
-                "256.85257", "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f2f5f7");
-        toHost(18, 18, 0, false, false, false, US_HOST_CHARSET,
-                "256.85257", "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f2f5f6");
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET, "256.85",
+                "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f0f0f0");
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET, "256.852568",
+                "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f2f5f6");
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET, "256.85257",
+                "f0f0f0f0f0f0f0f0f0f0f2f5f6f8f5f2f5f7");
+        toHost(18, 18, 0, false, false, false, US_HOST_CHARSET, "256.85257",
+                "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f2f5f6");
     }
 
     /**
      * Test the virtualization of the decimal point.
      */
     public void testVirtualizing() {
-        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET,
-                ".256", "f0f0f0f0f0f0f0f0f0f0f0f0f0f2f5f6f0f0");
+        toHost(18, 18, 5, false, false, false, US_HOST_CHARSET, ".256",
+                "f0f0f0f0f0f0f0f0f0f0f0f0f0f2f5f6f0f0");
     }
 
     /**
      * Test that separate sign gets included.
      */
     public void testSignSeparate() {
-        toHost(10, 9, 0, true, true, true, US_HOST_CHARSET,
-                 "456", "4ef0f0f0f0f0f0f4f5f6");
-        toHost(10, 9, 0, true, true, false, US_HOST_CHARSET,
-                 "456", "f0f0f0f0f0f0f4f5f64e");
-        toHost(10, 9, 0, true, true, true, US_HOST_CHARSET,
-                 "-456", "60f0f0f0f0f0f0f4f5f6");
-        toHost(10, 9, 0, true, true, false, US_HOST_CHARSET,
-                 "-456", "f0f0f0f0f0f0f4f5f660");
+        toHost(10, 9, 0, true, true, true, US_HOST_CHARSET, "456",
+                "4ef0f0f0f0f0f0f4f5f6");
+        toHost(10, 9, 0, true, true, false, US_HOST_CHARSET, "456",
+                "f0f0f0f0f0f0f4f5f64e");
+        toHost(10, 9, 0, true, true, true, US_HOST_CHARSET, "-456",
+                "60f0f0f0f0f0f0f4f5f6");
+        toHost(10, 9, 0, true, true, false, US_HOST_CHARSET, "-456",
+                "f0f0f0f0f0f0f4f5f660");
     }
 
     /**
@@ -163,9 +151,8 @@ public class ZonedDecimalTest extends TestCase {
         byte[] hostBytes = new byte[9];
         BigDecimal decimal = new BigDecimal("25689745623");
         try {
-            CobolZonedDecimalSimpleConverter.toHostSingle(
-                    decimal, 9, 9, 0, false, false, false, hostBytes, 0,
-                    US_HOST_CHARSET);
+            CobolZonedDecimalSimpleConverter.toHostSingle(decimal, 9, 9, 0,
+                    false, false, false, hostBytes, 0, US_HOST_CHARSET);
         } catch (CobolConversionException e) {
             assertEquals("BigDecimal value too large for target Cobol field."
                     + " Host data at offset 0=0x000000000000000000",
@@ -203,24 +190,24 @@ public class ZonedDecimalTest extends TestCase {
      * Zero java value.
      */
     public void testToHostZero() {
-        toHost(17, 17, 0, false, false, false, FRENCH_HOST_CHARSET,
-                "0", "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0");
+        toHost(17, 17, 0, false, false, false, FRENCH_HOST_CHARSET, "0",
+                "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0");
     }
 
     /**
      * Null java value.
      */
     public void testToHostNull() {
-        toHost(17, 17, 0, false, false, false, FRENCH_HOST_CHARSET,
-                null, "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0");
+        toHost(17, 17, 0, false, false, false, FRENCH_HOST_CHARSET, null,
+                "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0");
     }
 
     /**
      * Minus zero java value.
      */
     public void testToHostMZero() {
-        toHost(9, 9, 0, false, false, true, FRENCH_HOST_CHARSET,
-                "-0", "f0f0f0f0f0f0f0f0f0");
+        toHost(9, 9, 0, false, false, true, FRENCH_HOST_CHARSET, "-0",
+                "f0f0f0f0f0f0f0f0f0");
     }
 
     /**
@@ -243,16 +230,15 @@ public class ZonedDecimalTest extends TestCase {
      * Case 1 digit.
      */
     public void testToHostSingleDigit() {
-        toHost(1, 1, 0, false, false, false, FRENCH_HOST_CHARSET,
-                "1", "f1");
+        toHost(1, 1, 0, false, false, false, FRENCH_HOST_CHARSET, "1", "f1");
     }
 
     /**
      * 9(1)V9(5).
      */
     public void testToHostp12345() {
-        toHost(6, 6, 5, false, false, false, FRENCH_HOST_CHARSET,
-                ".12345", "f0f1f2f3f4f5");
+        toHost(6, 6, 5, false, false, false, FRENCH_HOST_CHARSET, ".12345",
+                "f0f1f2f3f4f5");
     }
 
     /**
@@ -267,22 +253,15 @@ public class ZonedDecimalTest extends TestCase {
      * Test padding.
      */
     public void testToHostPadding() {
-        toHost(5, 5, 0, false, false, false, FRENCH_HOST_CHARSET,
-                "12", "f0f0f0f1f2");
+        toHost(5, 5, 0, false, false, false, FRENCH_HOST_CHARSET, "12",
+                "f0f0f0f1f2");
     }
 
     /**
      * Test a large value.
      */
     public void testToHostLarge() {
-        toHost(
-                31,
-                31,
-                0,
-                false,
-                false,
-                false,
-                FRENCH_HOST_CHARSET,
+        toHost(31, 31, 0, false, false, false, FRENCH_HOST_CHARSET,
                 "1234567890123456789012345678901",
                 "f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1f2f3f4f5f6f7f8f9f0f1");
     }
@@ -291,32 +270,32 @@ public class ZonedDecimalTest extends TestCase {
      * S9(2)V9(6) SIGN IS LEADING SEPARATE.
      */
     public void testToHostSignSepLead() {
-        toHost(9, 8, 6, true, true, true, FRENCH_HOST_CHARSET,
-                "-45.98754", "60f4f5f9f8f7f5f4f0");
+        toHost(9, 8, 6, true, true, true, FRENCH_HOST_CHARSET, "-45.98754",
+                "60f4f5f9f8f7f5f4f0");
     }
 
     /**
      * S9(2)V9(6) SIGN IS LEADING.
      */
     public void testToHostSignLead() {
-        toHost(8, 8, 6, true, false, true, FRENCH_HOST_CHARSET,
-                "-45.98754", "d4f5f9f8f7f5f4f0");
+        toHost(8, 8, 6, true, false, true, FRENCH_HOST_CHARSET, "-45.98754",
+                "d4f5f9f8f7f5f4f0");
     }
 
     /**
      * S9(2)V9(6) SIGN IS TRAILING SEPARATE.
      */
     public void testToHostSignSepTrail() {
-        toHost(9, 8, 6, true, true, false, FRENCH_HOST_CHARSET,
-                "-45.98754", "f4f5f9f8f7f5f4f060");
+        toHost(9, 8, 6, true, true, false, FRENCH_HOST_CHARSET, "-45.98754",
+                "f4f5f9f8f7f5f4f060");
     }
 
     /**
      * S9(2)V9(6) SIGN IS TRAILING.
      */
     public void testToHostSignTrail() {
-        toHost(8, 8, 6, true, false, false, FRENCH_HOST_CHARSET,
-                "-45.98754", "f4f5f9f8f7f5f4d0");
+        toHost(8, 8, 6, true, false, false, FRENCH_HOST_CHARSET, "-45.98754",
+                "f4f5f9f8f7f5f4d0");
     }
 
     /**
@@ -326,9 +305,8 @@ public class ZonedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = new byte[1];
             BigDecimal javaDecimal = new BigDecimal("235.87");
-            CobolZonedDecimalSimpleConverter.toHostSingle(
-                    javaDecimal, 1, 1, 0, false, false, false, hostBytes, 0,
-                    FRENCH_HOST_CHARSET);
+            CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal, 1, 1, 0,
+                    false, false, false, hostBytes, 0, FRENCH_HOST_CHARSET);
             fail("BigDecimal too large not detected");
         } catch (HostException he) {
             assertEquals("BigDecimal value too large for target Cobol field."
@@ -380,8 +358,7 @@ public class ZonedDecimalTest extends TestCase {
      * Case single digit.
      */
     public void testFromHostSingleDigit() {
-        fromHost(1, 1, 0, false, false, true, FRENCH_HOST_CHARSET,
-                "f1", "1");
+        fromHost(1, 1, 0, false, false, true, FRENCH_HOST_CHARSET, "f1", "1");
     }
 
     /**
@@ -462,9 +439,8 @@ public class ZonedDecimalTest extends TestCase {
     public void testFromHostInvalid() {
         try {
             byte[] hostBytes = HostData.toByteArray("1A");
-            CobolZonedDecimalSimpleConverter.fromHostSingle(
-                    1, 1, 0, false, false, true, hostBytes, 0,
-                    FRENCH_HOST_CHARSET);
+            CobolZonedDecimalSimpleConverter.fromHostSingle(1, 1, 0, false,
+                    false, true, hostBytes, 0, FRENCH_HOST_CHARSET);
             fail("Invalid zoned decimal not detected");
         } catch (HostException he) {
             assertEquals(
@@ -479,9 +455,8 @@ public class ZonedDecimalTest extends TestCase {
     public void testFromHostInvalid2() {
         try {
             byte[] hostBytes = HostData.toByteArray("0A1f");
-            CobolZonedDecimalSimpleConverter.fromHostSingle(
-                    2, 2, 0, false, false, true, hostBytes, 0,
-                    FRENCH_HOST_CHARSET);
+            CobolZonedDecimalSimpleConverter.fromHostSingle(2, 2, 0, false,
+                    false, true, hostBytes, 0, FRENCH_HOST_CHARSET);
             fail("Invalid zoned decimal not detected");
         } catch (HostException he) {
             assertEquals(
@@ -492,8 +467,7 @@ public class ZonedDecimalTest extends TestCase {
 
     /**
      * Case where there is not enough data left in the host buffer. The code
-     * should consider
-     * that trailing nulls were omitted by the host.
+     * should consider that trailing nulls were omitted by the host.
      */
     public void testToHostPartialData() {
         fromHost(8, 8, 2, false, false, true, FRENCH_HOST_CHARSET,
@@ -512,16 +486,14 @@ public class ZonedDecimalTest extends TestCase {
      * Host is sending data with space characters instead of 0.
      */
     public void testFromHostWithSpaceChar() {
-        fromHost(2, 2, 0, false, false, true, US_HOST_CHARSET,
-                "40F0", "0");
+        fromHost(2, 2, 0, false, false, true, US_HOST_CHARSET, "40F0", "0");
     }
 
     /**
      * Host is sending data with low values instead of 0.
      */
     public void testFromHostWithLowValues() {
-        fromHost(2, 2, 0, false, false, true, US_HOST_CHARSET,
-                "0000", "0");
+        fromHost(2, 2, 0, false, false, true, US_HOST_CHARSET, "0000", "0");
     }
 
     /**
@@ -529,8 +501,20 @@ public class ZonedDecimalTest extends TestCase {
      */
     public void testFromHostWithAsciiChars() {
         fromHost(18, 17, 2, true, true, true, LATIN1_HOST_CHARSET,
-                "2d3132333435363738393031323334353132",
-                "-123456789012345.12");
+                "2d3132333435363738393031323334353132", "-123456789012345.12");
     }
 
+    /**
+     * See http://code.google.com/p/legstar/issues/detail?id=150.
+     */
+    public void testFromHostWithPicS9() {
+        fromHost(1, 1, 0, true, false, false, US_HOST_CHARSET, "D5", "-5");
+    }
+
+    /**
+     * See http://code.google.com/p/legstar/issues/detail?id=150.
+     */
+    public void testFromHostWithPic9() {
+        fromHost(1, 1, 0, false, false, false, US_HOST_CHARSET, "F5", "5");
+    }
 }
