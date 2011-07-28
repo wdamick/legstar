@@ -37,9 +37,29 @@
                 <include>legstar-java2cob*.jar</include>
             </includes>
         </fileSet>
-        <!-- jaxws-generator is the main provider of dependencies (via transitive dependencies) -->
+        <!-- jaxws-generator is the main provider of dependencies (via transitive dependencies)
+             we keep the option of having a newer version of the core in the distribution though.
+             this is kludgy though...
+         -->
         <fileSet>
             <directory>${project.build.directory}/package/legstar-jaxws-generator-${legstarCixsgenVersion}/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <!-- <exclude>legstar-cobcgen-*.jar</exclude>  Not in legstar-coxbgen -->
+                <exclude>legstar-codegen-*.jar</exclude>
+                <exclude>legstar-coxbapi-*.jar</exclude>
+                <exclude>legstar-coxbgen-*.jar</exclude>
+                <exclude>legstar-coxbrt-*.jar</exclude>
+                <exclude>legstar-jaxbgen-*.jar</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- Add the latest legstar-core -->
+        <fileSet>
+            <directory>${project.build.directory}/package/legstar-coxbgen-${legstarCoreVersion}/lib</directory>
             <outputDirectory>lib</outputDirectory>
             <includes>
                 <include>*.jar</include>
