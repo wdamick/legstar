@@ -1,0 +1,21 @@
+<project name="add2maven" default="add2maven" basedir=".">
+    <target name="add2maven">
+    
+        <property name="M2.repo" value="C:/Documents and Settings/Fady/.m2/repository" />
+
+        <exec executable="cmd">
+            <arg value="/c"/>
+            <arg value="mvn"/>
+            <arg value="deploy:deploy-file"/>
+            <arg value="-DgroupId=org.json"/>
+            <arg value="-DartifactId=jsonjava"/>
+            <arg value="-Dversion=1.0"/>
+            <arg value="-Dpackaging=jar"/>
+            <arg value="-Dfile=${M2.repo}/org/json/jsonjava/1.0/jsonjava-1.0.jar"/>
+            <arg value="-DrepositoryId=ftp-release-repository"/>
+            <arg value="-Durl=ftp://ftp.legsem.com/public_html/legstar/maven/repo"/>
+        </exec>
+
+
+    </target>
+</project>

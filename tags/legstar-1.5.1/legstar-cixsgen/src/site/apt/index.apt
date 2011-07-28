@@ -1,0 +1,15 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+Service Generators
+
+  These generators produce Adapters or Proxies for different platforms:
+  
+  * The {{{./legstar-jaxws-generator/index.html}JAXWS Service generator}} produces Adapters and Proxies for the standard JAX-WS Web Service framework
+  
+  * The {{{http://code.google.com/p/legstar-jbossesb/}JBoss ESB Service generator}} produces Adapters and Proxies for the JBoss Enterprise Service Bus
+
+  * The {{{http://code.google.com/p/legstar-mule/}Mule Service generator}} produces Adapters and Proxies for the Mule Enterprise Service Bus
