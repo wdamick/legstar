@@ -16,8 +16,8 @@
     <url>http://www.legsem.com/legstar/legstar-cob2trans</url>
 
     <properties>
-        <legstarCoreVersion>1.5.3</legstarCoreVersion>
-        <legstarCob2XsdVersion>0.3.3</legstarCob2XsdVersion>
+        <legstarCoreVersion>1.5.4</legstarCoreVersion>
+        <legstarCob2XsdVersion>0.3.4</legstarCob2XsdVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -125,7 +125,7 @@
             <groupId>com.legsem.legstar</groupId>
             <artifactId>legstar-cob2xsd</artifactId>
             <version>${legstarCob2XsdVersion}</version>
-            <classifier>test</classifier>
+            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
 
@@ -191,6 +191,7 @@
                     <configuration>
                         <source>1.5</source>
                         <target>1.5</target>
+                        <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
 

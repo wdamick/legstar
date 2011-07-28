@@ -39,8 +39,8 @@ import org.apache.ws.commons.schema.XmlSchemaElement;
 import org.apache.ws.commons.schema.XmlSchemaObjectTable;
 
 import com.legstar.antlr.RecognizerException;
+import com.legstar.cob2xsd.Cob2XsdIO;
 import com.legstar.cob2xsd.Cob2XsdModel;
-import com.legstar.cob2xsd.CobolStructureToXsd;
 import com.legstar.cob2xsd.XsdGenerationException;
 import com.legstar.coxb.gen.CoxbBindingGenerator;
 import com.legstar.coxb.gen.CoxbGenModel;
@@ -113,26 +113,7 @@ public class Cob2TransGenerator {
     public Cob2TransResult generate(final File cobolFile,
             final File targetDir)
             throws Cob2TransException {
-        return generate(cobolFile, null, targetDir, null);
-    }
-
-    /**
-     * From a COBOL fragment, generates Transformers and bundles them in a jar
-     * archive.
-     * 
-     * @param cobolFile the COBOL fragment containing data items descriptions
-     * @param targetDir a target folder to produce artifacts
-     * @param classpath a java class path to use by compiler to located
-     *            dependencies
-     * @return intermediate and final results including a jar archive ready to
-     *         deploy
-     * @throws Cob2TransException if generation fails
-     */
-    public Cob2TransResult generate(final File cobolFile,
-            final File targetDir,
-            final String classpath)
-            throws Cob2TransException {
-        return generate(cobolFile, null, targetDir, classpath);
+        return generate(cobolFile, getBaseName(cobolFile), targetDir, null);
     }
 
     /**
@@ -150,12 +131,10 @@ public class Cob2TransGenerator {
      * @throws Cob2TransException if generation fails
      */
     public Cob2TransResult generate(final File cobolFile,
-            final String cobolSourceFileEncoding,
             final File targetDir,
             final String classpath)
             throws Cob2TransException {
-        String baseName = getBaseName(cobolFile);
-        return generate(cobolFile, cobolSourceFileEncoding, baseName,
+        return generate(cobolFile, getBaseName(cobolFile),
                 targetDir, classpath);
     }
 
@@ -175,7 +154,6 @@ public class Cob2TransGenerator {
      * @throws Cob2TransException if generation fails
      */
     public Cob2TransResult generate(final File cobolFile,
-            final String cobolSourceFileEncoding,
             final String baseName,
             final File targetDir,
             final String classpath)
@@ -198,8 +176,7 @@ public class Cob2TransGenerator {
                 + "' to XML Schema";
         fireEvent(++stepNumber, eventDescription,
                 Cob2TransEvent.EventType.START);
-        result.cob2xsdResult = cob2xsd(cobolFile,
-                cobolSourceFileEncoding, baseName,
+        result.cob2xsdResult = cob2xsd(cobolFile, baseName,
                 dirs.getXsdDir(), getModel().getCob2XsdModel());
         File xsdFile = result.cob2xsdResult.xsdFile;
         for (String errorMessage : result.cob2xsdResult.errorHistory) {
@@ -409,7 +386,6 @@ public class Cob2TransGenerator {
      */
     public static Cob2XsdResult cob2xsd(
             final File cobolFile,
-            final String cobolSourceFileEncoding,
             final String baseName,
             final File xsdDir,
             final Cob2XsdModel model)
@@ -424,10 +400,9 @@ public class Cob2TransGenerator {
                     baseName, targetNamespacePrefix);
             model.setTargetNamespace(targetNamespace);
 
-            CobolStructureToXsd cobTranslator = new CobolStructureToXsd(model);
+            Cob2XsdIO cobTranslator = new Cob2XsdIO(model);
             result.xsdFile = cobTranslator.translate(cobolFile,
-                    cobolSourceFileEncoding,
-                    new File(xsdDir, baseName + ".xsd"));
+                    new File(xsdDir, baseName + ".xsd"), false);
             result.errorHistory = cobTranslator.getErrorHistory();
             result.targetNamespace = targetNamespace;
 
@@ -443,8 +418,9 @@ public class Cob2TransGenerator {
     }
 
     /**
-     * TargetNamespace, if it is not null, is completed with the
-     * baseName.
+     * TargetNamespace, if it is not null, is completed with the baseName.
+     * 
+     * TODO when legstar-cob2xsd 0.3.5 ships remove this code
      * 
      * @param baseName A name, derived from the COBOL file name, that can be
      *            used to identify generated artifacts
@@ -454,8 +430,7 @@ public class Cob2TransGenerator {
     protected static String getUniqueTargetNamespace(final String baseName,
             final String targetNamespacePrefix) {
 
-        if (targetNamespacePrefix != null
-                && targetNamespacePrefix.length() > 0
+        if (targetNamespacePrefix != null && targetNamespacePrefix.length() > 0
                 && !targetNamespacePrefix.endsWith(baseName)) {
             if (targetNamespacePrefix
                     .charAt(targetNamespacePrefix.length() - 1) == '/') {

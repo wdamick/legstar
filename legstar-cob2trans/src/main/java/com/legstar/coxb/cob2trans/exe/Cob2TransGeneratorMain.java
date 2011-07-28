@@ -56,9 +56,6 @@ public class Cob2TransGeneratorMain {
      */
     private File _input;
 
-    /** Character set used to encode the input COBOL source files. */
-    private String _cobolSourceFileEncoding;
-
     /**
      * A folder containing generated artifacts. Defaults to target relative
      * folder.
@@ -101,7 +98,7 @@ public class Cob2TransGeneratorMain {
             if (collectOptions(options, args)) {
                 setDefaults();
                 loadModel();
-                execute(getInput(), getCobolSourceFileEncoding(), getOutput());
+                execute(getInput(), getOutput());
             }
         } catch (Exception e) {
             _log.error("Transformers generator failure", e);
@@ -214,11 +211,6 @@ public class Cob2TransGeneratorMain {
                         + " Name is relative or absolute");
         options.addOption(input);
 
-        Option cobolSourceFileEncoding = new Option("e",
-                "sourceEncoding", true,
-                "Character set used for COBOL source files encoding");
-        options.addOption(cobolSourceFileEncoding);
-
         Option output = new Option("o", "output", true,
                 "folder receiving the generated artifacts");
         options.addOption(output);
@@ -255,10 +247,6 @@ public class Cob2TransGeneratorMain {
         if (line.hasOption("input")) {
             setInput(line.getOptionValue("input").trim());
         }
-        if (line.hasOption("cobolSourceFileEncoding")) {
-            setCobolSourceFileEncoding(line.getOptionValue(
-                    "cobolSourceFileEncoding").trim());
-        }
         if (line.hasOption("output")) {
             setOutput(line.getOptionValue("output").trim());
         }
@@ -274,26 +262,23 @@ public class Cob2TransGeneratorMain {
      * Place results in the output folder.
      * 
      * @param input the input COBOL file or folder
-     * @param cobolSourceFileEncoding the input file character set
      * @param target the output folder or file where XML schema file must go
      * @throws Cob2TransException if generation fails
      */
-    protected void execute(final File input,
-            final String cobolSourceFileEncoding, final File target)
+    protected void execute(final File input, final File target)
             throws Cob2TransException {
 
         _log.info("Started generation from COBOL to Transformers");
         _log.info("Configuration file     : " + getConfigFile());
         _log.info("Taking COBOL from      : " + input);
-        _log.info("COBOL files encoding   : " + cobolSourceFileEncoding);
         _log.info("Output Transformers to : " + target);
         _log.info("Options in effect      : " + getModel().toString());
         if (input.isFile()) {
-            generate(input, cobolSourceFileEncoding, target);
+            generate(input, target);
         } else {
             for (File cobolFile : input.listFiles()) {
                 if (cobolFile.isFile()) {
-                    generate(cobolFile, cobolSourceFileEncoding, target);
+                    generate(cobolFile, target);
                 }
             }
         }
@@ -305,20 +290,17 @@ public class Cob2TransGeneratorMain {
      * Generate Transformers for a single COBOL source file.
      * 
      * @param cobolFile COBOL source file
-     * @param cobolSourceFileEncoding COBOL source file character encoding
      * @param target target file or folder
      * @throws Cob2TransException if generation fails
      */
     protected void generate(
             final File cobolFile,
-            final String cobolSourceFileEncoding,
             final File target) throws Cob2TransException {
         _log.info("Generation started for: " + cobolFile);
 
         Cob2TransGenerator cob2trans = new Cob2TransGenerator(getModel());
         Cob2TransResult result = cob2trans.generate(
                 cobolFile,
-                cobolSourceFileEncoding,
                 target,
                 getClasspath());
 
@@ -436,21 +418,6 @@ public class Cob2TransGeneratorMain {
      */
     public Cob2XsdModel getCob2XsdModel() {
         return _model.getCob2XsdModel();
-    }
-
-    /**
-     * @return the character set used to encode the input COBOL source files
-     */
-    public String getCobolSourceFileEncoding() {
-        return _cobolSourceFileEncoding;
-    }
-
-    /**
-     * @param cobolSourceFileEncoding the character set used to encode the input
-     *            COBOL source files
-     */
-    public void setCobolSourceFileEncoding(final String cobolSourceFileEncoding) {
-        _cobolSourceFileEncoding = cobolSourceFileEncoding;
     }
 
     /**
