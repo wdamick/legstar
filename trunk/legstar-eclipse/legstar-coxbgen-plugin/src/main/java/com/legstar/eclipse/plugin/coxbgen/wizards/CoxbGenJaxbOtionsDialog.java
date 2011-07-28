@@ -55,6 +55,12 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
     /** Suffix to add to element names. */
     private Text _elementNameSuffix;
 
+    /** Whether the ECI naming conventions should be used. */
+    private Button _eciCompatible;
+
+    /** Whether we should not generate package-info.java. */
+    private Button _noPackageInfo;
+
     /** The JAXB parameters. */
     private JaxbGenModel _jaxbgenModel;
 
@@ -65,8 +71,7 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
      * Creates a dialog instance. Note that the dialog will have no visual
      * representation (no widgets) until it is told to open.
      * 
-     * @param parentShell
-     *            the parent shell
+     * @param parentShell the parent shell
      * @param jaxbgenModel the JAXB parameters
      */
     protected CoxbGenJaxbOtionsDialog(final Shell parentShell,
@@ -80,8 +85,7 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
     /**
      * Sets the title for this dialog.
      * 
-     * @param title
-     *            the title
+     * @param title the title
      */
     public void setTitle(final String title) {
         _title = title;
@@ -98,8 +102,7 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
     }
 
     /**
-     * {@inheritDoc} (non-Javadoc)
-     * Method declared on Dialog.
+     * {@inheritDoc} (non-Javadoc) Method declared on Dialog.
      */
     protected Control createDialogArea(final Composite parent) {
         // create composite
@@ -108,17 +111,12 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
         Group group = AbstractWizardPage.createGroup(area,
                 Messages.jaxb_xjb_options_group_title, 2);
 
-        _generateIsSetMethod = new Button(group, SWT.CHECK);
-        _generateIsSetMethod
-                .setText(Messages.jaxb_xjb_generate_issetmethod_label);
-        _generateIsSetMethod
-                .setSelection(getJaxbGenModel().isGenerateIsSetMethod());
-        final GridData gridData = new GridData();
-        gridData.horizontalSpan = 2;
-        _generateIsSetMethod.setLayoutData(gridData);
+        _generateIsSetMethod = createCheckBox(group,
+                Messages.jaxb_xjb_generate_issetmethod_label, getJaxbGenModel()
+                        .isGenerateIsSetMethod());
 
-        AbstractWizardPage
-                .createLabel(group, Messages.jaxb_xjb_serializableid_label);
+        AbstractWizardPage.createLabel(group,
+                Messages.jaxb_xjb_serializableid_label);
         _serializableUid = AbstractWizardPage.createText(group);
         _serializableUid.setText(Long.toString(getJaxbGenModel()
                 .getSerializableUid()));
@@ -133,14 +131,14 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
 
         });
 
-        AbstractWizardPage
-                .createLabel(group, Messages.jaxb_xjb_typenameprefix_label);
+        AbstractWizardPage.createLabel(group,
+                Messages.jaxb_xjb_typenameprefix_label);
         _typeNamePrefix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_typeNamePrefix, getJaxbGenModel()
                 .getTypeNamePrefix());
 
-        AbstractWizardPage
-                .createLabel(group, Messages.jaxb_xjb_typenamesuffix_label);
+        AbstractWizardPage.createLabel(group,
+                Messages.jaxb_xjb_typenamesuffix_label);
         _typeNameSuffix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_typeNameSuffix, getJaxbGenModel()
                 .getTypeNameSuffix());
@@ -149,17 +147,40 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
                 Messages.jaxb_xjb_elementnameprefix_label);
         _elementNamePrefix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_elementNamePrefix,
-                getJaxbGenModel()
-                        .getElementNamePrefix());
+                getJaxbGenModel().getElementNamePrefix());
 
         AbstractWizardPage.createLabel(group,
                 Messages.jaxb_xjb_elementnamesuffix_label);
         _elementNameSuffix = AbstractWizardPage.createText(group);
         AbstractWizardPage.setTextFromString(_elementNameSuffix,
-                getJaxbGenModel()
-                        .getElementNameSuffix());
+                getJaxbGenModel().getElementNameSuffix());
 
+        _eciCompatible = createCheckBox(group,
+                Messages.jaxb_xjb_is_eci_compatible_label, getJaxbGenModel()
+                        .isEciCompatible());
+        _noPackageInfo = createCheckBox(group,
+                Messages.jaxb_xjb_no_package_info_label, getJaxbGenModel()
+                        .isNoPackageInfo());
         return dialogArea;
+    }
+
+    /**
+     * Adds a check option.
+     * 
+     * @param group the parent group to add option to
+     * @param text the checkbox text
+     * @param checked true if checkbox is ticked initially
+     * @return the new checkbox
+     */
+    protected Button createCheckBox(final Group group, final String text,
+            final boolean checked) {
+        Button button = new Button(group, SWT.CHECK);
+        button.setText(text);
+        button.setSelection(checked);
+        final GridData gridData = new GridData();
+        gridData.horizontalSpan = 2;
+        button.setLayoutData(gridData);
+        return button;
     }
 
     /** {@inheritDoc} */
@@ -177,6 +198,8 @@ public class CoxbGenJaxbOtionsDialog extends TrayDialog {
                     AbstractWizardPage.getValueFromText(_elementNamePrefix));
             getJaxbGenModel().setElementNameSuffix(
                     AbstractWizardPage.getValueFromText(_elementNameSuffix));
+            getJaxbGenModel().setEciCompatible(_eciCompatible.getSelection());
+            getJaxbGenModel().setNoPackageInfo(_noPackageInfo.getSelection());
         }
         return super.close();
     }

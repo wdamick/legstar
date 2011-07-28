@@ -18,8 +18,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 
     /** All messages come from this property file. */
-    private static final String BUNDLE_NAME =
-            "com.legstar.eclipse.plugin.coxbgen.messages";
+    private static final String BUNDLE_NAME = "com.legstar.eclipse.plugin.coxbgen.messages";
 
     /** The wizards icon. */
     public static String binding_generator_icon;
@@ -76,6 +75,10 @@ public class Messages extends NLS {
     public static String jaxb_xjb_elementnameprefix_label;
     /** JAXB/XJB element name suffix label. */
     public static String jaxb_xjb_elementnamesuffix_label;
+    /** JAXB/XJB is eci compatible label. */
+    public static String jaxb_xjb_is_eci_compatible_label;
+    /** JAXB/XJB no package-info generation label. */
+    public static String jaxb_xjb_no_package_info_label;
 
     /** COXB package name label. */
     public static String coxb_package_name_label;
