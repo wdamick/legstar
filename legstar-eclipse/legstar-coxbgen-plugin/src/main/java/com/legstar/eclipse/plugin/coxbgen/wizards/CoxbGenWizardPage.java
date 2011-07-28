@@ -58,6 +58,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.legstar.coxb.gen.CoxbGenException;
 import com.legstar.coxb.gen.CoxbGenModel;
+import com.legstar.coxb.util.BindingUtil;
 import com.legstar.coxb.util.NameUtil;
 import com.legstar.eclipse.plugin.common.ClasspathInitializer;
 import com.legstar.eclipse.plugin.common.wizards.AbstractWizardPage;
@@ -97,31 +98,26 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     private Label _targetBinDirLabel;
 
     /**
-     * A pattern to validate characters entered for package names
-     * This applies to characters entered, not the complete package
-     * string.
+     * A pattern to validate characters entered for package names This applies
+     * to characters entered, not the complete package string.
      */
-    private Pattern _pkgnamePattern = Pattern
-            .compile("[a-zA-Z0-9\\._]*");
+    private Pattern _pkgnamePattern = Pattern.compile("[a-zA-Z0-9\\._]*");
 
     /** Page name. */
-    private static final String PAGE_NAME =
-            "CoxbGenWizardPage";
+    private static final String PAGE_NAME = "CoxbGenWizardPage";
 
     /**
-     * Constructor for CoxbGenWizardPage from existing XML schema file.
-     * By default, the target project is the Xsd file containing project.
+     * Constructor for CoxbGenWizardPage from existing XML schema file. By
+     * default, the target project is the Xsd file containing project.
      * 
      * @param selection current workbench selection
      * @param genModel the data model
      * @param xsdFile XML schema file
      */
-    public CoxbGenWizardPage(
-            final IStructuredSelection selection,
-            final IFile xsdFile,
-            final CoxbGenModel genModel) {
-        super(selection, PAGE_NAME,
-                Messages.wizard_page_title, Messages.wizard_page_description);
+    public CoxbGenWizardPage(final IStructuredSelection selection,
+            final IFile xsdFile, final CoxbGenModel genModel) {
+        super(selection, PAGE_NAME, Messages.wizard_page_title,
+                Messages.wizard_page_description);
         _xsdFile = xsdFile;
         _genModel = genModel;
         _genModel.setXsdFile(_xsdFile.getLocation().toFile());
@@ -138,6 +134,9 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
         _jaxbPackageName = createText(group);
         _jaxbPackageName.addModifyListener(new ModifyListener() {
             public void modifyText(final ModifyEvent e) {
+                _coxbPackageName.setText(_jaxbPackageName.getText() + "."
+                        + BindingUtil.COXB_PACKAGENAME_SUFFIX);
+
                 dialogChanged();
             }
         });
@@ -162,8 +161,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 
         /* root name edit box */
         createLabel(container, Messages.root_elements_list_label + ':', 3);
-        _jaxbRootClassNamesList = new List(
-                container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+        _jaxbRootClassNamesList = new List(container, SWT.BORDER | SWT.MULTI
+                | SWT.V_SCROLL);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         gd.horizontalSpan = LAYOUT_COLUMNS;
         gd.heightHint = 200;
@@ -181,18 +180,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
 
         createLabel(container, Messages.coxb_package_name_label + ':');
         _coxbPackageName = createText(container);
-        _coxbPackageName.addModifyListener(new ModifyListener() {
-            public void modifyText(final ModifyEvent e) {
-                dialogChanged();
-            }
-        });
-        _coxbPackageName.addVerifyListener(new VerifyListener() {
+        _coxbPackageName.setEnabled(false);
 
-            public void verifyText(final VerifyEvent e) {
-                verifyPackageName(e);
-            }
-
-        });
         final Button coxbOptionsButton = createButton(container,
                 Messages.coxb_options_button_label);
         coxbOptionsButton.addSelectionListener(new SelectionAdapter() {
@@ -212,8 +201,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             }
         });
         createBrowseForContainerButton(container,
-                Messages.target_source_folder_select_label,
-                _targetSrcDirText);
+                Messages.target_source_folder_select_label, _targetSrcDirText);
 
         createLabel(container, Messages.target_classes_folder_label + ':');
         _targetBinDirLabel = createLabel(container, "", 2);
@@ -245,11 +233,9 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             initRootElements(getXsdFile());
             initTargetSrcDir(getXsdFile());
         } catch (CoreException e) {
-            errorDialog(getShell(),
-                    Messages.generate_error_dialog_title,
+            errorDialog(getShell(), Messages.generate_error_dialog_title,
                     Activator.PLUGIN_ID,
-                    Messages.page_initialization_failure_msg,
-                    e.getMessage());
+                    Messages.page_initialization_failure_msg, e.getMessage());
 
             /* No use continuing if can't even initialize */
             throw new RuntimeException(e);
@@ -282,8 +268,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     protected void initRootElements(final IFile xsdFile) throws CoreException {
         try {
             _jaxbRootClassNamesList.removeAll();
-            InputStream is = new FileInputStream(
-                    xsdFile.getLocation().toFile());
+            InputStream is = new FileInputStream(xsdFile.getLocation().toFile());
             XmlSchemaCollection schemaCol = new XmlSchemaCollection();
             XmlSchema schema = schemaCol.read(new StreamSource(is), null);
             XmlSchemaObjectCollection items = schema.getItems();
@@ -297,8 +282,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             for (int i = 0; i < items.getCount(); i++) {
                 XmlSchemaObject obj = items.getItem(i);
                 if (obj instanceof XmlSchemaElement) {
-                    loadXmlSchemaRootElement(xsdFile,
-                            (XmlSchemaElement) obj);
+                    loadXmlSchemaRootElement(xsdFile, (XmlSchemaElement) obj);
                 }
             }
 
@@ -310,18 +294,17 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     }
 
     /**
-     * All complex types are potential root elements. The name displayed is
-     * the expected JAXB Class name including any suffix if requested.
+     * All complex types are potential root elements. The name displayed is the
+     * expected JAXB Class name including any suffix if requested.
      * 
      * @param xsdFile the XML schema file from the workspace
      * @param xsdComplexType the complex type
      */
-    protected void loadXmlSchemaComplexType(
-            final IFile xsdFile, final XmlSchemaComplexType xsdComplexType) {
+    protected void loadXmlSchemaComplexType(final IFile xsdFile,
+            final XmlSchemaComplexType xsdComplexType) {
         String normalizedName = NameUtil.toClassName(xsdComplexType.getName());
         if (getGenModel().getTypeNamePrefix() != null) {
-            normalizedName = getGenModel().getTypeNamePrefix()
-                    + normalizedName;
+            normalizedName = getGenModel().getTypeNamePrefix() + normalizedName;
         }
         if (getGenModel().getTypeNameSuffix() != null) {
             normalizedName += getGenModel().getTypeNameSuffix();
@@ -330,17 +313,16 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     }
 
     /**
-     * Root XSD elements are also potential root elements.
-     * If the element type is a named complex type, it is already present in
-     * the list so no need to display it. This means we only add elements
-     * with anonymous complex types here.
-     * The root class name is the JAXB class name.
+     * Root XSD elements are also potential root elements. If the element type
+     * is a named complex type, it is already present in the list so no need to
+     * display it. This means we only add elements with anonymous complex types
+     * here. The root class name is the JAXB class name.
      * 
      * @param xsdFile the XML schema file from the workspace
      * @param xsdElement element
      */
-    protected void loadXmlSchemaRootElement(
-            final IFile xsdFile, final XmlSchemaElement xsdElement) {
+    protected void loadXmlSchemaRootElement(final IFile xsdFile,
+            final XmlSchemaElement xsdElement) {
         XmlSchemaType xsdType = xsdElement.getSchemaType();
         if (xsdType.getName() == null) {
             String normalizedName = NameUtil.toClassName(xsdElement.getName());
@@ -368,8 +350,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             IJavaProject jproject = JavaCore.create(xsdFile.getProject());
             if (jproject == null) {
                 throwCoreException(NLS.bind(
-                        Messages.xsd_file_in_invalid_project_msg,
-                                xsdFile.getLocation().toOSString()));
+                        Messages.xsd_file_in_invalid_project_msg, xsdFile
+                                .getLocation().toOSString()));
             }
             IClasspathEntry[] cpe = jproject.getRawClasspath();
             /* Find the first source location */
@@ -408,8 +390,7 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
                 setupContainerLibrary(getTargetJavaProject(),
                         ClasspathInitializer.LIBRARY_NAME);
             } catch (JavaModelException e) {
-                updateStatus(NLS.bind(
-                        Messages.classpath_setup_failure_msg,
+                updateStatus(NLS.bind(Messages.classpath_setup_failure_msg,
                         getSrcDirRelativePathName(), e.getMessage()));
                 return;
             }
@@ -426,10 +407,10 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     protected void updateGenModel() {
         getGenModel().setJaxbPackageName(getValueFromText(_jaxbPackageName));
         getGenModel().setCoxbPackageName(getValueFromText(_coxbPackageName));
-        getGenModel().setJaxbSrcDir(new File(
-                getPathName(getSrcDirRelativePathName())));
-        getGenModel().setJaxbBinDir(new File(
-                getPathName(getBinDirRelativePathName())));
+        getGenModel().setJaxbSrcDir(
+                new File(getPathName(getSrcDirRelativePathName())));
+        getGenModel().setJaxbBinDir(
+                new File(getPathName(getBinDirRelativePathName())));
         getGenModel().setCoxbSrcDir(getGenModel().getJaxbSrcDir());
         getGenModel().setCoxbBinDir(getGenModel().getJaxbBinDir());
         getGenModel().setJaxbRootClassNames(getJaxbRootClassNames());
@@ -448,9 +429,9 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     }
 
     /**
-     * When JAXB XJB parameters have been changed, we need to reload
-     * the class root list because item names in that list reflect
-     * the effect of the XJB parameters.
+     * When JAXB XJB parameters have been changed, we need to reload the class
+     * root list because item names in that list reflect the effect of the XJB
+     * parameters.
      * 
      * @param dialog the XJB parameters dialog
      */
@@ -459,18 +440,16 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
             initRootElements(getXsdFile());
             dialogChanged();
         } catch (CoreException e) {
-            errorDialog(getShell(),
-                    Messages.generate_error_dialog_title,
+            errorDialog(getShell(), Messages.generate_error_dialog_title,
                     Activator.PLUGIN_ID,
-                    Messages.page_initialization_failure_msg,
-                    e.getMessage());
+                    Messages.page_initialization_failure_msg, e.getMessage());
         }
 
     }
 
     /**
-     * Check if a relative path name is a valid java source directory.
-     * Also sets the target binary folder.
+     * Check if a relative path name is a valid java source directory. Also sets
+     * the target binary folder.
      * 
      * @param relativePathName the path name
      * @return true if this is a valid java source folder
@@ -486,16 +465,14 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
                     /* Lookup the pathname */
                     for (int i = 0; i < cpe.length; i++) {
                         if (cpe[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-                            if (relativePathName.equals(
-                                    cpe[i].getPath().toOSString())) {
+                            if (relativePathName.equals(cpe[i].getPath()
+                                    .toOSString())) {
                                 if (cpe[i].getOutputLocation() != null) {
-                                    _targetBinDirLabel.setText(
-                                            cpe[i].getOutputLocation()
-                                                    .toOSString());
+                                    _targetBinDirLabel.setText(cpe[i]
+                                            .getOutputLocation().toOSString());
                                 } else {
-                                    _targetBinDirLabel.setText(
-                                            jproject.getOutputLocation()
-                                                    .toOSString());
+                                    _targetBinDirLabel.setText(jproject
+                                            .getOutputLocation().toOSString());
                                 }
                                 return true;
                             }
@@ -510,8 +487,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     }
 
     /**
-     * The target source folder is part of a Java project. This is validated
-     * by <code>isJavaSrcDir</code>.
+     * The target source folder is part of a Java project. This is validated by
+     * <code>isJavaSrcDir</code>.
      * 
      * @return the target java project
      */
@@ -529,8 +506,8 @@ public class CoxbGenWizardPage extends AbstractWizardPage {
     }
 
     /**
-     * Retrieves the output location for java classes associated with a
-     * given java source folder (assumed to be valid).
+     * Retrieves the output location for java classes associated with a given
+     * java source folder (assumed to be valid).
      * 
      * @return the binaries output location
      */
