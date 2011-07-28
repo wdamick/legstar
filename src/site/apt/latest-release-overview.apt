@@ -1,6 +1,19 @@
  -------------------------------------------------------------------------------
                              Latest releases overview
  -------------------------------------------------------------------------------
+Version 1.5.1
+
+ Bug fixes and a enhancements.
+ 
+ Support for a user-defined padding character for Strings. Beware that this has changed the signature for CobolStringSimpleConverter#toHostSingle.
+ 
+ Upgraded from JAXB 2.1.6 to JAXB 2.1.7 and from JAX-WS 2.1.3 to JAX-WS 2.1.4.
+ 
+ Better COBOL generation for legstar-xsd2cob. Here is {{{http://code.google.com/p/legstar-xsd2cob/issues/list?can=1&q=Milestone%3DRelease0.2.1} a list of changes}}.
+ 
+ A few long awaiting bug fixes for legstar-cob2xsd. Here is {{{http://code.google.com/p/legstar-cob2xsd/issues/list?can=1&q=Milestone%3DRelease0.3.4} the list}}. Beware that com.legstar.cob2xsd.task.CobolStructureToXsdTask has been renamed com.legstar.cob2xsd.Cob2XsdTask.
+ 
+ And for the rest, here is {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.5.1}complete list of changes}}.
 
 Version 1.5.0
 
