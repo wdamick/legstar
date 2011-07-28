@@ -1,0 +1,176 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-transport</artifactId>
+        <version>1.5.2-SNAPSHOT</version>
+    </parent>
+    <artifactId>legstar-distribution-zos</artifactId>
+    <name>LegStar Distribution for z/OS</name>
+    <packaging>jar</packaging>
+    <description>Distribution for all z/OS modules.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-c2wsrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-chttprt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-cmqrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-csokrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-invoker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-messaging</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>legstar-${project.parent.version}-zos</finalName>
+        
+        <plugins>
+        
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+
+                   <!-- This will prepare the zos sources for upload. -->
+                    <execution>
+                        <id>prepare-deploy-to-zos</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/prepare-deploy-to-zos.xml">
+                                    <property name="legstarZosVersion" value="${legstarZosVersion}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Download the XMIT files.  -->
+                    <execution>
+                        <id>download-xmit</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.build.directory}/xmit" /> 
+                                <echo message="Downloading XMIT release ${legstarZosVersion}" />
+                                
+                                <ftp server="${legstar-dev-zos-host}" action="get" userid="${legstar-dev-zos-userid}" password="${legstar-dev-zos-password}" binary="yes">
+                                    <fileset dir="${project.build.directory}/xmit">
+                                        <include name="LEGSTAR.${legstarZosVersion}.LOAD.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.OBJ.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.C370.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.H370.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.CNTL.XMIT" />
+                                        <include name="LEGSTAR.${legstarZosVersion}.COBOL.XMIT" />
+                                    </fileset>
+                                </ftp>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <!-- Generate site files that needs automatic update. -->
+                    <execution>
+                        <id>build-site</id>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <tasks>
+                                <ant antfile="${basedir}/../src/main/ant/gen-download-xml.xml">
+                                    <property name="productID" value="${pom.artifactId}" />
+                                    <property name="productName" value="${pom.name}" />
+                                    <property name="legstarVersion" value="${project.parent.version}" />
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+                <!-- Needed for FTP ant task. -->
+                <dependencies>
+                    <dependency>
+                        <groupId>commons-net</groupId>
+                        <artifactId>commons-net</artifactId>
+                        <version>1.4.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant</groupId>
+                        <artifactId>ant-commons-net</artifactId>
+                        <version>1.6.5</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        
+            <!-- Upload sources and submit JCL. -->
+            <plugin>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>zosupload-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>upload-zos-programs</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <hostName>${legstar-dev-zos-host}</hostName>
+                            <hostUserId>${legstar-dev-zos-userid}</hostUserId>
+                            <hostPassword>${legstar-dev-zos-password}</hostPassword>
+                            <inputFolder>target/zos</inputFolder>
+                            <remoteFilesPrefix>${legstar-dev-zos-pds-pfx}.${legstarZosVersion}</remoteFilesPrefix>
+                            <jclFileNames>
+                                <jclFileName>BUILDOBJ</jclFileName>
+                                <jclFileName>BUILDlOA</jclFileName>
+                                <jclFileName>COBCLFAE</jclFileName>
+                                <jclFileName>CICSCSDU</jclFileName>
+                                <jclFileName>BUILDXMI</jclFileName>
+                            </jclFileNames>
+                        </configuration>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Assembly generation plugin.  -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assemble/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- append to the install phase. -->
+                        <goals>
+                             <goal>attached</goal> <!-- goals == mojos -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+    
+</project>

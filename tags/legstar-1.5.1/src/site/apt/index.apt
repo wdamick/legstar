@@ -1,0 +1,62 @@
+                                             -----
+                                            Overview
+                                             -----
+                                             -----
+
+LegStar Open Source Mainframe Integration
+
+    LegStar is a set of development tools and execution runtimes aimed at integrating legacy
+    COBOL applications with Java and SOA technologies.
+    
+    Here are some common use cases:
+    
+* Transform COBOL payloads to Java, XML or JSON
+
+    LegStar generates {{{./legstar-core/legstar-coxbgen/index.html}COBOL Transformers}}.
+ 
+    At runtime, mainframe data (containing EBCDIC, COMP, etc.) is transformed to Java, XML or JSON.
+ 
+    The LegStar Transformers are pure Java and can be used directly in your code.
+
+* Service-enable a COBOL/CICS program
+  
+    LegStar generates {{{./legstar-cixsgen/index.html}Mainframe Adapters}} for target CICS programs (Either Commarea or Container driven).
+  
+    Adapters are ready to deploy in {{{http://jcp.org/en/jsr/detail?id=224}JAX-WS}},  {{{http://www.jboss.org/jbossesb}JBoss ESB}}
+    or {{{http://www.mulesoft.org/}Mule ESB}}.
+  
+* Access remote services from COBOL/CICS programs
+
+    LegStar generates {{{./legstar-cixsgen/index.html}Mainframe Proxies}} for POJO, Web Services, JBoss ESB or Mule ESB services.
+ 
+    Proxies receive requests from COBOL/CICS programs and mediate calls to the target services.
+
+* Interested?
+
+    Read the {{{./quicktour.html}quicktour}} and get one of the complete products:
+
+    * {{{./legstar-distribution/index.html}LegStar for JAX-WS}}
+
+    * {{{http://code.google.com/p/legstar-jbossesb/}LegStar for JBoss ESB}}
+
+    * {{{http://code.google.com/p/legstar-mule/}LegStar for Mule ESB}}
+
+* Direct access to LegStar modules:
+
+    * {{{http://code.google.com/p/legstar-cob2xsd/}legstar-cob2xsd}} COBOL to XML Schema Translator
+
+    * {{{http://code.google.com/p/legstar-xsd2cob/}legstar-xsd2cob}} XML Schema to COBOL Translator
+
+    * {{{./legstar-core/legstar-coxbgen/index.html}legstar-coxbgen}} COBOL Transformers Generator
+
+    * {{{./legstar-cixsgen/index.html}legstar-cixsgen}} Mainframe Service Generator
+
+    * {{{./legstar-transport/index.html}legstar-invoker}} Transports runtime
+
+* Are you an IMS/DC user?
+
+    You can use LegStar {{{./legstar-core/legstar-coxbgen/index.html}COBOL Transformation}} capabilities of course but also {{{./legstar-cixsgen/index.html}Service-enable}} your IMS programs over {{{./legstar-transport/legstar-cmqrt/index.html}Websphere MQ}}.
+
+* Are you a PL/I user?
+
+    LegStar has a module to {{{http://code.google.com/p/legstar-pli2cob/}convert your PL/I strutures to COBOL}}.

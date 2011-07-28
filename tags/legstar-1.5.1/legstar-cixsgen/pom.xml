@@ -1,0 +1,574 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>5</version>
+    </parent>
+
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-cixsgen</artifactId>
+    <version>1.5.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>LegStar Service Generators</name>
+    <description>Mainframe Adapters and Proxies generators</description>
+    <url>http://www.legsem.com/legstar/legstar-cixsgen</url>
+
+    <properties>
+        <legstarCoreVersion>1.5.4</legstarCoreVersion>
+        <legstarTransportVersion>1.5.1</legstarTransportVersion>
+        <legstarSamplesVersion>0.2.2</legstarSamplesVersion>
+        <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
+        <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
+        <jaxwsVersion>2.1.4</jaxwsVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <buildDate>${maven.build.timestamp}</buildDate>
+    </properties>
+
+    <issueManagement>
+        <system>Google Code Issue Tracking</system>
+        <url>http://code.google.com/p/legstar/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-cixsgen/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-cixsgen/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-cixsgen/</url>
+    </scm>
+
+    <distributionManagement>
+
+        <site>
+            <id>local.website</id>
+            <name>Local Website</name>
+            <url>file:///${legstar-dev-website-local-dir}/legstar-cixsgen</url>
+        </site>
+
+    </distributionManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>LegStar users mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-user/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-user/subscribe</unsubscribe>
+            <post>legstar-user@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-user/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>LegStar dev mailing list</name>
+            <subscribe>http://groups.google.com/group/legstar-dev/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/legstar-dev/subscribe</unsubscribe>
+            <post>legstar-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/legstar-dev/topics</archive>
+        </mailingList>
+    </mailingLists>
+
+    <developers>
+        <developer>
+            <id>fady</id>
+            <name>Fady Moussallam</name>
+            <email>fady AT legsem.com</email>
+            <organization>Legsem.com</organization>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>LegSem</name>
+        <url>http://www.legsem.com/</url>
+    </organization>
+
+    <modules>
+        <module>legstar-cixsgen-model</module>
+        <module>legstar-jaxws-generator</module>
+        <module>legstar-jaxws-clients</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Apache ANT dependencies section -->
+            <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>${antVersion}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>ant</groupId>
+                <artifactId>ant-launcher</artifactId>
+                <version>${antVersion}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>ant-contrib</groupId>
+                <artifactId>ant-contrib</artifactId>
+                <version>1.0b3</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Apache Logging API -->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>logkit</groupId>
+                        <artifactId>logkit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>avalon-framework</groupId>
+                        <artifactId>avalon-framework</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- Log4J -->    
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.14</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Apache commons IO  -->    
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.4</version>
+            </dependency>
+
+            <!-- Apache HTTP Client -->
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.1</version>
+            </dependency>
+
+            <!-- SUN JAXWS is needed to compile and run integration tests -->    
+            <dependency>
+                <groupId>javax.xml.ws</groupId>
+                <artifactId>jaxws-api</artifactId>
+                <version>2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.jws</groupId>
+                <artifactId>jsr181-api</artifactId>
+                <version>1.0-MR1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>${jaxwsVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-tools</artifactId>
+                <version>${jaxwsVersion}</version>
+            </dependency>
+
+            <!-- Cargo -->    
+            <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-api-container</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-core-container-tomcat</artifactId>
+                <version>1.0.5</version>
+                <scope>test</scope>
+            </dependency>
+    
+            <!-- LegStar core dependencies sub-section -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbapi</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-codegen</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbrt</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxbgen</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxbgen</artifactId>
+                <version>${legstarCoreVersion}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbgen</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-coxbgen</artifactId>
+                <version>${legstarCoreVersion}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cobcgen</artifactId>
+                <version>${legstarCoreVersion}</version>
+            </dependency>
+
+            <!-- LegStar Transport dependencies sub-section -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-invoker</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-messaging</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-c2wsrt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-csokrt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-chttprt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cmqrt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cmockrt</artifactId>
+                <version>${legstarTransportVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-commons-transport</artifactId>
+                <version>${legstarTransportVersion}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- LegStar internal dependencies sub-section -->    
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cixsgen-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cixsgen-model</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxws-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxws-generator</artifactId>
+                <version>${project.version}</version>
+                <classifier>int</classifier>
+                <type>zip</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-jaxws-clients</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- JUnit. -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+
+        <pluginManagement>
+
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.0-beta-9</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>2.2</version>
+                    <dependencies>
+                     <dependency>
+                         <groupId>org.apache.maven.doxia</groupId>
+                         <artifactId>doxia-module-docbook-simple</artifactId>
+                         <version>1.1.4</version>
+                     </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.ant</groupId>
+                            <artifactId>ant</artifactId>
+                            <version>${antInternalVersion}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>ant-contrib</groupId>
+                            <artifactId>ant-contrib</artifactId>
+                            <version>1.0b3</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>commons-net</groupId>
+                            <artifactId>commons-net</artifactId>
+                            <version>1.4.1</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.ant</groupId>
+                            <artifactId>ant-commons-net</artifactId>
+                            <version>${antInternalVersion}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.ant</groupId>
+                            <artifactId>ant-nodeps</artifactId>
+                            <version>${antInternalVersion}</version>
+                        </dependency>
+                    </dependencies>
+
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2-beta-5</version>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
+
+        <plugins>
+
+            <!-- Produce source jar for each module -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Produce javadoc jar for each module -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <links>
+                        <link>http://download.oracle.com/javaee/1.5/api/</link>
+                        <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
+                    </links>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <reporting>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>summary</report>
+                            <report>project-team</report>
+                            <report>scm</report>
+                            <report>issue-tracking</report>
+                            <report>mailing-list</report>
+                            <report>license</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+    
+            <!-- Aggregate the sources cross references for all modules -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>jxr</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <!-- Javadoc for all modules -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <links>
+                        <link>http://download.oracle.com/javaee/1.5/api/</link>
+                        <link>http://download.oracle.com/javase/1.5.0/docs/api/</link>
+                    </links>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <targetJdk>1.5</targetJdk>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.4</version> 
+                <configuration>
+                    <instrumentation>
+                        <!-- Instrumenting performance tests is useless for test coverage analysis -->
+                        <excludes>
+                            <exclude>**/perf/**/*.class</exclude>
+                        </excludes>
+                    </instrumentation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <tags>
+                        <tag>TODO</tag>
+                        <tag>@todo</tag>
+                        <tag>FIXME</tag>
+                        <tag>@fixme</tag>
+                        <tag>@deprecated</tag>
+                    </tags>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+
+    </reporting>
+
+</project>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<chapter>
+<title>Eclipse plugins Install instructions</title>
+<section id="legstar-install-instructions-eclipse">
+<title>Installing LegStar plugins for Eclipse</title>
+<section>
+<title>Pre-requisites</title>
+<para>
+ LegStar Eclipse plugins require Eclipse version 3.2.1 and above.
+</para>
+<para>
+ Any previous version of the LegStar Eclipse plugins must be uninstalled before
+ installing this version.
+</para>
+<para>
+ At development time, the Eclipse plugins are standalone and don't necessitate
+ that you install the core product. When you deploy your Transformers and
+ Services though, you will need an easy access to the LegStar libraries and
+ will find it easier to get them from the core LegStar product that you
+ can get from <ulink url="http://www.legsem.com/legstar/legstar-distribution/">this link</ulink>.
+</para>
+</section>
+ 
+<section>
+<title>Installing</title>
+<para>
+  Within Eclipse, create a remote site using:
+</para>
+<programlisting>
+  Help --> Install New Software... --> Add
+</programlisting>
+<para>
+  or
+</para>
+<programlisting>
+  Help-->Software Updates-->Find and Install-->Search for new features-->New Remote site
+</programlisting>
+<para>
+  depending on your Eclipse version.
+</para>
+<para>
+  Name the remote site LegStar and have the URL point to:
+</para>
+<programlisting>
+  http://www.legsem.com/legstar/eclipse/update
+</programlisting>
+<para>
+  Select all the features.
+</para>
+<para>
+  Uncomment the "Contact all update sites during install to find required software" check box.
+  If you keep it checked, it would still work but calculating requirements and dependencies takes a very long time.
+</para>
+<para>
+  If you get complaints about MD5 checksum being incorrect, you probably have a proxy issue.
+  As an alternative, you can download the update site from
+  <ulink url="http://www.legsem.com/legstar/maven/repo/com/legsem/legstar/legstar-site/@LEGSTAR-ECLIPSE-VERSION@/legstar-site-@LEGSTAR-ECLIPSE-VERSION@.zip">this link</ulink>,
+    add a local site to Eclipse and install from there.
+</para>
+
+<para>
+  Once installation is complete, restart Eclipse and check that the LegStar plugins
+  show up in:
+</para>
+<programlisting>
+  Help-->About Eclipse SDK-->Installation Details-->Installed Software
+</programlisting>
+<para>
+  From within Eclipse, setup your preferences:
+</para>
+<programlisting>
+  Window-->Preferences...-->LegStar
+</programlisting>
+</section>
+
+<section>
+<title>Uninstalling</title>
+<para>
+  To uninstall, use:
+</para>
+<programlisting>
+  Help-->About Eclipse SDK-->Installation Details-->Installed Software.
+</programlisting>
+<para>
+  then right-click on the feature you wish to uninstall.
+</para>
+</section>
+
+</section>
+
+</chapter>

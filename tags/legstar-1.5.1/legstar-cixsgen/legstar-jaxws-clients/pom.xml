@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.legsem.legstar</groupId>
+        <artifactId>legstar-cixsgen</artifactId>
+        <version>1.5.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>legstar-jaxws-clients</artifactId>
+
+    <name>LegStar for JAXWS Generator Clients</name>
+    <description>Test project for generated JAXWS Web Services</description>
+
+    <dependencies>
+  
+        <!-- Compilation dependencies -->    
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>jsr181-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
+
+        <!-- Web services produced by legstar-jaxws-generator -->    
+        <dependency>
+            <groupId>com.legsem.legstar</groupId>
+            <artifactId>legstar-jaxws-generator</artifactId>
+            <classifier>int</classifier>
+            <type>zip</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Cargo -->    
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-api-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-container-tomcat</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+  
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Retrieve integration cases as war files rom legstar-jaxws-generator. -->
+                    <execution>
+                        <id>copy-jaxws-generator-cases</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>legstar-jaxws-generator</includeArtifactIds>
+                            <includeClassifiers>int</includeClassifiers>
+                            <outputDirectory>${project.build.directory}/dependency/cixsgen</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Integration tests (runs classes xxxITCase) -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+      
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId> 
+                <configuration>
+                    <generateReports>false</generateReports>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

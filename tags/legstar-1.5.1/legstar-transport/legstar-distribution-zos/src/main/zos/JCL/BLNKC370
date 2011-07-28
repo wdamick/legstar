@@ -1,0 +1,31 @@
+//* ====================================================================
+//* Procedure BLNKC370:
+//* ------------------
+//* Link edits object modules to produce load modules.
+//* ====================================================================
+//BLNKC370 PROC LEGHLQ='P390.LEGSTAR.@VERSION@',
+//*                                  Qualifier(S) for LegStar libraries
+//       SOKHLQ='TCPIP',
+//*                                  Qualifier(S) for Socket libraries
+//       LE370HLQ='CEE',
+//*                                  Qualifier(s) for LE/370 libraries
+//       LNKPARM='LIST,MAP,LET,XREF',
+//*                                  Link edit parameters
+//       REG=4M,                     Region size for all steps
+//       OUTC=*,                     Class for print output
+//       WORK=SYSDA,                 Unit for work datasets
+//       WRKSPC='(3200,(30,30))',    Work SPACE parameter values
+//       DCB80='(RECFM=FB,LRECL=80,BLKSIZE=3200)' 
+//*                                  DCB for LRECL=80 datasets
+//LKED     EXEC PGM=IEWL,REGION=&REG,
+//         PARM='&LNKPARM'
+//SYSLIB   DD DSN=&LE370HLQ..SCEELKED,DISP=SHR
+//         DD DSN=&LEGHLQ..LOAD,DISP=SHR
+//         DD DSN=&SOKHLQ..SEZATCP,DISP=SHR 
+//         DD DSN=&SOKHLQ..SEZACMTX,DISP=SHR
+//SYSLIN   DD DSN=&LEGHLQ..OBJ(&PROGRAM),DISP=SHR
+//         DD DDNAME=SYSIN
+//SYSLMOD  DD DSN=&LEGHLQ..LOAD(&PROGRAM),DISP=SHR
+//SYSUT1   DD DSN=&&SYSUT1L,DISP=(,PASS),
+//            UNIT=&WORK,SPACE=&WRKSPC,DCB=&DCB80
+//SYSPRINT DD SYSOUT=&OUTC
