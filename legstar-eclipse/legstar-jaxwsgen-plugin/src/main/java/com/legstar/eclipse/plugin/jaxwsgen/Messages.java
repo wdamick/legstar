@@ -17,131 +17,131 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
 
-    /** All messages come from this property file.*/
-    private static final String BUNDLE_NAME =
-        "com.legstar.eclipse.plugin.jaxwsgen.messages";
+    /** All messages come from this property file. */
+    private static final String BUNDLE_NAME = "com.legstar.eclipse.plugin.jaxwsgen.messages";
 
-    /** The jaxws to cixs wizard icon.*/
+    /** The jaxws to cixs wizard icon. */
     public static String jaxws_to_cixs_generator_icon;
-    /** The cixs to jaxws wizard icon.*/
+    /** The cixs to jaxws wizard icon. */
     public static String cixs_to_jaxws_generator_icon;
-    /** The name filter to which this wizard is associated.*/
+    /** The name filter to which this wizard is associated. */
     public static String filename_filter;
-    /** Right click on cixs files shows this menu item.*/
+    /** Right click on cixs files shows this menu item. */
     public static String popup_menu_label;
-    /** Jaxws to cixs action menu label.*/
+    /** Jaxws to cixs action menu label. */
     public static String jaxws_to_cixs_action_label;
-    /** Cixs to jaxws action menu label.*/
+    /** Cixs to jaxws action menu label. */
     public static String cixs_to_jaxws_action_label;
 
-    /** Preference page title.*/
+    /** Preference page title. */
     public static String jaxwsgen_preference_page_title;
-    /** Preference page title.*/
+    /** Preference page title. */
     public static String jaxwsgen_adapter_preference_page_title;
-    /** Preference page title.*/
+    /** Preference page title. */
     public static String jaxwsgen_proxy_preference_page_title;
 
-    /** Port selection dialog title.*/
+    /** Port selection dialog title. */
     public static String wsdl_port_selection_dialog_title;
-    /** Port selection error dialog title.*/
+    /** Port selection error dialog title. */
     public static String wsdl_port_selection_error_dialog_title;
-    /** Wsdl access error message.*/
+    /** Wsdl access error message. */
     public static String wsdl_access_error_msg;
-    /** Target namespace label.*/
+    /** Target namespace label. */
     public static String target_namespace_label;
-    /** Services list label.*/
+    /** Services list label. */
     public static String services_list_label;
-    /** Ports list label.*/
+    /** Ports list label. */
     public static String ports_list_label;
 
-    /** Preference page description.*/
+    /** Preference page description. */
     public static String preference_page_description;
-    /** Preference page description.*/
+    /** Preference page description. */
     public static String preference_adapter_page_description;
-    /** Preference page description.*/
+    /** Preference page description. */
     public static String preference_proxy_page_description;
 
-    /** War deployment preference label.*/
+    /** War deployment preference label. */
     public static String preference_war_location_label;
-    /** Web descriptor folder preference label.*/
+    /** Web descriptor folder preference label. */
     public static String preference_wdd_folder_label;
-    /** Target namespace prefix preference label.*/
+    /** Target namespace prefix preference label. */
     public static String preference_wsdl_target_namespace_prefix_label;
-    /** Web service name suffix preference label.*/
+    /** Web service name suffix preference label. */
     public static String preference_wsdl_service_name_suffix_label;
-    /** Port name preference suffix preference label.*/
+    /** Port name preference suffix preference label. */
     public static String preference_wsdl_port_name_suffix_label;
-    /** Cobol samples folder preference label.*/
+    /** Cobol samples folder preference label. */
     public static String preference_cobol_folder_label;
-    /** Proxy http scheme template preference label.*/
+    /** Proxy http scheme template preference label. */
     public static String preference_proxy_http_scheme_label;
-    /** Proxy http host template preference label.*/
+    /** Proxy http host template preference label. */
     public static String preference_proxy_http_host_label;
-    /** Proxy http port template preference label.*/
+    /** Proxy http port template preference label. */
     public static String preference_proxy_http_port_label;
-    /** Proxy http path template preference label.*/
+    /** Proxy http path template preference label. */
     public static String preference_proxy_http_path_template_label;
 
-    /** Cixs to jaxws generator name.*/
+    /** Cixs to jaxws generator name. */
     public static String cixs_to_jaxws_wizard_page_title;
-    /** Cixs to jaxws generator description.*/
+    /** Cixs to jaxws generator description. */
     public static String cixs_to_jaxws_wizard_page_description;
 
-    /** Wsdl group label.*/
+    /** Wsdl group label. */
     public static String wsdl_group_label;
-    /** Wsdl URL label.*/
+    /** Wsdl URL label. */
     public static String wsdl_url_label;
-    /** Wsdl service name label.*/
+    /** Wsdl service name label. */
     public static String wsdl_service_name_label;
-    /** Wsdl port name label.*/
+    /** Wsdl port name label. */
     public static String wsdl_port_name_label;
-    /** Wsdl target namespace label.*/
+    /** Wsdl target namespace label. */
     public static String wsdl_target_namespace_label;
 
-    /** Target location for web descriptors label.*/
+    /** Target location for web descriptors label. */
     public static String wdd_target_location_label;
-    /** Target location for COBOL samples label.*/
+    /** Target location for COBOL samples label. */
     public static String cobol_target_location_label;
-    /** URI exposed to mainframe label.*/
+    /** URI exposed to mainframe label. */
     public static String proxy_uri_label;
-    /** User ID to access proxy label.*/
+    /** User ID to access proxy label. */
     public static String proxy_user_id_label;
-    /** Password to access proxy label.*/
+    /** Password to access proxy label. */
     public static String proxy_password_label;
-    /** War deployment location label.*/
+    /** War deployment location label. */
     public static String war_deployment_location_label;
 
-    /** Invalid wsdl url message.*/
+    /** Invalid wsdl url message. */
     public static String invalid_wsdl_url_msg;
-    /** Invalid wsdl service name message.*/
+    /** Invalid wsdl service name message. */
     public static String invalid_wsdl_service_name_msg;
-    /** Invalid wsdl port name message.*/
+    /** Invalid wsdl port name message. */
     public static String invalid_wsdl_port_name_msg;
-    /** Invalid web descriptors location message.*/
+    /** Invalid web descriptors location message. */
     public static String invalid_wdd_target_location_msg;
-    /** Invalid cobol samples location message.*/
+    /** Invalid cobol samples location message. */
     public static String invalid_cobol_target_location_msg;
-    /** Invalid wsdl namespace message.*/
+    /** Invalid wsdl namespace message. */
     public static String invalid_wsdl_target_namespace_msg;
 
-
-    /** Jaxws to cixs generator name.*/
+    /** Jaxws to cixs generator name. */
     public static String jaxws_to_cixs_wizard_page_title;
-    /** Jaxws to cixs generator description.*/
+    /** Jaxws to cixs generator description. */
     public static String jaxws_to_cixs_wizard_page_description;
-    /** Adapter Web Service target namespace.*/
+    /** Adapter Web Service target namespace. */
     public static String adapter_wsdl_target_namespace_label;
-    /** Adapter Web Service name.*/
+    /** Adapter Web Service name. */
     public static String adapter_wsdl_service_name_label;
-    /** Adapter Web Service port name.*/
+    /** Adapter Web Service port name. */
     public static String adapter_wsdl_port_name_label;
+    /** No package-info generation label. */
+    public static String jaxws_to_cixs_no_package_info_label;
 
     /** Target selection group label. */
     public static String target_selection_group_label;
     /** Target selection label. */
     public static String target_selection_label;
 
-    /** Sample configuration transport.*/
+    /** Sample configuration transport. */
     public static String sample_configuration_transport_label;
 
     static {
