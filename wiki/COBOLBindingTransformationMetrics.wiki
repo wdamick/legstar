@@ -18,7 +18,7 @@ The DEPENDING ON array is also a convenient way to play on the COBOL data length
 
 = Measurement procedure =
 
-The JUnit test case available [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbgen-cases/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringTest.java here] takes a parameter that gives the variable array size (0 to 500).
+The JUnit test case available http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbgen/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringTest.java here] takes a parameter that gives the variable array size (0 to 500).
 
 The testHostToJava method turns mainframe data to a java object and testJavaToHost method does the reverse.
 
