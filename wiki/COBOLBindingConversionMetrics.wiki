@@ -22,11 +22,11 @@ We bundled JUnit test cases for each of the functions we wanted to measure:
 || BigDecimalToZonedDecimal || Java BigDecimal to PIC S9(15)V99 || 
 || BigDecimalToBinary || Java BigDecimal to PIC S9(8) COMP ||
 
-You can find the JUnit source code [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbrt/src/test/java/com/legstar/coxb/convert/simple/MeteringTest.java here].
+You can find the JUnit source code [http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbrt/src/test/java/com/legstar/coxb/convert/simple/MeteringTest.java here].
 
 We used [http://jakarta.apache.org/jmeter/ Apache JMeter version 2.4] to load test each one of these JUnit methods. Each test was run 1000000 times with 10000 warmup iterations.
 
-The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/#svn/trunk/legstar-coxbrt/src/test/resources/jmeter/convert/simple here].
+The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/#svn/trunk/legstar-core/legstar-coxbrt/src/test/resources/jmeter/convert/simple here].
 
 The target machine is an Intel centrino dual core 2.00 Ghz, with 2 Gbytes of RAM, running JRE 1.6.0_16.
 
