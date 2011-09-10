@@ -35,7 +35,7 @@ We ran the tests for 5 different number of items for the variable size array: 10
 
 We used [http://jakarta.apache.org/jmeter/ Apache JMeter 2.4] to load test each one of these JUnit methods. Each test was run 100000 times with 1000 warmup iterations.
 
-The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/trunk/legstar-coxbgen-cases/src/test/#test/resources/jmeter/transform here].
+The JMeter configuration files can be found [http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbgen/src/test/#test/resources/jmeter/transform here].
 
 Target machine and quantities measured are identical to [COBOLBindingConversionMetrics].
 
