@@ -77,7 +77,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
         }
 
         /* Keeps track of all dynamic counters */
-        Map < ICobolBinding, Integer > dynCounters = new HashMap < ICobolBinding, Integer >();
+        Map < ICobolBinding, Integer > dynCounters = null;
 
         /* Object might be optional. Check if it should be visited. */
         if (!exists(ce)) {
@@ -98,22 +98,29 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 
             /* Store dynamic counters offset so we can remarshal them later */
             if (child.isODOObject()) {
+                if (dynCounters == null) {
+                    dynCounters = new HashMap < ICobolBinding, Integer >();
+                }
                 dynCounters.put(child, getOffset());
             }
             child.accept(this);
         }
 
-        /*
-         * Now any dynamic counter at this level should have an updated value,
-         * whatever depth the dependent array is within this binding children.
-         * So we can re-marshal these values to update the host buffer.
-         */
-        int endOffset = getOffset();
-        for (Entry < ICobolBinding, Integer > entry : dynCounters.entrySet()) {
-            setOffset(entry.getValue());
-            entry.getKey().accept(this);
+        if (dynCounters != null) {
+            /*
+             * Now any dynamic counter at this level should have an updated
+             * value, whatever depth the dependent array is within this binding
+             * children. So we can re-marshal these values to update the host
+             * buffer.
+             */
+            int endOffset = getOffset();
+            for (Entry < ICobolBinding, Integer > entry : dynCounters
+                    .entrySet()) {
+                setOffset(entry.getValue());
+                entry.getKey().accept(this);
+            }
+            setOffset(endOffset);
         }
-        setOffset(endOffset);
 
         if (_log.isDebugEnabled()) {
             _log.debug("Marshaling successful for complex binding "
