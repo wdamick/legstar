@@ -484,7 +484,7 @@
             <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
-                <version>1.6.1</version>
+                <version>1.6.3</version>
             </dependency>
 
             <!-- Apache Xml Schema -->    

@@ -36,12 +36,12 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
- * Various utility methods which are mostly useful for code generation
- * using velocity templates.
+ * Various utility methods which are mostly useful for code generation using
+ * velocity templates.
  */
 public final class CodeGenUtil {
 
-    /** Generated code has reference to generation date following this format.*/
+    /** Generated code has reference to generation date following this format. */
     public static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
     /** Used to generate random serial version IDs. */
@@ -50,7 +50,7 @@ public final class CodeGenUtil {
     /** Suffix used for JAXB type variable names. */
     public static final String JAXB_TYPE_SUFFIX = "Type";
 
-    /** Get the platform specific line separator.*/
+    /** Get the platform specific line separator. */
     public static final String CRLF = System.getProperty("line.separator");
 
     /** Logger. */
@@ -65,55 +65,48 @@ public final class CodeGenUtil {
     /**
      * Check that a directory is valid.
      * 
-     * @param dir
-     *            the directory name to check
-     * @param create
-     *            true if directory should be created when not found
-     * @param errorDirName
-     *            name to refer to if an error occurs
+     * @param dir the directory name to check
+     * @param create true if directory should be created when not found
+     * @param errorDirName name to refer to if an error occurs
      */
-    public static void checkDirectory(
-            final String dir, final boolean create, final String errorDirName) {
+    public static void checkDirectory(final String dir, final boolean create,
+            final String errorDirName) {
         try {
             checkDirectory(dir, create);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
-                    errorDirName + ": " + e.getMessage());
+            throw new IllegalArgumentException(errorDirName + ": "
+                    + e.getMessage());
         }
     }
 
     /**
      * Check that a directory is valid.
      * 
-     * @param fdir
-     *            the directory name to check
-     * @param create
-     *            true if directory should be created when not found
-     * @param errorDirName
-     *            name to refer to if an error occurs
+     * @param fdir the directory name to check
+     * @param create true if directory should be created when not found
+     * @param errorDirName name to refer to if an error occurs
      */
-    public static void checkDirectory(
-            final File fdir, final boolean create, final String errorDirName) {
+    public static void checkDirectory(final File fdir, final boolean create,
+            final String errorDirName) {
         try {
             checkDirectory(fdir, create);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
-                    errorDirName + ": " + e.getMessage());
+            throw new IllegalArgumentException(errorDirName + ": "
+                    + e.getMessage());
         }
     }
 
     /**
      * Check that a directory is valid.
      * 
-     * @param dir
-     *            the directory name to check
-     * @param create
-     *            true if directory should be created when not found
+     * @param dir the directory name to check
+     * @param create true if directory should be created when not found
      */
     public static void checkDirectory(final String dir, final boolean create) {
 
         if (dir == null || dir.length() == 0) {
-            throw (new IllegalArgumentException("No directory name was specified"));
+            throw (new IllegalArgumentException(
+                    "No directory name was specified"));
         }
 
         checkDirectory(new File(dir), create);
@@ -123,22 +116,23 @@ public final class CodeGenUtil {
      * Check that a directory is valid.
      * 
      * @param fdir the directory to check
-     * @param create
-     *            true if directory should be created when not found
+     * @param create true if directory should be created when not found
      */
     public static void checkDirectory(final File fdir, final boolean create) {
 
         if (fdir == null) {
-            throw (new IllegalArgumentException("No directory name was specified"));
+            throw (new IllegalArgumentException(
+                    "No directory name was specified"));
         }
 
         if (!fdir.exists()) {
             if (!create) {
-                throw (new IllegalArgumentException(fdir.getName() + " does not exist"));
+                throw (new IllegalArgumentException(fdir.getName()
+                        + " does not exist"));
             } else {
                 if (!fdir.mkdirs()) {
-                    throw (new IllegalArgumentException("Could not create directory "
-                            + fdir.getName()));
+                    throw (new IllegalArgumentException(
+                            "Could not create directory " + fdir.getName()));
                 } else {
                     return;
                 }
@@ -149,25 +143,23 @@ public final class CodeGenUtil {
                     + " is not a directory"));
         }
         if (!fdir.canWrite()) {
-            throw (new IllegalArgumentException("Directory "
-                    + fdir.getName() + " is not writable"));
+            throw (new IllegalArgumentException("Directory " + fdir.getName()
+                    + " is not writable"));
         }
     }
 
     /**
-     * Retrieve a file.
-     * Given a directory name and a filename, this creates a File according to
-     * the following rules:
+     * Retrieve a file. Given a directory name and a filename, this creates a
+     * File according to the following rules:
      * <ul>
-     *  <li>If the filename is absolute, the directory name is ignored</li>
-     *  <li>If the directory is not null, it is assumed to exist</li>
-     *  <li>If the directory is not null and the filename is not absolute, then
-     *   filename is appended to directory</li>
+     * <li>If the filename is absolute, the directory name is ignored</li>
+     * <li>If the directory is not null, it is assumed to exist</li>
+     * <li>If the directory is not null and the filename is not absolute, then
+     * filename is appended to directory</li>
      * </ul>
-     * @param dir
-     *            parent directory
-     * @param filename
-     *            absolute or relative file name
+     * 
+     * @param dir parent directory
+     * @param filename absolute or relative file name
      * @return a File
      */
     public static File getFile(final String dir, final String filename) {
@@ -182,17 +174,15 @@ public final class CodeGenUtil {
     }
 
     /**
-     * Retrieve a file.
-     * Given a directory and a filename, this creates a File according to
-     * the following rules:
+     * Retrieve a file. Given a directory and a filename, this creates a File
+     * according to the following rules:
      * <ul>
-     *  <li>If the filename is absolute, the directory name is ignored</li>
-     *  <li>Otherwise, filename is appended to directory</li>
+     * <li>If the filename is absolute, the directory name is ignored</li>
+     * <li>Otherwise, filename is appended to directory</li>
      * </ul>
-     * @param fdir
-     *            parent directory
-     * @param filename
-     *            absolute or relative file name
+     * 
+     * @param fdir parent directory
+     * @param filename absolute or relative file name
      * @return a File
      */
     public static File getFile(final File fdir, final String filename) {
@@ -204,11 +194,10 @@ public final class CodeGenUtil {
     }
 
     /**
-     * @deprecated use com.legstar.coxb.util.Utils#toClassName instead.
-     * Create a valid Java class name from a given noun.
+     * @deprecated use com.legstar.coxb.util.Utils#toClassName instead. Create a
+     *             valid Java class name from a given noun.
      * 
-     * @param noun
-     *            the characters to turn into a java class name
+     * @param noun the characters to turn into a java class name
      * @return the Java class name
      */
     public static String classNormalize(final String noun) {
@@ -226,8 +215,7 @@ public final class CodeGenUtil {
      * Given a package name, this method returns the relative path location of
      * the java files. A package like seg1.seg2.seg3 becomes /seg1/seg2/seg3/
      * 
-     * @param packageName
-     *            the package name
+     * @param packageName the package name
      * @return the relative location of java files
      */
     public static String relativeLocation(final String packageName) {
@@ -245,22 +233,19 @@ public final class CodeGenUtil {
     }
 
     /**
-     * Given a root directory name and a package name, returns the location
-     * for class files. Optionally the location can be physically created.
+     * Given a root directory name and a package name, returns the location for
+     * class files. Optionally the location can be physically created.
      * 
      * @param rootDirName the root directory name.
      * @param packageName the package name or null if none
-     * @param create
-     *            true if directory should be created when not found
+     * @param create true if directory should be created when not found
      * @return an existing location to store class files
      */
-    public static String classFilesLocation(
-            final String rootDirName,
-            final  String packageName,
-            final boolean create) {
+    public static String classFilesLocation(final String rootDirName,
+            final String packageName, final boolean create) {
         if (rootDirName == null || rootDirName.length() == 0) {
             throw (new IllegalArgumentException(
-            "No root directory name was specified"));
+                    "No root directory name was specified"));
         }
         String dir;
         if (packageName != null && packageName.length() > 0) {
@@ -276,21 +261,19 @@ public final class CodeGenUtil {
 
     /**
      * Concatenates the path derived from a package name to a root directory.
+     * 
      * @param rootDir the root directory. Optionally the location can be
-     *  physically created.
+     *            physically created.
      * @param packageName the package name
-     * @param create
-     *            true if directory should be created when not found
+     * @param create true if directory should be created when not found
      * @return the file derived from concatenating the root directory with the
-     *  package path.
+     *         package path.
      */
-    public static File classFilesLocation(
-            final File rootDir,
-            final  String packageName,
-            final boolean create) {
+    public static File classFilesLocation(final File rootDir,
+            final String packageName, final boolean create) {
         File dir = rootDir;
         if (packageName != null && packageName.length() > 0) {
-            dir = new File(rootDir,  CodeGenUtil.relativeLocation(packageName));
+            dir = new File(rootDir, CodeGenUtil.relativeLocation(packageName));
         }
         if (create) {
             CodeGenUtil.checkDirectory(dir, true);
@@ -300,26 +283,37 @@ public final class CodeGenUtil {
 
     /**
      * Setup Velocity so that it searches for templates in the classpath.
+     * <p/>
+     * In order to work around issue 158 that arises when velocity dynamically
+     * loaded classes are already in the context classloader parent, we
+     * temporarily switch to a new context classloader that sees our plugin
+     * classes and dependencies only.
+     * 
      * @throws CodeGenVelocityException if setup fails
      */
     public static void initVelocity() throws CodeGenVelocityException {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         try {
             Velocity.addProperty("resource.loader", "classpath");
             Velocity.addProperty("classpath.resource.loader.description",
-            "Velocity Classpath Resource Loader");
-            Velocity
-            .addProperty("classpath.resource.loader.class",
+                    "Velocity Classpath Resource Loader");
+            Velocity.addProperty("classpath.resource.loader.class",
                     "org.apache.velocity.runtime.resource.loader."
-                    + "ClasspathResourceLoader");
+                            + "ClasspathResourceLoader");
             Velocity.addProperty("classpath.resource.loader.cache", true);
+            Thread.currentThread().setContextClassLoader(
+                    Velocity.class.getClassLoader());
             Velocity.init();
         } catch (Exception e) {
             throw new CodeGenVelocityException(e);
+        } finally {
+            Thread.currentThread().setContextClassLoader(loader);
         }
     }
 
     /**
      * A simple context to use by generation templates.
+     * 
      * @param generatorName generator name
      * @return a velocity context
      */
@@ -332,6 +326,7 @@ public final class CodeGenUtil {
 
     /**
      * Apply a velocity template taken from a code generation make xml.
+     * 
      * @param generatorName the generator name
      * @param templateName the velocity template to apply
      * @param modelName the model name
@@ -340,43 +335,33 @@ public final class CodeGenUtil {
      * @param targetFile the file to generate using default charset
      * @throws CodeGenMakeException if processing fails
      */
-    public static void processTemplate(
-            final String generatorName,
-            final String templateName,
-            final String modelName,
-            final Object model,
-            final Map < String, Object > parameters,
+    public static void processTemplate(final String generatorName,
+            final String templateName, final String modelName,
+            final Object model, final Map < String, Object > parameters,
             final File targetFile) throws CodeGenMakeException {
 
-        processTemplate(generatorName,
-                templateName,
-                modelName,
-                model,
-                parameters,
-                targetFile,
-                null);
+        processTemplate(generatorName, templateName, modelName, model,
+                parameters, targetFile, null);
     }
 
     /**
      * Apply a velocity template taken from a code generation make xml.
+     * 
      * @param generatorName the generator name
      * @param templateName the velocity template to apply
      * @param modelName the model name
      * @param model the model providing data for velocity templates
      * @param parameters additional parameters to pass to template
      * @param targetFile the file to generate
-     * @param targetCharsetName the target character set. null is interpreted
-     *                          as the default encoding
+     * @param targetCharsetName the target character set. null is interpreted as
+     *            the default encoding
      * @throws CodeGenMakeException if processing fails
      */
-    public static void processTemplate(
-            final String generatorName,
-            final String templateName,
-            final String modelName,
-            final Object model,
-            final Map < String, Object > parameters,
-            final File targetFile,
-            final String targetCharsetName) throws CodeGenMakeException {
+    public static void processTemplate(final String generatorName,
+            final String templateName, final String modelName,
+            final Object model, final Map < String, Object > parameters,
+            final File targetFile, final String targetCharsetName)
+            throws CodeGenMakeException {
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Processing template");
@@ -433,6 +418,7 @@ public final class CodeGenUtil {
 
     /**
      * Formats todays date and time.
+     * 
      * @return a formatted date
      */
     public static String now() {
@@ -443,21 +429,21 @@ public final class CodeGenUtil {
 
     /**
      * Checks that a URI is valid and HTTP scheme.
+     * 
      * @param httpUri the URI to check
      * @throws CodeGenMakeException if URI has wrong syntax
      */
-    public static void checkHttpURI(
-            final String httpUri) throws CodeGenMakeException {
+    public static void checkHttpURI(final String httpUri)
+            throws CodeGenMakeException {
         try {
             if (httpUri == null || httpUri.length() == 0) {
-                throw new CodeGenMakeException(
-                "You must specify a valid URI");
+                throw new CodeGenMakeException("You must specify a valid URI");
             }
             URI uri = new URI(httpUri);
             if (uri.getScheme() == null
                     || uri.getScheme().compareToIgnoreCase("http") != 0) {
-                throw new CodeGenMakeException(
-                        "URI " + uri + " must have http scheme");
+                throw new CodeGenMakeException("URI " + uri
+                        + " must have http scheme");
             }
         } catch (URISyntaxException e) {
             throw new CodeGenMakeException(e);
@@ -467,25 +453,27 @@ public final class CodeGenUtil {
 
     /**
      * Checks that a character set is valid.
+     * 
      * @param charset the character set
      * @see java.nio.charset.Charset
      * @throws CodeGenMakeException if character set not supported
      */
-    public static void checkCharset(
-            final String charset) throws CodeGenMakeException {
+    public static void checkCharset(final String charset)
+            throws CodeGenMakeException {
         if (charset == null || charset.length() == 0) {
             throw new CodeGenMakeException(
-            "You must specify a valid character set");
+                    "You must specify a valid character set");
         }
         if (!Charset.isSupported(charset)) {
-            throw new CodeGenMakeException(
-                    "Character set " + charset + " is not supported");
+            throw new CodeGenMakeException("Character set " + charset
+                    + " is not supported");
         }
     }
 
     /**
-     * Field names are derived from property names by lower casing the
-     * first character.
+     * Field names are derived from property names by lower casing the first
+     * character.
+     * 
      * @param propertyName the property name
      * @return a valid field name or null if property name is empty
      */
@@ -501,8 +489,9 @@ public final class CodeGenUtil {
     }
 
     /**
-     * Property names are derived from field names by upper casing the
-     * first character.
+     * Property names are derived from field names by upper casing the first
+     * character.
+     * 
      * @param fieldName the field name
      * @return a valid property name or null if field name is empty
      */
@@ -518,8 +507,9 @@ public final class CodeGenUtil {
     }
 
     /**
-     * Property names are derived from jaxb type names by stripping the
-     * type suffix (if any).
+     * Property names are derived from jaxb type names by stripping the type
+     * suffix (if any).
+     * 
      * @param jaxbType the jaxb type name
      * @return a valid property name or null if jaxb type name is empty
      */
@@ -528,8 +518,8 @@ public final class CodeGenUtil {
         if (jaxbType != null && jaxbType.length() > 0) {
             propertyName = jaxbType;
             if (propertyName.endsWith(JAXB_TYPE_SUFFIX)) {
-                propertyName = propertyName.substring(0,
-                        propertyName.length() - JAXB_TYPE_SUFFIX.length());
+                propertyName = propertyName.substring(0, propertyName.length()
+                        - JAXB_TYPE_SUFFIX.length());
             }
         }
         return propertyName;
@@ -537,6 +527,7 @@ public final class CodeGenUtil {
 
     /**
      * Retrieve the IP address of the generation machine .
+     * 
      * @return the local machine IP address
      */
     public static String getLocalIPAddress() {
