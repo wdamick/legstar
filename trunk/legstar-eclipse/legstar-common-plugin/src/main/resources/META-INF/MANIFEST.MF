@@ -83,7 +83,7 @@ Bundle-ClassPath: .,
  lib/stax-api-1.0-2.jar,
  lib/stax-ex-1.2.jar,
  lib/streambuffer-0.7.jar,
- lib/velocity-1.6.1.jar,
+ lib/velocity-1.6.3.jar,
  lib/wsdl4j-1.6.2.jar,
  lib/XmlSchema-1.4.7.jar
 Export-Package: com.legstar.cixs.gen.ant.model,
