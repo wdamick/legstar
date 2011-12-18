@@ -59,8 +59,7 @@ public abstract class CobolElementVisitor {
      * @param offset offset in host buffer
      * @param cobolConverters set of converters to use for cobol elements
      */
-    public CobolElementVisitor(final byte[] hostBytes,
-            final int offset,
+    public CobolElementVisitor(final byte[] hostBytes, final int offset,
             final ICobolConverters cobolConverters) {
         mHostBytes = hostBytes;
         mOffset = offset;
@@ -74,8 +73,7 @@ public abstract class CobolElementVisitor {
      * @param ce complex element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolComplexBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolComplexBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for choice elements.
@@ -83,8 +81,7 @@ public abstract class CobolElementVisitor {
      * @param ce choice element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolChoiceBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolChoiceBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for arrays of complex elements.
@@ -101,8 +98,7 @@ public abstract class CobolElementVisitor {
      * @param ce String element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolStringBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolStringBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for String arrays.
@@ -119,8 +115,7 @@ public abstract class CobolElementVisitor {
      * @param ce National element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolNationalBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolNationalBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for National arrays.
@@ -137,8 +132,7 @@ public abstract class CobolElementVisitor {
      * @param ce Dbcs element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolDbcsBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolDbcsBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for Dbcs arrays.
@@ -146,8 +140,7 @@ public abstract class CobolElementVisitor {
      * @param ce Dbcs array element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolArrayDbcsBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolArrayDbcsBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for single zoned decimals.
@@ -191,8 +184,7 @@ public abstract class CobolElementVisitor {
      * @param ce Binary element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolBinaryBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolBinaryBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for Binary arrays.
@@ -209,8 +201,7 @@ public abstract class CobolElementVisitor {
      * @param ce Float element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolFloatBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolFloatBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for Float arrays.
@@ -218,8 +209,7 @@ public abstract class CobolElementVisitor {
      * @param ce Float array element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolArrayFloatBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolArrayFloatBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for single Double elements.
@@ -227,8 +217,7 @@ public abstract class CobolElementVisitor {
      * @param ce Double element descriptor
      * @throws HostException error while visiting
      */
-    public abstract void visit(ICobolDoubleBinding ce)
-            throws HostException;
+    public abstract void visit(ICobolDoubleBinding ce) throws HostException;
 
     /**
      * Visit method of visitor pattern for Double arrays.
@@ -267,8 +256,7 @@ public abstract class CobolElementVisitor {
     /**
      * @param cobolConverters The CobolConverters to set.
      */
-    public void setCobolConverters(
-            final ICobolConverters cobolConverters) {
+    public void setCobolConverters(final ICobolConverters cobolConverters) {
         mCobolConverters = cobolConverters;
     }
 
@@ -310,47 +298,49 @@ public abstract class CobolElementVisitor {
     /**
      * @param variablesMap the variables map to set
      */
-    public void setVariablesMap(
-            final Hashtable < String, Object > variablesMap) {
+    public void setVariablesMap(final Hashtable < String, Object > variablesMap) {
         mVariablesMap = variablesMap;
     }
 
     /**
-     * Store the value of a binding in the custom variables map for
-     * later referral by custom code.
+     * Store the value of a binding in the custom variables map for later
+     * referral by custom code.
      * 
      * @param binding the current binding
      * @throws HostException if value cannot be stored
      */
-    public void storeCustomVariable(
-            final ICobolBinding binding) throws HostException {
-        getVariablesMap().put(
-                binding.getBindingName(),
+    public void storeCustomVariable(final ICobolBinding binding)
+            throws HostException {
+        getVariablesMap().put(binding.getBindingName(),
                 binding.getObjectValue(binding.getJaxbType()));
 
     }
 
     /**
+     * This deals with a special case of elements which have a dependingOn
+     * clause but their maxOccurs is 1. As such, they are not arrays but the
+     * associated dependingOn counter determines if the element exist or not
+     * (optional items).
+     * <p/>
      * If existence depends on a a counter, check counter value first. If the
-     * associated counter is zero, then the object does not exist (should not
-     * be visited as it has no bytes in the host payload or no java value
-     * object).
+     * associated counter is zero, then the object does not exist (should not be
+     * visited as it has no bytes in the host payload or no java value object).
      * 
      * @param ce the binding object
      * @return true if object exists (has associated bytes in the incoming host
-     *         payload or
-     *         a non-null outbound java object value).
+     *         payload or a non-null outbound java object value).
      * @throws HostException if existence test fails
      */
     public boolean exists(final ICobolBinding ce) throws HostException {
         /*  */
         if (ce.getDependingOn() != null
                 && ce.getDependingOn().length() > 0
+                && ce.getMaxOccurs() == 1
                 && ce.getParentBinding().getCounterValue(ce.getDependingOn()) == 0) {
             if (_log.isDebugEnabled()) {
                 _log.debug("Visiting aborted for binding "
-                            + ce.getBindingName() + ", it depends on "
-                            + ce.getDependingOn() + " which is zero");
+                        + ce.getBindingName() + ", it depends on "
+                        + ce.getDependingOn() + " which is zero");
             }
             return false;
         }
