@@ -11,44 +11,45 @@
 package com.legstar.coxb.common;
 
 import com.legstar.coxb.CobolElement;
+import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolComplexBinding;
-import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolNumericBinding;
 import com.legstar.coxb.host.HostException;
 
 /**
  * This class is a superclass of all other complex element types implementing
  * binding between a java type and cobol.
- *
+ * 
  * @author Fady Moussallam
  */
-public abstract class CComplexBinding extends CBinding implements ICobolComplexBinding {
+public abstract class CComplexBinding extends CBinding implements
+        ICobolComplexBinding {
 
     /** Ordered list of child elements. */
     private java.util.List < ICobolBinding > mChildren;
 
-    /** Variable size arrays or lists, without an explicit depending on clause,
+    /**
+     * Variable size arrays or lists, without an explicit depending on clause,
      * have a dynamic counter which gets dynamically created and added to this
-     * complex binding children. Because Cobol does not like such counters to
-     * be variably located we store them as the first children. This counter
-     * keeps track of how many such dynamic counters we already have. */
+     * complex binding children. Because Cobol does not like such counters to be
+     * variably located we store them as the first children. This counter keeps
+     * track of how many such dynamic counters we already have.
+     */
     private int mDynamicCountersCount = 0;
 
     /**
-     * Complex bindings can be bound to JAXB objects or arbitrary POJOs
-     * jointly referred to as value objects.
-     * This property is the fully qualified java class name of the bound
-     * value object.
+     * Complex bindings can be bound to JAXB objects or arbitrary POJOs jointly
+     * referred to as value objects. This property is the fully qualified java
+     * class name of the bound value object.
      */
     private String mValueObjectClassName;
 
     /**
-     * Optional factory class name used to create bound value objects.
-     * If null, value objects are assumed to have a no-argument constructor.
+     * Optional factory class name used to create bound value objects. If null,
+     * value objects are assumed to have a no-argument constructor.
      */
     private String mValueObjectsFactoryClassName;
-
 
     /**
      * Constructor for a cobol complex element to java binding.
@@ -59,19 +60,15 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding if any
      */
-    public CComplexBinding(
-            final String bindingName,
-            final String jaxbName,
-            final Class < ? > jaxbType,
-            final CobolElement cobolAnnotations,
+    public CComplexBinding(final String bindingName, final String jaxbName,
+            final Class < ? > jaxbType, final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
         mChildren = new java.util.LinkedList < ICobolBinding >();
     }
 
     /** {@inheritDoc} */
-    public void accept(final CobolElementVisitor cev)
-    throws HostException {
+    public void accept(final CobolElementVisitor cev) throws HostException {
         cev.visit(this);
     }
 
@@ -94,29 +91,29 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     /**
      * @param children the children list to set
      */
-    public void setChildrenList(
-            final java.util.List < ICobolBinding > children) {
+    public void setChildrenList(final java.util.List < ICobolBinding > children) {
         mChildren = children;
     }
 
     /**
-     * Store a new counter as a child of the root complex element.
-     * If this complex element is root (has no parent), the counter
-     * is inserted at the beginning of the children list in order to
-     * ensure that it is not variably located in the corresponding
-     * Cobol layout. If this is not a root element, the request is
-     * propagated up to parent.
+     * Store a new counter as a child of the root complex element. If this
+     * complex element is root (has no parent), the counter is inserted at the
+     * beginning of the children list in order to ensure that it is not variably
+     * located in the corresponding Cobol layout. If this is not a root element,
+     * the request is propagated up to parent.
+     * 
      * @param counter the counter to add to children list
      */
-    public void storeCounter(
-            final ICobolNumericBinding counter) {
+    public void storeCounter(final ICobolNumericBinding counter) {
         if (getParentBinding() == null) {
-            /* If there is already a child, use the same cobol level number
-             * for the inserted counter, otherwise it might have a lower level
-             * than the next child which would create an unwanted hierarchy */
+            /*
+             * If there is already a child, use the same cobol level number for
+             * the inserted counter, otherwise it might have a lower level than
+             * the next child which would create an unwanted hierarchy
+             */
             if (getChildrenList().size() > 0) {
-                counter.setLevelNumber(
-                        getChildrenList().get(0).getLevelNumber());
+                counter.setLevelNumber(getChildrenList().get(0)
+                        .getLevelNumber());
             }
             getChildrenList().add(mDynamicCountersCount, counter);
             mDynamicCountersCount++;
@@ -124,70 +121,84 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
             getParentBinding().storeCounter(counter);
         }
     }
-    
+
     /** {@inheritDoc} */
     public void storeCounter(final ICobolBinding counter) {
-        storeCounter((ICobolNumericBinding) counter); 
+        storeCounter((ICobolNumericBinding) counter);
     }
 
     /**
      * When a list size is known, this method updates the corresponding counter
      * (if any). Counters are kept at the root level so if this complex binding
      * is not root (has a parent), the request is propagated up.
+     * 
      * @param cobolName cobol name of the counter
      * @param count the array or list size
      * @throws HostException if counter cannot be updated
      */
-    public void setCounterValue(
-            final String cobolName,
-            final int count) throws HostException {
-        /* Look for a counter with the corresponding cobol name */
-        for (ICobolBinding child : getChildrenList()) {
-            if (child.getCobolName().compareTo(cobolName) == 0) {
-                child.setObjectValue(Integer.valueOf(count));
-                return;
-            }
-        }
-        /* We don't own this counter, see if ancestors know of it */
-        if (getParentBinding() != null) {
-            getParentBinding().setCounterValue(cobolName, count);
-        } else {
-            throw new HostException("Cannot locate counter " + cobolName);
-        }
+    public void setCounterValue(final String cobolName, final int count)
+            throws HostException {
+        ICobolNumericBinding counter = getCounter(cobolName);
+        counter.setIntegerValue(count);
     }
 
     /** {@inheritDoc} */
-    public ICobolNumericBinding getCounter(
-            final String cobolName) throws HostException {
-        /* Look for a counter with the corresponding cobol name */
-        for (ICobolBinding child : getChildrenList()) {
-            if (child.getCobolName().compareTo(cobolName) == 0) {
+    public int getCounterValue(final String cobolName) throws HostException {
+        ICobolNumericBinding counter = getCounter(cobolName);
+        return counter.getIntegerValue();
+    }
+
+    /** {@inheritDoc} */
+    public ICobolNumericBinding getCounter(final String cobolName)
+            throws HostException {
+
+        // When the root binding is reached, start looking for the counter in
+        // its children. Otherwise, pass control to parent
+        if (getParentBinding() == null) {
+            ICobolNumericBinding counter = getCounterInChildren(this, cobolName);
+            if (counter == null) {
+                throw new HostException("Cannot locate counter " + cobolName);
+            } else {
+                return counter;
+            }
+        } else {
+            return getParentBinding().getCounter(cobolName);
+        }
+    }
+
+    /**
+     * Descend the children of a complex element looking for a counter with the
+     * corresponding COBOL name.
+     * <p/>
+     * First lookup numeric children for the requested counter. If not found,
+     * give a chance to complex children for finding the counter within their
+     * children.
+     * 
+     * @param parent the complex element
+     * @param cobolName the COBOL name we are looking for
+     * @return the element mapping the COBOL counter or null if not found
+     */
+    protected ICobolNumericBinding getCounterInChildren(
+            ICobolComplexBinding parent, final String cobolName)
+            throws HostException {
+
+        ICobolNumericBinding counter = null;
+        for (ICobolBinding child : parent.getChildrenList()) {
+            if (child instanceof ICobolNumericBinding
+                    && child.getCobolName().equals(cobolName)) {
                 return (ICobolNumericBinding) child;
             }
         }
-        /* We don't own this counter, see if ancestors know of it */
-        if (getParentBinding() != null) {
-            return getParentBinding().getCounter(cobolName);
-        } else {
-            throw new HostException("Cannot locate counter " + cobolName);
-        }
-    }
-
-    /** {@inheritDoc} */
-    public int getCounterValue(
-            final String cobolName) throws HostException {
-        /* Look for a counter with the corresponding cobol name */
-        for (ICobolBinding child : getChildrenList()) {
-            if (child.getCobolName().compareTo(cobolName) == 0) {
-                return (Integer) child.getObjectValue(Integer.class);
+        for (ICobolBinding child : parent.getChildrenList()) {
+            if (child instanceof ICobolComplexBinding) {
+                counter = getCounterInChildren((ICobolComplexBinding) child,
+                        cobolName);
+                if (counter != null) {
+                    return counter;
+                }
             }
         }
-        /* We don't own this counter, see if ancestors know of it */
-        if (getParentBinding() != null) {
-            return getParentBinding().getCounterValue(cobolName);
-        } else {
-            throw new HostException("Cannot locate counter " + cobolName);
-        }
+        return counter;
     }
 
     /**
@@ -199,10 +210,9 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
 
     /**
      * This method is meant to be overridden. If it is not, then we are dealing
-     * with an previous version of a binding object which did not implement
-     * this method. For backward compatibility, we route the call to the now
-     * deprecated <code>createJaxbObject</code>
-     * {@inheritDoc}
+     * with an previous version of a binding object which did not implement this
+     * method. For backward compatibility, we route the call to the now
+     * deprecated <code>createJaxbObject</code> {@inheritDoc}
      */
     public void createValueObject() throws HostException {
         createJaxbObject();
@@ -210,10 +220,9 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
 
     /**
      * This method is meant to be overridden. If it is not, then we are dealing
-     * with an previous version of a binding object which did not implement
-     * this method. For backward compatibility, we route the call to the now
-     * deprecated <code>setJaxbPropertyValue</code>
-     * {@inheritDoc}
+     * with an previous version of a binding object which did not implement this
+     * method. For backward compatibility, we route the call to the now
+     * deprecated <code>setJaxbPropertyValue</code> {@inheritDoc}
      */
     public void setPropertyValue(final int index) throws HostException {
         setJaxbPropertyValue(index);
@@ -221,12 +230,15 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
 
     /**
      * {@inheritDoc}
+     * 
      * @deprecated
      */
     public void createJaxbObject() throws HostException {
     }
+
     /**
      * {@inheritDoc}
+     * 
      * @deprecated
      */
     public void setJaxbPropertyValue(final int index) throws HostException {
@@ -242,8 +254,7 @@ public abstract class CComplexBinding extends CBinding implements ICobolComplexB
     /**
      * {@inheritDoc}
      */
-    public void setValueObjectClassName(
-            final String valueObjectClassName) {
+    public void setValueObjectClassName(final String valueObjectClassName) {
         mValueObjectClassName = valueObjectClassName;
     }
 

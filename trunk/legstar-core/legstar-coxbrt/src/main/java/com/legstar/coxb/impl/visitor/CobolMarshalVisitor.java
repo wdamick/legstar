@@ -210,7 +210,8 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
                     + ce.getBindingName());
         }
         /* Visit each item of the array in turn */
-        for (int i = 0; i < ce.getCurrentOccurs(); i++) {
+        int currentOccurs = ce.getCurrentOccurs();
+        for (int i = 0; i < currentOccurs; i++) {
             ce.setItemValue(i);
             ICobolBinding itemDesc = ce.getComplexItemBinding();
             itemDesc.accept(this);
