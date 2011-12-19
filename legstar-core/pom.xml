@@ -522,6 +522,13 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- LegStar COBOL generator -->
+            <dependency>
+                <groupId>com.legsem.legstar</groupId>
+                <artifactId>legstar-cobcgen</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- LegStar JAXB generator test classes/resources -->
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
