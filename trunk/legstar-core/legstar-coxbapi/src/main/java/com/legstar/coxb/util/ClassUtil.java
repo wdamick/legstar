@@ -216,16 +216,26 @@ public final class ClassUtil {
     public static Method getSetterMethod(final Object parentObject,
             final String jaxbName, final Class < ? > jaxbType)
             throws ClassMethodException {
-        String getterName = "set" + NameUtil.upperFirstChar(jaxbName)
-                + jaxbName.substring(1);
+        String setterName = getSetterMethodName(jaxbName);
         try {
             Class < ? >[] param = { jaxbType };
             Method setter = parentObject.getClass()
-                    .getMethod(getterName, param);
+                    .getMethod(setterName, param);
             return setter;
         } catch (NoSuchMethodException e) {
             throw (new ClassMethodException(e));
         }
+    }
+
+    /**
+     * Construct a setter method name for a JAXB property.
+     * 
+     * @param jaxbName the JAXB property name
+     * @return the setter method name
+     */
+    public static String getSetterMethodName(final String jaxbName) {
+        return "set" + NameUtil.upperFirstChar(jaxbName)
+                + jaxbName.substring(1);
     }
 
     /**

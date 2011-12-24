@@ -11,6 +11,7 @@
 package com.legstar.coxb.impl.reflect;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlType;
@@ -439,19 +440,32 @@ public class CComplexReflectBinding extends CComplexBinding {
             return;
         }
 
-        Object value = child.getObjectValue(child.getJaxbType());
+        // Lookup the setter parameter type on the actual object
+        // We are making the assumption that the setter method name is unique
+        Class < ? > param = child.getJaxbType();
+        String setterName = ClassUtil.getSetterMethodName(child.getJaxbName());
+        for (Method method : _jaxbObject.getClass().getMethods()) {
+            if (method.getName().equals(setterName)) {
+                param = method.getParameterTypes()[0];
+                break;
+            }
+        }
+
+        Object value = child.getObjectValue(param);
         if (_log.isDebugEnabled()) {
             _log.debug("Setting value of JAXB property " + child.getJaxbName()
                     + " value=" + value);
         }
 
         ClassUtil.invokeSetProperty(_jaxbObject, child.getJaxbName(), value,
-                child.getJaxbType());
+                param);
     }
 
     /** {@inheritDoc} */
     public Object getObjectValue(final Class < ? > type) throws HostException {
         if (type.equals(getJaxbType())) {
+            return _jaxbObject;
+        } else if (type.getName().equals(getValueObjectClassName())) {
             return _jaxbObject;
         } else {
             throw new HostException("Attempt to get binding " + getJaxbName()
@@ -466,6 +480,8 @@ public class CComplexReflectBinding extends CComplexBinding {
             return;
         }
         if (value.getClass().equals(getJaxbType())) {
+            _jaxbObject = value;
+        } else if (value.getClass().getName().equals(getValueObjectClassName())) {
             _jaxbObject = value;
         } else {
             throw new HostException("Attempt to set binding " + getJaxbName()
