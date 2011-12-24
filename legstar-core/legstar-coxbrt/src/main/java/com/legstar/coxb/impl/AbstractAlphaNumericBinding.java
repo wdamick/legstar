@@ -67,15 +67,13 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
              * to this value
              */
             try {
-                Method fromValue = type.getMethod("fromValue", String.class);
+                Method fromValue = getFromValueMethod(type);
                 return fromValue.invoke(null, mValue.trim());
             } catch (SecurityException e) {
                 throw new HostException(e);
             } catch (IllegalArgumentException e) {
                 throw new HostException(e);
             } catch (IllegalAccessException e) {
-                throw new HostException(e);
-            } catch (NoSuchMethodException e) {
                 throw new HostException(e);
             } catch (InvocationTargetException e) {
                 throw new HostException(e);
@@ -84,6 +82,33 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
         } else {
             throw new HostException("Attempt to get binding "
                     + getBindingName() + " as an incompatible type " + type);
+        }
+    }
+
+    /**
+     * Enum classes can be JAXB Enum wrappers with a "fromValue" method or plain
+     * POJO Enums.
+     * <p/>
+     * Here we lookup a method that takes a String representation of the Enum
+     * and returns the Enum item.
+     * 
+     * @param type an Enum type
+     * @return the method that turns a String into an Enum item
+     * @throws HostException if method cannot be found
+     */
+    protected Method getFromValueMethod(Class < ? > type) throws HostException {
+        try {
+            Method fromValueMethod = null;
+            try {
+                fromValueMethod = type.getMethod("fromValue", String.class);
+            } catch (NoSuchMethodException e) {
+                fromValueMethod = type.getMethod("valueOf", String.class);
+            }
+            return fromValueMethod;
+        } catch (SecurityException e) {
+            throw new HostException(e);
+        } catch (NoSuchMethodException e) {
+            throw new HostException(e);
         }
     }
 
@@ -99,7 +124,7 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
             mValue = new Timestamp(((Date) value).getTime()).toString();
         } else if (value instanceof Enum < ? >) {
             try {
-                Method valueMethod = value.getClass().getMethod("value");
+                Method valueMethod = getValueMethod(value.getClass());
                 mValue = (String) valueMethod.invoke(value);
             } catch (SecurityException e) {
                 throw new HostException(e);
@@ -107,14 +132,39 @@ public abstract class AbstractAlphaNumericBinding extends CBinding {
                 throw new HostException(e);
             } catch (IllegalAccessException e) {
                 throw new HostException(e);
-            } catch (NoSuchMethodException e) {
-                throw new HostException(e);
             } catch (InvocationTargetException e) {
                 throw new HostException(e);
             }
         } else {
             throw new HostException("Attempt to set binding "
                     + getBindingName() + " from an incompatible value " + value);
+        }
+    }
+
+    /**
+     * Enum classes can be JAXB Enum wrappers with a "value" method or plain
+     * POJO Enums.
+     * <p/>
+     * Here we lookup a method that returns a String representation of the Enum
+     * value by first trying the JAXB type, then the POJO type.
+     * 
+     * @param type the Enum type
+     * @return the method that returns a String representation of that enum item
+     * @throws HostException if method cannot be found
+     */
+    protected Method getValueMethod(Class < ? > type) throws HostException {
+        try {
+            Method valueMethod = null;
+            try {
+                valueMethod = type.getMethod("value");
+            } catch (NoSuchMethodException e) {
+                valueMethod = type.getMethod("toString");
+            }
+            return valueMethod;
+        } catch (SecurityException e) {
+            throw new HostException(e);
+        } catch (NoSuchMethodException e) {
+            throw new HostException(e);
         }
     }
 
