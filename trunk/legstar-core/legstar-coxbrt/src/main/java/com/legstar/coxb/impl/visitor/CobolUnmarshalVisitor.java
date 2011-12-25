@@ -52,14 +52,6 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
     private final Log _log = LogFactory.getLog(getClass());
 
     /**
-     * When this is not zero, it means the last COBOL item did not consume all
-     * the bytes that it should have and yet the next item is not variably
-     * located. In such a case we add a virtual filler length to the offset
-     * before we start processing the next item.
-     */
-    private int _virtualFillerLength = 0;
-
-    /**
      * Visitor constructor.
      * 
      * @param hostBytes host buffer used by visitor
@@ -427,42 +419,6 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
             throws HostException {
         setOffset(getCobolConverters().getCobolOctetStreamConverter().fromHost(
                 ce, getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
-    }
-
-    /**
-     * COBOL items are expected at a certain offset in the incoming buffer. Most
-     * of the time, this offset is where the previous item left but sometimes, a
-     * virtual filler must be accounted for.
-     * <p/>
-     * This is a destructive method that resets the virtual filler length to
-     * zero.
-     * 
-     * @return returns the offset where unmarshaling should start for the next
-     *         item.
-     */
-    protected int getStartOffset() {
-        int startOffset = getOffset();
-        if (getVirtualFillerLength() > 0) {
-            startOffset += getVirtualFillerLength();
-            setVirtualFillerLength(0);
-        }
-        return startOffset;
-    }
-
-    /**
-     * @return the length that needs to be added to the last offset to account
-     *         for a previous item that processed less bytes than it should
-     *         have.
-     */
-    public int getVirtualFillerLength() {
-        return _virtualFillerLength;
-    }
-
-    /**
-     * @param virtualFillerLength the virtual Filler Length to set
-     */
-    public void setVirtualFillerLength(final int virtualFillerLength) {
-        _virtualFillerLength = virtualFillerLength;
     }
 
 }

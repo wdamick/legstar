@@ -108,4 +108,47 @@ public class CobolMarshalVisitorTest extends TestCase {
         assertEquals("f0f0f3f0f1f2", HostData.toHexString(hostBytes));
 
     }
+
+    /**
+     * Tests that alternatives with different sizes are handled correctly upon
+     * Marshaling.
+     * 
+     * <pre>
+     *         01  DFHCOMMAREA.
+     *      10 CONFPRTY.
+     *         15 CONFPRTY-FRMTQ.
+     *            20 CONFPRTY-FRMTQ-DATA                    PIC X(140).
+     *         15 CONFPRTY-FRMTR REDEFINES CONFPRTY-FRMTQ.
+     *            20  CONFPRTY-FRMTR-DATA                   PIC X(42).
+     *         15 CONFPRTY-FRMTP REDEFINES CONFPRTY-FRMTQ.
+     *            20  CONFPRTY-FRMTP-DATA                   PIC X(11).
+     *      10 ALTEPRTY.
+     *         15 ALTE-PRTY-QUAL                            PIC X(04).
+     * </pre>
+     * 
+     * @throws Exception if test fails
+     */
+    public void testRedefinesDiffSizeAlternatives() throws Exception {
+        com.legstar.test.coxb.issue162.Dfhcommarea dfhcommarea = new com.legstar.test.coxb.issue162.Dfhcommarea();
+        com.legstar.test.coxb.issue162.Confprty confPrty = new com.legstar.test.coxb.issue162.Confprty();
+        com.legstar.test.coxb.issue162.ConfprtyFrmtp confprtyFrmtp = new com.legstar.test.coxb.issue162.ConfprtyFrmtp();
+        confprtyFrmtp.setConfprtyFrmtpData("12345678901");
+        confPrty.setConfprtyFrmtp(confprtyFrmtp);
+        com.legstar.test.coxb.issue162.Alteprty altePrty = new com.legstar.test.coxb.issue162.Alteprty();
+        altePrty.setAltePrtyQual("MMMM");
+        dfhcommarea.setConfprty(confPrty);
+        dfhcommarea.setAlteprty(altePrty);
+
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue162.ObjectFactory(), dfhcommarea);
+        byte[] hostBytes = new byte[144];
+        CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(mv);
+        assertEquals(144, mv.getOffset());
+        assertEquals(
+                "f1f2f3f4f5f6f7f8f9f0f1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+                        + "d4d4d4d4", HostData.toHexString(hostBytes));
+
+    }
 }
