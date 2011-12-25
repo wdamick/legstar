@@ -47,7 +47,7 @@ public class StringTest extends TestCase {
         try {
             String javaString = inputValue;
             assertEquals(byteLength, CobolStringSimpleConverter.toHostSingle(
-                    javaString, hostCharset, null, byteLength,
+                    javaString, hostCharset, null, false, byteLength,
                     isJustifiedRight, hostBytes, 0));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
@@ -84,7 +84,7 @@ public class StringTest extends TestCase {
             byte[] hostBytes = new byte[4];
             String javaString = "ABCD";
             CobolStringSimpleConverter.toHostSingle(javaString, unknownCharSet,
-                    null, 4, false, hostBytes, 0);
+                    null, false, 4, false, hostBytes, 0);
             fail("charset not tested correctly");
         } catch (HostException he) {
             assertEquals("UnsupportedEncodingException:IBM0114Q",
@@ -140,10 +140,42 @@ public class StringTest extends TestCase {
         try {
             String javaString = "AB";
             assertEquals(6, CobolStringSimpleConverter.toHostSingle(javaString,
-                    US_HOST_CHARSET, (byte) 0x0, 6, false, hostBytes, 0));
+                    US_HOST_CHARSET, (byte) 0x0, false, 6, false, hostBytes, 0));
             assertEquals("c1c200000000", HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test overflow silent truncation.
+     */
+    public void testOverflowSilentTruncation() {
+        byte[] hostBytes = new byte[6];
+        try {
+            String javaString = "ABCDEFG";
+            assertEquals(6, CobolStringSimpleConverter.toHostSingle(javaString,
+                    US_HOST_CHARSET, null, false, 6, false, hostBytes, 0));
+            assertEquals("c1c2c3c4c5c6", HostData.toHexString(hostBytes));
+        } catch (CobolConversionException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test overflow failure.
+     */
+    public void testOverflowFailure() {
+        byte[] hostBytes = new byte[6];
+        try {
+            String javaString = "ABCDEFG";
+            assertEquals(6, CobolStringSimpleConverter.toHostSingle(javaString,
+                    US_HOST_CHARSET, null, true, 6, false, hostBytes, 0));
+            fail();
+        } catch (CobolConversionException e) {
+            assertEquals(
+                    "Java string content too long for target COBOL alphanumeric data item",
+                    e.getMessage());
         }
     }
 
@@ -162,7 +194,7 @@ public class StringTest extends TestCase {
             byte[] hostBytes = new byte[4];
             String javaString = "ABCDEFG";
             CobolStringSimpleConverter.toHostSingle(javaString,
-                    US_HOST_CHARSET, null, 6, false, hostBytes, 0);
+                    US_HOST_CHARSET, null, false, 6, false, hostBytes, 0);
             fail("overflow not detected");
         } catch (HostException he) {
             assertEquals("Attempt to write past end of host source buffer."

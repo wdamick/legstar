@@ -113,8 +113,8 @@ public class MeteringTest extends TestCase {
         try {
             byte[] hostBytes = new byte[STRING_HOST_BYTES.length];
             CobolStringSimpleConverter.toHostSingle(STRING_JAVA,
-                    STRING_FRENCH_CHARSET, null, STRING_HOST_BYTES.length,
-                    false, hostBytes, 0);
+                    STRING_FRENCH_CHARSET, null, false,
+                    STRING_HOST_BYTES.length, false, hostBytes, 0);
             assertEquals(STRING_HOST_BYTES[0], hostBytes[0]);
             assertEquals(STRING_HOST_BYTES[STRING_HOST_BYTES.length - 1],
                     hostBytes[STRING_HOST_BYTES.length - 1]);

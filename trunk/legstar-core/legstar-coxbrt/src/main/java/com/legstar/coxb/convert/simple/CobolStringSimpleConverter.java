@@ -52,7 +52,8 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
         try {
             newOffset = toHostSingle(ce.getStringValue(), getCobolContext()
                     .getHostCharsetName(), getCobolContext()
-                    .getAlphanumPaddingChar(), ce.getByteLength(),
+                    .getAlphanumPaddingChar(), getCobolContext()
+                    .failOnAlphanumOverflow(), ce.getByteLength(),
                     ce.isJustifiedRight(), hostTarget, offset);
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
@@ -69,14 +70,16 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
             for (String javaSource : ce.getStringList()) {
                 newOffset = toHostSingle(javaSource, getCobolContext()
                         .getHostCharsetName(), getCobolContext()
-                        .getAlphanumPaddingChar(), ce.getItemByteLength(),
+                        .getAlphanumPaddingChar(), getCobolContext()
+                        .failOnAlphanumOverflow(), ce.getItemByteLength(),
                         ce.isJustifiedRight(), hostTarget, newOffset);
             }
             /* If necessary, fill in the array with missing items */
             for (int i = ce.getStringList().size(); i < currentOccurs; i++) {
                 newOffset = toHostSingle("", getCobolContext()
                         .getHostCharsetName(), getCobolContext()
-                        .getAlphanumPaddingChar(), ce.getItemByteLength(),
+                        .getAlphanumPaddingChar(), getCobolContext()
+                        .failOnAlphanumOverflow(), ce.getItemByteLength(),
                         ce.isJustifiedRight(), hostTarget, newOffset);
             }
         } catch (CobolConversionException e) {
@@ -132,6 +135,8 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
      * @param javaString java string to convert
      * @param hostCharsetName host character set
      * @param paddingChar padding character
+     * @param failOnOverflow true if an exception should be raised if string
+     *            content does not fit in target alphanumeric data item
      * @param cobolByteLength host byte length
      * @param isJustifiedRight is Cobol data right justified
      * @param hostTarget target host buffer
@@ -141,9 +146,9 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
      */
     public static final int toHostSingle(final String javaString,
             final String hostCharsetName, final Byte paddingChar,
-            final int cobolByteLength, final boolean isJustifiedRight,
-            final byte[] hostTarget, final int offset)
-            throws CobolConversionException {
+            final boolean failOnOverflow, final int cobolByteLength,
+            final boolean isJustifiedRight, final byte[] hostTarget,
+            final int offset) throws CobolConversionException {
 
         /* Check that we are still within the host target range */
         int lastOffset = offset + cobolByteLength;
@@ -175,6 +180,15 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
                 throw new CobolConversionException(
                         "UnsupportedEncodingException:" + e.getMessage());
             }
+        }
+
+        /*
+         * If required, fail if target alphanumeric data item is too short,
+         * otherwise just truncate.
+         */
+        if (failOnOverflow && hostSource.length > cobolByteLength) {
+            throw new CobolConversionException(
+                    "Java string content too long for target COBOL alphanumeric data item");
         }
 
         /*
