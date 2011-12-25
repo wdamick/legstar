@@ -94,8 +94,8 @@ public class CharsetsTest extends TestCase {
         try {
             byte[] hostBytes = new byte[2 + CHINESE_CHARS.length() * 2];
             CobolStringSimpleConverter.toHostSingle(CHINESE_CHARS,
-                    CHINESE_EBCDIC_DBCS_CHARSET, null, hostBytes.length, false,
-                    hostBytes, 0);
+                    CHINESE_EBCDIC_DBCS_CHARSET, null, false, hostBytes.length,
+                    false, hostBytes, 0);
             assertEquals("0e534352e9508d50d50f",
                     HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
@@ -106,8 +106,8 @@ public class CharsetsTest extends TestCase {
         try {
             byte[] hostBytes = new byte[4 + CHINESE_CHARS.length() * 2];
             CobolStringSimpleConverter.toHostSingle(CHINESE_CHARS,
-                    CHINESE_EBCDIC_DBCS_CHARSET, null, hostBytes.length, false,
-                    hostBytes, 0);
+                    CHINESE_EBCDIC_DBCS_CHARSET, null, false, hostBytes.length,
+                    false, hostBytes, 0);
             assertEquals("0e534352e9508d50d50f4040",
                     HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
@@ -124,8 +124,8 @@ public class CharsetsTest extends TestCase {
             CobolStringSimpleConverter.toHostSingle(
                     CHINESE_CHARS.substring(0, 2) + "ab"
                             + CHINESE_CHARS.substring(2),
-                    CHINESE_EBCDIC_DBCS_CHARSET, null, hostBytes.length, false,
-                    hostBytes, 0);
+                    CHINESE_EBCDIC_DBCS_CHARSET, null, false, hostBytes.length,
+                    false, hostBytes, 0);
             assertEquals("0e534352e90f81820e508d50d50f",
                     HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {

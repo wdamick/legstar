@@ -36,6 +36,12 @@ public class CobolContext extends HostContext {
     private Byte _alphanumPaddingChar = null;
 
     /**
+     * Fail if a java string content is too long for the target alphanumeric
+     * COBOL data item.
+     */
+    private boolean _failOnAlphanumOverflow = false;
+
+    /**
      * This enumeration class represents how binary data is truncated depending
      * on the number of digits specified in the PICTURE clause.
      * 
@@ -95,6 +101,29 @@ public class CobolContext extends HostContext {
      */
     public void setAlphanumPaddingChar(final Byte alphanumPaddingChar) {
         _alphanumPaddingChar = alphanumPaddingChar;
+    }
+
+    /**
+     * Fail if a java string content is too long for the target alphanumeric
+     * COBOL data item.
+     * 
+     * @return true when failure is requested if a java string content is too
+     *         long for the target alphanumeric COBOL data item
+     */
+    public boolean failOnAlphanumOverflow() {
+        return _failOnAlphanumOverflow;
+    }
+
+    /**
+     * Fail if a java string content is too long for the target alphanumeric
+     * COBOL data item.
+     * 
+     * @param failOnAlphanumOverflow true when failure is requested if a java
+     *            string content is too long for the target alphanumeric COBOL
+     *            data item
+     */
+    public void setFailOnAlphanumOverflow(boolean failOnAlphanumOverflow) {
+        this._failOnAlphanumOverflow = failOnAlphanumOverflow;
     }
 
 }
