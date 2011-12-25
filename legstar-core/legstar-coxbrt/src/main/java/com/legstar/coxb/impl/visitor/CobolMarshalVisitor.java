@@ -101,7 +101,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
                 if (dynCounters == null) {
                     dynCounters = new HashMap < ICobolBinding, Integer >();
                 }
-                dynCounters.put(child, getOffset());
+                dynCounters.put(child, getStartOffset());
             }
             child.accept(this);
         }
@@ -113,7 +113,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
              * children. So we can re-marshal these values to update the host
              * buffer.
              */
-            int endOffset = getOffset();
+            int endOffset = getStartOffset();
             for (Entry < ICobolBinding, Integer > entry : dynCounters
                     .entrySet()) {
                 setOffset(entry.getValue());
@@ -143,6 +143,16 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
         ce.setAlternativesValues();
 
         /*
+         * Evaluate the maximum alternative length.
+         */
+        int maxAlternaliveLength = 0;
+        for (ICobolBinding alternative : ce.getAlternativesList()) {
+            if (alternative.getByteLength() > maxAlternaliveLength) {
+                maxAlternaliveLength = alternative.getByteLength();
+            }
+        }
+
+        /*
          * In a choice situation, only one alternative should be accepted when
          * this element is visited. The logic to determine which alternative
          * should be selected is customizable via the
@@ -150,7 +160,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
          * alternative is available, the default behavior is to select the first
          * alternative that is accepted without error and moved the offset.
          */
-        boolean bAlternativeFound = false;
+        ICobolBinding chosenAlternative = null;
 
         /* If an external selector is provided, try it first */
         if (ce.getMarshalChoiceStrategy() != null) {
@@ -158,17 +168,16 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
                 _log.debug("Calling Marshal choice strategy  "
                         + ce.getMarshalChoiceStrategyClassName());
             }
-            ICobolBinding alt = ce.getMarshalChoiceStrategy().choose(ce,
+            chosenAlternative = ce.getMarshalChoiceStrategy().choose(ce,
                     getVariablesMap(), this);
             /* If selector was successful, use the selected alternative */
-            if (alt != null) {
-                alt.accept(this);
-                bAlternativeFound = true;
+            if (chosenAlternative != null) {
+                chosenAlternative.accept(this);
             }
         }
 
         /* Default behavior if direct selection was not possible */
-        if (!bAlternativeFound) {
+        if (chosenAlternative == null) {
             for (ICobolBinding alt : ce.getAlternativesList()) {
                 /*
                  * Only consider alternatives with bound values (They have been
@@ -176,14 +185,14 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
                  */
                 if (alt.isSet()) {
                     /* Save the visitor offset context */
-                    int savedOffset = getOffset();
+                    int savedOffset = getStartOffset();
                     alt.accept(this);
                     /*
                      * If offset was succesfully incremented, we consider we
                      * found a valid alternative, just get out of the loop.
                      */
-                    if (savedOffset < getOffset()) {
-                        bAlternativeFound = true;
+                    if (savedOffset < getStartOffset()) {
+                        chosenAlternative = alt;
                         break;
                     }
                 }
@@ -191,9 +200,18 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
         }
 
         /* If none of the alternatives moved the offset, raise an exception */
-        if (!bAlternativeFound) {
+        if (chosenAlternative == null) {
             throw new HostException("No alternative found for choice element "
                     + ce.getBindingName());
+        } else {
+            /*
+             * If chosen alternative is shorter than the max, keep record of the
+             * difference because next item is not variably located.
+             */
+            if (chosenAlternative.getByteLength() < maxAlternaliveLength) {
+                setVirtualFillerLength(maxAlternaliveLength
+                        - chosenAlternative.getByteLength());
+            }
         }
         if (_log.isDebugEnabled()) {
             _log.debug("Marshaling successful for choice binding "
@@ -230,7 +248,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolStringConverter().toHost(ce,
-                getHostBytes(), getOffset()));
+                getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -241,7 +259,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public void visit(final ICobolArrayStringBinding ce) throws HostException {
         setOffset(getCobolConverters().getCobolStringConverter().toHost(ce,
-                getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -252,7 +270,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolNationalConverter().toHost(ce,
-                getHostBytes(), getOffset()));
+                getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -263,7 +281,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public void visit(final ICobolArrayNationalBinding ce) throws HostException {
         setOffset(getCobolConverters().getCobolNationalConverter().toHost(ce,
-                getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -274,7 +292,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolDbcsConverter().toHost(ce,
-                getHostBytes(), getOffset()));
+                getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -285,7 +303,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public void visit(final ICobolArrayDbcsBinding ce) throws HostException {
         setOffset(getCobolConverters().getCobolDbcsConverter().toHost(ce,
-                getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -296,7 +314,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolZonedDecimalConverter().toHost(
-                ce, getHostBytes(), getOffset()));
+                ce, getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -309,7 +327,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     public void visit(final ICobolArrayZonedDecimalBinding ce)
             throws HostException {
         setOffset(getCobolConverters().getCobolZonedDecimalConverter().toHost(
-                ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                ce, getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -320,7 +338,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolPackedDecimalConverter().toHost(
-                ce, getHostBytes(), getOffset()));
+                ce, getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -333,7 +351,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     public void visit(final ICobolArrayPackedDecimalBinding ce)
             throws HostException {
         setOffset(getCobolConverters().getCobolPackedDecimalConverter().toHost(
-                ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                ce, getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -344,7 +362,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolBinaryConverter().toHost(ce,
-                getHostBytes(), getOffset()));
+                getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -356,7 +374,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public void visit(final ICobolArrayBinaryBinding ce) throws HostException {
         setOffset(getCobolConverters().getCobolBinaryConverter().toHost(ce,
-                getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -367,7 +385,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolFloatConverter().toHost(ce,
-                getHostBytes(), getOffset()));
+                getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -379,7 +397,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public void visit(final ICobolArrayFloatBinding ce) throws HostException {
         setOffset(getCobolConverters().getCobolFloatConverter().toHost(ce,
-                getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -390,7 +408,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolDoubleConverter().toHost(ce,
-                getHostBytes(), getOffset()));
+                getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -401,7 +419,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     @Override
     public void visit(final ICobolArrayDoubleBinding ce) throws HostException {
         setOffset(getCobolConverters().getCobolDoubleConverter().toHost(ce,
-                getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 
     /** {@inheritDoc} */
@@ -412,7 +430,7 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
             return;
         }
         setOffset(getCobolConverters().getCobolOctetStreamConverter().toHost(
-                ce, getHostBytes(), getOffset()));
+                ce, getHostBytes(), getStartOffset()));
 
         if (ce.isCustomVariable()) {
             storeCustomVariable(ce);
@@ -424,6 +442,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
     public void visit(final ICobolArrayOctetStreamBinding ce)
             throws HostException {
         setOffset(getCobolConverters().getCobolOctetStreamConverter().toHost(
-                ce, getHostBytes(), getOffset(), ce.getCurrentOccurs()));
+                ce, getHostBytes(), getStartOffset(), ce.getCurrentOccurs()));
     }
 }
