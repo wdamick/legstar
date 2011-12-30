@@ -1,0 +1,15 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+COBOL Transformers API (coxbapi) overview
+
+  COBOL Trransformers are used to convert raw mainframe data to java objects, XML or JSON.
+  
+  They are also used to convert java objects, XML or JSON back to mainframe data.
+  
+  This is the layer that shields COBOL Transformers code from the actual runtime implementation.
+  
+  The programming model is based on the visitor pattern.
