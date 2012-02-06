@@ -1,0 +1,7 @@
+      * ----------------------------------------------------------------
+      * Generated copybook for CUSTOMER-DATA
+      * ----------------------------------------------------------------
+       01  CUSTOMER-DATA PIC X(160) VALUE 
+           'In COBOL, alphanumeric literals cannot exceed ''one hundred'
+      -    '' and sixty characters. This is unlike most recent languages
+      -    ' which do not put limits on strings length'.

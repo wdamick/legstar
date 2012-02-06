@@ -1,0 +1,5 @@
+      * ----------------------------------------------------------------
+      * Generated copybook for DATA-WITH-UNUSUALLY-LONG-NAME
+      * ----------------------------------------------------------------
+       01  DATA-WITH-UNUSUALLY-LONG-NAME PIC 9(18) DISPLAY VALUE 
+           123456789012345678.
