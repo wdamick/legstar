@@ -10,10 +10,12 @@
  ******************************************************************************/
 package com.legstar.cobc.gen;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.legstar.cobol.gen.CobolNameResolver;
+import com.legstar.cobol.model.CobolDataItem;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolArrayBinaryBinding;
 import com.legstar.coxb.ICobolArrayComplexBinding;
@@ -45,20 +47,29 @@ import com.legstar.coxb.host.HostException;
  */
 public class CobolGenVisitor extends CobolElementVisitor {
 
-    /** This writer receives the generated source code. */
-    private BufferedWriter mWriter;
+    /**
+     * This will contain the COBOL data model inferred from the JAXB
+     * annotations.
+     */
+    private CobolDataItem rootDataItem;
 
-    /** First COBOL level. */
-    private int mFirstCobolLevel;
+    /** Current group data item. */
+    private CobolDataItem groupDataItem;
+
+    /** Previous group data item. */
+    private CobolDataItem previousGroupDataItem;
 
     /** Current COBOL level. */
-    private int mCurrentCobolLevel;
+    private int currentCobolLevel;
 
     /** Children level will be parent level plus this increment. */
-    private int mCobolLevelIncrement;
+    private int cobolLevelIncrement;
 
     /** Used to build valid cobol names from java names. */
-    private CobolNameResolver mNameResolver;
+    private CobolNameResolver nameResolver;
+
+    /** Logger. */
+    private final Log logger = LogFactory.getLog(CobolGenVisitor.class);
 
     /**
      * Create a Cobol generator visitor.
@@ -66,13 +77,10 @@ public class CobolGenVisitor extends CobolElementVisitor {
      * @param firstCobolLevel the first COBOL level in the generated structure
      * @param cobolLevelIncrement Children level will be parent level plus this
      *            increment (must be greater than 0)
-     * @param writer destination for the generated cobol source
-     * @throws HostException if generator cannot be created
+     * @throws HostException if name resolver cannot be created
      */
     public CobolGenVisitor(final int firstCobolLevel,
-            final int cobolLevelIncrement, final BufferedWriter writer)
-            throws HostException {
-        mWriter = writer;
+            final int cobolLevelIncrement) throws HostException {
         /*
          * If the start cobol level is not 1, it must be a multiple of the
          * increment
@@ -88,31 +96,36 @@ public class CobolGenVisitor extends CobolElementVisitor {
                 startCobolLevel = firstCobolLevel + cobolLevelIncrement - rest;
             }
         }
-        mFirstCobolLevel = startCobolLevel;
-        mCurrentCobolLevel = startCobolLevel;
-        mCobolLevelIncrement = cobolLevelIncrement;
-        mNameResolver = new CobolNameResolver();
+        this.currentCobolLevel = startCobolLevel;
+        this.cobolLevelIncrement = cobolLevelIncrement;
+        this.nameResolver = new CobolNameResolver();
     }
 
     /**
      * Create a Cobol generator visitor.
      * 
-     * @param writer destination for the generated cobol source
      * @throws HostException if generator cannot be created
      */
-    public CobolGenVisitor(final BufferedWriter writer) throws HostException {
-        this(1, 1, writer);
+    public CobolGenVisitor() throws HostException {
+        this(1, 1);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolComplexBinding ce) throws HostException {
-        write(ce);
-        mCurrentCobolLevel += mCobolLevelIncrement;
+        CobolDataItem cobolDataItem = createCobolDataItem(ce);
+        if (rootDataItem == null) {
+            rootDataItem = cobolDataItem;
+        }
+        previousGroupDataItem = groupDataItem;
+        groupDataItem = cobolDataItem;
+
+        currentCobolLevel += cobolLevelIncrement;
         for (ICobolBinding cb : ce.getChildrenList()) {
             cb.accept(this);
         }
-        mCurrentCobolLevel -= mCobolLevelIncrement;
+        currentCobolLevel -= cobolLevelIncrement;
+        groupDataItem = previousGroupDataItem;
     }
 
     /** {@inheritDoc} */
@@ -132,175 +145,164 @@ public class CobolGenVisitor extends CobolElementVisitor {
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolStringBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayStringBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolNationalBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayNationalBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolDbcsBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayDbcsBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolZonedDecimalBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayZonedDecimalBinding ce)
             throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolPackedDecimalBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayPackedDecimalBinding ce)
             throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolBinaryBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayBinaryBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolFloatBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayFloatBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolDoubleBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayDoubleBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolOctetStreamBinding ce) throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /** {@inheritDoc} */
     @Override
     public void visit(final ICobolArrayOctetStreamBinding ce)
             throws HostException {
-        write(ce);
+        createCobolDataItem(ce);
     }
 
     /**
-     * Adds a cobol sentence to the writer.
+     * Create a COBOL data item model from the JAXB annotations.
      * 
      * @param ce the cobol binding
+     * @return a COBOL data item model object
      * @throws HostException if write fails
      */
-    private void write(final ICobolBinding ce) throws HostException {
-        try {
-            /*
-             * Because level numbers returned by xsdCobolAnnotator are not
-             * reliable, we substitute our own here.
-             */
-            ce.setLevelNumber(mCurrentCobolLevel);
+    private CobolDataItem createCobolDataItem(final ICobolBinding ce)
+            throws HostException {
+        CobolDataItem cobolDataItem = new CobolDataItem(currentCobolLevel,
+                nameResolver.getUniqueName(ce.getCobolName()));
 
-            /*
-             * We also check that our cobol names are unique because this is
-             * simpler to manipulate in Cobol.
-             */
-            ce.setCobolName(mNameResolver.getUniqueName(ce.getCobolName()));
+        cobolDataItem.setDependingOn(ce.getDependingOn());
+        cobolDataItem.setMaxOccurs(ce.getMaxOccurs());
+        cobolDataItem.setMinOccurs(ce.getMinOccurs());
+        cobolDataItem.setPicture(StringUtils.isBlank(ce.getPicture()) ? null
+                : ce.getPicture());
+        cobolDataItem
+                .setRedefines(StringUtils.isBlank(ce.getRedefines()) ? null
+                        : ce.getRedefines());
+        cobolDataItem.setSrceLine(ce.getSrceLine());
+        cobolDataItem.setCobolUsage(StringUtils.isBlank(ce.getUsage()) ? null
+                : ce.getUsage());
+        cobolDataItem.setValue(StringUtils.isBlank(ce.getDefaultValue()) ? null
+                : ce.getDefaultValue());
 
-            mWriter.write(CobolGenFormatter.formatCobolClause(
-                    ce,
-                    getIndentFactor(mFirstCobolLevel, mCurrentCobolLevel,
-                            mCobolLevelIncrement)));
-            mWriter.newLine();
-        } catch (IOException e) {
-            throw new HostException(e);
+        if (groupDataItem != null) {
+            groupDataItem.getChildren().add(cobolDataItem);
         }
-    }
 
-    /**
-     * Calculates how many white space characters should be added to indent an
-     * element in the data structure.
-     * <p/>
-     * Data items with indent factor of 0 start at column 8. Data items with
-     * indent factor of 1 start at column 12 and so forth.
-     * <p/>
-     * Only data items with COBOL level 1 start at column 8.
-     * 
-     * @param firstCobolLevel the cobol level of the root element
-     * @param currentCobolLevel the current element cobol level
-     * @param cobolLevelIncrement the cobol level increment
-     * @return the number of white space characters to prepend to data
-     *         description.
-     */
-    private int getIndentFactor(final int firstCobolLevel,
-            final int currentCobolLevel, final int cobolLevelIncrement) {
-        int factor = (currentCobolLevel - firstCobolLevel)
-                / cobolLevelIncrement;
-        if (firstCobolLevel == 1) {
-            return factor;
-        } else {
-            return ++factor;
+        if (logger.isDebugEnabled()) {
+            logger.debug("Created COBOL data item: " + cobolDataItem);
         }
+
+        return cobolDataItem;
+
     }
 
     /**
      * @return the Cobol Name Resolver
      */
     public CobolNameResolver getNameResolver() {
-        return mNameResolver;
+        return nameResolver;
+    }
+
+    /**
+     * @return the root COBOL Data Item
+     */
+    public CobolDataItem getRootDataItem() {
+        return rootDataItem;
     }
 
 }

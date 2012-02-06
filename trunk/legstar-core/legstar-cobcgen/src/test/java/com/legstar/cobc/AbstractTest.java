@@ -1,4 +1,4 @@
-package com.legstar.cobol.gen;
+package com.legstar.cobc;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +16,9 @@ public abstract class AbstractTest extends TestCase {
     /** Reference folder. */
     public static final File REF_DIR = new File("src/test/resources/reference");
 
+    /** Produce copybooks in this location. */
+    public static final File GEN_DIR = new File("target/gen/cobol");
+
     /** Extension added to reference files. */
     public static final String REF_FILE_EXT = "txt";
 
@@ -25,6 +28,7 @@ public abstract class AbstractTest extends TestCase {
         if (isCreateReferences()) {
             cleanOldReferences();
         }
+        GEN_DIR.mkdirs();
     }
 
     /**

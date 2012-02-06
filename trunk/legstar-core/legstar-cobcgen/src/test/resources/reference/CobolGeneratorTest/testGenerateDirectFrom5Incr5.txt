@@ -1,0 +1,12 @@
+      * ----------------------------------------------------------------
+      * Generated copybook for COM-LSFILEAE
+      * ----------------------------------------------------------------
+       05  COM-LSFILEAE.
+           10  COM-NUMBER PIC 9(6).
+           10  COM-PERSONAL.
+               15  COM-NAME PIC X(20).
+               15  COM-ADDRESS PIC X(20).
+               15  COM-PHONE PIC X(8).
+           10  COM-DATE PIC X(8).
+           10  COM-AMOUNT PIC X(8).
+           10  COM-COMMENT PIC X(9).
