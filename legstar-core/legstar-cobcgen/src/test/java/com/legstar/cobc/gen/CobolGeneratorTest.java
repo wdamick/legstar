@@ -10,23 +10,26 @@
  ******************************************************************************/
 package com.legstar.cobc.gen;
 
+import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.BuildException;
+
+import com.legstar.cobc.AbstractTest;
 
 /**
  * Test CobolGenerator.
  * 
  */
-public class CobolGeneratorTest extends AbstractTester {
+public class CobolGeneratorTest extends AbstractTest {
 
-    /** Need to be platform independent. */
-    private static final String CRLF = System.getProperty("line.separator");
+    /** True when references should be created. */
+    private static final boolean CREATE_REFERENCES = false;
 
-    /** Logger. */
-    private final Log _log = LogFactory.getLog(CobolGeneratorTest.class);
+    public boolean isCreateReferences() {
+        return CREATE_REFERENCES;
+    }
 
     /**
      * Test instantiation.
@@ -89,13 +92,10 @@ public class CobolGeneratorTest extends AbstractTester {
             gen.setJaxbTypeName("Dfhcommarea");
             gen.setJaxbPackageName("com.legstar.test.coxb.lsfileae");
             gen.setTargetDir(GEN_DIR);
+            gen.setCobolRootDataItemName("COM-LSFILEAE");
             gen.execute();
-            String source = getSource(GEN_DIR, "Dfhcommarea.cbl");
-            assertTrue(source.contains("01 Dfhcommarea."));
-            assertTrue(source.contains("02 COM-NUMBER PIC 9(6)."));
-            assertTrue(source.contains("02 COM-PERSONAL."));
-            assertTrue(source.contains("03 COM-NAME PIC X(20)."));
-            assertTrue(source.contains("02 COM-DATE PIC X(8)."));
+            check(FileUtils.readFileToString(new File(GEN_DIR,
+                    "Dfhcommarea.cbl")));
         } catch (BuildException e) {
             fail(e.getMessage());
         } catch (IOException e) {
@@ -110,12 +110,8 @@ public class CobolGeneratorTest extends AbstractTester {
             gen.setTargetDir(GEN_DIR);
             gen.setCobolRootDataItemName("COM-LSFILEAE");
             gen.execute();
-            String source = getSource(GEN_DIR, "Dfhcommarea.cbl");
-            assertTrue(source.contains("COM-LSFILEAE."));
-            assertTrue(source.contains("02 COM-NUMBER PIC 9(6)."));
-            assertTrue(source.contains("02 COM-PERSONAL."));
-            assertTrue(source.contains("03 COM-NAME PIC X(20)."));
-            assertTrue(source.contains("02 COM-DATE PIC X(8)."));
+            check(FileUtils.readFileToString(new File(GEN_DIR,
+                    "Dfhcommarea.cbl")));
         } catch (BuildException e) {
             fail(e.getMessage());
         } catch (IOException e) {
@@ -131,12 +127,7 @@ public class CobolGeneratorTest extends AbstractTester {
             gen.setCobolRootDataItemName("COM-LSFILEAE");
             gen.setTargetCobolFileName("lsfileae.cpy");
             gen.execute();
-            String source = getSource(GEN_DIR, "lsfileae.cpy");
-            assertTrue(source.contains("COM-LSFILEAE."));
-            assertTrue(source.contains("02 COM-NUMBER PIC 9(6)."));
-            assertTrue(source.contains("02 COM-PERSONAL."));
-            assertTrue(source.contains("03 COM-NAME PIC X(20)."));
-            assertTrue(source.contains("02 COM-DATE PIC X(8)."));
+            check(FileUtils.readFileToString(new File(GEN_DIR, "lsfileae.cpy")));
         } catch (BuildException e) {
             fail(e.getMessage());
         } catch (IOException e) {
@@ -147,7 +138,7 @@ public class CobolGeneratorTest extends AbstractTester {
     /**
      * @throws Exception
      */
-    public void testGenerateCultureInfo() {
+    public void testGenerateCultureInfoRequest() {
         try {
             CobolGenerator gen = new CobolGenerator();
             gen.setJaxbTypeName("CultureInfoParameters");
@@ -156,14 +147,67 @@ public class CobolGeneratorTest extends AbstractTester {
             gen.setCobolRootDataItemName("COM-REQUEST");
             gen.setTargetCobolFileName("cultureinfo-request.cpy");
             gen.execute();
-            String source = getSource(GEN_DIR, "cultureinfo-request.cpy");
-            assertTrue(source.contains("COM-REQUEST."));
+            check(FileUtils.readFileToString(new File(GEN_DIR,
+                    "cultureinfo-request.cpy")));
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * @throws Exception
+     */
+    public void testGenerateCultureInfoReply() {
+        try {
+            CobolGenerator gen = new CobolGenerator();
             gen.setJaxbTypeName("CultureInfoReply");
+            gen.setJaxbPackageName("com.legstar.test.coxb.cultureinfo");
+            gen.setTargetDir(GEN_DIR);
             gen.setCobolRootDataItemName("COM-REPLY");
             gen.setTargetCobolFileName("cultureinfo-reply.cpy");
             gen.execute();
-            String source2 = getSource(GEN_DIR, "cultureinfo-reply.cpy");
-            assertTrue(source2.contains("COM-REPLY."));
+            check(FileUtils.readFileToString(new File(GEN_DIR,
+                    "cultureinfo-reply.cpy")));
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * @throws Exception
+     */
+    public void testGenerateDplarcht() {
+        try {
+            CobolGenerator gen = new CobolGenerator();
+            gen.setJaxbTypeName("Dfhcommarea");
+            gen.setJaxbPackageName("com.legstar.test.coxb.dplarcht");
+            gen.setTargetDir(GEN_DIR);
+            gen.setCobolRootDataItemName("DFHCOMMAREA");
+            gen.setTargetCobolFileName("dplarcht.cpy");
+            gen.execute();
+            check(FileUtils.readFileToString(new File(GEN_DIR, "dplarcht.cpy")));
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * @throws Exception
+     */
+    public void testGenerateMSNSearch() {
+        try {
+            CobolGenerator gen = new CobolGenerator();
+            gen.setJaxbTypeName("Search");
+            gen.setJaxbPackageName("com.legstar.test.coxb.MSNSearch");
+            gen.setTargetDir(GEN_DIR);
+            gen.setCobolRootDataItemName("COM-MSNSEARCH");
+            gen.setTargetCobolFileName("msnsearch.cpy");
+            gen.execute();
+            check(FileUtils
+                    .readFileToString(new File(GEN_DIR, "msnsearch.cpy")));
         } catch (IOException e) {
             fail(e.getMessage());
         }
@@ -172,106 +216,46 @@ public class CobolGeneratorTest extends AbstractTester {
 
     /**
      * Test the generate method directly.
+     * 
+     * @throws CobolGenerationException if generation fails
      */
-    public void testGenerateDirect() {
-        try {
-            String code = CobolGenerator.generate(
-                    "com.legstar.test.coxb.lsfileae", "Dfhcommarea",
-                    "COM-LSFILEAE", 5, 5);
-            _log.debug(code);
-            assertEquals(""
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           05 COM-LSFILEAE." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               10 COM-NUMBER PIC 9(6)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               10 COM-PERSONAL." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "                   15 COM-NAME PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "                   15 COM-ADDRESS PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "                   15 COM-PHONE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               10 COM-DATE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               10 COM-AMOUNT PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               10 COM-COMMENT PIC X(9)." + CRLF, code);
+    public void testGenerateDirectFrom5Incr5() throws CobolGenerationException {
+        String code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                "Dfhcommarea", "COM-LSFILEAE", 5, 5);
+        check(code);
+    }
 
-            code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea", "COM-LSFILEAE", 1, 1);
-            _log.debug(code);
+    /**
+     * Test the generate method directly.
+     * 
+     * @throws CobolGenerationException if generation fails
+     */
+    public void testGenerateDirectFrom1Incr1() throws CobolGenerationException {
+        String code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                "Dfhcommarea", "COM-LSFILEAE", 1, 1);
+        check(code);
+    }
 
-            assertEquals(""
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "       01 COM-LSFILEAE." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           02 COM-NUMBER PIC 9(6)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           02 COM-PERSONAL." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-NAME PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-ADDRESS PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-PHONE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           02 COM-DATE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           02 COM-AMOUNT PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           02 COM-COMMENT PIC X(9)." + CRLF, code);
+    /**
+     * Test the generate method directly.
+     * 
+     * @throws CobolGenerationException if generation fails
+     */
+    public void testGenerateDirectFrom2Incr1() throws CobolGenerationException {
+        String code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                "Dfhcommarea", "COM-LSFILEAE", 2, 1);
+        check(code);
+    }
 
-            code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea", "COM-LSFILEAE", 2, 1);
-            _log.debug(code);
-
-            assertEquals(""
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           02 COM-LSFILEAE." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-NUMBER PIC 9(6)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-PERSONAL." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "                   04 COM-NAME PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "                   04 COM-ADDRESS PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "                   04 COM-PHONE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-DATE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-AMOUNT PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               03 COM-COMMENT PIC X(9)." + CRLF, code);
-            code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
-                    "Dfhcommarea", "COM-LSFILEAE", 1, 2);
-            _log.debug(code);
-
-            assertEquals(""
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "       01 COM-LSFILEAE." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           03 COM-NUMBER PIC 9(6)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           03 COM-PERSONAL." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               05 COM-NAME PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               05 COM-ADDRESS PIC X(20)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "               05 COM-PHONE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           03 COM-DATE PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           03 COM-AMOUNT PIC X(8)." + CRLF
-            /* 123456789012345678901234567890123456789012345678901234567890123456789012 */
-            + "           03 COM-COMMENT PIC X(9)." + CRLF, code);
-        } catch (CobolGenerationException e) {
-            fail(e.getMessage());
-        }
+    /**
+     * Test the generate method directly.
+     * 
+     * @throws CobolGenerationException if generation fails
+     */
+    public void testGenerateDirectFrom1Incr2() throws CobolGenerationException {
+        String code = CobolGenerator.generate("com.legstar.test.coxb.lsfileae",
+                "Dfhcommarea", "COM-LSFILEAE", 1, 2);
+        check(code);
     }
 
 }

@@ -1,4 +1,4 @@
       * ----------------------------------------------------------------
       * Generated copybook for CUSTOMER-DATA
       * ----------------------------------------------------------------
-       01  CUSTOMER-DATA PIC 9(4) COMP VALUE -5.
+       01  CUSTOMER-DATA PIC 9(4) BINARY VALUE -5.

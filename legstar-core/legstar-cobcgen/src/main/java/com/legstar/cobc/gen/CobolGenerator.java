@@ -14,7 +14,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +21,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 import com.legstar.cobol.gen.CobolNameResolver;
+import com.legstar.cobol.gen.CopybookGenerator;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
@@ -204,18 +204,14 @@ public class CobolGenerator extends Task {
                 cobolRootName = getCobolNameResolver().getName(jaxbType);
             }
             ccem.setCobolName(cobolRootName);
-            StringWriter writer = new StringWriter();
-            BufferedWriter bufWriter = new BufferedWriter(writer);
             CobolGenVisitor cev = new CobolGenVisitor(firstCobolLevel,
-                    cobolLevelIncrement, bufWriter);
+                    cobolLevelIncrement);
             ccem.accept(cev);
-            bufWriter.flush();
-            return writer.toString();
+
+            return CopybookGenerator.generate(cev.getRootDataItem());
         } catch (ReflectBindingException e) {
             throw new CobolGenerationException(e);
         } catch (HostException e) {
-            throw new CobolGenerationException(e);
-        } catch (IOException e) {
             throw new CobolGenerationException(e);
         } catch (JAXBAnnotationException e) {
             throw new CobolGenerationException(e);

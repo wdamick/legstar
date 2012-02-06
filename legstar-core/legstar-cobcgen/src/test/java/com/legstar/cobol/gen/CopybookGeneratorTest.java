@@ -1,8 +1,10 @@
 package com.legstar.cobol.gen;
 
+import com.legstar.cobc.AbstractTest;
 import com.legstar.cobol.model.CobolDataItem;
 import com.legstar.cobol.model.CobolDataItem.Range;
-import com.legstar.cobol.model.CobolDataItem.Usage;
+import com.legstar.coxb.CobolUsage;
+import com.legstar.coxb.CobolUsage.Usage;
 
 public class CopybookGeneratorTest extends AbstractTest {
 
@@ -95,21 +97,21 @@ public class CopybookGeneratorTest extends AbstractTest {
 
     public void testUsageNoPicture() {
         CobolDataItem cobolDataItem = new CobolDataItem(1, "CUSTOMER-DATA");
-        cobolDataItem.setUsage(CobolDataItem.Usage.DOUBLEFLOAT);
+        cobolDataItem.setUsage(CobolUsage.Usage.DOUBLEFLOAT);
         check(CopybookGenerator.generate(cobolDataItem));
     }
 
     public void testUsageAndPicture() {
         CobolDataItem cobolDataItem = new CobolDataItem(1, "CUSTOMER-DATA");
         cobolDataItem.setPicture("9(4)");
-        cobolDataItem.setUsage(CobolDataItem.Usage.BINARY);
+        cobolDataItem.setUsage(CobolUsage.Usage.BINARY);
         check(CopybookGenerator.generate(cobolDataItem));
     }
 
     public void testWithShortNumericValue() {
         CobolDataItem cobolDataItem = new CobolDataItem(1, "CUSTOMER-DATA");
         cobolDataItem.setPicture("9(4)");
-        cobolDataItem.setUsage(CobolDataItem.Usage.BINARY);
+        cobolDataItem.setUsage(CobolUsage.Usage.BINARY);
         cobolDataItem.setValue("-5");
         check(CopybookGenerator.generate(cobolDataItem));
     }
