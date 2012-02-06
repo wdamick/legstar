@@ -8,7 +8,7 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.cobc.gen;
+package com.legstar.cobol.gen;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.Properties;
 
 /**
@@ -69,10 +70,8 @@ public class CobolNameResolver {
      * 
      * @param hint a potential content for the cobol name
      * @return a valid cobol name
-     * @throws IOException if cobol reserved word file cannot be loaded
-     * @throws CobolNameResolverException if a unique name cannot be determined
      */
-    public String getUniqueName(final String hint) throws IOException {
+    public String getUniqueName(final String hint) {
         String cobolName = getName(hint);
 
         /* Make sure this is a unique name otherwise build a unique one */
@@ -90,9 +89,8 @@ public class CobolNameResolver {
      * 
      * @param hint a potential content for the cobol name
      * @return a valid cobol name
-     * @throws IOException if cobol reserved word file cannot be loaded
      */
-    public String getName(final String hint) throws IOException {
+    public String getName(final String hint) {
 
         /* Make sure proposed name only contains valid cobol characters */
         String cobolName = switchCharacters(hint);
@@ -130,10 +128,8 @@ public class CobolNameResolver {
      * @return null if this is not a reserved word, empty string if it is a
      *         reserved word but there are no proposed substitutions otherwise
      *         the proposed substitution
-     * @throws IOException if cobol reserved word file cannot be loaded
      */
-    protected String getSubstituteWord(final String cobolName)
-            throws IOException {
+    protected String getSubstituteWord(final String cobolName) {
         if (_reservedWords == null) {
             _reservedWords = loadProperties(RWS_FILE_NAME);
         }
@@ -235,8 +231,7 @@ public class CobolNameResolver {
      * @return a loaded Properties instance
      * @throws IOException if content cannot be located
      */
-    protected Properties loadProperties(final String location)
-            throws IOException {
+    protected Properties loadProperties(final String location) {
         InputStream stream = null;
         try {
             Properties props = new Properties();
@@ -250,9 +245,16 @@ public class CobolNameResolver {
             }
             props.load(stream);
             return props;
+        } catch (IOException e) {
+            throw new MissingResourceException("Unable to locate resource "
+                    + location, "InputStream", location);
         } finally {
             if (stream != null) {
-                stream.close();
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    // Eat this one
+                }
             }
         }
 

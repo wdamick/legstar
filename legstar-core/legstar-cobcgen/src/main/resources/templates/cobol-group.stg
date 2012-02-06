@@ -1,0 +1,121 @@
+group cobol-group;
+
+/**
+ * Template to convert a COBOL data item to a COBOL copybook.
+ */
+toCobolCopybook(cobolDataItem) ::= <<
+      * ----------------------------------------------------------------
+      * Generated copybook for $cobolDataItem.cobolName$
+      * ----------------------------------------------------------------
+$writeStatement(cobolDataItem)$
+>>
+
+writeStatement(cobolDataItem) ::= <<
+$indentStatement(cobolDataItem)$
+$cobolDataItem.children:writeStatement(cobolDataItem=it)$
+>>
+
+indentStatement(cobolDataItem) ::= <<
+$cobolDataItem.levelNumber;format="depth"$$cobolDataItem.levelNumber;format="level"$  $cobolDataItem.cobolName$$redefines(cobolDataItem)$$occurs(cobolDataItem)$$attributes(cobolDataItem)$$value(cobolDataItem)$.
+>>
+
+redefines(cobolDataItem) ::= <<
+$if(cobolDataItem.redefines)$
+ REDEFINES $cobolDataItem.redefines$$endif$
+>>
+
+attributes(cobolDataItem) ::= <<
+$external(cobolDataItem)$$global(cobolDataItem)$$picture(cobolDataItem)$$usage(cobolDataItem)$$blankWhenZero(cobolDataItem)$$justifiedRight(cobolDataItem)$$sign(cobolDataItem)$$dateFormat(cobolDataItem)$$synchronized(cobolDataItem)$
+>>
+
+picture(cobolDataItem) ::= <<
+$if(cobolDataItem.picture)$
+ PIC $cobolDataItem.picture$$endif$
+>>
+
+usage(cobolDataItem) ::= <<
+$if(cobolDataItem.cobolUsage)$
+$\ $$cobolDataItem.cobolUsage$$endif$
+>>
+
+occurs(cobolDataItem) ::= <<
+$if(cobolDataItem.array)$
+ OCCURS $cobolDataItem.minOccurs$$dependingOn(cobolDataItem)$$endif$
+>>
+
+dependingOn(cobolDataItem) ::= <<
+$if(cobolDataItem.variableSizeArray)$
+ TO $cobolDataItem.maxOccurs$ DEPENDING ON $cobolDataItem.dependingOn$$endif$
+>>
+
+value(cobolDataItem) ::= <<
+$if(cobolDataItem.dataDescription)$
+$dataDescriptionValue(cobolDataItem)$$elseif(cobolDataItem.condition)$
+$conditionValue(cobolDataItem)$$elseif(cobolDataItem.renames)$
+$renamesValue(cobolDataItem)$$endif$
+>>
+
+dataDescriptionValue(cobolDataItem) ::= <<
+$if(cobolDataItem.value)$
+ VALUE $cobolDataItem.value$$endif$
+>>
+
+conditionValue(cobolDataItem) ::= <<
+ VALUE $cobolDataItem.conditionLiterals;separator=", "$$cobolDataItem.conditionRanges:conditionRange(range=it);separator=", "$
+>>
+
+conditionRange(range) ::= <<
+ $range.from$ THRU $range.to$
+>>
+
+renamesValue(cobolDataItem) ::= <<
+ RENAMES $cobolDataItem.renamesSubject$$renamesRange(cobolDataItem)$
+>>
+
+renamesRange(cobolDataItem) ::= <<
+$if(cobolDataItem.renamesSubjectRange)$
+  $cobolDataItem.renamesSubjectRange.from$ THRU $cobolDataItem.renamesSubjectRange.to$$endif$
+>>
+
+
+blankWhenZero(cobolDataItem) ::= <<
+$if(cobolDataItem.blankWhenZero)$
+ BLANK WHEN ZERO$endif$
+>>
+
+external(cobolDataItem) ::= <<
+$if(cobolDataItem.external)$
+ EXTERNAL$endif$
+>>
+
+global(cobolDataItem) ::= <<
+$if(cobolDataItem.global)$
+ GLOBAL$endif$
+>>
+
+justifiedRight(cobolDataItem) ::= <<
+$if(cobolDataItem.justifiedRight)$
+ JUSTIFIED RIGHT$endif$
+>>
+
+sign(cobolDataItem) ::= <<
+$if(cobolDataItem.sign)$$if(cobolDataItem.signLeading)$
+ SIGN LEADING$else$
+ SIGN TRAILING$endif$$signSeparate(cobolDataItem)$$endif$
+>>
+
+signSeparate(cobolDataItem) ::= <<
+$if(cobolDataItem.signSeparate)$
+ SEPARATE$endif$
+>>
+
+dateFormat(cobolDataItem) ::= <<
+$if(cobolDataItem.dateFormat)$
+ DATE FORMAT $cobolDataItem.dateFormat$$endif$
+>>
+
+
+synchronized(cobolDataItem) ::= <<
+$if(cobolDataItem.synchronized)$
+ SYNCHRONIZED$endif$
+>>

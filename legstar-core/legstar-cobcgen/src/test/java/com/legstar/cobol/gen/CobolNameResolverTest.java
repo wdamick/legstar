@@ -8,7 +8,7 @@
  * Contributors:
  *     LegSem - initial API and implementation
  ******************************************************************************/
-package com.legstar.cobc.gen;
+package com.legstar.cobol.gen;
 
 import junit.framework.TestCase;
 

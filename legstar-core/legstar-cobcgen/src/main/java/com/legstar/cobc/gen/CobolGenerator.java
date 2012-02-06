@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import com.legstar.cobol.gen.CobolNameResolver;
 import com.legstar.coxb.host.HostException;
 import com.legstar.coxb.impl.reflect.CComplexReflectBinding;
 import com.legstar.coxb.impl.reflect.ReflectBindingException;
@@ -28,8 +29,8 @@ import com.legstar.coxb.util.JAXBAnnotationException;
 import com.legstar.coxb.util.JAXBElementDescriptor;
 
 /**
- * This Ant task generates a Cobol data description source that can be used as
- * a copybook in a regular Cobol program. The Data description is extracted from
+ * This Ant task generates a Cobol data description source that can be used as a
+ * copybook in a regular Cobol program. The Data description is extracted from
  * Cobol annotations within a JAXB class. Such Cobol-annotated JAXB classes are
  * produced by legstar-jaxbgen.
  */
@@ -82,14 +83,10 @@ public class CobolGenerator extends Task {
                 + mTargetCobolFileName;
         BufferedWriter writer = null;
         try {
-            String code = generate(
-                    mJaxbPackageName,
-                    mJaxbTypeName,
-                    mCobolRootDataItemName,
-                    mFirstCobolLevel,
+            String code = generate(mJaxbPackageName, mJaxbTypeName,
+                    mCobolRootDataItemName, mFirstCobolLevel,
                     mCobolLevelIncrement);
-            writer = new BufferedWriter(
-                    new FileWriter(new File(outPath)));
+            writer = new BufferedWriter(new FileWriter(new File(outPath)));
             writer.write(code);
         } catch (IOException e) {
             throw new BuildException(e);
@@ -126,34 +123,30 @@ public class CobolGenerator extends Task {
         }
         /* Check that we have a valid JAXB type name. */
         if (mJaxbTypeName == null || mJaxbTypeName.length() == 0) {
-            throw (new BuildException(
-                    "You must provide a JAXB type name"));
+            throw (new BuildException("You must provide a JAXB type name"));
         }
 
         /* Check that we have a valid target directory. */
         if (mTargetDir == null) {
-            throw (new BuildException(
-                    "You must provide a target directory"));
+            throw (new BuildException("You must provide a target directory"));
         }
         if (!mTargetDir.exists()) {
-            throw (new BuildException(
-                    "Directory " + mTargetDir + " does not exist"));
+            throw (new BuildException("Directory " + mTargetDir
+                    + " does not exist"));
         }
         if (!mTargetDir.isDirectory() || !mTargetDir.canWrite()) {
-            throw (new BuildException(
-                    mTargetDir + " is not a directory or is not writable"));
+            throw (new BuildException(mTargetDir
+                    + " is not a directory or is not writable"));
         }
 
         /* Check levels */
         if (mFirstCobolLevel < 0 || mFirstCobolLevel > 49) {
-            throw (new BuildException(
-                    mFirstCobolLevel
-                            + " is not a valid COBOL level number"));
+            throw (new BuildException(mFirstCobolLevel
+                    + " is not a valid COBOL level number"));
         }
         if (mCobolLevelIncrement < 0 || mCobolLevelIncrement > 49) {
-            throw (new BuildException(
-                    mCobolLevelIncrement
-                            + " is not a valid COBOL level increment"));
+            throw (new BuildException(mCobolLevelIncrement
+                    + " is not a valid COBOL level increment"));
         }
 
         /* Set valid default level related values */
@@ -171,8 +164,7 @@ public class CobolGenerator extends Task {
         }
 
         /* Set a valid target generated Cobol file name */
-        if (mTargetCobolFileName == null
-                || mTargetCobolFileName.length() == 0) {
+        if (mTargetCobolFileName == null || mTargetCobolFileName.length() == 0) {
             mTargetCobolFileName = mJaxbTypeName + ".cbl";
         }
 
@@ -182,10 +174,10 @@ public class CobolGenerator extends Task {
     }
 
     /**
-     * Using the <code>cobcgen</code> utility, this will use reflection
-     * to instantiate a Jaxb object corresponding to a structure
-     * received and then generate COBOL data description code using
-     * the COBOL annotations in the jaxb class.
+     * Using the <code>cobcgen</code> utility, this will use reflection to
+     * instantiate a Jaxb object corresponding to a structure received and then
+     * generate COBOL data description code using the COBOL annotations in the
+     * jaxb class.
      * 
      * @param jaxbPackageName the JAXB classes package name
      * @param jaxbType the JAXB class
@@ -196,12 +188,9 @@ public class CobolGenerator extends Task {
      * @return data description COBOL source code for the structure
      * @throws CobolGenerationException if code generation fails
      */
-    public static String generate(
-            final String jaxbPackageName,
-            final String jaxbType,
-            final String cobolRootDataItemName,
-            final int firstCobolLevel,
-            final int cobolLevelIncrement)
+    public static String generate(final String jaxbPackageName,
+            final String jaxbType, final String cobolRootDataItemName,
+            final int firstCobolLevel, final int cobolLevelIncrement)
             throws CobolGenerationException {
         try {
             JAXBElementDescriptor elementDescriptor = new JAXBElementDescriptor(
@@ -212,14 +201,13 @@ public class CobolGenerator extends Task {
                     objectFactory, clazz);
             String cobolRootName = cobolRootDataItemName;
             if (cobolRootName == null || cobolRootName.length() == 0) {
-                cobolRootName = getCobolNameResolver().getName(
-                        jaxbType);
+                cobolRootName = getCobolNameResolver().getName(jaxbType);
             }
             ccem.setCobolName(cobolRootName);
             StringWriter writer = new StringWriter();
             BufferedWriter bufWriter = new BufferedWriter(writer);
-            CobolGenVisitor cev = new CobolGenVisitor(
-                    firstCobolLevel, cobolLevelIncrement, bufWriter);
+            CobolGenVisitor cev = new CobolGenVisitor(firstCobolLevel,
+                    cobolLevelIncrement, bufWriter);
             ccem.accept(cev);
             bufWriter.flush();
             return writer.toString();
@@ -268,8 +256,7 @@ public class CobolGenerator extends Task {
     /**
      * @param objectName The JAXB type name to set.
      */
-    public void setJaxbTypeName(
-            final String objectName) {
+    public void setJaxbTypeName(final String objectName) {
         mJaxbTypeName = objectName;
     }
 
@@ -311,8 +298,7 @@ public class CobolGenerator extends Task {
     /**
      * @param cobolRootDataItemName the Cobol Root Data Item Name to set
      */
-    public void setCobolRootDataItemName(
-            final String cobolRootDataItemName) {
+    public void setCobolRootDataItemName(final String cobolRootDataItemName) {
         mCobolRootDataItemName = cobolRootDataItemName;
     }
 
@@ -339,8 +325,8 @@ public class CobolGenerator extends Task {
     }
 
     /**
-     * @param cobolLevelIncrement how much to increment Cobol data items
-     *            moving from parent to child
+     * @param cobolLevelIncrement how much to increment Cobol data items moving
+     *            from parent to child
      */
     public void setCobolLevelIncrement(final int cobolLevelIncrement) {
         mCobolLevelIncrement = cobolLevelIncrement;
