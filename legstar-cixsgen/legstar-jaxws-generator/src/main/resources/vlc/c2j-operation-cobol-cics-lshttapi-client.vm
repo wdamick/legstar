@@ -28,28 +28,24 @@
       *---------------------------------------------------------------*
       * Address of service provider.
       *    
-       77  W00-SERVICE-URI               PIC X(${httpURL.length()}) VALUE
-${structHelper.getCobolValueCode("'${httpURL}'", 1)}
+${structHelper.getAlphanumDataItemCode(77, "W00-SERVICE-URI", ${httpURL.length()}, "${httpURL}")}
       *    
       * Service credentials.
       *    
 #if(${httpUserId.length()} == 0)
        77  W00-USERID                    PIC X(8) VALUE SPACES.
 #else
-       77  W00-USERID                    PIC X(${httpUserId.length()}) VALUE
-${structHelper.getCobolValueCode("'${httpUserId}'", 1)}
+${structHelper.getAlphanumDataItemCode(77, "W00-USERID", ${httpUserId.length()}, "${httpUserId}")}
 #end
 #if(${httpPassword.length()} == 0)
        77  W00-PASSWORD                  PIC X(8) VALUE SPACES.
 #else
-       77  W00-PASSWORD                  PIC X(${httpPassword.length()}) VALUE
-${structHelper.getCobolValueCode("'${httpPassword}'", 1)}
+${structHelper.getAlphanumDataItemCode(77, "W00-PASSWORD", ${httpPassword.length()}, "${httpPassword}")}
 #end
       *    
       * Service requested.
       *    
-       77  W00-SERVICE-NAME              PIC X(${model.name.length()}) VALUE
-${structHelper.getCobolValueCode("'${model.name}'", 1)}
+${structHelper.getAlphanumDataItemCode(77, "W00-SERVICE-NAME", ${model.name.length()}, "${model.name}")}
            
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *

@@ -26,8 +26,9 @@
       *---------------------------------------------------------------*
       *  Constants                                                    *
       *---------------------------------------------------------------*
-       77  W00-SERVICE-URI               PIC X(53) VALUE
+       77  W00-SERVICE-URI PIC X(53) VALUE 
            'http://192.168.0.112:8080/c2ws-jvmquery/jvmqueryProxy'.
+
 
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *
@@ -83,10 +84,10 @@
       *  Request parameters expected by target web service            *
       *---------------------------------------------------------------*
        01 COM-REQUEST.
-           02 JvmQueryRequest.
-               03 envVarNames--C PIC 9(9) BINARY.
-               03 envVarNames PIC X(32) OCCURS 0 TO 10 DEPENDING ON
-                   envVarNames--C.
+           02  JvmQueryRequest.
+             03  envVarNames--C PIC 9(9) BINARY.
+             03  envVarNames OCCURS 0 TO 10 DEPENDING ON envVarNames--C
+                 PIC X(32) DISPLAY.
 
        
       *****************************************************************
@@ -98,14 +99,14 @@
       *  Reply parameters as returned by target web service           *
       *---------------------------------------------------------------*
        01 COM-REPLY.
-           02 JvmQueryReply.
-               03 envVarValues--C PIC 9(9) BINARY.
-               03 country PIC X(32).
-               03 currencySymbol PIC X(32).
-               03 envVarValues PIC X(32) OCCURS 0 TO 10 DEPENDING ON
-                   envVarValues--C.
-               03 formattedDate PIC X(32).
-               03 language PIC X(32).
+           02  JvmQueryReply.
+             03  envVarValues--C PIC 9(9) BINARY.
+             03  country PIC X(32) DISPLAY.
+             03  currencySymbol PIC X(32) DISPLAY.
+             03  envVarValues OCCURS 0 TO 10 DEPENDING ON 
+                 envVarValues--C PIC X(32) DISPLAY.
+             03  formattedDate PIC X(32) DISPLAY.
+             03  language PIC X(32) DISPLAY.
 
                
       *****************************************************************

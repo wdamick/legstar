@@ -28,8 +28,9 @@
       *---------------------------------------------------------------*
       * Address of service provider.
       *    
-       77  W00-SERVICE-URI               PIC X(55) VALUE
+       77  W00-SERVICE-URI PIC X(55) VALUE 
            'http://192.168.0.112:8080/c2ws-MSNSearch/MSNSearchProxy'.
+
       *    
       * Service credentials.
       *    
@@ -38,8 +39,8 @@
       *    
       * Service requested.
       *    
-       77  W00-SERVICE-NAME              PIC X(9) VALUE
-           'MSNSearch'.
+       77  W00-SERVICE-NAME PIC X(9) VALUE 'MSNSearch'.
+
            
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *
@@ -87,37 +88,37 @@
       *  Request parameters expected by target web service            *
       *---------------------------------------------------------------*
        01 COM-REQUEST.
-           02 R-Search.
-               03 Flags--C PIC 9(9) BINARY.
-               03 SortBy--C PIC 9(9) BINARY.
-               03 ResultFields--C PIC 9(9) BINARY.
-               03 R-string--C PIC 9(9) BINARY.
-               03 SourceRequest--C PIC 9(9) BINARY.
-               03 Request.
-                   04 AppID PIC X(40).
-                   04 Query PIC X(128).
-                   04 CultureInfo PIC X(32).
-                   04 SafeSearch PIC X(32).
-                   04 Flags PIC X(32) OCCURS 1 TO 10 DEPENDING ON
-                       Flags--C.
-                   04 Location.
-                       05 Latitude COMP-2.
-                       05 Longitude COMP-2.
-                       05 Radius COMP-2.
-                   04 Requests.
-                       05 SourceRequest OCCURS 0 TO 10 DEPENDING ON
-                           SourceRequest--C.
-                           06 R-Source PIC X(32).
-                           06 Offset PIC 9(9) COMP-5.
-                           06 R-Count PIC 9(9) COMP-5.
-                           06 FileType PIC X(32).
-                           06 SortBy PIC X(32) OCCURS 1 TO 10 DEPENDING
-                               ON SortBy--C.
-                           06 ResultFields PIC X(32) OCCURS 1 TO 10
-                               DEPENDING ON ResultFields--C.
-                           06 SearchTagFilters.
-                               07 R-string PIC X(32) OCCURS 0 TO 10
-                                   DEPENDING ON R-string--C.
+           02  R-Search.
+             03  Flags--C PIC 9(9) BINARY.
+             03  SortBy--C PIC 9(9) BINARY.
+             03  ResultFields--C PIC 9(9) BINARY.
+             03  R-string--C PIC 9(9) BINARY.
+             03  SourceRequest--C PIC 9(9) BINARY.
+             03  Request.
+               04  AppID PIC X(40) DISPLAY.
+               04  Query PIC X(128) DISPLAY.
+               04  CultureInfo PIC X(32) DISPLAY.
+               04  SafeSearch PIC X(32) DISPLAY.
+               04  Flags OCCURS 1 TO 10 DEPENDING ON Flags--C PIC X(32) 
+                   DISPLAY.
+               04  Location.
+                 05  Latitude COMP-2.
+                 05  Longitude COMP-2.
+                 05  Radius COMP-2.
+               04  Requests.
+                 05  SourceRequest OCCURS 0 TO 10 DEPENDING ON 
+                     SourceRequest--C.
+                   06  R-Source PIC X(32) DISPLAY.
+                   06  Offset PIC 9(9) COMP-5.
+                   06  R-Count PIC 9(9) COMP-5.
+                   06  FileType PIC X(32) DISPLAY.
+                   06  SortBy OCCURS 1 TO 10 DEPENDING ON SortBy--C PIC 
+                       X(32) DISPLAY.
+                   06  ResultFields OCCURS 1 TO 10 DEPENDING ON 
+                       ResultFields--C PIC X(32) DISPLAY.
+                   06  SearchTagFilters.
+                     07  R-string OCCURS 0 TO 10 DEPENDING ON 
+                         R-string--C PIC X(32) DISPLAY.
 
        
       *****************************************************************
@@ -129,88 +130,84 @@
       *  Reply parameters as returned by target web service           *
       *---------------------------------------------------------------*
        01 COM-REPLY.
-           02 SearchResponse.
-               03 SearchTag--C PIC 9(9) BINARY.
-               03 Result--C PIC 9(9) BINARY.
-               03 SourceResponse--C PIC 9(9) BINARY.
-               03 Response.
-                   04 Responses.
-                       05 SourceResponse OCCURS 0 TO 10 DEPENDING ON
-                           SourceResponse--C.
-                           06 R-Source PIC X(32).
-                           06 Offset PIC 9(9) COMP-5.
-                           06 Total PIC 9(9) COMP-5.
-                           06 RecourseQuery PIC X(32).
-                           06 Results.
-                               07 Result OCCURS 0 TO 10 DEPENDING ON
-                                   Result--C.
-                                   08 R-Title PIC X(32).
-                                   08 Description PIC X(256).
-                                   08 Url PIC X(32).
-                                   08 DisplayUrl PIC X(32).
-                                   08 CacheUrl PIC X(32).
-                                   08 R-Source0 PIC X(32).
-                                   08 SearchTags PIC X(32).
-                                   08 Phone PIC X(32).
-                                   08 DateTime.
-                                       09 Year PIC 9(9) COMP-5.
-                                       09 Month PIC 9(9) COMP-5.
-                                       09 R-Day PIC 9(9) COMP-5.
-                                       09 Hour PIC 9(9) COMP-5.
-                                       09 Minute PIC 9(9) COMP-5.
-                                       09 Second PIC 9(9) COMP-5.
-                                   08 R-Address.
-                                       09 AddressLine PIC X(32).
-                                       09 PrimaryCity PIC X(32).
-                                       09 SecondaryCity PIC X(32).
-                                       09 Subdivision PIC X(32).
-                                       09 PostalCode PIC X(32).
-                                       09 CountryRegion PIC X(32).
-                                       09 FormattedAddress PIC X(32).
-                                   08 Location.
-                                       09 Latitude COMP-2.
-                                       09 Longitude COMP-2.
-                                       09 Radius COMP-2.
-                                   08 SearchTagsArray.
-                                       09 SearchTag OCCURS 0 TO 10
-                                           DEPENDING ON SearchTag--C.
-                                           10 Name PIC X(32).
-                                           10 R-Value PIC X(32).
-                                   08 Summary PIC X(32).
-                                   08 ResultType PIC X(32).
-                                   08 Image.
-                                       09 ImageURL PIC X(32).
-                                       09 ImageWidth PIC 9(9) COMP-5.
-                                       09 ImageHeight PIC 9(9) COMP-5.
-                                       09 ImageFileSize PIC 9(9) COMP-5.
-                                       09 ThumbnailURL PIC X(32).
-                                       09 ThumbnailWidth PIC 9(9) COMP-5
-                                           .
-                                       09 ThumbnailHeight PIC 9(9)
-                                           COMP-5.
-                                       09 ThumbnailFileSize PIC 9(9)
-                                           COMP-5.
-                                   08 Video.
-                                       09 PlayUrl PIC X(32).
-                                       09 SourceTitle PIC X(32).
-                                       09 Format PIC X(32).
-                                       09 RunTime PIC 9(9) COMP-5.
-                                       09 Width PIC 9(9) COMP-5.
-                                       09 Height PIC 9(9) COMP-5.
-                                       09 FileSize PIC 9(9) COMP-5.
-                                       09 StaticThumbnail.
-                                           10 URL PIC X(32).
-                                           10 Format0 PIC X(32).
-                                           10 Width0 PIC 9(9) COMP-5.
-                                           10 Height0 PIC 9(9) COMP-5.
-                                           10 FileSize0 PIC 9(9) COMP-5.
-                                       09 MotionThumbnail.
-                                           10 URL0 PIC X(32).
-                                           10 Format1 PIC X(32).
-                                           10 RunTime0 PIC 9(9) COMP-5.
-                                           10 Width1 PIC 9(9) COMP-5.
-                                           10 Height1 PIC 9(9) COMP-5.
-                                           10 FileSize1 PIC 9(9) COMP-5.
+           02  SearchResponse.
+             03  SearchTag--C PIC 9(9) BINARY.
+             03  Result--C PIC 9(9) BINARY.
+             03  SourceResponse--C PIC 9(9) BINARY.
+             03  Response.
+               04  Responses.
+                 05  SourceResponse OCCURS 0 TO 10 DEPENDING ON 
+                     SourceResponse--C.
+                   06  R-Source PIC X(32) DISPLAY.
+                   06  Offset PIC 9(9) COMP-5.
+                   06  Total PIC 9(9) COMP-5.
+                   06  RecourseQuery PIC X(32) DISPLAY.
+                   06  Results.
+                     07  Result OCCURS 0 TO 10 DEPENDING ON Result--C.
+                       08  R-Title PIC X(32) DISPLAY.
+                       08  Description PIC X(256) DISPLAY.
+                       08  Url PIC X(32) DISPLAY.
+                       08  DisplayUrl PIC X(32) DISPLAY.
+                       08  CacheUrl PIC X(32) DISPLAY.
+                       08  R-Source0 PIC X(32) DISPLAY.
+                       08  SearchTags PIC X(32) DISPLAY.
+                       08  Phone PIC X(32) DISPLAY.
+                       08  DateTime.
+                         09  Year PIC 9(9) COMP-5.
+                         09  Month PIC 9(9) COMP-5.
+                         09  R-Day PIC 9(9) COMP-5.
+                         09  Hour PIC 9(9) COMP-5.
+                         09  Minute PIC 9(9) COMP-5.
+                         09  Second PIC 9(9) COMP-5.
+                       08  R-Address.
+                         09  AddressLine PIC X(32) DISPLAY.
+                         09  PrimaryCity PIC X(32) DISPLAY.
+                         09  SecondaryCity PIC X(32) DISPLAY.
+                         09  Subdivision PIC X(32) DISPLAY.
+                         09  PostalCode PIC X(32) DISPLAY.
+                         09  CountryRegion PIC X(32) DISPLAY.
+                         09  FormattedAddress PIC X(32) DISPLAY.
+                       08  Location.
+                         09  Latitude COMP-2.
+                         09  Longitude COMP-2.
+                         09  Radius COMP-2.
+                       08  SearchTagsArray.
+                         09  SearchTag OCCURS 0 TO 10 DEPENDING ON 
+                             SearchTag--C.
+                           10  Name PIC X(32) DISPLAY.
+                           10  R-Value PIC X(32) DISPLAY.
+                         08  Summary PIC X(32) DISPLAY.
+                         08  ResultType PIC X(32) DISPLAY.
+                         08  Image.
+                           09  ImageURL PIC X(32) DISPLAY.
+                           09  ImageWidth PIC 9(9) COMP-5.
+                           09  ImageHeight PIC 9(9) COMP-5.
+                           09  ImageFileSize PIC 9(9) COMP-5.
+                           09  ThumbnailURL PIC X(32) DISPLAY.
+                           09  ThumbnailWidth PIC 9(9) COMP-5.
+                           09  ThumbnailHeight PIC 9(9) COMP-5.
+                           09  ThumbnailFileSize PIC 9(9) COMP-5.
+                         08  Video.
+                           09  PlayUrl PIC X(32) DISPLAY.
+                           09  SourceTitle PIC X(32) DISPLAY.
+                           09  Format PIC X(32) DISPLAY.
+                           09  RunTime PIC 9(9) COMP-5.
+                           09  Width PIC 9(9) COMP-5.
+                           09  Height PIC 9(9) COMP-5.
+                           09  FileSize PIC 9(9) COMP-5.
+                           09  StaticThumbnail.
+                             10  URL PIC X(32) DISPLAY.
+                             10  Format0 PIC X(32) DISPLAY.
+                             10  Width0 PIC 9(9) COMP-5.
+                             10  Height0 PIC 9(9) COMP-5.
+                             10  FileSize0 PIC 9(9) COMP-5.
+                           09  MotionThumbnail.
+                             10  URL0 PIC X(32) DISPLAY.
+                             10  Format1 PIC X(32) DISPLAY.
+                             10  RunTime0 PIC 9(9) COMP-5.
+                             10  Width1 PIC 9(9) COMP-5.
+                             10  Height1 PIC 9(9) COMP-5.
+                             10  FileSize1 PIC 9(9) COMP-5.
 
                
       *****************************************************************

@@ -28,9 +28,10 @@
       *---------------------------------------------------------------*
       * Address of service provider.
       *    
-       77  W00-SERVICE-URI               PIC X(59) VALUE
+       77  W00-SERVICE-URI PIC X(59) VALUE 
            'http://192.168.0.112:8080/c2ws-cultureinfo/cultureinfoProxy'
-               .
+           .
+
       *    
       * Service credentials.
       *    
@@ -39,8 +40,8 @@
       *    
       * Service requested.
       *    
-       77  W00-SERVICE-NAME              PIC X(11) VALUE
-           'cultureinfo'.
+       77  W00-SERVICE-NAME PIC X(11) VALUE 'cultureinfo'.
+
            
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *
@@ -88,10 +89,10 @@
       *  Request parameters expected by target web service            *
       *---------------------------------------------------------------*
        01 COM-REQUEST.
-           02 GetInfo.
-               03 arg0.
-                   04 cultureCode PIC X(32).
-                   04 decimalNumber PIC 9(7)V9(2) COMP-3.
+           02  GetInfo.
+             03  arg0.
+               04  cultureCode PIC X(32) DISPLAY.
+               04  decimalNumber PIC 9(7)V9(2) COMP-3.
 
        
       *****************************************************************
@@ -103,17 +104,17 @@
       *  Reply parameters as returned by target web service           *
       *---------------------------------------------------------------*
        01 COM-REPLY.
-           02 GetInfoResponse.
-               03 R-return.
-                   04 currencySymbol PIC X(32).
-                   04 displayCountry PIC X(32).
-                   04 displayLanguage PIC X(32).
-                   04 formattedDate PIC X(32).
-                   04 formattedDecimalNumber PIC X(32).
-                   04 serverCultureInfo.
-                       05 cultureCode PIC X(32).
-                       05 displayCountry0 PIC X(32).
-                       05 displayLanguage0 PIC X(32).
+           02  GetInfoResponse.
+             03  R-return.
+               04  currencySymbol PIC X(32) DISPLAY.
+               04  displayCountry PIC X(32) DISPLAY.
+               04  displayLanguage PIC X(32) DISPLAY.
+               04  formattedDate PIC X(32) DISPLAY.
+               04  formattedDecimalNumber PIC X(32) DISPLAY.
+               04  serverCultureInfo.
+                 05  cultureCode PIC X(32) DISPLAY.
+                 05  displayCountry0 PIC X(32) DISPLAY.
+                 05  displayLanguage0 PIC X(32) DISPLAY.
 
                
       *****************************************************************

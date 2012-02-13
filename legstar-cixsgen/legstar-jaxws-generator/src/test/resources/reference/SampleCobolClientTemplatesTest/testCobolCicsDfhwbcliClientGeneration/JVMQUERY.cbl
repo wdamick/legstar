@@ -26,8 +26,9 @@
       *---------------------------------------------------------------*
       *  Constants                                                    *
       *---------------------------------------------------------------*
-       77  W00-SERVICE-URI               PIC X(57) VALUE
+       77  W00-SERVICE-URI PIC X(57) VALUE 
            'http://192.168.0.112:8080/c2ws-jvmqueryWs/jvmqueryWsProxy'.
+
 
       *---------------------------------------------------------------*
       *  CICS API parameters                                          *
@@ -83,11 +84,11 @@
       *  Request parameters expected by target web service            *
       *---------------------------------------------------------------*
        01 COM-REQUEST.
-           02 QueryJvm.
-               03 envVarNames--C PIC 9(9) BINARY.
-               03 arg0.
-                   04 envVarNames PIC X(32) OCCURS 0 TO 10 DEPENDING ON
-                       envVarNames--C.
+           02  QueryJvm.
+             03  envVarNames--C PIC 9(9) BINARY.
+             03  arg0.
+               04  envVarNames OCCURS 0 TO 10 DEPENDING ON 
+                   envVarNames--C PIC X(32) DISPLAY.
 
        
       *****************************************************************
@@ -99,15 +100,15 @@
       *  Reply parameters as returned by target web service           *
       *---------------------------------------------------------------*
        01 COM-REPLY.
-           02 QueryJvmResponse.
-               03 envVarValues--C PIC 9(9) BINARY.
-               03 R-return.
-                   04 country PIC X(32).
-                   04 currencySymbol PIC X(32).
-                   04 envVarValues PIC X(32) OCCURS 0 TO 10 DEPENDING ON
-                       envVarValues--C.
-                   04 formattedDate PIC X(32).
-                   04 language PIC X(32).
+           02  QueryJvmResponse.
+             03  envVarValues--C PIC 9(9) BINARY.
+             03  R-return.
+               04  country PIC X(32) DISPLAY.
+               04  currencySymbol PIC X(32) DISPLAY.
+               04  envVarValues OCCURS 0 TO 10 DEPENDING ON 
+                   envVarValues--C PIC X(32) DISPLAY.
+               04  formattedDate PIC X(32) DISPLAY.
+               04  language PIC X(32) DISPLAY.
 
                
       *****************************************************************
