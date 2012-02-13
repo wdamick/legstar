@@ -4,9 +4,9 @@
        01  COM-LSFILEAE.
            03  COM-NUMBER PIC 9(6).
            03  COM-PERSONAL.
-               05  COM-NAME PIC X(20).
-               05  COM-ADDRESS PIC X(20).
-               05  COM-PHONE PIC X(8).
+             05  COM-NAME PIC X(20).
+             05  COM-ADDRESS PIC X(20).
+             05  COM-PHONE PIC X(8).
            03  COM-DATE PIC X(8).
            03  COM-AMOUNT PIC X(8).
            03  COM-COMMENT PIC X(9).

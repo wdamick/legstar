@@ -3,32 +3,31 @@
       * ----------------------------------------------------------------
        01  DFHCOMMAREA.
            02  LS-REQUEST.
-               03  LS-REQUEST-TYPE PIC 9(4) BINARY.
-               03  LS-ALL-ITEMS PIC X(4).
-               03  LS-MAX-ITEMS REDEFINES LS-ALL-ITEMS PIC 9(4).
-               03  LS-SEARCH-CRITERIA.
-                   04  LS-STARTWITH PIC X(8).
-                   04  LS-STARTWITH-LEN PIC 9(9) PACKED-DECIMAL.
-               02  LS-REPLY.
-                   03  LS-REPLY-TYPE PIC 9(4) BINARY.
-                   03  LS-REPLY-DATA.
-                       04  LS-ITEMS-COUNT PIC 9(9) COMP-5.
-                       04  LS-ITEMS-ARRAY OCCURS 1 TO 500 DEPENDING ON 
-           LS-ITEMS-COUNT.
-                           05  LS-FILES-DATA.
-                               06  LS-FILE-NAME PIC X(8).
-                               06  LS-FILE-DSNAME PIC X(44).
-                               06  LS-FILE-ENABLESTATUS PIC X(12).
-                           05  LS-PROGRAMS-DATA REDEFINES LS-FILES-DATA.
-                               06  LS-PROGRAM-NAME PIC X(8).
-                               06  LS-PROGRAM-TYPE PIC X(12).
-                               06  LS-PROGRAM-LANGUAGE PIC X(12).
-                               06  LS-PROGRAM-LENGTH PIC S9(9) BINARY.
-                               06  LS-PROGRAM-USECOUNT PIC S9(9) BINARY.
-                               06  R-FILLER PIC X(24).
-                           05  LS-TRANSACTIONS-DATA REDEFINES 
-           LS-FILES-DATA.
-                               06  LS-TRANSACTION-NAME PIC X(8).
-                               06  LS-TRANSACTION-PROGRAM PIC X(8).
-                               06  LS-TRANSACTION-STATUS PIC X(12).
-                               06  R-FILLER0 PIC X(36).
+             03  LS-REQUEST-TYPE PIC 9(4) BINARY.
+             03  LS-ALL-ITEMS PIC X(4).
+             03  LS-MAX-ITEMS REDEFINES LS-ALL-ITEMS PIC 9(4).
+             03  LS-SEARCH-CRITERIA.
+               04  LS-STARTWITH PIC X(8).
+               04  LS-STARTWITH-LEN PIC 9(9) COMP-3.
+             02  LS-REPLY.
+               03  LS-REPLY-TYPE PIC 9(4) BINARY.
+               03  LS-REPLY-DATA.
+                 04  LS-ITEMS-COUNT PIC 9(9) COMP-5.
+                 04  LS-ITEMS-ARRAY OCCURS 1 TO 500 DEPENDING ON 
+                     LS-ITEMS-COUNT.
+                   05  LS-FILES-DATA.
+                     06  LS-FILE-NAME PIC X(8).
+                     06  LS-FILE-DSNAME PIC X(44).
+                     06  LS-FILE-ENABLESTATUS PIC X(12).
+                   05  LS-PROGRAMS-DATA REDEFINES LS-FILES-DATA.
+                     06  LS-PROGRAM-NAME PIC X(8).
+                     06  LS-PROGRAM-TYPE PIC X(12).
+                     06  LS-PROGRAM-LANGUAGE PIC X(12).
+                     06  LS-PROGRAM-LENGTH PIC S9(9) BINARY.
+                     06  LS-PROGRAM-USECOUNT PIC S9(9) BINARY.
+                     06  R-FILLER PIC X(24).
+                   05  LS-TRANSACTIONS-DATA REDEFINES LS-FILES-DATA.
+                     06  LS-TRANSACTION-NAME PIC X(8).
+                     06  LS-TRANSACTION-PROGRAM PIC X(8).
+                     06  LS-TRANSACTION-STATUS PIC X(12).
+                     06  R-FILLER0 PIC X(36).

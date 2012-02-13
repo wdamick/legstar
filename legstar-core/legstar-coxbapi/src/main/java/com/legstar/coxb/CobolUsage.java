@@ -38,7 +38,7 @@ public final class CobolUsage {
     /** A native binary numeric. */
     public static final String COMP_5 = "COMP-5";
     /** A packed numeric. */
-    public static final String PACKED_DECIMAL = "PACKED-DECIMAL";
+    public static final String PACKED_DECIMAL = "COMP-3";
     /** A single float. */
     public static final String COMP_1 = "COMP-1";
     /** A double float. */
@@ -145,7 +145,7 @@ public final class CobolUsage {
             return Usage.DOUBLEFLOAT;
         } else if (cobolUsage.equals(PACKED_DECIMAL)) {
             return Usage.PACKEDDECIMAL;
-        } else if (cobolUsage.equals("COMP-3")) {
+        } else if (cobolUsage.equals("PACKED-DECIMAL")) {
             return Usage.PACKEDDECIMAL;
         } else if (cobolUsage.equals("COMPUTATIONAL-3")) {
             return Usage.PACKEDDECIMAL;
