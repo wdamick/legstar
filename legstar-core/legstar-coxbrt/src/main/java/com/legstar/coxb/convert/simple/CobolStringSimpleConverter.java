@@ -135,6 +135,32 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
      * @param javaString java string to convert
      * @param hostCharsetName host character set
      * @param paddingChar padding character
+     * @param cobolByteLength host byte length
+     * @param isJustifiedRight is Cobol data right justified
+     * @param hostTarget target host buffer
+     * @param offset offset in target host buffer
+     * @return offset after host buffer is updated
+     * @throws CobolConversionException if conversion fails
+     */
+    public static final int toHostSingle(final String javaString,
+            final String hostCharsetName, final Byte paddingChar,
+            final int cobolByteLength, final boolean isJustifiedRight,
+            final byte[] hostTarget, final int offset)
+            throws CobolConversionException {
+        return toHostSingle(javaString, hostCharsetName, paddingChar, false,
+                cobolByteLength, isJustifiedRight, hostTarget, offset);
+    }
+
+    /**
+     * Converts a Java String to a host character stream using the host
+     * character set unless content represents binary data.
+     * <p>
+     * Any character string following this pattern: '0x[\\da-fA-F]+' is
+     * interpreted as binary content.
+     * 
+     * @param javaString java string to convert
+     * @param hostCharsetName host character set
+     * @param paddingChar padding character
      * @param failOnOverflow true if an exception should be raised if string
      *            content does not fit in target alphanumeric data item
      * @param cobolByteLength host byte length
