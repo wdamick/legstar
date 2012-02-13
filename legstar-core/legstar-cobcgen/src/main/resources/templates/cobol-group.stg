@@ -3,10 +3,14 @@ group cobol-group;
 /**
  * Template to convert a COBOL data item to a COBOL copybook.
  */
-toCobolCopybook(cobolDataItem) ::= <<
+toCobolCopybookWithHeader(cobolDataItem) ::= <<
       * ----------------------------------------------------------------
       * Generated copybook for $cobolDataItem.cobolName$
       * ----------------------------------------------------------------
+$writeStatement(cobolDataItem)$
+>>
+
+toCobolCopybook(cobolDataItem) ::= <<
 $writeStatement(cobolDataItem)$
 >>
 

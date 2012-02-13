@@ -19,10 +19,16 @@ import com.legstar.cobol.model.CobolDataItem;
  */
 public class CopybookGenerator {
 
+    /** Location where string templates resources are found. */
     public static final String TEMPLATE_BASE = "templates";
 
+    /** The stringtemplate group for all our templates. */
     public static final String COPYBOOK_TEMPLATE_GROUP_NAME = "cobol-group";
 
+    /** Template that generates a copybook with a header comment. */
+    public static final String COPYBOOK_WITH_HEADER_TEMPLATE_NAME = "toCobolCopybookWithHeader";
+
+    /** Template that generates a copybook without a header comment. */
     public static final String COPYBOOK_TEMPLATE_NAME = "toCobolCopybook";
 
     /** Size of the sequence number area. */
@@ -65,8 +71,22 @@ public class CopybookGenerator {
      * @return the COBOL copybook content
      */
     public static String generate(CobolDataItem cobolDataItem) {
+        return generate(cobolDataItem, true);
+    }
+
+    /**
+     * Generates a COBOL copybook as a string.
+     * 
+     * @param cobolDataItem the COBOL data item
+     * @param withHeader true if copybook should start with a header comment
+     * @return the COBOL copybook content
+     */
+    public static String generate(CobolDataItem cobolDataItem,
+            boolean withHeader) {
         StringTemplate copybookTemplate = getTemplate(
-                COPYBOOK_TEMPLATE_GROUP_NAME, COPYBOOK_TEMPLATE_NAME);
+                COPYBOOK_TEMPLATE_GROUP_NAME,
+                (withHeader) ? COPYBOOK_WITH_HEADER_TEMPLATE_NAME
+                        : COPYBOOK_TEMPLATE_NAME);
         copybookTemplate.registerRenderer(Integer.class,
                 new StaticIntegerRenderer());
         copybookTemplate.setAttribute("cobolDataItem", cobolDataItem);
