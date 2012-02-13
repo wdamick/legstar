@@ -9,6 +9,10 @@
     <name>LegStar WebSphere MQ Transport for CICS</name>
     <description>MQ-based connectivity to CICS.</description>
 
+    <properties>
+        <legstar-dev-wmq-lib>${legstar-dev-wmq-home}/lib</legstar-dev-wmq-lib> <!-- Used to locate MQ libs -->
+    </properties>
+
     <dependencies>
 
         <dependency>
