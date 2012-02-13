@@ -4,4 +4,4 @@
        01  CUSTOMER-DATA.
            05  CUSTOMER-NUM PIC 9.
            05  CUSTOMER-ALPHANUM OCCURS 0 TO 5 DEPENDING ON CUSTOMER-NUM
-            PIC X.
+               PIC X.

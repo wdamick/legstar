@@ -2,8 +2,10 @@ package com.legstar.cobol.gen;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 
 import org.antlr.stringtemplate.AutoIndentWriter;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Writes statements that fit into 72 columns.
@@ -17,8 +19,8 @@ public class Copybook72ColWriter extends AutoIndentWriter {
     /** Column where statements end. */
     public static final int STATEMENTS_LAST_COLUMN = 72;
 
-    /** New line and indentation (start at column 12, area B). */
-    public static final String LINE_WRAP = "\n           ";
+    /** Sentence continuation line (start at column 12, area B). */
+    public static final String LINE_CONTINUE_SENTENCE = "\n           ";
 
     /** New line and literal continuation (start at column 12, area B). */
     public static final String LINE_CONTINUE_LITERAL = "\n      -    ";
@@ -44,6 +46,18 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      */
     private char alphanumLiteralDelimiter;
 
+    /**
+     * Keeps track of the indentation so that continued sentences can have the
+     * same indentation.
+     */
+    private int indentPos;
+
+    /**
+     * Used to count tokens when we need to determine where a COBOL data item
+     * description begins.
+     */
+    private int tokenCounter = -1;
+
     public Copybook72ColWriter(Writer out) {
         super(out);
     }
@@ -57,7 +71,8 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      * 
      * */
     public int write(String str) throws IOException {
-        int n = writeWrapSeparator(str, LINE_WRAP);
+        trackIndentation(str);
+        int n = writeWrapSeparator(str, indentPos);
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             // found \n or \r\n newline?
@@ -90,6 +105,52 @@ public class Copybook72ColWriter extends AutoIndentWriter {
 
         }
         return n;
+    }
+
+    /**
+     * In order to indent properly continued sentences (not continued literals),
+     * we keep track of the character position of the COBOL name which follows
+     * the COBOL level number. This is tied to the StringTemplate where we
+     * assume this:
+     * 
+     * <pre>
+     * $cobolDataItem.levelNumber;format="depth"$$cobolDataItem.levelNumber;format="level"$  $cobolDataItem.cobolName$
+     * </pre>
+     * 
+     * @param str the string to be written
+     */
+    protected void trackIndentation(String str) {
+        if (charPosition == 0) {
+            tokenCounter = 3;
+        }
+        if (tokenCounter == 0) {
+            indentPos = charPosition;
+        }
+        switch (tokenCounter) {
+        case 3:
+            if (StringUtils.isBlank(str)) {
+                tokenCounter = 2;
+            } else {
+                tokenCounter = -1;
+            }
+            break;
+        case 2:
+            if (str.matches("\\d\\d")) {
+                tokenCounter = 1;
+            } else {
+                tokenCounter = -1;
+            }
+            break;
+        case 1:
+            if (StringUtils.isBlank(str)) {
+                tokenCounter = 0;
+            } else {
+                tokenCounter = -1;
+            }
+            break;
+        default:
+            tokenCounter = -1;
+        }
     }
 
     /**
@@ -140,8 +201,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
         out.write(LINE_CONTINUE_LITERAL);
         charPosition = LINE_CONTINUE_LITERAL.length() - 1;
         int n = LINE_CONTINUE_LITERAL.length();
-        if (alphanumLiteralStatus
-                    .equals(AlphanumLiteralStatus.STARTED)) {
+        if (alphanumLiteralStatus.equals(AlphanumLiteralStatus.STARTED)) {
             out.write(alphanumLiteralDelimiter);
             charPosition++;
             n++;
@@ -155,11 +215,12 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      * <p/>
      * 
      * @param str the string to be printed
-     * @param wrap the character sequence that wraps
+     * @param indentPos the indent position of the continued line if line is
+     *            wrapped
      * @return how many characters were printed
      * @throws IOException if writing fails
      */
-    protected int writeWrapSeparator(String str, String wrap)
+    protected int writeWrapSeparator(String str, int indentPos)
             throws IOException {
         if (atStartOfLine) {
             return 0;
@@ -170,6 +231,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
                 + ((newLinePos > -1) ? newLinePos : str.length());
         if (newCharPosition > STATEMENTS_LAST_COLUMN) {
             // ok to wrap
+            String wrap = getWrap(str, indentPos);
             // Walk wrap string and look for A\nB. Spit out A\n
             // then spit out B.
             for (int i = 0; i < wrap.length(); i++) {
@@ -187,6 +249,37 @@ public class Copybook72ColWriter extends AutoIndentWriter {
             }
         }
         return n;
+    }
+
+    /**
+     * Get the wrap characters sequence including the indent for the continued
+     * line.
+     * <p/>
+     * If the string to be written starts with spaces, we reduce the indent so
+     * that the first non space characterppears at the indent position.
+     * 
+     * @param str the string to be printed
+     * @param indentPos the indent position of the continued line if line is
+     *            wrapped
+     * @return the wrap characters sequence including the indent for the
+     *         continued line
+     */
+    protected String getWrap(String str, int indentPos) {
+        int leadingSpaces = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == ' ') {
+                leadingSpaces++;
+            } else {
+                break;
+            }
+        }
+        int indent = indentPos - leadingSpaces;
+        if (indent < 1 || indent + str.length() > STATEMENTS_LAST_COLUMN) {
+            return LINE_CONTINUE_SENTENCE;
+        }
+        char[] chars = new char[indent];
+        Arrays.fill(chars, ' ');
+        return "\n" + new String(chars);
     }
 
 }

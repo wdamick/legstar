@@ -31,8 +31,11 @@ public class CopybookGenerator {
     /** Size of the indicator area (comments and continuation markers). */
     private static final int INDICATOR_AREA_SIZE = 1;
 
-    /** How much indent characters from parent. */
-    private static final int INDENT_INCR = 4;
+    /** Size of the area A (between column 8 and 2). */
+    private static final int AREA_A_SIZE = 4;
+
+    /** How much indent characters from parent in area B. */
+    private static final int AREA_B_INDENT_INCR = 2;
 
     private static Log logger = LogFactory.getLog(CopybookGenerator.class);
 
@@ -123,7 +126,9 @@ public class CopybookGenerator {
                     depth = lastDepth += 1;
                 }
                 char[] chars = new char[SEQUENCE_NUMBER_AREA_SIZE
-                        + INDICATOR_AREA_SIZE + depth * INDENT_INCR];
+                        + INDICATOR_AREA_SIZE
+                        + ((depth > 0) ? AREA_A_SIZE + (depth - 1)
+                                * AREA_B_INDENT_INCR : 0)];
                 Arrays.fill(chars, ' ');
                 lastLevel = level;
                 lastDepth = depth;

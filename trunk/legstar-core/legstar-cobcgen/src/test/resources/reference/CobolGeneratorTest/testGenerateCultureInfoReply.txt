@@ -8,6 +8,6 @@
            02  formattedDate PIC X(32) DISPLAY.
            02  formattedDecimalNumber PIC X(32) DISPLAY.
            02  serverCultureInfo.
-               03  cultureCode PIC X(32) DISPLAY.
-               03  displayCountry0 PIC X(32) DISPLAY.
-               03  displayLanguage0 PIC X(32) DISPLAY.
+             03  cultureCode PIC X(32) DISPLAY.
+             03  displayCountry0 PIC X(32) DISPLAY.
+             03  displayLanguage0 PIC X(32) DISPLAY.
