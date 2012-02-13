@@ -1,0 +1,2 @@
+           03  CUSTOMER-DATA.
+             05  CUSTOMER-NAME PIC X.

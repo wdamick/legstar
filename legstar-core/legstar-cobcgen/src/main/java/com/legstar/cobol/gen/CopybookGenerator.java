@@ -145,6 +145,9 @@ public class CopybookGenerator {
                 } else {
                     depth = lastDepth += 1;
                 }
+                if (depth == 0 && level != 1 && level != 77 && level != 66) {
+                    depth++;
+                }
                 char[] chars = new char[SEQUENCE_NUMBER_AREA_SIZE
                         + INDICATOR_AREA_SIZE
                         + ((depth > 0) ? AREA_A_SIZE + (depth - 1)

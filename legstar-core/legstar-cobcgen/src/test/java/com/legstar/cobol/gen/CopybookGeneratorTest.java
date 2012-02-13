@@ -305,4 +305,12 @@ public class CopybookGeneratorTest extends AbstractTest {
         cobolDataItem.getChildren().add(childDataDataItem);
         check(CopybookGenerator.generate(cobolDataItem, false));
     }
+
+    public void testRootItemHasLevelGreaterThanOne() {
+        CobolDataItem cobolDataItem = new CobolDataItem(3, "CUSTOMER-DATA");
+        CobolDataItem childDataDataItem = new CobolDataItem(5, "CUSTOMER-NAME");
+        childDataDataItem.setPicture("X");
+        cobolDataItem.getChildren().add(childDataDataItem);
+        check(CopybookGenerator.generate(cobolDataItem, false));
+    }
 }
