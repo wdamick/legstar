@@ -20,10 +20,10 @@ public class Copybook72ColWriter extends AutoIndentWriter {
     public static final int STATEMENTS_LAST_COLUMN = 72;
 
     /** Sentence continuation line (start at column 12, area B). */
-    public static final String LINE_CONTINUE_SENTENCE = "\n           ";
+    public static final String LINE_CONTINUE_SENTENCE = "           ";
 
     /** New line and literal continuation (start at column 12, area B). */
-    public static final String LINE_CONTINUE_LITERAL = "\n      -    ";
+    public static final String LINE_CONTINUE_LITERAL = "      -    ";
 
     /**
      * Alphanumeric literals are started and end with the same delimiter (either
@@ -198,9 +198,10 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      * @throws IOException if writing fails
      */
     protected int continueLiteral() throws IOException {
-        out.write(LINE_CONTINUE_LITERAL);
-        charPosition = LINE_CONTINUE_LITERAL.length() - 1;
-        int n = LINE_CONTINUE_LITERAL.length();
+        String continueLiteral = newline + LINE_CONTINUE_LITERAL;
+        out.write(continueLiteral);
+        charPosition = LINE_CONTINUE_LITERAL.length();
+        int n = continueLiteral.length();
         if (alphanumLiteralStatus.equals(AlphanumLiteralStatus.STARTED)) {
             out.write(alphanumLiteralDelimiter);
             charPosition++;
@@ -238,7 +239,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
                 char c = wrap.charAt(i);
                 if (c == '\n') {
                     n++;
-                    out.write(c);
+                    out.write(newline);
                     charPosition = 0;
                     // continue writing any chars out
                 } else { // write A or B part
@@ -275,7 +276,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
         }
         int indent = indentPos - leadingSpaces;
         if (indent < 1 || indent + str.length() > STATEMENTS_LAST_COLUMN) {
-            return LINE_CONTINUE_SENTENCE;
+            return "\n" + LINE_CONTINUE_SENTENCE;
         }
         char[] chars = new char[indent];
         Arrays.fill(chars, ' ');
