@@ -297,4 +297,12 @@ public class CopybookGeneratorTest extends AbstractTest {
         cobolDataItem.setDateFormat("YYXXXX");
         check(CopybookGenerator.generate(cobolDataItem));
     }
+
+    public void testGroupWithSingleChildWithoutHeader() {
+        CobolDataItem cobolDataItem = new CobolDataItem(1, "CUSTOMER-DATA");
+        CobolDataItem childDataDataItem = new CobolDataItem(5, "CUSTOMER-NAME");
+        childDataDataItem.setPicture("X");
+        cobolDataItem.getChildren().add(childDataDataItem);
+        check(CopybookGenerator.generate(cobolDataItem, false));
+    }
 }
