@@ -313,4 +313,14 @@ public class CopybookGeneratorTest extends AbstractTest {
         cobolDataItem.getChildren().add(childDataDataItem);
         check(CopybookGenerator.generate(cobolDataItem, false));
     }
+
+    public void testItemWithLevel88() {
+        CobolDataItem cobolDataItem = new CobolDataItem(1, "CONDITION-DATA");
+        cobolDataItem.setPicture("9(4)");
+        cobolDataItem.setUsage(Usage.BINARY);
+        CobolDataItem childDataDataItem = new CobolDataItem(88, "TRUE");
+        childDataDataItem.addConditionLiterals("0");
+        cobolDataItem.getChildren().add(childDataDataItem);
+        check(CopybookGenerator.generate(cobolDataItem, false));
+    }
 }
