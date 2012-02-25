@@ -230,7 +230,6 @@ public class CobolJAXBGeneratorTest extends AbstractJaxbGenTest {
      * 
      * @throws Exception if generation fails
      */
-    @SuppressWarnings("unchecked")
     public void testAllStandard() throws Exception {
         Collection < File > xsdFiles = FileUtils.listFiles(COB_XSD_DIR,
                 new String[] { "xsd" }, false);

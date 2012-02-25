@@ -52,16 +52,29 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
     private static final byte ZERO_EBCDIC = (byte) 0xF0;
     /**
      * Ordered list of characters that might appear in a zoned decimal (ignoring
-     * overpunch).
+     * overpunch) when the charset is EBCDIC. Ordered for binary search.
      */
-    private static final byte[] ORDERED_ZONED_DECIMAL_CHARS = new byte[] {
+    private static final byte[] ORDERED_ZONED_DECIMAL_EBCDIC_BYTES = new byte[] {
             (byte) 0xF0, (byte) 0xF1, (byte) 0xF2, (byte) 0xF3, (byte) 0xF4,
             (byte) 0xF5, (byte) 0xF6, (byte) 0xF7, (byte) 0xF8, (byte) 0xF9,
             0x00, 0x40, 0x4E, 0x60 };
 
-    /** Java characters corresponding to the previous array. */
-    private static final char[] UNORDERED_JAVA_CHARS = new char[] { '0', '1',
-            '2', '3', '4', '5', '6', '7', '8', '9', '0', '0', '+', '-' };
+    /** One to one corresponding java character for the previous array. */
+    private static final char[] ZONED_DECIMAL_EBCDIC_BYTES_TO_JAVA_CHARS = new char[] {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '0', '+',
+            '-' };
+    /**
+     * Equivalent to ORDERED_ZONED_DECIMAL_CHARS but used when the charset is
+     * ASCII. Ordered for binary search.
+     */
+    private static final byte[] ORDERED_ZONED_DECIMAL_ASCII_BYTES = new byte[] {
+            0x00, 0x20, 0x2B, 0x2D, 0x30, (byte) 0x31, (byte) 0x32, 0x33, 0x34,
+            0x35, 0x36, 0x37, 0x38, 0x39 };
+
+    /** One to one corresponding java character for the previous array. */
+    private static final char[] ZONED_DECIMAL_ASCII_BYTES_TO_JAVA_CHARS = new char[] {
+            '0', '0', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+            '9' };
 
     /**
      * @param cobolContext the Cobol compiler parameters in effect
@@ -243,7 +256,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                 hostTarget[iTarget] = hostZero;
             } else {
                 if (toEBCDIC) {
-                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_CHARS[source[iSource]
+                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_EBCDIC_BYTES[source[iSource]
                             - (int) '0'];
                 } else {
                     hostTarget[iTarget] = (byte) source[iSource];
@@ -262,7 +275,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                 hostTarget[iTarget] = hostZero;
             } else {
                 if (toEBCDIC) {
-                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_CHARS[source[iSource]
+                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_EBCDIC_BYTES[source[iSource]
                             - (int) '0'];
                 } else {
                     hostTarget[iTarget] = (byte) source[iSource];
@@ -444,23 +457,27 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * return the equivalent java digit or sign. If not found, there is a slight
      * chance that the payload is already in java encoding so we give it a
      * chance.
+     * <p/>
+     * We could check the charset to see if we are ascii or ebcdic but it is
+     * cheaper to do an extra binary search on a small array.
      * 
      * @param hostByte the mainframe digit or sign
      * @return the corresponding java digit or '\0' if not found
      */
     public static char toJavaChar(final byte hostByte) {
-        int i = Arrays.binarySearch(ORDERED_ZONED_DECIMAL_CHARS, hostByte);
+        int i = Arrays.binarySearch(ORDERED_ZONED_DECIMAL_EBCDIC_BYTES,
+                hostByte);
         if (i < 0) {
-            // Can't use binary search because content is not ordered
-            for (i = 0; i < UNORDERED_JAVA_CHARS.length; i++) {
-                if (UNORDERED_JAVA_CHARS[i] == (char) hostByte) {
-                    return UNORDERED_JAVA_CHARS[i];
-                }
+            i = Arrays
+                    .binarySearch(ORDERED_ZONED_DECIMAL_ASCII_BYTES, hostByte);
+            if (i < 0) {
+                return '\0';
+            } else {
+                return ZONED_DECIMAL_ASCII_BYTES_TO_JAVA_CHARS[i];
             }
         } else {
-            return UNORDERED_JAVA_CHARS[i];
+            return ZONED_DECIMAL_EBCDIC_BYTES_TO_JAVA_CHARS[i];
         }
-        return '\0';
     }
 
 }
