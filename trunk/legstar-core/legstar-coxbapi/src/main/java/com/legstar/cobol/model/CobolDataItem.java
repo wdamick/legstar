@@ -535,7 +535,7 @@ public class CobolDataItem {
      * @return true if this data item is a structure (group).
      */
     public boolean isStructure() {
-        return (getChildren().size() == 0);
+        return (getChildren().size() > 0);
     }
 
     /**
