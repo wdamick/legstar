@@ -517,4 +517,14 @@ public class ZonedDecimalTest extends TestCase {
     public void testFromHostWithPic9() {
         fromHost(1, 1, 0, false, false, false, US_HOST_CHARSET, "F5", "5");
     }
+
+    /**
+     * Host is sending data already in ASCII and with white space.
+     */
+    public void testFromHostWithAsciiCharsWithWhiteSpace() {
+        fromHost(18, 17, 2, true, true, true, LATIN1_HOST_CHARSET,
+                "2d2020313233343536373839303132333435313220",
+                "-1234567890123.45");
+    }
+
 }

@@ -118,7 +118,6 @@ $if(cobolDataItem.dateFormat)$
  DATE FORMAT $cobolDataItem.dateFormat$$endif$
 >>
 
-
 synchronized(cobolDataItem) ::= <<
 $if(cobolDataItem.synchronized)$
  SYNCHRONIZED$endif$

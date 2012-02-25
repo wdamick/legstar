@@ -200,7 +200,6 @@ public abstract class AbstractJaxbGenTest extends TestCase {
      * @param extension the files extension to process
      * @throws Exception if something fails
      */
-    @SuppressWarnings("unchecked")
     public void check(final File refFolder, final File resultFolder,
             final String extension) throws Exception {
 
