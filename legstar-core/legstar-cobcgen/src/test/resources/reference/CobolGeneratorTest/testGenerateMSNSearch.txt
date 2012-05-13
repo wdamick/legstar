@@ -31,4 +31,4 @@
                      ResultFields--C PIC X(32) DISPLAY.
                  05  SearchTagFilters.
                    06  R-string OCCURS 0 TO 10 DEPENDING ON R-string--C 
-                       PIC X(32) DISPLAY.
+                      PIC X(32) DISPLAY.

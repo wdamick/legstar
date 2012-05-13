@@ -1,6 +1,8 @@
 package com.legstar.cobol.gen;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.antlr.stringtemplate.AttributeRenderer;
 import org.antlr.stringtemplate.CommonGroupLoader;
@@ -45,6 +47,19 @@ public class CopybookGenerator {
 
     private static Log logger = LogFactory.getLog(CopybookGenerator.class);
 
+    /**
+     * Keep this static class in a ThreadLocal just in case this is use but
+     * multiple threads.
+     */
+    private static final ThreadLocal < StaticIntegerRenderer > renderer = new ThreadLocal < StaticIntegerRenderer >() {
+
+        @Override
+        protected StaticIntegerRenderer initialValue() {
+            return new StaticIntegerRenderer();
+        }
+
+    };
+
     /** Utility class. */
     private CopybookGenerator() {
 
@@ -87,10 +102,11 @@ public class CopybookGenerator {
                 COPYBOOK_TEMPLATE_GROUP_NAME,
                 (withHeader) ? COPYBOOK_WITH_HEADER_TEMPLATE_NAME
                         : COPYBOOK_TEMPLATE_NAME);
-        copybookTemplate.registerRenderer(Integer.class,
-                new StaticIntegerRenderer());
+        copybookTemplate.registerRenderer(Integer.class, renderer.get());
         copybookTemplate.setAttribute("cobolDataItem", cobolDataItem);
-        return copybookTemplate.toString();
+        String result = copybookTemplate.toString();
+        renderer.remove();
+        return result;
     }
 
     /**
@@ -120,6 +136,9 @@ public class CopybookGenerator {
         /** Last depth encountered in the COBOL structure hierarchy. */
         private int lastDepth = -1;
 
+        /** Allows us to reuse level to depth mapping. */
+        private Map < Integer, Integer > levelToDepth = new HashMap < Integer, Integer >();
+
         public String toString(Object attribute) {
             return ((Integer) attribute).toString();
         }
@@ -139,11 +158,16 @@ public class CopybookGenerator {
                 int level = (Integer) attribute;
                 int depth = 0;
                 if (level < lastLevel) {
-                    depth = lastDepth -= 1;
+                    if (levelToDepth.containsKey(level)) {
+                        depth = levelToDepth.get(level);
+                    } else {
+                        depth = lastDepth -= 1;
+                    }
                 } else if (level == lastLevel) {
                     depth = lastDepth;
                 } else {
                     depth = lastDepth += 1;
+                    levelToDepth.put(level, depth);
                 }
                 if (depth == 0 && level != 1 && level != 77 && level != 66) {
                     depth++;
