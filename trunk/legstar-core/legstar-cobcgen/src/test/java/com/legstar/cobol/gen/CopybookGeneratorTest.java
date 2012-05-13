@@ -323,4 +323,20 @@ public class CopybookGeneratorTest extends AbstractTest {
         cobolDataItem.getChildren().add(childDataDataItem);
         check(CopybookGenerator.generate(cobolDataItem, false));
     }
+
+    public void testIndentationAfterDeepNode() {
+        CobolDataItem item1 = new CobolDataItem(1, "ITEM1");
+        CobolDataItem item1_5 = new CobolDataItem(5, "ITEM-1-5");
+        CobolDataItem item1_5_10 = new CobolDataItem(10, "ITEM-1-5-10");
+        CobolDataItem item1_5_10_15 = new CobolDataItem(15, "ITEM-1-5-10-15");
+        CobolDataItem item2_5 = new CobolDataItem(5, "ITEM-2-5");
+
+        item1.getChildren().add(item1_5);
+        item1_5.getChildren().add(item1_5_10);
+        item1_5_10.getChildren().add(item1_5_10_15);
+        item1.getChildren().add(item2_5);
+
+        check(CopybookGenerator.generate(item1));
+    }
+
 }

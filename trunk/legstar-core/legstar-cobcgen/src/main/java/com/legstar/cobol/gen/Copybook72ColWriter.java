@@ -85,6 +85,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
             if (c == '\r' || c == '\n') {
                 atStartOfLine = true;
                 charPosition = 0;
+                writeKeyword();
                 n += newline.length();
                 out.write(newline);
                 // skip an extra char upon \r\n
@@ -105,7 +106,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
             // if necessary
             if (charPosition == STATEMENTS_LAST_COLUMN) {
                 if (alphanumLiteralStatus == AlphanumLiteralStatus.NOT_STARTED) {
-                    n += continueKeyword(indentPos);
+                    n += continueKeyword(str, indentPos);
                 } else {
                     n += continueAlphaLiteral();
                 }
@@ -135,6 +136,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
             if (alphanumLiteralStatus == AlphanumLiteralStatus.NOT_STARTED) {
                 keyword.append(c);
             } else {
+                writeKeyword();
                 out.write(c);
             }
         }
@@ -258,12 +260,14 @@ public class Copybook72ColWriter extends AutoIndentWriter {
     /**
      * Put a keyword on the next line (otherwise would extend past column 72).
      * 
+     * @param str the current string (needed to detect leading space and adjust
+     *            indentation)
      * @param indentPos the indentation position
      * @return the number of characters written
      * @throws IOException if writing fails
      */
-    private int continueKeyword(int indentPos) throws IOException {
-        return wrap("", indentPos);
+    private int continueKeyword(String str, int indentPos) throws IOException {
+        return wrap(str, indentPos);
     }
 
     /**
