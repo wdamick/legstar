@@ -37,6 +37,23 @@ public class Copybook72ColWriterTest extends AbstractTest {
 
     }
 
+    public void testLignsWithExactly72Characters() throws Exception {
+        writer.write("      * ----------------------------------------------------------------"
+                + CodeGenUtil.CRLF
+                + "      * Generated copybook for Person"
+                + CodeGenUtil.CRLF
+                + "      * ----------------------------------------------------------------");
+        out.flush();
+        assertEquals(
+                "      * ----------------------------------------------------------------"
+                        + CodeGenUtil.CRLF
+                        + "      * Generated copybook for Person"
+                        + CodeGenUtil.CRLF
+                        + "      * ----------------------------------------------------------------",
+                out.toString());
+
+    }
+
     public boolean isCreateReferences() {
         return false;
     }
