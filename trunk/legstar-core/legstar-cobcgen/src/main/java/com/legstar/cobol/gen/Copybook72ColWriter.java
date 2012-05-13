@@ -58,6 +58,12 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      */
     private int tokenCounter = -1;
 
+    /**
+     * Non alphanumeric literals are all considered keywords (sequences of
+     * non-space characters)
+     */
+    private StringBuilder keyword = new StringBuilder();
+
     public Copybook72ColWriter(Writer out) {
         super(out);
     }
@@ -72,7 +78,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      * */
     public int write(String str) throws IOException {
         trackIndentation(str);
-        int n = writeWrapSeparator(str, indentPos);
+        int n = 0;
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             // found \n or \r\n newline?
@@ -94,17 +100,56 @@ public class Copybook72ColWriter extends AutoIndentWriter {
             }
             // Keep track of the status for alphanumeric literals
             trackAlphanumLiteral(c);
-            // if we are about to write past column 72, assume this is a value
-            // literal that needs to be continued
+
+            // if we are about to write past column 72, break using continuation
+            // if necessary
             if (charPosition == STATEMENTS_LAST_COLUMN) {
-                n += continueLiteral();
+                if (alphanumLiteralStatus == AlphanumLiteralStatus.NOT_STARTED) {
+                    n += continueKeyword(indentPos);
+                } else {
+                    n += continueAlphaLiteral();
+                }
             }
             n++;
-            out.write(c);
+            writeKeywordOrAlphaLiteral(c);
             charPosition++;
 
         }
+        writeKeyword();
         return n;
+    }
+
+    /**
+     * When a white space is encountered, we consider a keyword as delimited and
+     * write it out. On non space characters, if we are not in the middle of an
+     * alphanumeric literal, we consider the character as part of a keyword.
+     * 
+     * @param c the character being printed
+     * @throws IOException if character cannot be printed
+     */
+    protected void writeKeywordOrAlphaLiteral(char c) throws IOException {
+        if (c == ' ') {
+            writeKeyword();
+            out.write(c);
+        } else {
+            if (alphanumLiteralStatus == AlphanumLiteralStatus.NOT_STARTED) {
+                keyword.append(c);
+            } else {
+                out.write(c);
+            }
+        }
+    }
+
+    /**
+     * Print a keyword.
+     * 
+     * @throws IOException if writing fails
+     */
+    protected void writeKeyword() throws IOException {
+        if (keyword.length() > 0) {
+            out.write(keyword.toString().toCharArray());
+            keyword = new StringBuilder();
+        }
     }
 
     /**
@@ -197,7 +242,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      * @return the number of characters written
      * @throws IOException if writing fails
      */
-    protected int continueLiteral() throws IOException {
+    protected int continueAlphaLiteral() throws IOException {
         String continueLiteral = newline + LINE_CONTINUE_LITERAL;
         out.write(continueLiteral);
         charPosition = LINE_CONTINUE_LITERAL.length();
@@ -211,42 +256,41 @@ public class Copybook72ColWriter extends AutoIndentWriter {
     }
 
     /**
-     * Wraps preemptively when the string to be printed would cause the line to
-     * exceed the max line length.
-     * <p/>
+     * Put a keyword on the next line (otherwise would extend past column 72).
      * 
-     * @param str the string to be printed
-     * @param indentPos the indent position of the continued line if line is
-     *            wrapped
-     * @return how many characters were printed
+     * @param indentPos the indentation position
+     * @return the number of characters written
      * @throws IOException if writing fails
      */
-    protected int writeWrapSeparator(String str, int indentPos)
-            throws IOException {
-        if (atStartOfLine) {
-            return 0;
-        }
+    private int continueKeyword(int indentPos) throws IOException {
+        return wrap("", indentPos);
+    }
+
+    /**
+     * Insert the wrap sequence.
+     * 
+     * @param str the string to be written (this is used to reduce indent in
+     *            case of leading spaces)
+     * @param indentPos the indent position
+     * @return the number of characters written
+     * @throws IOException if writing fails
+     */
+    protected int wrap(String str, int indentPos) throws IOException {
         int n = 0;
-        int newLinePos = str.indexOf(newline);
-        int newCharPosition = charPosition
-                + ((newLinePos > -1) ? newLinePos : str.length());
-        if (newCharPosition > STATEMENTS_LAST_COLUMN) {
-            // ok to wrap
-            String wrap = getWrap(str, indentPos);
-            // Walk wrap string and look for A\nB. Spit out A\n
-            // then spit out B.
-            for (int i = 0; i < wrap.length(); i++) {
-                char c = wrap.charAt(i);
-                if (c == '\n') {
-                    n++;
-                    out.write(newline);
-                    charPosition = 0;
-                    // continue writing any chars out
-                } else { // write A or B part
-                    n++;
-                    out.write(c);
-                    charPosition++;
-                }
+        String wrap = getWrap(str, indentPos);
+        // Walk wrap string and look for A\nB. Spit out A\n
+        // then spit out B.
+        for (int i = 0; i < wrap.length(); i++) {
+            char c = wrap.charAt(i);
+            if (c == '\n') {
+                n++;
+                out.write(newline);
+                charPosition = 0;
+                // continue writing any chars out
+            } else { // write A or B part
+                n++;
+                out.write(c);
+                charPosition++;
             }
         }
         return n;
@@ -257,7 +301,7 @@ public class Copybook72ColWriter extends AutoIndentWriter {
      * line.
      * <p/>
      * If the string to be written starts with spaces, we reduce the indent so
-     * that the first non space characterppears at the indent position.
+     * that the first non space character appears at the indent position.
      * 
      * @param str the string to be printed
      * @param indentPos the indent position of the continued line if line is
