@@ -1,0 +1,62 @@
+#**
+Common imports Velocity Template.
+@author Fady
+@version 1.2
+*#
+## ==================================================================
+## Builds a list of imports for a complex element, based on the type
+## of children.
+##
+#macro(addType)
+#if (!$importTypes.contains($newType))
+#set($ret = $importTypes.add($newType))
+#end
+#end
+##end of macro
+##
+#macro(checkChild $child)
+#set($newType = $coxbHelper.getQualifiedBindingInterfaceName($child))
+#addType()
+#if($coxbHelper.getGenericType($child).equals("simple") || $coxbHelper.getGenericType($child).equals("enum"))
+#set($newType = $coxbHelper.coxbPackageName + ".CobolBindingFactory")
+#addType()
+#set($newType = $coxbHelper.coxbPackageName + ".ICobolBindingFactory")
+#addType()
+#set($hasSimpleChilds = true)
+#end
+#if($coxbHelper.getBoundTypeName($child).equals("BigDecimal"))
+#set($newType = "java.math.BigDecimal")
+#addType()
+#end
+#if($coxbHelper.getBoundTypeName($child).equals("BigInteger"))
+#set($newType = "java.math.BigInteger")
+#addType()
+#end
+#if($coxbHelper.getGenericType($child).equals("complex")
+        || $coxbHelper.getGenericType($child).equals("complexArray"))
+#set($newType = ${child.getValueObjectClassName()})
+#addType()
+#end
+##TODO allow enums to bind to POJOs
+#if($coxbHelper.getGenericType($child).equals("enum"))
+#set($newType = $child.getJaxbType().getName())
+##don't import nested classes
+#if(!$newType.contains("$"))
+#addType()
+#end
+#end
+#if($child.maxOccurs > 0 || $coxbHelper.getGenericType($child).equals("complexArray"))
+#set($newType = "java.util.List")
+#addType()
+#end
+#end
+##end of macro
+##
+#set($hasSimpleChilds = false)
+#set($importTypes = [])
+#foreach ($child in $binding.childrenList)
+#checkChild($child)
+#end
+#foreach ($child in $binding.alternativesList)
+#checkChild($child)
+#end

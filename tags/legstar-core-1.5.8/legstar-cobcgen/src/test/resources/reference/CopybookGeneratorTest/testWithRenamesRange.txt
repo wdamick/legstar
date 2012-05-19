@@ -1,0 +1,4 @@
+      * ----------------------------------------------------------------
+      * Generated copybook for CUSTOMER-DATA
+      * ----------------------------------------------------------------
+       66  CUSTOMER-DATA RENAMES OLD-FIRST-NAME THRU OLD-LAST-NAME.
