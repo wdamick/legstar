@@ -25,7 +25,7 @@ import com.legstar.cobc.AbstractTest;
 public class CobolGeneratorTest extends AbstractTest {
 
     /** True when references should be created. */
-    private static final boolean CREATE_REFERENCES = true;
+    private static final boolean CREATE_REFERENCES = false;
 
     public boolean isCreateReferences() {
         return CREATE_REFERENCES;
