@@ -13,15 +13,14 @@ package com.legstar.csok.client;
 import com.legstar.messaging.ConnectionFactory;
 import com.legstar.messaging.HostEndpoint;
 
-
 /**
- * This class represents the parameters that are necessary for a client
- * to successfully connect to CICS over sockets.
+ * This class represents the parameters that are necessary for a client to
+ * successfully connect to CICS over sockets.
  */
 public class CicsSocketEndpoint extends HostEndpoint {
 
     /* ----------------------------------------------------------------------- */
-    /* Member variables                                                        */
+    /* Member variables */
     /* ----------------------------------------------------------------------- */
     /** Host IP address. */
     private String mHostIPAddress;
@@ -30,14 +29,13 @@ public class CicsSocketEndpoint extends HostEndpoint {
     private int mHostIPPort;
 
     /* ----------------------------------------------------------------------- */
-    /* Default values                                                          */
+    /* Default values */
     /* ----------------------------------------------------------------------- */
     /** The default connection factory class. */
-    private static final String DEFAULT_CONNECTION_FACTORY_CLASS =
-        "com.legstar.csok.client.CicsSocketConnectionFactory";
+    private static final String DEFAULT_CONNECTION_FACTORY_CLASS = "com.legstar.csok.client.CicsSocketConnectionFactory";
 
     /* ----------------------------------------------------------------------- */
-    /* Labels                                                                  */
+    /* Labels */
     /* ----------------------------------------------------------------------- */
     /** Label for IP address. */
     private static final String IP_ADDRESS_LABEL = "hostIPAddress";
@@ -51,9 +49,10 @@ public class CicsSocketEndpoint extends HostEndpoint {
     public CicsSocketEndpoint() {
         setHostConnectionfactoryClass(DEFAULT_CONNECTION_FACTORY_CLASS);
     }
-    
+
     /**
      * Constructor using an existing connection factory.
+     * 
      * @param connectionFactory an instance of a connection factory
      */
     public CicsSocketEndpoint(final ConnectionFactory connectionFactory) {
@@ -62,6 +61,7 @@ public class CicsSocketEndpoint extends HostEndpoint {
 
     /**
      * Copy constructor.
+     * 
      * @param copyFrom the endpoint to copy from
      */
     public CicsSocketEndpoint(final CicsSocketEndpoint copyFrom) {
@@ -72,30 +72,29 @@ public class CicsSocketEndpoint extends HostEndpoint {
 
     /**
      * Perform a sanity check on the endpoint parameters.
+     * 
      * @throws CicsSocketConnectionException if check fails
      */
     public void check() throws CicsSocketConnectionException {
         if (getHostIPAddress() == null || getHostIPAddress().length() == 0) {
             throw new CicsSocketConnectionException(
-            "No host IP address has been provided.");
+                    "No host IP address has been provided.");
         }
         if (getHostIPPort() == 0) {
             throw new CicsSocketConnectionException(
-            "No host IP port has been provided.");
+                    "No host IP port has been provided.");
         }
     }
 
     /**
      * Helper to pretty print the endpoint content.
+     * 
      * @return formatted endpoint report
      */
     public String toString() {
-        String report = "CICS Http endpoint:"
-            + super.toString()
-            + "[" 
-            + IP_ADDRESS_LABEL + "=" + mHostIPAddress
-            + "," + IP_PORT_LABEL + "=" + mHostIPPort
-            + "]";
+        String report = "CICS Socket endpoint:" + super.toString() + "["
+                + IP_ADDRESS_LABEL + "=" + mHostIPAddress + "," + IP_PORT_LABEL
+                + "=" + mHostIPPort + "]";
         return report;
     }
 
