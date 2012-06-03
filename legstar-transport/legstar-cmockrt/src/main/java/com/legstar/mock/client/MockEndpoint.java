@@ -16,19 +16,26 @@ import com.legstar.messaging.HostEndpoint;
 
 /**
  * An endpoint for the mock transport.
- *
+ * 
  */
 public class MockEndpoint extends HostEndpoint {
-    
+
+    /* ----------------------------------------------------------------------- */
+    /* Default values */
+    /* ----------------------------------------------------------------------- */
+    /** The default connection factory class. */
+    private static final String DEFAULT_CONNECTION_FACTORY_CLASS = "com.legstar.mock.client.MockConnectionFactory";
+
     /**
      * No-arg constructor.
      */
     public MockEndpoint() {
-        
+        setHostConnectionfactoryClass(DEFAULT_CONNECTION_FACTORY_CLASS);
     }
 
     /**
      * Constructor using an existing connection factory.
+     * 
      * @param connectionFactory an instance of a connection factory
      */
     public MockEndpoint(final ConnectionFactory connectionFactory) {
