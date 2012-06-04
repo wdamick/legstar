@@ -28,9 +28,8 @@
       *---------------------------------------------------------------*
       * Address of service provider.
       *    
-       77  W00-SERVICE-URI PIC X(59) VALUE 
-           'http://192.168.0.112:8080/c2ws-cultureinfo/cultureinfoProxy'
-           .
+       77  W00-SERVICE-URI PIC X(59) VALUE 'http://192.168.0.112:8080/c2
+      -    'ws-cultureinfo/cultureinfoProxy'.
 
       *    
       * Service credentials.

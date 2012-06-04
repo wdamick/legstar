@@ -28,8 +28,8 @@
       *---------------------------------------------------------------*
       * Address of service provider.
       *    
-       77  W00-SERVICE-URI PIC X(55) VALUE 
-           'http://192.168.0.112:8080/c2ws-MSNSearch/MSNSearchProxy'.
+       77  W00-SERVICE-URI PIC X(55) VALUE 'http://192.168.0.112:8080/c2
+      -    'ws-MSNSearch/MSNSearchProxy'.
 
       *    
       * Service credentials.
@@ -176,38 +176,38 @@
                              SearchTag--C.
                            10  Name PIC X(32) DISPLAY.
                            10  R-Value PIC X(32) DISPLAY.
-                         08  Summary PIC X(32) DISPLAY.
-                         08  ResultType PIC X(32) DISPLAY.
-                         08  Image.
-                           09  ImageURL PIC X(32) DISPLAY.
-                           09  ImageWidth PIC 9(9) COMP-5.
-                           09  ImageHeight PIC 9(9) COMP-5.
-                           09  ImageFileSize PIC 9(9) COMP-5.
-                           09  ThumbnailURL PIC X(32) DISPLAY.
-                           09  ThumbnailWidth PIC 9(9) COMP-5.
-                           09  ThumbnailHeight PIC 9(9) COMP-5.
-                           09  ThumbnailFileSize PIC 9(9) COMP-5.
-                         08  Video.
-                           09  PlayUrl PIC X(32) DISPLAY.
-                           09  SourceTitle PIC X(32) DISPLAY.
-                           09  Format PIC X(32) DISPLAY.
-                           09  RunTime PIC 9(9) COMP-5.
-                           09  Width PIC 9(9) COMP-5.
-                           09  Height PIC 9(9) COMP-5.
-                           09  FileSize PIC 9(9) COMP-5.
-                           09  StaticThumbnail.
-                             10  URL PIC X(32) DISPLAY.
-                             10  Format0 PIC X(32) DISPLAY.
-                             10  Width0 PIC 9(9) COMP-5.
-                             10  Height0 PIC 9(9) COMP-5.
-                             10  FileSize0 PIC 9(9) COMP-5.
-                           09  MotionThumbnail.
-                             10  URL0 PIC X(32) DISPLAY.
-                             10  Format1 PIC X(32) DISPLAY.
-                             10  RunTime0 PIC 9(9) COMP-5.
-                             10  Width1 PIC 9(9) COMP-5.
-                             10  Height1 PIC 9(9) COMP-5.
-                             10  FileSize1 PIC 9(9) COMP-5.
+                       08  Summary PIC X(32) DISPLAY.
+                       08  ResultType PIC X(32) DISPLAY.
+                       08  Image.
+                         09  ImageURL PIC X(32) DISPLAY.
+                         09  ImageWidth PIC 9(9) COMP-5.
+                         09  ImageHeight PIC 9(9) COMP-5.
+                         09  ImageFileSize PIC 9(9) COMP-5.
+                         09  ThumbnailURL PIC X(32) DISPLAY.
+                         09  ThumbnailWidth PIC 9(9) COMP-5.
+                         09  ThumbnailHeight PIC 9(9) COMP-5.
+                         09  ThumbnailFileSize PIC 9(9) COMP-5.
+                       08  Video.
+                         09  PlayUrl PIC X(32) DISPLAY.
+                         09  SourceTitle PIC X(32) DISPLAY.
+                         09  Format PIC X(32) DISPLAY.
+                         09  RunTime PIC 9(9) COMP-5.
+                         09  Width PIC 9(9) COMP-5.
+                         09  Height PIC 9(9) COMP-5.
+                         09  FileSize PIC 9(9) COMP-5.
+                         09  StaticThumbnail.
+                           10  URL PIC X(32) DISPLAY.
+                           10  Format0 PIC X(32) DISPLAY.
+                           10  Width0 PIC 9(9) COMP-5.
+                           10  Height0 PIC 9(9) COMP-5.
+                           10  FileSize0 PIC 9(9) COMP-5.
+                         09  MotionThumbnail.
+                           10  URL0 PIC X(32) DISPLAY.
+                           10  Format1 PIC X(32) DISPLAY.
+                           10  RunTime0 PIC 9(9) COMP-5.
+                           10  Width1 PIC 9(9) COMP-5.
+                           10  Height1 PIC 9(9) COMP-5.
+                           10  FileSize1 PIC 9(9) COMP-5.
 
                
       *****************************************************************
