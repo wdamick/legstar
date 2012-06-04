@@ -483,6 +483,14 @@ public class CicsSocket implements LegStarConnection {
      * @throws RequestException if a failure is detected
      */
     private void processUOW(final String command) throws RequestException {
+        if (!isOpen()) {
+            if (_log.isDebugEnabled()) {
+                _log.debug("Connection:" + mConnectionID + " Attempting to "
+                        + command
+                        + " unit of work on a closed connection. Ignoring.");
+            }
+            return;
+        }
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Attempting to "
                     + command + " unit of work.");

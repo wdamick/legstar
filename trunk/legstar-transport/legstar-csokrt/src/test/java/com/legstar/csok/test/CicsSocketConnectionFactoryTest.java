@@ -10,20 +10,19 @@
  ******************************************************************************/
 package com.legstar.csok.test;
 
+import junit.framework.TestCase;
+
 import com.legstar.csok.client.CicsSocket;
 import com.legstar.csok.client.CicsSocketConnectionFactory;
 import com.legstar.csok.client.CicsSocketEndpoint;
 import com.legstar.messaging.LegStarAddress;
 
-import junit.framework.TestCase;
-
 /**
  * Test the Socket connection factory.
- *
+ * 
  */
 public class CicsSocketConnectionFactoryTest extends TestCase {
-    
-    
+
     /**
      * Test instantiation.
      */
@@ -42,11 +41,14 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
     public void testCreateNoUserNoPasswordNoCharset() {
         try {
             CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
-            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester
+                    .getCicsTs23Endpoint();
             LegStarAddress address = new LegStarAddress(endpoint.getName());
-            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(),
+                    address, endpoint);
             assertEquals(getName(), conn.getConnectionID());
-            assertEquals("IBM01140", conn.getCicsSocketEndpoint().getHostCharset());
+            assertEquals("IBM01140", conn.getCicsSocketEndpoint()
+                    .getHostCharset());
             assertEquals("P390", conn.getCicsSocketEndpoint().getHostUserID());
             assertEquals(false, conn.getCicsSocketEndpoint().isHostTraceMode());
         } catch (Exception e) {
@@ -60,16 +62,20 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
     public void testCreateUserPasswordCharset() {
         try {
             CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
-            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester
+                    .getCicsTs23Endpoint();
             LegStarAddress address = new LegStarAddress(endpoint.getName());
             address.setHostCharset("IBMTRUC0");
             address.setHostUserID("RANTANPLAN");
             address.setHostPassword("BIDULE");
             address.setHostTraceMode(true);
-            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(),
+                    address, endpoint);
             assertEquals(getName(), conn.getConnectionID());
-            assertEquals("IBMTRUC0", conn.getCicsSocketEndpoint().getHostCharset());
-            assertEquals("RANTANPLAN", conn.getCicsSocketEndpoint().getHostUserID());
+            assertEquals("IBMTRUC0", conn.getCicsSocketEndpoint()
+                    .getHostCharset());
+            assertEquals("RANTANPLAN", conn.getCicsSocketEndpoint()
+                    .getHostUserID());
             assertEquals(true, conn.getCicsSocketEndpoint().isHostTraceMode());
         } catch (Exception e) {
             fail("testCreateWrongEndPoint failed " + e);
@@ -82,7 +88,8 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
     public void testCreateFromEmpyConfig() {
         try {
             CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
-            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester
+                    .getCicsTs23Endpoint();
             endpoint.setHostUserID(null);
             endpoint.setHostPassword(null);
             endpoint.setHostCharset(null);
@@ -90,7 +97,8 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             cf.createConnection(getName(), address, endpoint);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
-            assertEquals("No host character set has been provided.", e.getMessage());
+            assertEquals("No host character set has been provided.",
+                    e.getMessage());
         }
     }
 
@@ -107,7 +115,8 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
             cf.createConnection(getName(), address, endpoint);
             fail("testCreateFromEmpyConfig failed ");
         } catch (Exception e) {
-            assertEquals("No host IP address has been provided.", e.getMessage());
+            assertEquals("No host IP address has been provided.",
+                    e.getMessage());
         }
     }
 
@@ -135,9 +144,11 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
     public void testCreateWithDefaultTimeouts() {
         try {
             CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
-            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester
+                    .getCicsTs23Endpoint();
             LegStarAddress address = new LegStarAddress(endpoint.getName());
-            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(),
+                    address, endpoint);
             assertEquals(1000, conn.getConnectTimeout());
             assertEquals(5000, conn.getReceiveTimeout());
         } catch (Exception e) {
@@ -151,15 +162,28 @@ public class CicsSocketConnectionFactoryTest extends TestCase {
     public void testCreateWithTimeoutsFromConfig() {
         try {
             CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
-            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester.getCicsTs23Endpoint();
+            CicsSocketEndpoint endpoint = AbstractSocketConnectionTester
+                    .getCicsTs23Endpoint();
             endpoint.setConnectTimeout(2000);
             endpoint.setReceiveTimeout(7000);
             LegStarAddress address = new LegStarAddress(endpoint.getName());
-            CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address, endpoint);
+            CicsSocket conn = (CicsSocket) cf.createConnection(getName(),
+                    address, endpoint);
             assertEquals(2000, conn.getConnectTimeout());
             assertEquals(7000, conn.getReceiveTimeout());
         } catch (Exception e) {
             fail("testCreateWithDefaultTimeouts failed" + e.getMessage());
         }
+    }
+
+    public void testIssue160() throws Exception {
+        CicsSocketConnectionFactory cf = new CicsSocketConnectionFactory();
+        CicsSocketEndpoint endpoint = AbstractSocketConnectionTester
+                .getCicsTs23Endpoint();
+        LegStarAddress address = new LegStarAddress(endpoint.getName());
+        CicsSocket conn = (CicsSocket) cf.createConnection(getName(), address,
+                endpoint);
+        conn.rollbackUOW();
+
     }
 }
