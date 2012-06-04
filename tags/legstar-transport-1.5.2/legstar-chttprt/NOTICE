@@ -1,0 +1,7 @@
+LegStar Chttprt makes use of the following products:
+
+Apache Commons HttpClient licensed under the Apache License Version 2.0 (http://www.apache.org/licenses/)
+
+Apache Commons Configuration licensed under the Apache License Version 2.0 (http://www.apache.org/licenses/)
+
+Apache Commons Logging licensed under the Apache License Version 2.0 (http://www.apache.org/licenses/)
