@@ -23,24 +23,23 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.legstar.codec.HostCodec;
-import com.legstar.messaging.HostMessageFormatException;
-import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.ConnectionException;
 import com.legstar.messaging.HeaderPartException;
+import com.legstar.messaging.HostMessageFormatException;
+import com.legstar.messaging.LegStarConnection;
 import com.legstar.messaging.LegStarMessage;
 import com.legstar.messaging.LegStarRequest;
 import com.legstar.messaging.RequestException;
 
 /**
- * Client side CICS Socket connectivity. This class provides the core
- * methods to connect to CICS over sockets, send requests, receive
- * results, etc...
+ * Client side CICS Socket connectivity. This class provides the core methods to
+ * connect to CICS over sockets, send requests, receive results, etc...
  */
 public class CicsSocket implements LegStarConnection {
 
     /**
-     * Length of the Transaction Initial Message expected by the IBM CICS
-     * Socket listener.
+     * Length of the Transaction Initial Message expected by the IBM CICS Socket
+     * listener.
      */
     private static final int CIM_LEN = 35;
 
@@ -63,8 +62,8 @@ public class CicsSocket implements LegStarConnection {
     private static final int TRACE_LEN = 1;
 
     /**
-     * Maximum size of the host reply for acknowledgements and error
-     * reports. TODO make public. TODO make public.
+     * Maximum size of the host reply for acknowledgments and error reports.
+     * TODO make public. TODO make public.
      */
     private static final int MAX_PROT_REPLY_LEN = 266;
 
@@ -105,8 +104,7 @@ public class CicsSocket implements LegStarConnection {
     public static final String UOW_KEEP = "Keep";
 
     /** General protocol violation reply message. */
-    public static final String PROTOCOL_ERROR_MSG =
-            "Invalid or unexpected reply from host.";
+    public static final String PROTOCOL_ERROR_MSG = "Invalid or unexpected reply from host.";
 
     /** TCPIP Socket connection to a CICS region. */
     private Socket mClientSocket = null;
@@ -118,10 +116,10 @@ public class CicsSocket implements LegStarConnection {
     private CicsSocketEndpoint mCicsSocketEndpoint;
 
     /**
-     * This host character set is used for the protocol elements
-     * which are checked by the LegStar host programs. Because these
-     * target host programs are compiled with a fixed charset, it
-     * might be different from the actual user data character set.
+     * This host character set is used for the protocol elements which are
+     * checked by the LegStar host programs. Because these target host programs
+     * are compiled with a fixed charset, it might be different from the actual
+     * user data character set.
      */
     private String mHostProtocolCharset;
 
@@ -137,14 +135,13 @@ public class CicsSocket implements LegStarConnection {
     /**
      * A CICS Socket exists for a target CICS region, a given CICS Socket
      * listener and a particular User ID to use for authentication and
-     * impersonation. Observe that no password is stored in this class
-     * for security reasons.
+     * impersonation. Observe that no password is stored in this class for
+     * security reasons.
      * 
      * @param connectionID an identifier for this connection
      * @param cicsSocketEndpoint CICS Socket endpoint
      */
-    public CicsSocket(
-            final String connectionID,
+    public CicsSocket(final String connectionID,
             final CicsSocketEndpoint cicsSocketEndpoint) {
         mConnectionID = connectionID;
         mCicsSocketEndpoint = cicsSocketEndpoint;
@@ -152,15 +149,14 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /**
-     * Connect to a CICS IBM Listener passing credentials and a client
-     * initial message. The reply must be an acknowldgement otherwise it
-     * is an error message returned from the host.
+     * Connect to a CICS IBM Listener passing credentials and a client initial
+     * message. The reply must be an acknowldgement otherwise it is an error
+     * message returned from the host.
      * 
      * @param cicsPassword credentials for security exist
      * @throws ConnectionException if connection fails
      */
-    public void connect(
-            final String cicsPassword) throws ConnectionException {
+    public void connect(final String cicsPassword) throws ConnectionException {
         String password;
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID
@@ -169,28 +165,25 @@ public class CicsSocket implements LegStarConnection {
         }
         try {
             mClientSocket = new Socket();
-            mClientSocket
-                    .connect(
-                            new InetSocketAddress(
-                                    InetAddress.getByName(
-                                            mCicsSocketEndpoint
-                                                    .getHostIPAddress()),
-                                    mCicsSocketEndpoint.getHostIPPort()),
-                                    getCicsSocketEndpoint().getConnectTimeout());
+            mClientSocket.connect(
+                    new InetSocketAddress(InetAddress
+                            .getByName(mCicsSocketEndpoint.getHostIPAddress()),
+                            mCicsSocketEndpoint.getHostIPPort()),
+                    getCicsSocketEndpoint().getConnectTimeout());
             mClientSocket.setSoTimeout(getCicsSocketEndpoint()
                     .getReceiveTimeout());
             /*
-             * In order to optimize memory allocation, this client program
-             * sends message parts to server in 2 different sends. If
-             * we don t disable Nagle, there is an unacceptable delay in
-             * the server acknowldgement of the first send.
+             * In order to optimize memory allocation, this client program sends
+             * message parts to server in 2 different sends. If we don t disable
+             * Nagle, there is an unacceptable delay in the server
+             * acknowldgement of the first send.
              */
             mClientSocket.setTcpNoDelay(true);
 
             /*
              * In an RPC mode, there is no reason to wait for additional data
-             * when a close sequence is initiated (we wouldn't know what to
-             * do with that data anyway.
+             * when a close sequence is initiated (we wouldn't know what to do
+             * with that data anyway.
              */
             mClientSocket.setSoLinger(false, 0);
 
@@ -202,11 +195,8 @@ public class CicsSocket implements LegStarConnection {
             }
 
             OutputStream out = mClientSocket.getOutputStream();
-            out.write(formatCIM(
-                    mCicsSocketEndpoint.getHostUserID(),
-                    password,
-                    mConnectionID,
-                    mCicsSocketEndpoint.isHostTraceMode(),
+            out.write(formatCIM(mCicsSocketEndpoint.getHostUserID(), password,
+                    mConnectionID, mCicsSocketEndpoint.isHostTraceMode(),
                     mHostProtocolCharset));
             recvConnectionAck();
             _isOpen = true;
@@ -224,24 +214,23 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /**
-     * This method probes a socket for reusability.
-     * A socket might be reusable (which is efficient). Unfortunatly,
-     * there are no socket methods that reliably tells you if socket
-     * is usable or not.
+     * This method probes a socket for reusability. A socket might be reusable
+     * (which is efficient). Unfortunatly, there are no socket methods that
+     * reliably tells you if socket is usable or not.
      * 
      * @param cicsPassword host password if it is not stored in configuration
      *            file
      * @throws ConnectionException if connection fails
      * */
-    public void connectReuse(
-            final String cicsPassword) throws ConnectionException {
+    public void connectReuse(final String cicsPassword)
+            throws ConnectionException {
 
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Attempting reuse.");
         }
         /* If socket is reusable just return. */
-        if (mClientSocket != null
-                && mClientSocket.isConnected() && isServerAlive()) {
+        if (mClientSocket != null && mClientSocket.isConnected()
+                && isServerAlive()) {
             if (_log.isDebugEnabled()) {
                 _log.debug("Connection:" + mConnectionID
                         + " Socket will be reused.");
@@ -258,9 +247,8 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /**
-     * After initial connect, the host should reply with an ack plus a
-     * bunch of attributes used to correlate this connection with host
-     * events.
+     * After initial connect, the host should reply with an ack plus a bunch of
+     * attributes used to correlate this connection with host events.
      * 
      * @throws RequestException if ack cannot be received
      */
@@ -268,20 +256,18 @@ public class CicsSocket implements LegStarConnection {
         String ackString = null;
         try {
             InputStream in = mClientSocket.getInputStream();
-            ackString = getCharsFromHost(
-                    in, mHostProtocolCharset, MAX_PROT_REPLY_LEN);
+            ackString = getCharsFromHost(in, mHostProtocolCharset,
+                    MAX_PROT_REPLY_LEN);
             if (ackString == null || ackString.length() == 0) {
-                throw (new RequestException(
-                        "No response from host."));
+                throw (new RequestException("No response from host."));
             }
             /* If this is not a valid ACK, it could be an error report */
-            if (REPLY_ACK_MSG_EC.compareTo(
-                    ackString.substring(
-                            0, REPLY_ACK_MSG_EC.length())) != 0) {
+            if (REPLY_ACK_MSG_EC.compareTo(ackString.substring(0,
+                    REPLY_ACK_MSG_EC.length())) != 0) {
                 /*
-                 * Sanity check for characters being displayable. We expect
-                 * the host error reply to start with an error code in
-                 * uppercase characters.
+                 * Sanity check for characters being displayable. We expect the
+                 * host error reply to start with an error code in uppercase
+                 * characters.
                  */
                 if (Character.getType(ackString.charAt(0)) == Character.UPPERCASE_LETTER) {
                     throw (new RequestException(ackString));
@@ -295,8 +281,7 @@ public class CicsSocket implements LegStarConnection {
         }
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID
-                    + " Connection Ack received."
-                    + ackString);
+                    + " Connection Ack received." + ackString);
         }
     }
 
@@ -307,16 +292,17 @@ public class CicsSocket implements LegStarConnection {
      * @param request the request to be serviced
      * @throws RequestException if send fails
      */
-    public void sendRequest(
-            final LegStarRequest request) throws RequestException {
+    public void sendRequest(final LegStarRequest request)
+            throws RequestException {
         if (_log.isDebugEnabled()) {
             try {
-                _log.debug("Sending Request:" + request.getID()
-                        + " on Connection:" + mConnectionID
+                _log.debug("Sending Request:"
+                        + request.getID()
+                        + " on Connection:"
+                        + mConnectionID
                         + " "
-                        + request.getRequestMessage().getHeaderPart().
-                                getJsonString()
-                        + '.');
+                        + request.getRequestMessage().getHeaderPart()
+                                .getJsonString() + '.');
             } catch (HeaderPartException e) {
                 throw new RequestException(e);
             }
@@ -329,8 +315,8 @@ public class CicsSocket implements LegStarConnection {
                     mClientSocket.getSendBufferSize());
 
             /* Send message type signaling a request */
-            outputBuffer.write(formatMessageType(
-                    EXEC_REQUEST_EC, mHostProtocolCharset));
+            outputBuffer.write(formatMessageType(EXEC_REQUEST_EC,
+                    mHostProtocolCharset));
 
             /* Serialize the request message on the stream */
             outputBuffer.write(request.getRequestMessage().sendToHost());
@@ -345,26 +331,23 @@ public class CicsSocket implements LegStarConnection {
 
         _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
-            _log.debug("Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
-                    + " message request sent.");
+            _log.debug("Request:" + request.getID() + " on Connection:"
+                    + mConnectionID + " message request sent.");
         }
     }
 
     /**
-     * A response is serialized as a header message part followed by
-     * data message parts. This method creates a response message
-     * for the request.
+     * A response is serialized as a header message part followed by data
+     * message parts. This method creates a response message for the request.
      * 
      * @param request the request being serviced
      * @throws RequestException if receive fails
      */
-    public void recvResponse(
-            final LegStarRequest request) throws RequestException {
+    public void recvResponse(final LegStarRequest request)
+            throws RequestException {
         if (_log.isDebugEnabled()) {
             _log.debug("Receiving response for Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
-                    + '.');
+                    + " on Connection:" + mConnectionID + '.');
         }
         try {
             /* First get the eye catcher portion of the reply */
@@ -372,9 +355,8 @@ public class CicsSocket implements LegStarConnection {
             String msgType = recvMessageType(respStream);
 
             /* Check if this is a valid reply or an error reply */
-            if (DATA_MSG_EC.compareTo(
-                    msgType.substring(
-                            0, DATA_MSG_EC.length())) != 0) {
+            if (DATA_MSG_EC
+                    .compareTo(msgType.substring(0, DATA_MSG_EC.length())) != 0) {
                 recvError(msgType, respStream);
             }
 
@@ -392,9 +374,8 @@ public class CicsSocket implements LegStarConnection {
 
         _lastUsedTime = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
-            _log.debug("Request:" + request.getID()
-                    + " on Connection:" + mConnectionID
-                    + " response received.");
+            _log.debug("Request:" + request.getID() + " on Connection:"
+                    + mConnectionID + " response received.");
         }
     }
 
@@ -405,41 +386,38 @@ public class CicsSocket implements LegStarConnection {
      * @return the header element
      * @throws RequestException if header element cannot be recovered
      */
-    private String recvMessageType(
-            final InputStream in) throws RequestException {
-        String msgType = getCharsFromHost(
-                in, mHostProtocolCharset, REPLY_HDR_LEN);
+    private String recvMessageType(final InputStream in)
+            throws RequestException {
+        String msgType = getCharsFromHost(in, mHostProtocolCharset,
+                REPLY_HDR_LEN);
         if (msgType == null || msgType.length() < REPLY_HDR_LEN) {
             throw (new RequestException(PROTOCOL_ERROR_MSG
-                    + " message type received: "
-                    + msgType));
+                    + " message type received: " + msgType));
         }
         return msgType;
     }
 
     /**
-     * When the reply does not present the expected header, it
-     * might contain an error report.
+     * When the reply does not present the expected header, it might contain an
+     * error report.
      * 
      * @param msgType the header received
      * @param in an opened input stream on the host
      * @throws RequestException in all cases
      */
-    private void recvError(
-            final String msgType,
-            final InputStream in) throws RequestException {
+    private void recvError(final String msgType, final InputStream in)
+            throws RequestException {
 
-        if (REPLY_ERROR_MSG_EC.compareTo(
-                msgType.substring(
-                        0, REPLY_ERROR_MSG_EC.length())) != 0) {
+        if (REPLY_ERROR_MSG_EC.compareTo(msgType.substring(0,
+                REPLY_ERROR_MSG_EC.length())) != 0) {
             /* Consider this is a system error message */
-            String errString = getCharsFromHost(
-                    in, mHostProtocolCharset, MAX_PROT_REPLY_LEN);
+            String errString = getCharsFromHost(in, mHostProtocolCharset,
+                    MAX_PROT_REPLY_LEN);
             throw (new RequestException(msgType + errString));
         } else {
             /* Get the error message content */
-            String errString = getCharsFromHost(
-                    in, mHostProtocolCharset, MAX_PROT_REPLY_LEN);
+            String errString = getCharsFromHost(in, mHostProtocolCharset,
+                    MAX_PROT_REPLY_LEN);
             throw (new RequestException(errString.trim()));
         }
     }
@@ -451,8 +429,7 @@ public class CicsSocket implements LegStarConnection {
      */
     public void close() throws RequestException {
         if (_log.isDebugEnabled()) {
-            _log.debug("Connection:" + mConnectionID
-                    + " Attempting to close.");
+            _log.debug("Connection:" + mConnectionID + " Attempting to close.");
         }
         if (mClientSocket == null) {
             return;
@@ -505,8 +482,7 @@ public class CicsSocket implements LegStarConnection {
      * @param command the unit of work command (commit, rollback or keep)
      * @throws RequestException if a failure is detected
      */
-    private void processUOW(
-            final String command) throws RequestException {
+    private void processUOW(final String command) throws RequestException {
         if (_log.isDebugEnabled()) {
             _log.debug("Connection:" + mConnectionID + " Attempting to "
                     + command + " unit of work.");
@@ -519,8 +495,8 @@ public class CicsSocket implements LegStarConnection {
             throw (new RequestException(e));
         }
         if (_log.isDebugEnabled()) {
-            _log.debug("Connection:" + mConnectionID + " "
-                    + command + " success.");
+            _log.debug("Connection:" + mConnectionID + " " + command
+                    + " success.");
         }
     }
 
@@ -557,9 +533,8 @@ public class CicsSocket implements LegStarConnection {
             InputStream in = mClientSocket.getInputStream();
             String msgType = recvMessageType(in);
             /* If this is not a valid ACK, it could be an error report */
-            if (REPLY_ACK_MSG_EC.compareTo(
-                    msgType.substring(
-                            0, REPLY_ACK_MSG_EC.length())) != 0) {
+            if (REPLY_ACK_MSG_EC.compareTo(msgType.substring(0,
+                    REPLY_ACK_MSG_EC.length())) != 0) {
                 recvError(msgType, in);
             }
         } catch (IOException e) {
@@ -571,9 +546,9 @@ public class CicsSocket implements LegStarConnection {
     }
 
     /**
-     * Receives character data from host and convert it from character set.
-     * It is assumed the maximum size to receive is small and is unlikely to
-     * get chunked.
+     * Receives character data from host and convert it from character set. It
+     * is assumed the maximum size to receive is small and is unlikely to get
+     * chunked.
      * 
      * @param in an it stream from a socket connection to a host
      * @param charset the host character set
@@ -581,10 +556,8 @@ public class CicsSocket implements LegStarConnection {
      * @return the result string
      * @throws RequestException if receiving fails
      */
-    private static String getCharsFromHost(
-            final InputStream in,
-            final String charset,
-            final int maxSize) throws RequestException {
+    private static String getCharsFromHost(final InputStream in,
+            final String charset, final int maxSize) throws RequestException {
         String str = null;
         try {
             byte[] buffer = new byte[maxSize];
@@ -603,9 +576,9 @@ public class CicsSocket implements LegStarConnection {
 
     /**
      * The Client Initial Message (CIM) is data that the IBM CICS Socket
-     * listener will pass to security exist and then to the server
-     * transaction. It is used by the LegStar protocol to pass data that
-     * remains valid for the entire duration of a connection.
+     * listener will pass to security exist and then to the server transaction.
+     * It is used by the LegStar protocol to pass data that remains valid for
+     * the entire duration of a connection.
      * 
      * @param cicsUserID the CICS User ID to authenticate/impersonate
      * @param cicsPassword the CICS User credentials
@@ -613,25 +586,22 @@ public class CicsSocket implements LegStarConnection {
      * @param trace enable trace mode
      * @param charset the host character set
      * @return the formatted CIM
-     * @throws UnsupportedEncodingException if initial message formatting
-     *             fails
+     * @throws UnsupportedEncodingException if initial message formatting fails
      */
-    public static byte[] formatCIM(
-            final String cicsUserID,
-            final String cicsPassword,
-            final String connectionID,
-            final boolean trace,
-            final String charset) throws UnsupportedEncodingException {
+    public static byte[] formatCIM(final String cicsUserID,
+            final String cicsPassword, final String connectionID,
+            final boolean trace, final String charset)
+            throws UnsupportedEncodingException {
         byte[] cicsCIM = new byte[CIM_LEN];
         int pos = 0;
-        HostCodec.toHostBytes(
-                cicsUserID, cicsCIM, pos, CICS_USERID_LEN, charset);
+        HostCodec.toHostBytes(cicsUserID, cicsCIM, pos, CICS_USERID_LEN,
+                charset);
         pos += CICS_USERID_LEN;
-        HostCodec.toHostBytes(
-                cicsPassword, cicsCIM, pos, CICS_PWD_LEN, charset);
+        HostCodec
+                .toHostBytes(cicsPassword, cicsCIM, pos, CICS_PWD_LEN, charset);
         pos += CICS_PWD_LEN;
-        HostCodec.toHostBytes(
-                connectionID, cicsCIM, pos, CONNECTION_ID_LEN, charset);
+        HostCodec.toHostBytes(connectionID, cicsCIM, pos, CONNECTION_ID_LEN,
+                charset);
         pos += CONNECTION_ID_LEN;
         if (trace) {
             HostCodec.toHostBytes("1", cicsCIM, pos, TRACE_LEN, charset);
@@ -639,9 +609,10 @@ public class CicsSocket implements LegStarConnection {
             HostCodec.toHostBytes("0", cicsCIM, pos, TRACE_LEN, charset);
         }
         pos += TRACE_LEN;
-        HostCodec.toHostBytes(
-                CIM_EYE_CATCHER, cicsCIM, pos, CIM_EYE_CATCHER.length(),
-                charset);
+        HostCodec.toHostBytes(CIM_EYE_CATCHER, cicsCIM, pos,
+                CIM_EYE_CATCHER.length(), charset);
+        pos += CIM_EYE_CATCHER.length();
+
         return cicsCIM;
     }
 
@@ -653,35 +624,33 @@ public class CicsSocket implements LegStarConnection {
      * @return the serialized message type
      * @throws UnsupportedEncodingException if formatting fails
      */
-    public static byte[] formatMessageType(
-            final String messageType,
+    public static byte[] formatMessageType(final String messageType,
             final String charset) throws UnsupportedEncodingException {
         byte[] aMTBytes = new byte[MSG_TYPE_LEN];
         int pos = 0;
-        HostCodec.toHostBytes(messageType, aMTBytes, pos,
-                MSG_TYPE_LEN, charset);
+        HostCodec
+                .toHostBytes(messageType, aMTBytes, pos, MSG_TYPE_LEN, charset);
         return aMTBytes;
     }
 
     /**
-     * Formats the UOW command instructing host on how to deal with
-     * the current unit of work.
+     * Formats the UOW command instructing host on how to deal with the current
+     * unit of work.
      * 
      * @param command the UOW processing command
      * @param charset the host character set
      * @return the serialized header
      * @throws UnsupportedEncodingException if formatting fails
      */
-    public static byte[] formatUOW(
-            final String command,
-            final String charset) throws UnsupportedEncodingException {
+    public static byte[] formatUOW(final String command, final String charset)
+            throws UnsupportedEncodingException {
         byte[] aUOWBytes = new byte[UOW_MSG_EC_LEN + 1 + UOW_COMMAND_LEN + 1];
         int pos = 0;
-        HostCodec.toHostBytes(UOW_MSG_EC, aUOWBytes, pos,
-                UOW_MSG_EC_LEN, charset);
+        HostCodec.toHostBytes(UOW_MSG_EC, aUOWBytes, pos, UOW_MSG_EC_LEN,
+                charset);
         pos += (UOW_MSG_EC_LEN + 1);
-        HostCodec.toHostBytes(command, aUOWBytes, pos,
-                command.length(), charset);
+        HostCodec.toHostBytes(command, aUOWBytes, pos, command.length(),
+                charset);
         return aUOWBytes;
     }
 
@@ -692,8 +661,8 @@ public class CicsSocket implements LegStarConnection {
      * @return the serialized header
      * @throws UnsupportedEncodingException if formatting fails
      */
-    public static byte[] formatProbe(
-            final String charset) throws UnsupportedEncodingException {
+    public static byte[] formatProbe(final String charset)
+            throws UnsupportedEncodingException {
         byte[] probeBytes = new byte[PROBE_REQUEST_EC.length() + 1];
         int pos = 0;
         HostCodec.toHostBytes(PROBE_REQUEST_EC, probeBytes, pos,
@@ -747,8 +716,7 @@ public class CicsSocket implements LegStarConnection {
     /**
      * (non-Javadoc).
      * 
-     * @see com.legstar.messaging.Connection#getConnectTimeout()
-     *      {@inheritDoc}
+     * @see com.legstar.messaging.Connection#getConnectTimeout() {@inheritDoc}
      */
     public long getConnectTimeout() {
         return getCicsSocketEndpoint().getConnectTimeout();
@@ -757,8 +725,7 @@ public class CicsSocket implements LegStarConnection {
     /**
      * (non-Javadoc).
      * 
-     * @see com.legstar.messaging.Connection#getReceiveTimeout()
-     *      {@inheritDoc}
+     * @see com.legstar.messaging.Connection#getReceiveTimeout() {@inheritDoc}
      */
     public long getReceiveTimeout() {
         return getCicsSocketEndpoint().getReceiveTimeout();
