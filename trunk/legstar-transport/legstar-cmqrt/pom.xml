@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.legsem.legstar</groupId>
         <artifactId>legstar-transport</artifactId>
-        <version>1.5.2-SNAPSHOT</version>
+        <version>1.5.2</version>
     </parent>
     <artifactId>legstar-cmqrt</artifactId>
     <name>LegStar WebSphere MQ Transport for CICS</name>
