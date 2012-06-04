@@ -1,0 +1,42 @@
+<!--
+Assembly descriptor for integration tests.
+-->
+<assembly>
+    <id>int</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <fileSets>
+        <!-- Copy Services war files -->
+        <fileSet>
+            <directory>target/war</directory>
+            <outputDirectory>war</outputDirectory>
+            <includes>
+                <include>*.war</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy dependencies -->
+        <fileSet>
+            <directory>target/dependency/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+
+        <!-- Copy configuration files -->
+        <fileSet>
+            <directory>src/test/resources</directory>
+            <outputDirectory>conf</outputDirectory>
+            <includes>
+                <include>*.properties</include>
+                <include>*.xml</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+
+</assembly>
