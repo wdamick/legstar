@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-transport</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>LegStar Transports</name>
@@ -35,9 +35,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-transport-1.5.2</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-transport-1.5.2</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/legstar-transport-1.5.2</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-transport/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-transport/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-transport/</url>
     </scm>
 
     <distributionManagement>
