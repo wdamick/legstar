@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-cob2trans</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
 
     <name>LegStar COBOL to Transformers Generator</name>
     <description>Generates Transformers from COBOL source.</description>
@@ -32,9 +32,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-cob2trans-1.5.2</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-cob2trans-1.5.2</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/legstar-cob2trans-1.5.2</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-cob2trans/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-cob2trans/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-cob2trans/</url>
     </scm>
 
     <distributionManagement>
