@@ -26,8 +26,8 @@
       *---------------------------------------------------------------*
       *  Constants                                                    *
       *---------------------------------------------------------------*
-       77  W00-SERVICE-URI PIC X(53) VALUE 
-           'http://192.168.0.112:8080/c2ws-jvmquery/jvmqueryProxy'.
+       77  W00-SERVICE-URI PIC X(53) VALUE 'http://192.168.0.112:8080/c2
+      -    'ws-jvmquery/jvmqueryProxy'.
 
 
       *---------------------------------------------------------------*
@@ -86,8 +86,8 @@
        01 COM-REQUEST.
            02  JvmQueryRequest.
              03  envVarNames--C PIC 9(9) BINARY.
-             03  envVarNames OCCURS 0 TO 10 DEPENDING ON envVarNames--C
-                 PIC X(32) DISPLAY.
+             03  envVarNames OCCURS 0 TO 10 DEPENDING ON envVarNames--C 
+                PIC X(32) DISPLAY.
 
        
       *****************************************************************
