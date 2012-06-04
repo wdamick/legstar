@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =================================================================================
+     Create an archive for an adapter.
+  -->
+<project basedir=".." default="create-jar" name="build-jar">
+    <target name="create-jar">
+        <mkdir dir="target\src\gen\target"/>
+        <jar destfile="target\src\gen\target/cixs-lsfilead.jar">
+            <!-- Generated JAX-WS implementation binaries -->
+            <fileset dir="target\src\gen\target\classes"
+                includes="com/legstar/test/cixs/lsfilead/*.class"/>
+            <!-- JAXB binaries -->
+            <fileset dir="target\classes"
+                includes="com/legstar/test/coxb/lsfilead/*.class"/>
+            <!-- Binding binaries -->
+            <fileset dir="target\classes"
+                includes="com/legstar/test/coxb/lsfilead/bind/*.class"/>
+        </jar>
+    </target>
+</project>
