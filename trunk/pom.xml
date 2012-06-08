@@ -3,7 +3,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar</artifactId>
-    <version>1.5.2-SNAPSHOT</version>
+    <version>1.5.2</version>
     <packaging>pom</packaging>
 
     <name>LegStar Open-Source Mainframe Integration</name>
@@ -25,9 +25,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-1.5.2</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-1.5.2</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/legstar-1.5.2</url>
     </scm>
 
     <mailingLists>
