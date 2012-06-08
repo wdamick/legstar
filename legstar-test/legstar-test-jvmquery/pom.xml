@@ -55,6 +55,7 @@
                       </goals>
                       <configuration>
                           <sei>com.legstar.xsdc.test.cases.jvmquery.JVMQuery</sei>
+                          <sourceDestDir>${project.build.directory}/jaxws/wsgen/src</sourceDestDir>
                       </configuration>
                   </execution>
               </executions>
