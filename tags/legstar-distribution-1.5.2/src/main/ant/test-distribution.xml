@@ -1,0 +1,73 @@
+<!-- =================================================================================
+     This script tests the distribution file. It unzips the distro to a temporary
+     location and runs the quickstarts.
+ -->
+<project basedir="../../.." default="testDistro" name="build-sample">
+
+    <!-- ===========================================================  -->
+    <!-- Setup environment
+    -->
+    <target name="init">
+        <xmlproperty file="${basedir}/pom.xml"/>
+
+        <!-- Temporary location  -->
+        <property name="test.dir" value="target/test-distro" />
+        <!-- Source XML schema location  -->
+        <property name="xsd.dir" value="schema" />
+        <!-- Distribution name  -->
+        <property name="dist.name" value="${project.artifactId}-${project.version}" />
+        <!-- Distribution zip file name -->
+        <property name="dist.zip" value="${dist.name}-bin.zip" />
+        <!-- Distribution zip file path  -->
+        <property name="zip.file" value="${basedir}/target/${dist.zip}" />
+        <!-- Whether to fork the java compiler or not   -->
+        <property name="javac.fork" value="yes" />
+        <!-- Distribution samples location   -->
+        <property name="lsfileae.dir" value="${test.dir}/${dist.name}/samples/quickstarts/adapter_lsfileae" />
+        <property name="jvmquery.dir" value="${test.dir}/${dist.name}/samples/quickstarts/proxy_pojo_jvmquery" />
+        <property name="cultureinfo.dir" value="${test.dir}/${dist.name}/samples/quickstarts/proxy_ws_cultureinfo" />
+
+        <!-- File to probe for lsfileae -->
+        <property name="lsfileaeProbe" value="${test.dir}/${dist.name}/samples/quickstarts/adapter_lsfileae/war/cixs-lsfileae.war"/>
+        <!-- File to probe for jvmquery -->
+        <property name="jvmqueryProbe" value="${test.dir}/${dist.name}/samples/quickstarts/proxy_pojo_jvmquery/war/c2ws-jvmquery.war"/>
+        <!-- File to probe for cultureinfo -->
+        <property name="cultureinfoProbe" value="${test.dir}/${dist.name}/samples/quickstarts/proxy_ws_cultureinfo/war/c2ws-cultureinfo.war"/>
+
+    </target>
+
+    <!-- ===========================================================  -->
+    <!-- Build the sample
+    -->
+    <target name="testDistro" depends="init">
+        <unzip src="${zip.file}" dest="${test.dir}"/>
+
+        <!-- Lsfileae sample. -->
+        <ant antfile="build-cob2xsd.xml" dir="${lsfileae.dir}"/>
+        <ant antfile="build-coxb.xml" dir="${lsfileae.dir}"/>
+        <ant antfile="build-jws2cixs.xml" dir="${lsfileae.dir}"/>
+        <ant antfile="deploy.xml" dir="${lsfileae.dir}/ant"/>
+        <available file="${lsfileaeProbe}" property="isLsfileaeProbe"/>
+        <fail unless="isLsfileaeProbe" message="Lsfileae sample failed!"/>
+
+        <!-- Jvmquery sample. -->
+        <ant antfile="build-java2cob.xml" dir="${jvmquery.dir}"/>
+        <ant antfile="build-coxb.xml" dir="${jvmquery.dir}"/>
+        <ant antfile="build-cixs2jws.xml" dir="${jvmquery.dir}"/>
+        <ant antfile="build-jvmquery-cobol-src.xml" dir="${jvmquery.dir}"/>
+        <ant antfile="deploy.xml" dir="${jvmquery.dir}/ant"/>
+        <available file="${jvmqueryProbe}" property="isJvmqueryProbe"/>
+        <fail unless="isJvmqueryProbe" message="Jvmquery sample failed!"/>
+
+        <!-- Cultureinfo sample. -->
+        <ant antfile="build-xsd2cob.xml" dir="${cultureinfo.dir}"/>
+        <ant antfile="build-coxb.xml" dir="${cultureinfo.dir}"/>
+        <ant antfile="build-cixs2jws.xml" dir="${cultureinfo.dir}"/>
+        <ant antfile="build-cultureinfo-cobol-src.xml" dir="${cultureinfo.dir}"/>
+        <ant antfile="deploy.xml" dir="${cultureinfo.dir}/ant"/>
+        <available file="${cultureinfoProbe}" property="isCultureinfoProbe"/>
+        <fail unless="isCultureinfoProbe" message="Cultureinfo sample failed!"/>
+
+    </target>
+
+</project>
