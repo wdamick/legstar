@@ -41,6 +41,10 @@ LegStar Open Source Mainframe Integration
 
     * {{{http://code.google.com/p/legstar-mule/}LegStar for Mule ESB}}
 
+* JCA Connector:
+
+    *  The {{{http://code.google.com/p/legstar-e/}extensions to LegStar}} project has JCA connectors.
+
 * Direct access to LegStar modules:
 
     * {{{http://code.google.com/p/legstar-cob2xsd/}legstar-cob2xsd}} COBOL to XML Schema Translator
@@ -51,7 +55,7 @@ LegStar Open Source Mainframe Integration
 
     * {{{./legstar-cixsgen/index.html}legstar-cixsgen}} Mainframe Service Generator
 
-    * {{{./legstar-transport/index.html}legstar-invoker}} Transports runtime
+    * {{{./legstar-transport/index.html}legstar-transport}} Transports runtime
 
 * Are you an IMS/DC user?
 

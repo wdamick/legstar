@@ -1,6 +1,15 @@
  -------------------------------------------------------------------------------
                              Latest releases overview
  -------------------------------------------------------------------------------
+
+Version 1.5.2
+
+ Bug fixes and a enhancements.
+ 
+ Most of the fixes are in legstar-core.
+
+ Here is {{{http://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.5.2}complete list of changes}}.
+
 Version 1.5.1
 
  Bug fixes and a enhancements.
