@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.legsem.legstar</groupId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
     <artifactId>legstar-eclipse</artifactId>
     <packaging>pom</packaging>
 
@@ -31,9 +31,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-eclipse-1.5.2</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-eclipse-1.5.2</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/legstar-eclipse-1.5.2</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-eclipse/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-eclipse/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-eclipse/</url>
     </scm>
 
     <distributionManagement>
