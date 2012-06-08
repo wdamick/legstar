@@ -1,0 +1,23 @@
+<!-- =================================================================================
+     This script is responsible for generating a properties file with
+     development environment variables. This is useful for the maven project
+     portability.
+ -->
+<project basedir="../../.." default="mavenToProperties" name="maven-to-properties">
+
+    <target name="mavenToProperties">
+
+        <echo message="Generating devenv.properties "/>
+
+        <copy todir="${basedir}/src/test/resources" overwrite="true">
+            <fileset dir="${basedir}/../src/main/templates">
+                <include name="devenv.properties.template"/>
+            </fileset>
+            <filterset>
+                <filter token="LEGSTAR-DEV-TOMCAT-HOST" value="${legstar-dev-tomcat-host}"/>
+            </filterset>
+            <globmapper from="*.template" to="*"/>
+        </copy>
+
+  </target>
+</project>

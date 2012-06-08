@@ -1,0 +1,11 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+Transports
+
+  LegStar transports provide remote execution capabilities for other LegStar modules.
+  
+  Transports are usually implemented as  client side code written in Java and mainframe code written in C/370.

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="LegStar">
+  <publishDate format="dd-MMMM-yyyy"/>
+  <bannerLeft>
+    <name>LegStar</name>
+    <src>images/legstar-logo.png</src>
+    <href>index.html</href>
+  </bannerLeft>
+  <bannerRight>
+    <name>AnnouncingNewVersion</name>
+    <src>images/legstar-new-version.png</src>
+    <href>latest-release-overview.html</href>
+  </bannerRight>
+  <version position="navigation-top"/>
+  
+  <skin>
+    <groupId>com.legsem.legstar</groupId>
+    <artifactId>legstar-skin</artifactId>
+    <version>1.0.4</version>
+  </skin>
+  
+  <body>
+    <links>
+      <item name="Home" href="http://www.legsem.com/legstar" />
+      <item name="Download" href="legstar-distribution"/>
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user" />
+      <item name="Mail" href="mailto:admin@legsem.com" />
+      <item name="Blog" href="http://legstar.blogspot.com/" />
+    </links>
+
+    <menu name="LegStar">
+      <item name="Home" href="index.html"/>
+      <item name="Download" href="legstar-distribution"/>
+      <item name="Latest release" href="latest-release-overview.html"/>
+      <item name="Copyright" href="copyright.html" />
+    </menu>
+
+    <menu name="Learn more">
+      <item name="Quick tour" href="quicktour.html"/>
+      <item name="User guide" collapse="true" href="userguide.html">
+        <item name="PDF version" href="legstar-user-guide.pdf"/>
+        <item name="HTML version" href="legstar-user-guide.html"/>
+      </item>
+      <item name="On the web" href="ontheweb.html"/>
+    </menu>
+
+    <menu name="Get help">
+      <item name="Mailing list" href="http://groups.google.com/group/legstar-user"/>
+      <item name="Email administrator" href="mailto:admin@legsem.com" />
+      <item name="LegSem services" href=".." />
+    </menu>
+
+  </body>
+</project>

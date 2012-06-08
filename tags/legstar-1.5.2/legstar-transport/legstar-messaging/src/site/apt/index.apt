@@ -1,0 +1,40 @@
+ -----
+ Overview
+ -----
+ Fady Moussallam
+ -----
+ 18 January 2009
+ -----
+
+Messaging
+
+  When the {{{../legstar-invoker/index.html}invoker}} sends a request to the mainframe, it wraps the raw data in a message
+  structure. The LegStar messaging framework is transport independent so that LegStar
+  can evolve to support more transports in the future.
+  
+  The framework uses a notion of "Address" similar in spirit to SOAP Addressing which
+  allows each request to be correctly routed. The Address identifies the target mainframe.
+  
+  The message structure is multipart to support host programs with multiple input
+  structures and multiple output structures (for example CICS containers).
+  
+  When the underlying transport uses LegStar messaging:
+  
+      Message headers support an open format based on JSON so that more sophisticated
+      message exchange protocols can be built in the future.
+      
+      On the mainframe side, the data needs to be unwrapped and extracted from the message
+      received. This {{{../legstar-messaging/LSMSGLIB-readme.html}C/370 program}} performs
+      such unwrapping.
+      
+  The following mainframe side C/370 programs provide the message wrapping/unwrapping
+  capabilities:
+    
+     * {{{./LSMSGLIB-readme.html}LSMSGLIB Messaging library}}
+    
+     * {{{./LSCOMLOG-readme.html}LSCOMLOG Tracing library}}
+    
+
+  Some transports (such WebSphere MQ with CICS MQ Bridge) do not use the LegStar messaging
+  and therefore do not need the LegStar z/OS modules to be installed.
+
