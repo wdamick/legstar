@@ -8,7 +8,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-distribution</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
 
     <name>LegStar Distribution</name>
     <description>Used to create a single distribution for the entire LegStar project.</description>
@@ -35,9 +35,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-distribution-1.5.2</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-distribution-1.5.2</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/legstar-distribution-1.5.2</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-distribution/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-distribution/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-distribution/</url>
     </scm>
 
     <distributionManagement>
