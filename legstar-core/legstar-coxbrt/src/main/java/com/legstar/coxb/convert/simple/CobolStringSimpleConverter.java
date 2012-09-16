@@ -301,11 +301,9 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
          * the local code page.
          */
         try {
-            /* Trim trailing spaces and low-values unless there is only one */
+            /* Trim low-values unless there is only one */
             int i = javaStringLength;
-            while (i > 0
-                    && (hostSource[offset + i - 1] == 0x40 || hostSource[offset
-                            + i - 1] == 0)) {
+            while (i > 0 && (hostSource[offset + i - 1] == 0)) {
                 i--;
             }
             javaStringLength = i;
@@ -321,7 +319,14 @@ public class CobolStringSimpleConverter extends CobolSimpleConverter implements
                 javaString = javaString.replace('\0', ' ');
             }
 
-            return javaString;
+            // Trim trailing spaces
+            int end = javaString.length();
+            while ((end != 0)
+                    && Character.isWhitespace(javaString.charAt(end - 1))) {
+                end--;
+            }
+
+            return javaString.substring(0, end);
         } catch (UnsupportedEncodingException uee) {
             throw new CobolConversionException("UnsupportedEncodingException:"
                     + uee.getMessage());

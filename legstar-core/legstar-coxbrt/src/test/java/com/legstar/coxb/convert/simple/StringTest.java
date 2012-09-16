@@ -286,4 +286,11 @@ public class StringTest extends TestCase {
     public void testFromHostAllLowValues() {
         fromHost(US_HOST_CHARSET, 6, "000000000000", "");
     }
+
+    /**
+     * Issue 169 .
+     */
+    public void testAsciiArobasTrimmed() {
+        fromHost(LATIN1_HOST_CHARSET, 3, "404040", "@@@");
+    }
 }
