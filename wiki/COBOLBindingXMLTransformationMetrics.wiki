@@ -16,20 +16,20 @@ We use a set of JUnit test cases very similar to those described in [COBOLBindin
 
 The new JUnit test cases for XML Transformers are [http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbgen/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringTest.java here] and [http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbgen/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringWithReuseTest.java here], look for methods:
 
-* testHostToXml
+ * testHostToXml
+ 
+ * testXmlToHost
 
-* testXmlToHost
 
+Running DplarchtMeteringTest#testHostToXml with the largest 500 payload (the corresponding XML is about 100K), the throughput for Host to XML is about 8 TPS. As a comparison, Host to Java is about 540 TPS.
 
-Running with the largest 500 payload, the throughput for Host to XML is about 8 TPS. As a comparison, Host to Java is about 540 TPS.
+Using the Yourkit profiler, reveals the hotspot: 91% of the time is spent in javax.xml.bind.JAXBContext.newInstance(Class[]) while instantiating the Transformers.
 
-Using the Yourkit profile, reveals the hotspot: 91% of the time is spent in javax.xml.bind.JAXBContext.newInstance(Class[]) while instantiating the Transformers.
-
-JAXBContext is a heavyweight object and it is extremely costly to instantiate. It is thread safe so you could assume we can get away with making Transformer classes static but the Transformers also create JAXB Marshallers and Unmarshallers at construction time and these are not thread safe.
+[http://docs.oracle.com/javaee/6/api/javax/xml/bind/JAXBContext.html JAXBContext] is a heavyweight object and it is very costly to instantiate. It is thread safe so you could assume we can get away with making Transformer classes static but the Transformers also create JAXB Marshallers and Unmarshallers at construction time and these are not thread safe.
 
 The solution proposed here makes the assumption that you are running the Transformers in an environment that provides a Thread pool. JEE and ESB environments typically do that.
 
-The solution uses the java ThreadLocal class to keep a copy of the Transformers in each thread. If you look at the DplarchtMeteringWithReuseTest test case, you will notice this:
+The solution uses the java [http://docs.oracle.com/javase/6/docs/api/java/lang/ThreadLocal.html ThreadLocal] class to keep a separate copy of a reusable Transformers class in each thread. If you look at the DplarchtMeteringWithReuseTest test case, you will notice this:
 
 {{{
     private static final ThreadLocal < DfhcommareaXmlTransformers > _xmlTransformers = new ThreadLocal < DfhcommareaXmlTransformers >() {
@@ -44,7 +44,7 @@ The solution uses the java ThreadLocal class to keep a copy of the Transformers 
     };
 }}}
 
-Then when needed, instead of instantiation a new Transformer, you do:
+Then, when needed, instead of instantiating a new Transformers class, you do:
 
 {{{
    DfhcommareaXmlTransformers transformers = _xmlTransformers.get();
@@ -54,12 +54,14 @@ That's it.
 
 Back to load testing, with Transformers reuse, the throughput is now 220 TPS. Much better than 8!
 
-We are still far from the 540 TPS we get with java. The profiler again reveals that 42% of the time is spent in javax.xml.bind.helpers.AbstractMarshallerImpl.marshal(Object, Writer). That's the XML formatting piece. Not a lot we can do about that.
+We are still far from the 540 TPS we get with java. The profiler again reveals that 42% of the time is spent in javax.xml.bind.helpers.AbstractMarshallerImpl.marshal(Object, Writer). That's the JAXB XML formatting piece. Not a lot we can do about that.
 
 = Conclusion =
 
 Transformers for XML are very expensive to instantiate. There are dramatic gains in reusing these Transformers.
 
-The simple ThreadLocal solution proposed here works in most cases but is not the only solution. A pool of Transformers can also be created (see Apache http://commons.apache.org/pool/ for instance).
+The simple ThreadLocal solution proposed here works in most cases but is not the only solution. A pool of Transformers can also be created (see [http://commons.apache.org/pool/ Apache commons pooling] for instance).
+
+
 
 
