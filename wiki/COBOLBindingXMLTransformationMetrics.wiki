@@ -17,6 +17,7 @@ We use a set of JUnit test cases very similar to those described in [COBOLBindin
 The new JUnit test cases for XML Transformers are [http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbgen/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringTest.java here] and [http://code.google.com/p/legstar/source/browse/trunk/legstar-core/legstar-coxbgen/src/test/java/com/legstar/test/coxb/perf/DplarchtMeteringWithReuseTest.java here], look for methods:
 
 * testHostToXml
+
 * testXmlToHost
 
 
@@ -60,7 +61,5 @@ We are still far from the 540 TPS we get with java. The profiler again reveals t
 Transformers for XML are very expensive to instantiate. There are dramatic gains in reusing these Transformers.
 
 The simple ThreadLocal solution proposed here works in most cases but is not the only solution. A pool of Transformers can also be created (see Apache http://commons.apache.org/pool/ for instance).
-
-
 
 
