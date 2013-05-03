@@ -10,7 +10,6 @@
  ******************************************************************************/
 package com.legstar.coxb.transform;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
@@ -23,8 +22,8 @@ import com.legstar.coxb.CobolBindingException;
 /**
  * Generic methods to transform XML to host data.
  */
-public abstract class AbstractXmlToHostTransformer implements
-        IXmlToHostTransformer {
+public abstract class AbstractXmlToHostTransformer extends
+        AbstractXmlTransformer implements IXmlToHostTransformer {
 
     /** Logger. */
     private final Log _log = LogFactory
@@ -32,9 +31,6 @@ public abstract class AbstractXmlToHostTransformer implements
 
     /** A Java object to Host transformer. */
     private IJavaToHostTransformer mJavaToHostTransformer;
-
-    /** JAXB Context. */
-    private JAXBContext mJaxbContext = null;
 
     /** JAXB Unmarshaller (XML to Object). */
     private Unmarshaller mXmlUnmarshaller = null;
@@ -50,9 +46,9 @@ public abstract class AbstractXmlToHostTransformer implements
             throws HostTransformException {
         try {
             mJavaToHostTransformer = javaToHostTransformer;
-            mJaxbContext = JAXBContext.newInstance(
-                    mJavaToHostTransformer.newBinding().getJaxbType());
-            mXmlUnmarshaller = mJaxbContext.createUnmarshaller();
+            Class < ? > jaxbType = mJavaToHostTransformer.newBinding()
+                    .getJaxbType();
+            mXmlUnmarshaller = getJAXBContext(jaxbType).createUnmarshaller();
         } catch (JAXBException e) {
             throw new HostTransformException(e);
         } catch (CobolBindingException e) {
@@ -72,8 +68,7 @@ public abstract class AbstractXmlToHostTransformer implements
      * @throws HostTransformException if transformation fails
      */
     public byte[] transform(final Source source, final String hostCharset,
-            final HostTransformStatus status)
-            throws HostTransformException {
+            final HostTransformStatus status) throws HostTransformException {
         if (_log.isDebugEnabled()) {
             _log.debug("Transforming XML to host data:");
         }
@@ -118,8 +113,7 @@ public abstract class AbstractXmlToHostTransformer implements
      * @throws HostTransformException if transformation fails
      */
     public byte[] transform(final Source source,
-            final HostTransformStatus status)
-            throws HostTransformException {
+            final HostTransformStatus status) throws HostTransformException {
         return transform(source, (String) null, status);
     }
 

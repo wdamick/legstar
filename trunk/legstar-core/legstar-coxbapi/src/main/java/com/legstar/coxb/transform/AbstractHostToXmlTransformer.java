@@ -12,7 +12,6 @@ package com.legstar.coxb.transform;
 
 import java.io.Writer;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -26,8 +25,8 @@ import com.legstar.coxb.CobolBindingException;
 /**
  * Generic methods to transform host data to XML.
  */
-public abstract class AbstractHostToXmlTransformer implements
-        IHostToXmlTransformer {
+public abstract class AbstractHostToXmlTransformer extends
+        AbstractXmlTransformer implements IHostToXmlTransformer {
 
     /** Logger. */
     private final Log _log = LogFactory
@@ -35,9 +34,6 @@ public abstract class AbstractHostToXmlTransformer implements
 
     /** A Host to Java object transformer. */
     private IHostToJavaTransformer mHostToJavaTransformer;
-
-    /** JAXB Context. */
-    private JAXBContext mJaxbContext = null;
 
     /** JAXB Marshaller (Object to XML). */
     private Marshaller mXmlMarshaller = null;
@@ -53,9 +49,9 @@ public abstract class AbstractHostToXmlTransformer implements
             throws HostTransformException {
         try {
             mHostToJavaTransformer = hostToJavaTransformer;
-            mJaxbContext = JAXBContext.newInstance(
-                    mHostToJavaTransformer.newBinding().getJaxbType());
-            mXmlMarshaller = mJaxbContext.createMarshaller();
+            Class < ? > jaxbType = mHostToJavaTransformer.newBinding()
+                    .getJaxbType();
+            mXmlMarshaller = getJAXBContext(jaxbType).createMarshaller();
         } catch (JAXBException e) {
             throw new HostTransformException(e);
         } catch (CobolBindingException e) {
@@ -74,11 +70,8 @@ public abstract class AbstractHostToXmlTransformer implements
      *            executed
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final int offset,
-            final Writer writer,
-            final String hostCharset,
+    public void transform(final byte[] hostData, final int offset,
+            final Writer writer, final String hostCharset,
             final HostTransformStatus status) throws HostTransformException {
         if (_log.isDebugEnabled()) {
             _log.debug("Transforming host data to XML:");
@@ -97,11 +90,9 @@ public abstract class AbstractHostToXmlTransformer implements
      * @param hostCharset the host character set
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final int offset,
-            final Writer writer,
-            final String hostCharset) throws HostTransformException {
+    public void transform(final byte[] hostData, final int offset,
+            final Writer writer, final String hostCharset)
+            throws HostTransformException {
         transform(hostData, offset, writer, hostCharset,
                 new HostTransformStatus());
     }
@@ -114,9 +105,7 @@ public abstract class AbstractHostToXmlTransformer implements
      * @param hostCharset the host character set
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final Writer writer,
+    public void transform(final byte[] hostData, final Writer writer,
             final String hostCharset) throws HostTransformException {
         transform(hostData, 0, writer, hostCharset);
     }
@@ -128,9 +117,8 @@ public abstract class AbstractHostToXmlTransformer implements
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final Writer writer) throws HostTransformException {
+    public void transform(final byte[] hostData, final Writer writer)
+            throws HostTransformException {
         transform(hostData, 0, writer, (String) null);
     }
 
@@ -142,9 +130,7 @@ public abstract class AbstractHostToXmlTransformer implements
      * @param writer XML will be sent to this writer.
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final int offset,
+    public void transform(final byte[] hostData, final int offset,
             final Writer writer) throws HostTransformException {
         transform(hostData, offset, writer, (String) null);
     }
@@ -159,11 +145,9 @@ public abstract class AbstractHostToXmlTransformer implements
      *            executed
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final Writer writer,
-            final String hostCharset,
-            final HostTransformStatus status) throws HostTransformException {
+    public void transform(final byte[] hostData, final Writer writer,
+            final String hostCharset, final HostTransformStatus status)
+            throws HostTransformException {
         transform(hostData, 0, writer, hostCharset, status);
     }
 
@@ -176,9 +160,7 @@ public abstract class AbstractHostToXmlTransformer implements
      *            executed
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final Writer writer,
+    public void transform(final byte[] hostData, final Writer writer,
             final HostTransformStatus status) throws HostTransformException {
         transform(hostData, 0, writer, (String) null, status);
     }
@@ -193,11 +175,9 @@ public abstract class AbstractHostToXmlTransformer implements
      *            executed
      * @throws HostTransformException if transformation fails
      */
-    public void transform(
-            final byte[] hostData,
-            final int offset,
-            final Writer writer,
-            final HostTransformStatus status) throws HostTransformException {
+    public void transform(final byte[] hostData, final int offset,
+            final Writer writer, final HostTransformStatus status)
+            throws HostTransformException {
         transform(hostData, offset, writer, (String) null, status);
     }
 
@@ -212,20 +192,16 @@ public abstract class AbstractHostToXmlTransformer implements
      * @throws HostTransformException if transformation fails
      * */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void getXmlFromObject(
-            final Object valueObject, final Writer writer)
+    public void getXmlFromObject(final Object valueObject, final Writer writer)
             throws HostTransformException {
         try {
             if (isXmlRootElement()) {
                 getXmlMarshaller().marshal(valueObject, writer);
             } else {
-                QName qName = new QName(
-                        getNamespace(),
-                        getElementName());
+                QName qName = new QName(getNamespace(), getElementName());
                 JAXBElement < ? > jaxbElement = new JAXBElement(qName,
-                            getHostToJavaTransformer().newBinding()
-                                    .getJaxbType(),
-                            valueObject);
+                        getHostToJavaTransformer().newBinding().getJaxbType(),
+                        valueObject);
                 getXmlMarshaller().marshal(jaxbElement, writer);
             }
         } catch (JAXBException e) {
@@ -236,8 +212,8 @@ public abstract class AbstractHostToXmlTransformer implements
     }
 
     /**
-     * @return true if the JAXB element is marked as XmlRootElement which
-     *         means it does not need to be encapsulated in a JAXBElement.
+     * @return true if the JAXB element is marked as XmlRootElement which means
+     *         it does not need to be encapsulated in a JAXBElement.
      */
     public abstract boolean isXmlRootElement();
 
@@ -247,8 +223,8 @@ public abstract class AbstractHostToXmlTransformer implements
     public abstract String getNamespace();
 
     /**
-     * @return the element name is given either by the XmlRootElement
-     *         annotation or the XmlType annotation.
+     * @return the element name is given either by the XmlRootElement annotation
+     *         or the XmlType annotation.
      */
     public abstract String getElementName();
 
@@ -257,13 +233,6 @@ public abstract class AbstractHostToXmlTransformer implements
      */
     public IHostToJavaTransformer getHostToJavaTransformer() {
         return mHostToJavaTransformer;
-    }
-
-    /**
-     * @return the JAXB Marshaller (Object to XML)
-     */
-    public JAXBContext getJAXBContext() {
-        return mJaxbContext;
     }
 
     /**
