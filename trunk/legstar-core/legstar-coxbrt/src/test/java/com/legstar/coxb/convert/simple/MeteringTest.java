@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 import com.legstar.coxb.convert.CobolConversionException;
+import com.legstar.coxb.host.HostContext;
 import com.legstar.coxb.host.HostData;
 
 /**
@@ -86,7 +87,8 @@ public class MeteringTest extends TestCase {
         try {
             BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter
                     .fromHostSingle(17, 17, 2, true, false, false,
-                            ZONED_DECIMAL_HOST_BYTES, 0, STRING_FRENCH_CHARSET);
+                            ZONED_DECIMAL_HOST_BYTES, 0, HostContext
+                                    .getHostIntegerSigns(STRING_FRENCH_CHARSET));
             assertEquals(0, javaDecimal.compareTo(DECIMAL_JAVA));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -150,7 +152,8 @@ public class MeteringTest extends TestCase {
             byte[] hostBytes = new byte[ZONED_DECIMAL_HOST_BYTES.length];
             CobolZonedDecimalSimpleConverter.toHostSingle(DECIMAL_JAVA,
                     ZONED_DECIMAL_HOST_BYTES.length, 17, 2, true, false, false,
-                    hostBytes, 0, STRING_FRENCH_CHARSET);
+                    hostBytes, 0,
+                    HostContext.getHostIntegerSigns(STRING_FRENCH_CHARSET));
             assertEquals(ZONED_DECIMAL_HOST_BYTES[0], hostBytes[0]);
             assertEquals(
                     ZONED_DECIMAL_HOST_BYTES[ZONED_DECIMAL_HOST_BYTES.length - 1],
