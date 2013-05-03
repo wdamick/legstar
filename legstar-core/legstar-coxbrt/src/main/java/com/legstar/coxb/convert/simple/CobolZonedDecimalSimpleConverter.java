@@ -12,7 +12,6 @@ package com.legstar.coxb.convert.simple;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.legstar.coxb.CobolContext;
@@ -20,6 +19,7 @@ import com.legstar.coxb.ICobolArrayZonedDecimalBinding;
 import com.legstar.coxb.ICobolZonedDecimalBinding;
 import com.legstar.coxb.convert.CobolConversionException;
 import com.legstar.coxb.convert.ICobolZonedDecimalConverter;
+import com.legstar.coxb.host.HostContext;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
@@ -42,40 +42,6 @@ import com.legstar.coxb.host.HostException;
 public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         implements ICobolZonedDecimalConverter {
 
-    /** Ebcdic code point for plus sign. */
-    private static final byte PLUS_EBCDIC = 0x4E;
-
-    /** Ebcdic code point for minus sign. */
-    private static final byte MINUS_EBCDIC = 0x60;
-
-    /** Ebcdic code point for digit zero. */
-    private static final byte ZERO_EBCDIC = (byte) 0xF0;
-    /**
-     * Ordered list of characters that might appear in a zoned decimal (ignoring
-     * overpunch) when the charset is EBCDIC. Ordered for binary search.
-     */
-    private static final byte[] ORDERED_ZONED_DECIMAL_EBCDIC_BYTES = new byte[] {
-            (byte) 0xF0, (byte) 0xF1, (byte) 0xF2, (byte) 0xF3, (byte) 0xF4,
-            (byte) 0xF5, (byte) 0xF6, (byte) 0xF7, (byte) 0xF8, (byte) 0xF9,
-            0x00, 0x40, 0x4E, 0x60 };
-
-    /** One to one corresponding java character for the previous array. */
-    private static final char[] ZONED_DECIMAL_EBCDIC_BYTES_TO_JAVA_CHARS = new char[] {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '0', '+',
-            '-' };
-    /**
-     * Equivalent to ORDERED_ZONED_DECIMAL_CHARS but used when the charset is
-     * ASCII. Ordered for binary search.
-     */
-    private static final byte[] ORDERED_ZONED_DECIMAL_ASCII_BYTES = new byte[] {
-            0x00, 0x20, 0x2B, 0x2D, 0x30, (byte) 0x31, (byte) 0x32, 0x33, 0x34,
-            0x35, 0x36, 0x37, 0x38, 0x39 };
-
-    /** One to one corresponding java character for the previous array. */
-    private static final char[] ZONED_DECIMAL_ASCII_BYTES_TO_JAVA_CHARS = new char[] {
-            '0', '0', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8',
-            '9' };
-
     /**
      * @param cobolContext the Cobol compiler parameters in effect
      */
@@ -92,7 +58,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                     ce.getByteLength(), ce.getTotalDigits(),
                     ce.getFractionDigits(), ce.isSigned(), ce.isSignSeparate(),
                     ce.isSignLeading(), hostTarget, offset, getCobolContext()
-                            .getHostCharsetName());
+                            .getHostIntegerSigns());
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
         }
@@ -110,7 +76,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                         ce.getTotalDigits(), ce.getFractionDigits(),
                         ce.isSigned(), ce.isSignSeparate(), ce.isSignLeading(),
                         hostTarget, newOffset, getCobolContext()
-                                .getHostCharsetName());
+                                .getHostIntegerSigns());
             }
             /* If necessary, fill in the array with missing items */
             for (int i = ce.getBigDecimalList().size(); i < currentOccurs; i++) {
@@ -118,7 +84,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                         ce.getItemByteLength(), ce.getTotalDigits(),
                         ce.getFractionDigits(), ce.isSignSeparate(),
                         ce.isSignLeading(), ce.isSigned(), hostTarget,
-                        newOffset, getCobolContext().getHostCharsetName());
+                        newOffset, getCobolContext().getHostIntegerSigns());
             }
         } catch (CobolConversionException e) {
             throwHostException(ce, e);
@@ -134,7 +100,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             BigDecimal javaDecimal = fromHostSingle(ce.getByteLength(),
                     ce.getTotalDigits(), ce.getFractionDigits(), ce.isSigned(),
                     ce.isSignSeparate(), ce.isSignLeading(), hostSource,
-                    newOffset, getCobolContext().getHostCharsetName());
+                    newOffset, getCobolContext().getHostIntegerSigns());
             ce.setBigDecimalValue(javaDecimal);
             newOffset += ce.getByteLength();
         } catch (CobolConversionException e) {
@@ -155,7 +121,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                         ce.getTotalDigits(), ce.getFractionDigits(),
                         ce.isSigned(), ce.isSignSeparate(), ce.isSignLeading(),
                         hostSource, newOffset, getCobolContext()
-                                .getHostCharsetName());
+                                .getHostIntegerSigns());
                 lArray.add(javaDecimal);
                 newOffset += ce.getItemByteLength();
             }
@@ -179,7 +145,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * @param hostTarget target host buffer
      * @param offset offset in target host buffer
      * @return offset after host buffer is updated
-     * @param hostCharsetName host character set
+     * @param hostIntegerSigns the integer characters in the target host charset
      * @throws CobolConversionException if conversion fails
      */
     public static final int toHostSingle(final BigDecimal javaDecimal,
@@ -187,7 +153,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             final int fractionDigits, final boolean isSigned,
             final boolean isSignSeparate, final boolean isSignLeading,
             final byte[] hostTarget, final int offset,
-            final String hostCharsetName) throws CobolConversionException {
+            final byte[] hostIntegerSigns) throws CobolConversionException {
 
         /* Check that we are still within the host target range */
         int lastOffset = offset + cobolByteLength;
@@ -196,15 +162,6 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
                     "Attempt to write past end of host source buffer",
                     new HostData(hostTarget), offset, cobolByteLength));
         }
-
-        /*
-         * We want to avoid the cost of getBytes() so we need a quick way to
-         * detect EBCDIC character sets. FIXME This might not always work.
-         */
-        boolean toEBCDIC = hostCharsetName.startsWith("IBM");
-        byte hostZero = (toEBCDIC) ? ZERO_EBCDIC : (byte) '0';
-        byte hostMinus = (toEBCDIC) ? MINUS_EBCDIC : (byte) '-';
-        byte hostPlus = (toEBCDIC) ? PLUS_EBCDIC : (byte) '+';
 
         /* Leave the first host char available for sign if needed. */
         int iTarget = offset
@@ -253,14 +210,10 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         /* Place integer part, left padding with zeroes if needed */
         for (int i = 0; i < intHostDigits; i++) {
             if (i < (intHostDigits - intJavaDigits)) {
-                hostTarget[iTarget] = hostZero;
+                hostTarget[iTarget] = hostIntegerSigns[0];
             } else {
-                if (toEBCDIC) {
-                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_EBCDIC_BYTES[source[iSource]
-                            - (int) '0'];
-                } else {
-                    hostTarget[iTarget] = (byte) source[iSource];
-                }
+                hostTarget[iTarget] = hostIntegerSigns[source[iSource]
+                        - (int) '0'];
                 iSource++;
             }
             iTarget++;
@@ -272,14 +225,10 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
         /* Place fraction part, right padding with zeroes if needed */
         for (int i = 0; i < fractionDigits; i++) {
             if (i >= fractionJavaDigits) {
-                hostTarget[iTarget] = hostZero;
+                hostTarget[iTarget] = hostIntegerSigns[0];
             } else {
-                if (toEBCDIC) {
-                    hostTarget[iTarget] = ORDERED_ZONED_DECIMAL_EBCDIC_BYTES[source[iSource]
-                            - (int) '0'];
-                } else {
-                    hostTarget[iTarget] = (byte) source[iSource];
-                }
+                hostTarget[iTarget] = hostIntegerSigns[source[iSource]
+                        - (int) '0'];
                 iSource++;
             }
             iTarget++;
@@ -301,15 +250,15 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             if (isSignSeparate) {
                 if (isSignLeading) {
                     if (isNegative) {
-                        hostTarget[offset] = hostMinus;
+                        hostTarget[offset] = hostIntegerSigns[13];
                     } else {
-                        hostTarget[offset] = hostPlus;
+                        hostTarget[offset] = hostIntegerSigns[12];
                     }
                 } else {
                     if (isNegative) {
-                        hostTarget[iTarget - 1] = hostMinus;
+                        hostTarget[iTarget - 1] = hostIntegerSigns[13];
                     } else {
-                        hostTarget[iTarget - 1] = hostPlus;
+                        hostTarget[iTarget - 1] = hostIntegerSigns[12];
                     }
                 }
             } else {
@@ -343,7 +292,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * @param isSignLeading Cobol element sign in first byte
      * @param hostSource source host buffer
      * @param offset offset in source host buffer
-     * @param hostCharsetName host character set (not used)
+     * @param hostIntegerSigns the integer characters in the target host charset
      * @return offset after host buffer is read
      * @throws CobolConversionException if conversion fails
      */
@@ -351,7 +300,7 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             final int totalDigits, final int fractionDigits,
             final boolean isSigned, final boolean isSignSeparate,
             final boolean isSignLeading, final byte[] hostSource,
-            final int offset, final String hostCharsetName)
+            final int offset, final byte[] hostIntegerSigns)
             throws CobolConversionException {
 
         int lastOffset = offset + cobolByteLength;
@@ -395,23 +344,24 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
             hostByte = hostSource[iSource];
             if (isSigned) {
                 if (iSource == offset && isSignLeading && !isSignSeparate) {
-                    setFromOverPunch(workDecimal, hostByte, i);
+                    setFromOverPunch(workDecimal, hostByte, i, hostIntegerSigns);
                     i++;
                     continue;
                 }
 
                 if (iSource == lastOffset - 1 && !isSignLeading) {
                     if (isSignSeparate) {
-                        workDecimal[0] = toJavaChar(hostByte);
+                        workDecimal[0] = toJavaChar(hostByte, hostIntegerSigns);
                     } else {
-                        setFromOverPunch(workDecimal, hostByte, i);
+                        setFromOverPunch(workDecimal, hostByte, i,
+                                hostIntegerSigns);
                     }
                     i++;
                     continue;
                 }
 
             }
-            workDecimal[i] = toJavaChar(hostByte);
+            workDecimal[i] = toJavaChar(hostByte, hostIntegerSigns);
             i++;
         }
 
@@ -442,42 +392,41 @@ public class CobolZonedDecimalSimpleConverter extends CobolSimpleConverter
      * @param i the current index in the java decimal being built
      */
     protected static void setFromOverPunch(char[] workDecimal, byte hostByte,
-            int i) {
+            int i, final byte[] hostIntegerSigns) {
         int signCode = hostByte & 0xF0;
         if (signCode == 0xd0) {
-            workDecimal[0] = toJavaChar(MINUS_EBCDIC);
+            workDecimal[0] = '-';
         } else {
-            workDecimal[0] = toJavaChar(PLUS_EBCDIC);
+            workDecimal[0] = '+';
         }
-        workDecimal[i] = toJavaChar((byte) ((hostByte & 0x0F) + 0xF0));
+        workDecimal[i] = toJavaChar((byte) ((hostByte & 0x0F) + 0xF0),
+                hostIntegerSigns);
     }
 
     /**
-     * Lookup an assumed EBCDIC digit or sign character. If found, this will
-     * return the equivalent java digit or sign. If not found, there is a slight
-     * chance that the payload is already in java encoding so we give it a
-     * chance.
+     * Lookup a host numeric character and translate to java.
      * <p/>
-     * We could check the charset to see if we are ascii or ebcdic but it is
-     * cheaper to do an extra binary search on a small array.
+     * A host white space is translated to a java zero digit. On the host,
+     * numerics are frequently left padded with spaces but java does not like
+     * that.
+     * <p/>
+     * Similarly, host might use low values for padding which again does not
+     * suit java so we switch that to zeroes.
      * 
-     * @param hostByte the mainframe digit or sign
-     * @return the corresponding java digit or '\0' if not found
+     * @param hostByte the host numeric character
+     * @param hostIntegerSigns the list of host integer characters
+     * @return the corresponding java numeric character or 0 if not found
      */
-    public static char toJavaChar(final byte hostByte) {
-        int i = Arrays.binarySearch(ORDERED_ZONED_DECIMAL_EBCDIC_BYTES,
-                hostByte);
-        if (i < 0) {
-            i = Arrays
-                    .binarySearch(ORDERED_ZONED_DECIMAL_ASCII_BYTES, hostByte);
-            if (i < 0) {
-                return '\0';
-            } else {
-                return ZONED_DECIMAL_ASCII_BYTES_TO_JAVA_CHARS[i];
+    public static char toJavaChar(final byte hostByte,
+            final byte[] hostIntegerSigns) {
+        for (int i = 0; i < hostIntegerSigns.length; i++) {
+            if (hostByte == hostIntegerSigns[i]) {
+                char javaChar = HostContext.getIntegerSigns().charAt(i);
+                return javaChar == ' ' ? '0' : (javaChar == '\0' ? '0'
+                        : javaChar);
             }
-        } else {
-            return ZONED_DECIMAL_EBCDIC_BYTES_TO_JAVA_CHARS[i];
         }
+        return '\0';
     }
 
 }

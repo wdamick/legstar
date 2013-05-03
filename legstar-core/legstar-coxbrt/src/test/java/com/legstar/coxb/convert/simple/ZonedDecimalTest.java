@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import junit.framework.TestCase;
 
 import com.legstar.coxb.convert.CobolConversionException;
+import com.legstar.coxb.host.HostContext;
 import com.legstar.coxb.host.HostData;
 import com.legstar.coxb.host.HostException;
 
@@ -63,7 +64,7 @@ public class ZonedDecimalTest extends TestCase {
                     CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal,
                             byteLength, totalDigits, fractionDigits, signed,
                             isSignSeparate, isSignLeading, hostBytes, 0,
-                            hostCharset));
+                            HostContext.getHostIntegerSigns(hostCharset)));
             assertEquals(expectedValue, HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -93,7 +94,7 @@ public class ZonedDecimalTest extends TestCase {
             BigDecimal javaDecimal = CobolZonedDecimalSimpleConverter
                     .fromHostSingle(byteLength, totalDigits, fractionDigits,
                             signed, isSignSeparate, isSignLeading, hostBytes,
-                            0, hostCharset);
+                            0, HostContext.getHostIntegerSigns(hostCharset));
             assertEquals(expectedValue, javaDecimal.toString());
         } catch (CobolConversionException e) {
             fail(e.getMessage());
@@ -152,7 +153,8 @@ public class ZonedDecimalTest extends TestCase {
         BigDecimal decimal = new BigDecimal("25689745623");
         try {
             CobolZonedDecimalSimpleConverter.toHostSingle(decimal, 9, 9, 0,
-                    false, false, false, hostBytes, 0, US_HOST_CHARSET);
+                    false, false, false, hostBytes, 0,
+                    HostContext.getHostIntegerSigns(US_HOST_CHARSET));
         } catch (CobolConversionException e) {
             assertEquals("BigDecimal value too large for target Cobol field."
                     + " Host data at offset 0=0x000000000000000000",
@@ -162,7 +164,7 @@ public class ZonedDecimalTest extends TestCase {
         try {
             long offset = CobolZonedDecimalSimpleConverter.toHostSingle(
                     decimal, 9, 9, 0, false, false, false, hostBytes, 0,
-                    US_HOST_CHARSET);
+                    HostContext.getHostIntegerSigns(US_HOST_CHARSET));
             assertEquals(9, offset);
             assertEquals("f2f5f6f8f9f7f4f5f6", HostData.toHexString(hostBytes));
         } catch (CobolConversionException e) {
@@ -299,6 +301,13 @@ public class ZonedDecimalTest extends TestCase {
     }
 
     /**
+     * Host uses Cp1147
+     */
+    public void testIssue173() {
+        toHost(2, 2, 0, false, false, true, "Cp1147", "4", "f0f4");
+    }
+
+    /**
      * Java decimal too large.
      */
     public void testToHostInvalid() {
@@ -306,7 +315,8 @@ public class ZonedDecimalTest extends TestCase {
             byte[] hostBytes = new byte[1];
             BigDecimal javaDecimal = new BigDecimal("235.87");
             CobolZonedDecimalSimpleConverter.toHostSingle(javaDecimal, 1, 1, 0,
-                    false, false, false, hostBytes, 0, FRENCH_HOST_CHARSET);
+                    false, false, false, hostBytes, 0,
+                    HostContext.getHostIntegerSigns(FRENCH_HOST_CHARSET));
             fail("BigDecimal too large not detected");
         } catch (HostException he) {
             assertEquals("BigDecimal value too large for target Cobol field."
@@ -440,7 +450,8 @@ public class ZonedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = HostData.toByteArray("1A");
             CobolZonedDecimalSimpleConverter.fromHostSingle(1, 1, 0, false,
-                    false, true, hostBytes, 0, FRENCH_HOST_CHARSET);
+                    false, true, hostBytes, 0,
+                    HostContext.getHostIntegerSigns(FRENCH_HOST_CHARSET));
             fail("Invalid zoned decimal not detected");
         } catch (HostException he) {
             assertEquals(
@@ -456,7 +467,8 @@ public class ZonedDecimalTest extends TestCase {
         try {
             byte[] hostBytes = HostData.toByteArray("0A1f");
             CobolZonedDecimalSimpleConverter.fromHostSingle(2, 2, 0, false,
-                    false, true, hostBytes, 0, FRENCH_HOST_CHARSET);
+                    false, true, hostBytes, 0,
+                    HostContext.getHostIntegerSigns(FRENCH_HOST_CHARSET));
             fail("Invalid zoned decimal not detected");
         } catch (HostException he) {
             assertEquals(
