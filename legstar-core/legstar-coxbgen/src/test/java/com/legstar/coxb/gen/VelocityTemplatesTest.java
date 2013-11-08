@@ -204,6 +204,31 @@ public class VelocityTemplatesTest extends AbstractCoxbGenTest {
     }
 
     /**
+     * A COBOL field with both REDEFINES and OCCURS.
+     * http://code.google.com/p/legstar/issues/detail?id=177.
+     * 
+     * @throws Exception if generation fails
+     */
+    public void testRedefinesAndOccurs() throws Exception {
+        ICobolComplexBinding ce = getComplexBinding("coxb177", "Dfhcommarea");
+        String packageName = JAXB_PKG_PFX + "." + "coxb177";
+        CoxbGenModel coxbContext = new CoxbGenModel();
+        coxbContext.setJaxbPackageName(packageName);
+        coxbContext.setCoxbPackageName(packageName + ".bind");
+        ICobolChoiceBinding cc = (ICobolChoiceBinding) ce.getChildrenList()
+                .get(0);
+        genSource(CoxbGenWriter.CHOICE_VLC_TEMPLATE, "coxb177", cc,
+                "SpfRecordDataChoice", "SpfRecordDataChoiceBinding.java",
+                coxbContext);
+        String result = FileUtils.readFileToString(new File(GEN_SRC_DIR,
+                coxbContext.getCoxbPackageName().replace(".", "/") + "/"
+                        + "SpfRecordDataChoiceBinding.java"));
+        assertTrue(result
+                .contains("public ICobolComplexBinding _spfBucketTableWrapperItem;"));
+
+    }
+
+    /**
      * Generate a host to java transformer case.
      * 
      * @throws Exception if generation fails

@@ -28,9 +28,9 @@ import com.legstar.test.coxb.arrayscx.TableRedef;
 public class ElementRedef1ChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property ElementRedef1(String). */
+    /** Alternative binding bound to value object property ElementRedef1(String). */
     public ICobolStringBinding _elementRedef1;
-    /** Alternative bound bound to value object property ElementRedef2(Integer). */
+    /** Alternative binding bound to value object property ElementRedef2(Integer). */
     public ICobolZonedDecimalBinding _elementRedef2;
 
     /** Logger. */

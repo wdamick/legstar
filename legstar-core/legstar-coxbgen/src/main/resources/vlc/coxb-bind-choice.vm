@@ -42,11 +42,14 @@ public class $binding-class-name
 #foreach ($child in $binding.alternativesList)
 #set ($childObjectType = $coxbHelper.getBoundTypeName($child))
 #if($child.isBound())
-    /** Alternative bound bound to value object property ${child.jaxbName}($childObjectType). */
+    /** Alternative binding bound to value object property ${child.jaxbName}($childObjectType). */
 #else
     /** Unbound Alternative. */
 #end
     public $coxbHelper.getBindingInterfaceName($child) $coxbHelper.getFieldName($child);
+#if($coxbHelper.getGenericType($child).equals("complexArray"))
+    public ICobolComplexBinding $coxbHelper.getFieldName($child)Item;
+#end
 #end
 
     /** Logger. */

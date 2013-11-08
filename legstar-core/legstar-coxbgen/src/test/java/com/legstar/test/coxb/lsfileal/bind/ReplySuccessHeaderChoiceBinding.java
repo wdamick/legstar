@@ -26,9 +26,9 @@ import com.legstar.test.coxb.lsfileal.ReplyData;
 public class ReplySuccessHeaderChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property ReplySuccessHeader(ReplySuccessHeader). */
+    /** Alternative binding bound to value object property ReplySuccessHeader(ReplySuccessHeader). */
     public ICobolComplexBinding _replySuccessHeader;
-    /** Alternative bound bound to value object property ReplyErrorHeader(ReplyErrorHeader). */
+    /** Alternative binding bound to value object property ReplyErrorHeader(ReplyErrorHeader). */
     public ICobolComplexBinding _replyErrorHeader;
 
     /** Logger. */

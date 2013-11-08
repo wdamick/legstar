@@ -28,9 +28,9 @@ import com.legstar.test.coxb.redbotha.Dfhcommarea;
 public class CNumericChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property CNumeric(Integer). */
+    /** Alternative binding bound to value object property CNumeric(Integer). */
     public ICobolBinaryBinding _cNumeric;
-    /** Alternative bound bound to value object property Filler22(Filler22). */
+    /** Alternative binding bound to value object property Filler22(Filler22). */
     public ICobolComplexBinding _filler22;
 
     /** Logger. */
