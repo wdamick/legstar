@@ -28,9 +28,9 @@ import com.legstar.test.coxb.dplarcht.LsRequest;
 public class LsAllItemsChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property LsAllItems(String). */
+    /** Alternative binding bound to value object property LsAllItems(String). */
     public ICobolStringBinding _lsAllItems;
-    /** Alternative bound bound to value object property LsMaxItems(Integer). */
+    /** Alternative binding bound to value object property LsMaxItems(Integer). */
     public ICobolZonedDecimalBinding _lsMaxItems;
 
     /** Logger. */

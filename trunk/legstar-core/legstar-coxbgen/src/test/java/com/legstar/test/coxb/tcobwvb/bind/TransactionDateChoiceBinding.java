@@ -28,9 +28,9 @@ import com.legstar.test.coxb.tcobwvb.Transaction;
 public class TransactionDateChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property TransactionDate(String). */
+    /** Alternative binding bound to value object property TransactionDate(String). */
     public ICobolStringBinding _transactionDate;
-    /** Alternative bound bound to value object property Filler40(Filler40). */
+    /** Alternative binding bound to value object property Filler40(Filler40). */
     public ICobolComplexBinding _filler40;
 
     /** Logger. */

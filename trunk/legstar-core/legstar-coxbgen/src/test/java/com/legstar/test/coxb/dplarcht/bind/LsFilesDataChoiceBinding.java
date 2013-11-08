@@ -28,11 +28,11 @@ import com.legstar.test.coxb.dplarcht.LsItemsArray;
 public class LsFilesDataChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property LsFilesData(LsFilesData). */
+    /** Alternative binding bound to value object property LsFilesData(LsFilesData). */
     public ICobolComplexBinding _lsFilesData;
-    /** Alternative bound bound to value object property LsProgramsData(LsProgramsData). */
+    /** Alternative binding bound to value object property LsProgramsData(LsProgramsData). */
     public ICobolComplexBinding _lsProgramsData;
-    /** Alternative bound bound to value object property LsTransactionsData(LsTransactionsData). */
+    /** Alternative binding bound to value object property LsTransactionsData(LsTransactionsData). */
     public ICobolComplexBinding _lsTransactionsData;
 
     /** Logger. */

@@ -28,9 +28,9 @@ import com.legstar.test.coxb.lsfileaq.Customer;
 public class LastTransDateChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property LastTransDate(String). */
+    /** Alternative binding bound to value object property LastTransDate(String). */
     public ICobolStringBinding _lastTransDate;
-    /** Alternative bound bound to value object property Filler49(Filler49). */
+    /** Alternative binding bound to value object property Filler49(Filler49). */
     public ICobolComplexBinding _filler49;
 
     /** Logger. */

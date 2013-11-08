@@ -30,11 +30,11 @@ import com.legstar.test.coxb.redinout.Dfhcommarea;
 public class CBufferChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property CBuffer(String). */
+    /** Alternative binding bound to value object property CBuffer(String). */
     public ICobolStringBinding _cBuffer;
-    /** Alternative bound bound to value object property CParain(CParain). */
+    /** Alternative binding bound to value object property CParain(CParain). */
     public ICobolComplexBinding _cParain;
-    /** Alternative bound bound to value object property CParaout(CParaout). */
+    /** Alternative binding bound to value object property CParaout(CParaout). */
     public ICobolComplexBinding _cParaout;
 
     /** Logger. */

@@ -28,9 +28,9 @@ import com.legstar.test.coxb.redsimpt.Dfhcommarea;
 public class CDefinition1ChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property CDefinition1(String). */
+    /** Alternative binding bound to value object property CDefinition1(String). */
     public ICobolStringBinding _cDefinition1;
-    /** Alternative bound bound to value object property CDefinition2(Long). */
+    /** Alternative binding bound to value object property CDefinition2(Long). */
     public ICobolZonedDecimalBinding _cDefinition2;
 
     /** Logger. */

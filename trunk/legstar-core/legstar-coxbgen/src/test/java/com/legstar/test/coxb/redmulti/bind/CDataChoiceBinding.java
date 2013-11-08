@@ -30,11 +30,11 @@ import com.legstar.test.coxb.redmulti.Dfhcommarea;
 public class CDataChoiceBinding 
              extends CChoiceBinding {
 
-    /** Alternative bound bound to value object property CData(String). */
+    /** Alternative binding bound to value object property CData(String). */
     public ICobolStringBinding _cData;
-    /** Alternative bound bound to value object property Filler35(Filler35). */
+    /** Alternative binding bound to value object property Filler35(Filler35). */
     public ICobolComplexBinding _filler35;
-    /** Alternative bound bound to value object property Filler38(Filler38). */
+    /** Alternative binding bound to value object property Filler38(Filler38). */
     public ICobolComplexBinding _filler38;
 
     /** Logger. */
