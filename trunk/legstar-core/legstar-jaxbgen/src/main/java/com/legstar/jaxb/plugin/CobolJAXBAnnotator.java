@@ -11,6 +11,7 @@
 package com.legstar.jaxb.plugin;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +19,7 @@ import java.util.Map.Entry;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
@@ -72,6 +74,14 @@ public class CobolJAXBAnnotator extends Plugin {
     public static final String OPTION_USAGE = "  -Xlegstar-code      :  inject cobol binding annotation into the "
             + "generated code";
 
+    private static final List < String > WINDOWS_RESERVED_FILE_NAMES = Arrays
+            .asList(new String[] { "CON", "PRN", "AUX", "NUL", "COM1", "COM2",
+                    "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+                    "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7",
+                    "LPT8", "LPT9" });
+
+    private static final String RESERVED_FILE_NAME_SUFFIX = "w";
+
     /** {@inheritDoc} */
     @Override
     /** This will let XJC know that this plugin supports this argument*/
@@ -116,8 +126,18 @@ public class CobolJAXBAnnotator extends Plugin {
     public int parseArgument(Options opt, String[] args, int i)
             throws BadCommandLineException, IOException {
         String arg = args[i];
+
+        // NameConverters can be set only once so we do it on the first argument
+        if (arg.equals("-" + OPTION_NAME)) {
+            if (ArrayUtils.contains(args, "-eci")) {
+                opt.setNameConverter(new EciCompatibleNameConverter(), this);
+            } else {
+                opt.setNameConverter(new WinCompatibleNameConverter(), this);
+            }
+        }
+
+        // Tell XJC we consumed this option which is legstar specific
         if (arg.equals("-eci")) {
-            opt.setNameConverter(new EciCompatibleNameConverter(), this);
             isEciCompatible = true;
             return 1;
         }
@@ -458,7 +478,8 @@ public class CobolJAXBAnnotator extends Plugin {
      * Also ECI does not uppercase tokens following underscores like JAXB does.
      * 
      */
-    protected class EciCompatibleNameConverter extends NameConverter.Standard {
+    protected class EciCompatibleNameConverter extends
+            WinCompatibleNameConverter {
 
         /** Underscore is not a punctuation. */
         @Override
@@ -503,6 +524,21 @@ public class CobolJAXBAnnotator extends Plugin {
         public String capitalize(String s) {
             return s;
         }
+    }
+
+    /**
+     * Some file names are forbidden on Windows. Since class names end up being
+     * file names, we add a suffix here for these cases.
+     * 
+     */
+    protected class WinCompatibleNameConverter extends NameConverter.Standard {
+        public String toClassName(String s) {
+            String className = super.toClassName(s);
+            return WINDOWS_RESERVED_FILE_NAMES
+                    .contains(className.toUpperCase()) ? className
+                    + RESERVED_FILE_NAME_SUFFIX : className;
+        }
+
     }
 
 }
