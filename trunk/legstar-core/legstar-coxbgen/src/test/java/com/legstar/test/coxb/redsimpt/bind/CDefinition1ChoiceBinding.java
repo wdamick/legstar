@@ -89,23 +89,19 @@ public class CDefinition1ChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getDfhcommarea().getCDefinition1();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CDefinition1"
-                        + " value=" + value);
-            }
-            _cDefinition1.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CDefinition1"
+                    + " value=" + value);
         }
+        _cDefinition1.setObjectValue(value);
         value = getDfhcommarea().getCDefinition2();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CDefinition2"
-                        + " value=" + value);
-            }
-            _cDefinition2.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CDefinition2"
+                    + " value=" + value);
         }
+        _cDefinition2.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

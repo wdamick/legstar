@@ -98,32 +98,26 @@ public class CDataChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getDfhcommarea().getCData();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CData"
-                        + " value=" + value);
-            }
-            _cData.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CData"
+                    + " value=" + value);
         }
+        _cData.setObjectValue(value);
         value = getDfhcommarea().getFiller25();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "Filler25"
-                        + " value=" + value);
-            }
-            _filler25.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "Filler25"
+                    + " value=" + value);
         }
+        _filler25.setObjectValue(value);
         value = getDfhcommarea().getFiller28();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "Filler28"
-                        + " value=" + value);
-            }
-            _filler28.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "Filler28"
+                    + " value=" + value);
         }
+        _filler28.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

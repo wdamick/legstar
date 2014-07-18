@@ -98,32 +98,26 @@ public class CBufferChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getDfhcommarea().getCBuffer();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CBuffer"
-                        + " value=" + value);
-            }
-            _cBuffer.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CBuffer"
+                    + " value=" + value);
         }
+        _cBuffer.setObjectValue(value);
         value = getDfhcommarea().getCParain();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CParain"
-                        + " value=" + value);
-            }
-            _cParain.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CParain"
+                    + " value=" + value);
         }
+        _cParain.setObjectValue(value);
         value = getDfhcommarea().getCParaout();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CParaout"
-                        + " value=" + value);
-            }
-            _cParaout.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CParaout"
+                    + " value=" + value);
         }
+        _cParaout.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

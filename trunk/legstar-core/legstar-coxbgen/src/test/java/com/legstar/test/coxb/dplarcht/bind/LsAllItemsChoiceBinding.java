@@ -85,23 +85,19 @@ public class LsAllItemsChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getLsRequest().getLsAllItems();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "LsAllItems"
-                        + " value=" + value);
-            }
-            _lsAllItems.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "LsAllItems"
+                    + " value=" + value);
         }
+        _lsAllItems.setObjectValue(value);
         value = getLsRequest().getLsMaxItems();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "LsMaxItems"
-                        + " value=" + value);
-            }
-            _lsMaxItems.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "LsMaxItems"
+                    + " value=" + value);
         }
+        _lsMaxItems.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

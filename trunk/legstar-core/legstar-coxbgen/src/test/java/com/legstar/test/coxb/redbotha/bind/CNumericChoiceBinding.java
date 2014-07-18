@@ -89,23 +89,19 @@ public class CNumericChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getDfhcommarea().getCNumeric();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "CNumeric"
-                        + " value=" + value);
-            }
-            _cNumeric.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "CNumeric"
+                    + " value=" + value);
         }
+        _cNumeric.setObjectValue(value);
         value = getDfhcommarea().getFiller22();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "Filler22"
-                        + " value=" + value);
-            }
-            _filler22.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "Filler22"
+                    + " value=" + value);
         }
+        _filler22.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

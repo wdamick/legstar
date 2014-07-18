@@ -32,8 +32,8 @@ import com.legstar.coxb.host.HostException;
  *     public ICobolComplexBinding getBinding() throws BindingException {
  *         try {
  *             CComplexReflectBinding binding = new CComplexReflectBinding(
- *                      new com.legstar.test.coxb.lsfileae.ObjectFactory(),
- *                      com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
+ *                     new com.legstar.test.coxb.lsfileae.ObjectFactory(),
+ *                     com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
  *             return binding;
  *         } catch (ReflectBindingException e) {
  *             throw new BindingException(e);
@@ -69,8 +69,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
 
     /**
      * Create a Host to Java transformer using a specific host character set
-     * while
-     * other COBOL parameters are set by default.
+     * while other COBOL parameters are set by default.
      * 
      * @param hostCharset the host character set
      */
@@ -96,8 +95,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(final byte[] hostData)
-            throws HostTransformException {
+    public <T> T transform(final byte[] hostData) throws HostTransformException {
         return (T) transform(hostData, 0);
     }
 
@@ -111,7 +109,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(final byte[] hostData, final int offset)
+    public <T> T transform(final byte[] hostData, final int offset)
             throws HostTransformException {
         return (T) transform(hostData, offset, (String) null);
     }
@@ -127,7 +125,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(final byte[] hostData, final String hostCharset)
+    public <T> T transform(final byte[] hostData, final String hostCharset)
             throws HostTransformException {
         return (T) transform(hostData, 0, hostCharset);
     }
@@ -144,9 +142,8 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(
-            final byte[] hostData, final int offset, final String hostCharset)
-            throws HostTransformException {
+    public <T> T transform(final byte[] hostData, final int offset,
+            final String hostCharset) throws HostTransformException {
         return (T) transform(hostData, offset, hostCharset,
                 new HostTransformStatus());
     }
@@ -164,9 +161,8 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(final byte[] hostData, final String hostCharset,
-            final HostTransformStatus status)
-            throws HostTransformException {
+    public <T> T transform(final byte[] hostData, final String hostCharset,
+            final HostTransformStatus status) throws HostTransformException {
         return (T) transform(hostData, 0, hostCharset, status);
     }
 
@@ -184,9 +180,8 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(
-            final byte[] hostData, final int offset, final String hostCharset,
-            final HostTransformStatus status)
+    public <T> T transform(final byte[] hostData, final int offset,
+            final String hostCharset, final HostTransformStatus status)
             throws HostTransformException {
         if (hostCharset != null && hostCharset.length() > 0) {
             getCobolConverters().getCobolContext().setHostCharsetName(
@@ -206,9 +201,8 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(final byte[] hostData,
-            final HostTransformStatus status)
-            throws HostTransformException {
+    public <T> T transform(final byte[] hostData,
+            final HostTransformStatus status) throws HostTransformException {
         return (T) transform(hostData, 0, status);
     }
 
@@ -224,7 +218,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     @SuppressWarnings("unchecked")
-    public < T > T transform(final byte[] hostData, final int offset,
+    public <T> T transform(final byte[] hostData, final int offset,
             final HostTransformStatus status) throws HostTransformException {
 
         long start = System.currentTimeMillis();
@@ -240,8 +234,8 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
         try {
             /* Reuse binding if possible get a new one otherwise */
             CobolElementVisitor unmarshaler = getCobolBindingVisitorsFactory()
-                    .createUnmarshalVisitor(
-                            hostData, offset, getCobolConverters());
+                    .createUnmarshalVisitor(hostData, offset,
+                            getCobolConverters());
 
             /* Request a binding from concrete class */
             ICobolComplexBinding binding = getCachedBinding();
@@ -259,8 +253,7 @@ public abstract class AbstractHostToJavaTransformer extends AbstractTransformer
                 long end = System.currentTimeMillis();
                 _log.debug("Host to Java transformation ended Processed: "
                         + Integer.toString(bytesUnmarshalled) + " bytes "
-                        + "elapse:"
-                        + Long.toString(end - start) + " ms");
+                        + "elapse:" + Long.toString(end - start) + " ms");
             }
 
             status.setHostBytesProcessed(bytesUnmarshalled);

@@ -84,23 +84,19 @@ public class TransactionDateChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getTransaction().getTransactionDate();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "TransactionDate"
-                        + " value=" + value);
-            }
-            _transactionDate.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "TransactionDate"
+                    + " value=" + value);
         }
+        _transactionDate.setObjectValue(value);
         value = getTransaction().getFiller40();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "Filler40"
-                        + " value=" + value);
-            }
-            _filler40.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "Filler40"
+                    + " value=" + value);
         }
+        _filler40.setObjectValue(value);
 
     }
     /** {@inheritDoc} */
