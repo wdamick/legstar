@@ -231,6 +231,41 @@ public class CobolJAXBAnnotatorTest extends AbstractJaxbGenTest {
     }
 
     /**
+     * Test the Comn root name issue.
+     * 
+     * @throws Exception if test fails
+     */
+    public void testComnRootName() throws Exception {
+
+        File tempFile = File.createTempFile(getName(), ".tmp");
+        tempFile.deleteOnExit();
+        FileUtils
+                .writeStringToFile(
+                        tempFile,
+                        "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\""
+                                + "  xmlns:cb=\"http://www.legsem.com/legstar/xml/cobol-binding-1.0.1.xsd\""
+                                + "  attributeFormDefault=\"unqualified\" elementFormDefault=\"unqualified\">"
+                                + "    <xs:complexType name=\"Com1\">"
+                                + "        <xs:sequence>"
+                                + "            <xs:element name=\"a\" type=\"xs:string\">"
+                                + "                <xs:annotation>"
+                                + "                    <xs:appinfo>"
+                                + "                        <cb:cobolElement cobolName=\"A\" levelNumber=\"3\" picture=\"X(32)\" type=\"ALPHANUMERIC_ITEM\" usage=\"DISPLAY\"/>"
+                                + "                    </xs:appinfo>"
+                                + "                </xs:annotation>"
+                                + "            </xs:element>"
+                                + "        </xs:sequence>"
+                                + "    </xs:complexType>" + "</xs:schema>"
+
+                );
+        genSource("testComnRootName", tempFile, null);
+        String srce = getJaxbSource("testComnRootName", "Com1w");
+        assertTrue(srce.contains("public class Com1"));
+        assertTrue(srce.contains("public String getA() {"));
+        assertTrue(srce.contains("protected String a;"));
+    }
+
+    /**
      * Generates JAXB classes with Cobol annotations.
      * 
      * @param schemaName the schema used to generate
