@@ -1,0 +1,6 @@
+      * ----------------------------------------------------------------
+      * Generated copybook for COM-REQUEST
+      * ----------------------------------------------------------------
+       01  COM-REQUEST.
+           02  cultureCode PIC X(32) DISPLAY.
+           02  decimalNumber PIC 9(7)V9(2) COMP-3.
