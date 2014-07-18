@@ -79,23 +79,19 @@ public class ReplySuccessHeaderChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getReplyData().getReplySuccessHeader();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "ReplySuccessHeader"
-                        + " value=" + value);
-            }
-            _replySuccessHeader.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "ReplySuccessHeader"
+                    + " value=" + value);
         }
+        _replySuccessHeader.setObjectValue(value);
         value = getReplyData().getReplyErrorHeader();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "ReplyErrorHeader"
-                        + " value=" + value);
-            }
-            _replyErrorHeader.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "ReplyErrorHeader"
+                    + " value=" + value);
         }
+        _replyErrorHeader.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

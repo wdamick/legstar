@@ -93,32 +93,26 @@ public class LsFilesDataChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getLsItemsArray().getLsFilesData();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "LsFilesData"
-                        + " value=" + value);
-            }
-            _lsFilesData.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "LsFilesData"
+                    + " value=" + value);
         }
+        _lsFilesData.setObjectValue(value);
         value = getLsItemsArray().getLsProgramsData();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "LsProgramsData"
-                        + " value=" + value);
-            }
-            _lsProgramsData.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "LsProgramsData"
+                    + " value=" + value);
         }
+        _lsProgramsData.setObjectValue(value);
         value = getLsItemsArray().getLsTransactionsData();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "LsTransactionsData"
-                        + " value=" + value);
-            }
-            _lsTransactionsData.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "LsTransactionsData"
+                    + " value=" + value);
         }
+        _lsTransactionsData.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

@@ -89,23 +89,19 @@ public class ElementRedef1ChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getTableRedef().getElementRedef1();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "ElementRedef1"
-                        + " value=" + value);
-            }
-            _elementRedef1.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "ElementRedef1"
+                    + " value=" + value);
         }
+        _elementRedef1.setObjectValue(value);
         value = getTableRedef().getElementRedef2();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "ElementRedef2"
-                        + " value=" + value);
-            }
-            _elementRedef2.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "ElementRedef2"
+                    + " value=" + value);
         }
+        _elementRedef2.setObjectValue(value);
 
     }
     /** {@inheritDoc} */

@@ -109,14 +109,12 @@ public class $binding-class-name
 #foreach ($child in $binding.alternativesList)
 #if($child.isBound())
         value = get${parentObjectType}().get${child.jaxbName}();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "${child.jaxbName}"
-                        + " value=" + value);
-            }
-            ${coxbHelper.getFieldName($child)}.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "${child.jaxbName}"
+                    + " value=" + value);
         }
+        ${coxbHelper.getFieldName($child)}.setObjectValue(value);
 #end
 #end
 

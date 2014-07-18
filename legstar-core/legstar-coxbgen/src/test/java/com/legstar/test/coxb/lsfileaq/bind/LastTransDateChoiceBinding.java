@@ -84,23 +84,19 @@ public class LastTransDateChoiceBinding
     public void setAlternativesValues() throws HostException {
         Object value;
         value = getCustomer().getLastTransDate();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "LastTransDate"
-                        + " value=" + value);
-            }
-            _lastTransDate.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "LastTransDate"
+                    + " value=" + value);
         }
+        _lastTransDate.setObjectValue(value);
         value = getCustomer().getFiller49();
-        if (value != null) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("Getting value from Value object property "
-                        + "Filler49"
-                        + " value=" + value);
-            }
-            _filler49.setObjectValue(value);
+        if (_log.isDebugEnabled()) {
+            _log.debug("Getting value from Value object property "
+                    + "Filler49"
+                    + " value=" + value);
         }
+        _filler49.setObjectValue(value);
 
     }
     /** {@inheritDoc} */
