@@ -17,8 +17,8 @@
     <url>http://www.legsem.com/legstar/legstar-transport</url>
 
     <properties>
-        <legstarZosVersion>V1R5M2</legstarZosVersion>
-        <legstarCoreVersion>1.5.8</legstarCoreVersion>
+        <legstarZosVersion>V1R5M3</legstarZosVersion>
+        <legstarCoreVersion>1.5.10</legstarCoreVersion>
         <legstarSamplesVersion>0.2.2</legstarSamplesVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->

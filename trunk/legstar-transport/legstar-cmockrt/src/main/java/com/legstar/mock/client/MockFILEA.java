@@ -76,8 +76,9 @@ public class MockFILEA {
     public byte[] getCustomer(final byte[] customerId) {
         try {
             BigDecimal bigId = CobolZonedDecimalSimpleConverter.fromHostSingle(
-                    6, 6, 0, false, false, false, customerId, 0,
-                    CobolContext.getDefaultHostCharsetName());
+                    6, 6, 0, false, false, false, customerId, 0, CobolContext
+                            .getHostIntegerSigns(CobolContext
+                                    .getDefaultHostCharsetName()));
             return _hostCustomersList.get(bigId);
         } catch (CobolConversionException e) {
             e.printStackTrace();
@@ -196,7 +197,8 @@ public class MockFILEA {
             /* number */
             CobolZonedDecimalSimpleConverter.toHostSingle(
                     new BigDecimal(record.substring(1, 7)), 6, 6, 0, false,
-                    false, false, hostRecord, offset, hostCharsetName);
+                    false, false, hostRecord, offset,
+                    CobolContext.getHostIntegerSigns(hostCharsetName));
             offset += 6;
 
             /* name */
