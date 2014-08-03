@@ -1,0 +1,55 @@
+ -----
+ CICS Server for Sockets
+ -----
+
+CICS Socket server program LSSOKBIN
+
+* Overview:
+
+ This C/370 program can be used to remotely link to a CICS program over 
+ TCPIP Sockets. LSSOKBIN uses the CICS Sockets API available for all
+ versions of CICS. Please note however that C/370 requires Language
+ Environment so older versions of CICS, running without LE, will not be
+ able to run LSSOKBIN.
+ 
+ LSSOKBIN implements an RPC protocol described in the source header. This
+ protocol allows clients to keep connections active and drive CICS unit
+ of works using commit/rollback commands.
+
+ LSSOKBIN dynamically calls 2 sub-programs named LSCOMLOG and LSLNKBIN.
+ LSCOMLOG is the logging/tracing facility while LSLNKBIN handles linking
+ to the target CICS program (this way, LSSOKBIN can focus on dealing with
+ the message exchange protocol).
+ 
+ LSLNKBIN itself depends on 2 sub-programs LSLNKCOM for commarea-driven
+ programs and LSLNKCTN for container-driven programs.
+ 
+ The call diagram looks like this:
+ 
++-------------------------------+
+ 
+                                         ------------
+                                     --->| LSLNKCOM |
+                                     |   ------------
+ ------------        ------------    |
+ | LSSOKBIN |------->| LSLNKBIN |----|
+ ------------   |    ------------    |            
+                |                    |   ------------
+                |                    --->| LSLNKCTN |
+                |                        ------------
+                |    ------------
+                ---->| LSCOMLOG |
+                     ------------
++-------------------------------+
+  
+* Limitations:
+
+  - LSSOKBIN does not support the INPUTMSG option of the LINK command.
+  
+* This program has been tested for:
+
+  - CICS TS 2.3 an TS 3.1 (6.3.0 an 6.4.0 Command language translator)
+ 
+  - C/370 for OS/390 V2 R10
+
+   
