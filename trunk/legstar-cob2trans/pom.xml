@@ -16,8 +16,8 @@
     <url>http://www.legsem.com/legstar/legstar-cob2trans</url>
 
     <properties>
-        <legstarCoreVersion>1.5.8</legstarCoreVersion>
-        <legstarCob2XsdVersion>0.3.5</legstarCob2XsdVersion>
+        <legstarCoreVersion>1.5.10</legstarCoreVersion>
+        <legstarCob2XsdVersion>0.3.6</legstarCob2XsdVersion>
         <antInternalVersion>1.7.0</antInternalVersion> <!-- Used for legstar builds and tests -->
         <antVersion>1.6.5</antVersion>  <!-- Expected to be provided at runtime -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
