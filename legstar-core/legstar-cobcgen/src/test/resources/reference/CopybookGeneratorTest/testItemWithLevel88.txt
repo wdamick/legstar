@@ -1,2 +1,0 @@
-       01  CONDITION-DATA PIC 9(4) BINARY.
-           88  TRUE VALUE 0.
