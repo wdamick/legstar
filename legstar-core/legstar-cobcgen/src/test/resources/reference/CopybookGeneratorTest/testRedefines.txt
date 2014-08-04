@@ -1,6 +1,0 @@
-      * ----------------------------------------------------------------
-      * Generated copybook for CUSTOMER-DATA
-      * ----------------------------------------------------------------
-       01  CUSTOMER-DATA.
-           05  CUSTOMER-ALPHANUM PIC X.
-           05  CUSTOMER-NUM REDEFINES CUSTOMER-ALPHANUM PIC 9.
