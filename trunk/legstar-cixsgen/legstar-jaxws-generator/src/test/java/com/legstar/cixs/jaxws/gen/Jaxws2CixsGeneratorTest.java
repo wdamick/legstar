@@ -38,7 +38,7 @@ public class Jaxws2CixsGeneratorTest extends AbstractTestTemplate {
                     "MSNSearch", "cultureinfo", "jvmquery", "ws", "varar021",
                     "tcobwvb", "perf", "rq071", "rq074", "redopera",
                     "redmulti", "dplarcht", "redsimpt", "redinout", "redbotha",
-                    "coxb137" });
+                    "coxb137", "coxb177" });
 
     /** An instance of the generator. */
     private Jaxws2CixsGenerator _generator;
