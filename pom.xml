@@ -104,12 +104,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId> 
                     <artifactId>maven-site-plugin</artifactId> 
-                    <version>2.2</version> 
+                    <version>3.3</version> 
                     <dependencies> 
                      <dependency> 
                        <groupId>org.apache.maven.doxia</groupId> 
                        <artifactId>doxia-module-docbook-simple</artifactId> 
-                       <version>1.1.4</version> 
+                       <version>1.6</version> 
                      </dependency> 
                     </dependencies> 
                 </plugin>
@@ -142,7 +142,7 @@
                             </entity>
                             <entity>
                                 <name>year</name>
-                                <value>2012</value>
+                                <value>2014</value>
                             </entity>
                         </entities>
                     </configuration>
@@ -262,12 +262,12 @@
         <repository>
             <id>ftp-release-repository</id>
             <name>LEGSTAR Distributions Repository</name>
-            <url>ftp://ftp.legsem.com/public_html/legstar/maven/repo</url>
+            <url>ftp://ftp.legsem.com/www/legstar/maven/repo</url>
         </repository>
         <snapshotRepository>
             <id>ftp-snapshots-repository</id>
             <name>LEGSTAR Distributions Snapshot Repository</name>
-            <url>ftp://ftp.legsem.com/public_html/legstar/maven/snapshots</url>
+            <url>ftp://ftp.legsem.com/www/legstar/maven/snapshots</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
 
