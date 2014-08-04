@@ -2,6 +2,14 @@
                              Latest releases overview
  -------------------------------------------------------------------------------
 
+Version 1.5.3
+
+ Mostly a gathering a various fixes in legstar-core and legstar-cob2xsd.
+ 
+ Here is a list of changes in  {{{https://code.google.com/p/legstar/issues/list?can=1&q=Milestone%3DRelease1.5.3}legstar-core}}.
+ 
+ Here is a list of changes in  {{{https://code.google.com/p/legstar-cob2xsd/issues/list?can=1&q=Milestone%3DRelease0.3.6}legstar-cob2xsd}}.
+ 
 Version 1.5.2
 
  Bug fixes and a enhancements.
