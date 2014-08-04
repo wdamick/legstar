@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="Frequently Asked Questions">
+
+  <part id="general">
+    <title>General</title>
+   
+    <faq id="footer-company">
+      <question>
+       What version of Eclipse is supported?
+      </question>
+      <answer>
+       LegStar Eclipse plugins have been targeted at Eclipse 3.2.1 but it has been tested
+       with Eclipse 3.3, 3.4, 3.5 and 3.6.
+      </answer>
+    </faq>
+
+    <faq id="footer-company">
+      <question>
+       I am getting an OutOfMemoryError while running generation jobs.
+      </question>
+      <answer>
+       Several generation jobs use reflection and might need extra "permanent generation" memory. Try adding a
+       line such as -XX:MaxPermSize=128m in your eclipse.ini.
+      </answer>
+    </faq>
+    
+    <faq id="footer-company">
+      <question>
+       Why do I get compilation errors for the generated classes?
+      </question>
+      <answer>
+       Most probably because you are missing LegStar, JAXB or JAX-WS libraries in your project
+       classpath. 
+       Normally LegStar plugins attempt to automatically add the necessary libraries to your project
+       classpath. If that didn't work, you can still add the various jars manually.
+      </answer>
+    </faq>
+
+  </part>
+</faqs>
