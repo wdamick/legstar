@@ -452,6 +452,7 @@
                 <includes>
                     <include>META-INF/MANIFEST.MF</include>
                     <include>build.properties</include>
+                    <include>bundle-version.properties</include>
                 </includes>
                  <!-- PDE expects these at the root -->
                 <targetPath>${project.basedir}</targetPath>
@@ -461,6 +462,7 @@
                 <excludes>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                     <exclude>build.properties</exclude>
+                    <exclude>bundle-version.properties</exclude>
                 </excludes>
             </resource>
             <resource>
