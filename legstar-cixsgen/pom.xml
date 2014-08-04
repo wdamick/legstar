@@ -9,7 +9,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-cixsgen</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>LegStar Service Generators</name>
@@ -35,9 +35,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-cixsgen-1.5.3</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-cixsgen-1.5.3</developerConnection>
-        <url>http://legstar.googlecode.com/svn/tags/legstar-cixsgen-1.5.3</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-cixsgen/</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-cixsgen/</developerConnection>
+        <url>http://legstar.googlecode.com/svn/trunk/legstar-cixsgen/</url>
     </scm>
 
     <distributionManagement>
