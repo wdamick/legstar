@@ -11,6 +11,7 @@
     <url>http://www.legsem.com/legstar/legstar-eclipse</url>
 
     <properties>
+        <legstarPluginVersion>1.5.3</legstarPluginVersion>
         <legstarCoreVersion>1.5.10</legstarCoreVersion>
         <legstarCob2XsdVersion>0.3.6</legstarCob2XsdVersion>
         <legstarXsd2CobVersion>0.2.3</legstarXsd2CobVersion>
@@ -261,12 +262,12 @@
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-common-plugin</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.legsem.legstar</groupId>
                 <artifactId>legstar-cixscom-plugin</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!--
@@ -440,9 +441,6 @@
             </extension>
         </extensions>
 
-        <filters>
-            <filter>${project.basedir}/bundle-version.properties</filter>
-        </filters>
         <resources>
             <!-- Filter MANIFEST and plugin properties file
                  This is inherited by all plugins and overriden by features. -->
@@ -452,7 +450,6 @@
                 <includes>
                     <include>META-INF/MANIFEST.MF</include>
                     <include>build.properties</include>
-                    <include>bundle-version.properties</include>
                 </includes>
                  <!-- PDE expects these at the root -->
                 <targetPath>${project.basedir}</targetPath>
@@ -462,7 +459,6 @@
                 <excludes>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                     <exclude>build.properties</exclude>
-                    <exclude>bundle-version.properties</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -572,7 +568,7 @@
                         <configuration>
                             <tasks>
                                 <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
-                                <propertyregex property="legstarPluginVersion" input="${version}" regexp="(\d|\.)-(.*)" replace="\1\.\2" defaultValue="${version}" />
+                                <propertyregex property="legstarPluginVersion" input="${project.version}" regexp="(\d|\.)-(.*)" replace="\1\.\2" defaultValue="${project.version}" />
                                 <echo file="${basedir}/bundle-version.properties">legstarPluginVersion=${legstarPluginVersion}</echo>
                             </tasks>
                         </configuration>
@@ -601,7 +597,7 @@
                                         <include name="install-instructions.xml.template" />
                                     </fileset>
                                     <filterset>
-                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${version}" />
+                                        <filter token="LEGSTAR-ECLIPSE-VERSION" value="${project.version}" />
                                     </filterset>
                                     <globmapper from="*.template" to="*" />
                                 </copy>
