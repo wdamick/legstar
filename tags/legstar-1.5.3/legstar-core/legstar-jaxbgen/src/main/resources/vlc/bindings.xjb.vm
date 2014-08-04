@@ -1,0 +1,32 @@
+<jxb:bindings version="1.0"
+               xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <jxb:globalBindings
+         generateIsSetMethod="${xjbModel.generateIsSetMethod}">
+         <jxb:serializable uid="${xjbModel.serializableUid}"/>
+    </jxb:globalBindings>
+#if (${xjbModel.xsdLocation})
+    <jxb:bindings schemaLocation="${xjbModel.xsdLocation}" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:nameXmlTransform>
+                <jxb:typeName
+#if (${xjbModel.typeNamePrefix})
+                    prefix="${xjbModel.typeNamePrefix}"
+#end
+#if (${xjbModel.typeNameSuffix})
+                    suffix="${xjbModel.typeNameSuffix}"
+#end
+                />
+                <jxb:elementName
+#if (${xjbModel.elementNamePrefix})
+                    prefix="${xjbModel.elementNamePrefix}"
+#end
+#if (${xjbModel.elementNameSuffix})
+                    suffix="${xjbModel.elementNameSuffix}"
+#end
+                />
+            </jxb:nameXmlTransform>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+#end
+</jxb:bindings>
