@@ -39,7 +39,7 @@ public class ResultTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 1812;
+    public static final int BYTE_LENGTH = 1812;
     
     /** Child bound to value object property Title(String). */
     public ICobolStringBinding _title;

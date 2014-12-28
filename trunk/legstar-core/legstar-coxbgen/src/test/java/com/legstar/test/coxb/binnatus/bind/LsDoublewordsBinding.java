@@ -34,7 +34,7 @@ public class LsDoublewordsBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 32;
+    public static final int BYTE_LENGTH = 32;
     
     /** Child bound to value object property LsP9X18Min(BigInteger). */
     public ICobolBinaryBinding _lsP9X18Min;

@@ -34,7 +34,7 @@ public class CParaoutBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 25;
+    public static final int BYTE_LENGTH = 25;
     
     /** Child bound to value object property CSomeOutput(Long). */
     public ICobolZonedDecimalBinding _cSomeOutput;

@@ -34,7 +34,7 @@ public class Filler38Binding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 200;
+    public static final int BYTE_LENGTH = 200;
     
     /** Child bound to value object property CErrorNum(Integer). */
     public ICobolZonedDecimalBinding _cErrorNum;

@@ -35,7 +35,7 @@ public class JvmQueryReplyBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 448;
+    public static final int BYTE_LENGTH = 448;
     
     /** Child bound to value object property Country(String). */
     public ICobolStringBinding _country;

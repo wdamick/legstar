@@ -33,7 +33,7 @@ public class ElementOneBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 18;
+    public static final int BYTE_LENGTH = 18;
     
     /** Child bound to value object property ElementTwo(ElementTwo). */
     public ICobolArrayComplexBinding _elementTwoWrapper;

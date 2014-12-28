@@ -33,7 +33,7 @@ public class ODynamicDataBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 46;
+    public static final int BYTE_LENGTH = 46;
     
     /** Child bound to value object property LkupInfo(LkupInfo44). */
     public ICobolArrayComplexBinding _lkupInfoWrapper;

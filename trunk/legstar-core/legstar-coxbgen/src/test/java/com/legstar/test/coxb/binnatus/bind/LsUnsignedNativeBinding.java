@@ -33,7 +33,7 @@ public class LsUnsignedNativeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 56;
+    public static final int BYTE_LENGTH = 56;
     
     /** Child bound to value object property LsHalfwords(LsHalfwords). */
     public ICobolComplexBinding _lsHalfwords;

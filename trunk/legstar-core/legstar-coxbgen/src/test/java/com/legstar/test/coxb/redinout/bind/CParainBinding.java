@@ -33,7 +33,7 @@ public class CParainBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 15;
+    public static final int BYTE_LENGTH = 15;
     
     /** Child bound to value object property CSomeInput(String). */
     public ICobolStringBinding _cSomeInput;

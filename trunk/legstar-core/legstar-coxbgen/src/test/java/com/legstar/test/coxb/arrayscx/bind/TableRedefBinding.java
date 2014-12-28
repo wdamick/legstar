@@ -31,7 +31,7 @@ public class TableRedefBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 3;
+    public static final int BYTE_LENGTH = 3;
     
     /** Unbound child. */
     public ICobolChoiceBinding _elementRedef1Choice;

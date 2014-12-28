@@ -34,7 +34,7 @@ public class ItemsBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 19;
+    public static final int BYTE_LENGTH = 19;
     
     /** Child bound to value object property ItemDesc(String). */
     public ICobolStringBinding _itemDesc;

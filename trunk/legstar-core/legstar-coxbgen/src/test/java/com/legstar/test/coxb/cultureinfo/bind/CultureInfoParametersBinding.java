@@ -35,7 +35,7 @@ public class CultureInfoParametersBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 37;
+    public static final int BYTE_LENGTH = 37;
     
     /** Child bound to value object property CultureCode(String). */
     public ICobolStringBinding _cultureCode;

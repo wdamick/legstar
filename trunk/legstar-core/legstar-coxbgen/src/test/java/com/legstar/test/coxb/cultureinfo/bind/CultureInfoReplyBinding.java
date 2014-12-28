@@ -34,7 +34,7 @@ public class CultureInfoReplyBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 256;
+    public static final int BYTE_LENGTH = 256;
     
     /** Child bound to value object property CurrencySymbol(String). */
     public ICobolStringBinding _currencySymbol;

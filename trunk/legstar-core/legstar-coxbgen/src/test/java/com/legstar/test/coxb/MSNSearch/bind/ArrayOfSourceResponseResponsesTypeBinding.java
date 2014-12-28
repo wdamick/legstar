@@ -33,7 +33,7 @@ public class ArrayOfSourceResponseResponsesTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 181920;
+    public static final int BYTE_LENGTH = 181920;
     
     /** Child bound to value object property SourceResponse(SourceResponseType). */
     public ICobolArrayComplexBinding _sourceResponseWrapper;

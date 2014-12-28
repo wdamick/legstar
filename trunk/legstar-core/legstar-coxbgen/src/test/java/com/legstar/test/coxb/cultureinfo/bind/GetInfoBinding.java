@@ -31,7 +31,7 @@ public class GetInfoBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 37;
+    public static final int BYTE_LENGTH = 37;
     
     /** Child bound to value object property Arg0(CultureInfoParameters). */
     public ICobolComplexBinding _arg0;

@@ -34,7 +34,7 @@ public class DfhcommareaBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 5;
+    public static final int BYTE_LENGTH = 5;
     
     /** Child bound to value object property Rq074Crud(Dfhcommarea.Rq074Crud). */
     public ICobolStringBinding _rq074Crud;

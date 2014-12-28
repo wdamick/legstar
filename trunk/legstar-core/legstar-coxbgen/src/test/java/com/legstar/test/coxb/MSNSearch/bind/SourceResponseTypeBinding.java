@@ -36,7 +36,7 @@ public class SourceResponseTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 18192;
+    public static final int BYTE_LENGTH = 18192;
     
     /** Child bound to value object property Source(SourceTypeType). */
     public ICobolStringBinding _source;

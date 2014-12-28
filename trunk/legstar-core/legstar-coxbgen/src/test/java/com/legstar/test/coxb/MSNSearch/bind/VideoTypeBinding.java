@@ -36,7 +36,7 @@ public class VideoTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 268;
+    public static final int BYTE_LENGTH = 268;
     
     /** Child bound to value object property PlayUrl(String). */
     public ICobolStringBinding _playUrl;

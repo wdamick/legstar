@@ -34,7 +34,7 @@ public class SearchResponseBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 181932;
+    public static final int BYTE_LENGTH = 181932;
     
     /** Unbound child. */
     public ICobolBinaryBinding _searchTagWrapperCounter;

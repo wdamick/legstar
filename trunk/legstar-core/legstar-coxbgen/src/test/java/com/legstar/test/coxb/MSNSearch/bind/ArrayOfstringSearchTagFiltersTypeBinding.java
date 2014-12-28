@@ -34,7 +34,7 @@ public class ArrayOfstringSearchTagFiltersTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 320;
+    public static final int BYTE_LENGTH = 320;
     
     /** Child bound to value object property String(String). */
     public ICobolArrayStringBinding _string;

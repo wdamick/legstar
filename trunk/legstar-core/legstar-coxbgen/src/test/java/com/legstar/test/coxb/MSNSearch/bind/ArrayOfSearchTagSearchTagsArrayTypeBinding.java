@@ -33,7 +33,7 @@ public class ArrayOfSearchTagSearchTagsArrayTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 640;
+    public static final int BYTE_LENGTH = 640;
     
     /** Child bound to value object property SearchTag(SearchTagType). */
     public ICobolArrayComplexBinding _searchTagWrapper;

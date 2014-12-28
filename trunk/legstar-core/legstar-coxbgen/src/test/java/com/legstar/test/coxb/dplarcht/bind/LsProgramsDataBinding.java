@@ -34,7 +34,7 @@ public class LsProgramsDataBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 64;
+    public static final int BYTE_LENGTH = 64;
     
     /** Child bound to value object property LsProgramName(String). */
     public ICobolStringBinding _lsProgramName;
