@@ -73,6 +73,9 @@ Initializes children Velocity Template.
 #if(${child.isCustomVariable()} == true)
         ${coxbHelper.getFieldName($child)}.setIsCustomVariable(${child.isCustomVariable()});
 #end
+#if(${child.isRedefined()} == true)
+        ${coxbHelper.getFieldName($child)}.setIsRedefined(${child.isRedefined()});
+#end
 #if(${helper.isEmpty(${child.getMarshalChoiceStrategyClassName()})} == false)
         ${coxbHelper.getFieldName($child)}.setMarshalChoiceStrategyClassName(
             "${child.getMarshalChoiceStrategyClassName()}");

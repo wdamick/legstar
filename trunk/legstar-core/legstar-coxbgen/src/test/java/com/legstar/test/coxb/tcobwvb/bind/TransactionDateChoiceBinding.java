@@ -65,6 +65,7 @@ public class TransactionDateChoiceBinding
                "TransactionDate", String.class, getParentBinding());
         _transactionDate.setCobolName("TRANSACTION-DATE");
         _transactionDate.setByteLength(8);
+        _transactionDate.setIsRedefined(true);
         _filler40 = new Filler40Binding("Filler40",
                "Filler40", getParentBinding(), null);
         _filler40.setCobolName("FILLER");

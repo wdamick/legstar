@@ -65,6 +65,7 @@ public class LsAllItemsChoiceBinding
                "LsAllItems", String.class, getParentBinding());
         _lsAllItems.setCobolName("LS-ALL-ITEMS");
         _lsAllItems.setByteLength(4);
+        _lsAllItems.setIsRedefined(true);
         _lsMaxItems = BF.createZonedDecimalBinding("LsMaxItems",
                "LsMaxItems", Integer.class, getParentBinding());
         _lsMaxItems.setCobolName("LS-MAX-ITEMS");

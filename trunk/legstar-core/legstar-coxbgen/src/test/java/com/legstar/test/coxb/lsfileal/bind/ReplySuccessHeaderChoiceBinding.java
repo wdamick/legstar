@@ -60,6 +60,7 @@ public class ReplySuccessHeaderChoiceBinding
                "ReplySuccessHeader", getParentBinding(), null);
         _replySuccessHeader.setCobolName("REPLY-SUCCESS-HEADER");
         _replySuccessHeader.setByteLength(136);
+        _replySuccessHeader.setIsRedefined(true);
         _replyErrorHeader = new ReplyErrorHeaderBinding("ReplyErrorHeader",
                "ReplyErrorHeader", getParentBinding(), null);
         _replyErrorHeader.setCobolName("REPLY-ERROR-HEADER");

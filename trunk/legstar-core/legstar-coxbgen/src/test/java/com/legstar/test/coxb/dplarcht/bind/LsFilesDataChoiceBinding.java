@@ -66,6 +66,7 @@ public class LsFilesDataChoiceBinding
                "LsFilesData", getParentBinding(), null);
         _lsFilesData.setCobolName("LS-FILES-DATA");
         _lsFilesData.setByteLength(64);
+        _lsFilesData.setIsRedefined(true);
         _lsFilesData.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.dplarcht.ChoiceSelector");
         _lsProgramsData = new LsProgramsDataBinding("LsProgramsData",

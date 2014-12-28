@@ -67,6 +67,7 @@ public class CDefinition1ChoiceBinding
                "CDefinition1", String.class, getParentBinding());
         _cDefinition1.setCobolName("C-DEFINITION-1");
         _cDefinition1.setByteLength(18);
+        _cDefinition1.setIsRedefined(true);
         _cDefinition1.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.redsimpt.ChoiceSelector");
         _cDefinition2 = BF.createZonedDecimalBinding("CDefinition2",

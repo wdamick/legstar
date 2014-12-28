@@ -71,6 +71,7 @@ public class CBufferChoiceBinding
                "CBuffer", String.class, getParentBinding());
         _cBuffer.setCobolName("C-BUFFER");
         _cBuffer.setByteLength(500);
+        _cBuffer.setIsRedefined(true);
         _cBuffer.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.redinout.ChoiceSelector");
         _cParain = new CParainBinding("CParain",

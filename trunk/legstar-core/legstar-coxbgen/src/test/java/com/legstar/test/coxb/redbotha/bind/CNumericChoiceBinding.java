@@ -68,6 +68,7 @@ public class CNumericChoiceBinding
         _cNumeric.setCobolName("C-NUMERIC");
         _cNumeric.setByteLength(2);
         _cNumeric.setTotalDigits(4);
+        _cNumeric.setIsRedefined(true);
         _cNumeric.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.redbotha.ChoiceSelector");
         _filler22 = new Filler22Binding("Filler22",
