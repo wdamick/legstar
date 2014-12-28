@@ -13,6 +13,8 @@ package com.legstar.coxb.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import com.legstar.coxb.CobolBindingException;
 import com.legstar.coxb.CobolComplexType;
@@ -58,8 +60,7 @@ public final class BindingUtil {
      * @return the binding with the requested name or null if none is found
      * @throws HostException if no binding exist
      */
-    public static ICobolBinding lookupBinding(
-            final ICobolBinding rootBinding,
+    public static ICobolBinding lookupBinding(final ICobolBinding rootBinding,
             final String bindingName) throws HostException {
         if (rootBinding.getBindingName().equals(bindingName)) {
             return rootBinding;
@@ -94,17 +95,15 @@ public final class BindingUtil {
 
     /**
      * Loads a JAXB object factory class using a combination of current and
-     * thread class loader.
-     * This assumes the JAXB classes are available on the classpath and returns
-     * a
-     * new instance of of the object factory.
+     * thread class loader. This assumes the JAXB classes are available on the
+     * classpath and returns a new instance of of the object factory.
      * 
      * @param packageName the package containing a JAXB Object Factory
      * @return a JAXB Object factory
      * @throws CobolBindingException if JAXB classes are not found
      */
-    public static Object newJaxbObjectFactory(
-            final String packageName) throws CobolBindingException {
+    public static Object newJaxbObjectFactory(final String packageName)
+            throws CobolBindingException {
 
         try {
             return ClassUtil.newObject(packageName, JAXB_OBJECTFACTORY_NAME);
@@ -150,12 +149,11 @@ public final class BindingUtil {
      * @throws CobolBindingException if transformers cannot be created
      */
     public static IHostTransformers newTransformers(
-            final String jaxbPackageName,
-            final String jaxbClassName) throws CobolBindingException {
+            final String jaxbPackageName, final String jaxbClassName)
+            throws CobolBindingException {
         try {
-            String coxbPackageName =
-                    (jaxbPackageName == null) ? COXB_PACKAGENAME_SUFFIX
-                            : jaxbPackageName + "." + COXB_PACKAGENAME_SUFFIX;
+            String coxbPackageName = (jaxbPackageName == null) ? COXB_PACKAGENAME_SUFFIX
+                    : jaxbPackageName + "." + COXB_PACKAGENAME_SUFFIX;
             String transformersClassName = jaxbClassName + "Transformers";
             return (IHostTransformers) ClassUtil.newObject(coxbPackageName,
                     transformersClassName);
@@ -176,38 +174,35 @@ public final class BindingUtil {
     public static IHostTransformers newTransformers(
             final String jaxbQualifiedClassName) throws CobolBindingException {
         ClassName className = ClassUtil.toClassName(jaxbQualifiedClassName);
-        return BindingUtil.newTransformers(
-                    className.packageName, className.className);
+        return BindingUtil.newTransformers(className.packageName,
+                className.className);
     }
 
     /**
      * Since JAXB classes may hide a POJO, this method gets a special
-     * javaClassName annotation from the JAXB class. Such an annotation
-     * is planted by schema generators and propagated by jaxbgen.
-     * If no such annotation is present, then the JAXB class itself is
-     * returned as it is considered it is not hiding a POJO.
+     * javaClassName annotation from the JAXB class. Such an annotation is
+     * planted by schema generators and propagated by jaxbgen. If no such
+     * annotation is present, then the JAXB class itself is returned as it is
+     * considered it is not hiding a POJO.
      * 
      * @param jaxbPackage the JAXB package name
      * @param jaxbTypeName the JAXB type name
-     * @return a class name (including package name) that the JAXB class
-     *         is hiding or the JAXB class itself if it is not hiding a POJO.
+     * @return a class name (including package name) that the JAXB class is
+     *         hiding or the JAXB class itself if it is not hiding a POJO.
      * @throws CobolBindingException if getting annotation fails
      */
-    public static String getJavaClassName(
-            final String jaxbPackage,
+    public static String getJavaClassName(final String jaxbPackage,
             final String jaxbTypeName) throws CobolBindingException {
         try {
             /* Load the JAXB class from the package */
             String qualifiedClassName = ClassUtil.toQualifiedClassName(
-                    jaxbPackage,
-                    jaxbTypeName);
+                    jaxbPackage, jaxbTypeName);
             Class < ? > clazz = ClassUtil.loadClass(qualifiedClassName);
 
             /* Get the complex type annotation if any */
-            CobolComplexType annotation =
-                    clazz.getAnnotation(CobolComplexType.class);
-            if (annotation != null
-                    && annotation.javaClassName() != null
+            CobolComplexType annotation = clazz
+                    .getAnnotation(CobolComplexType.class);
+            if (annotation != null && annotation.javaClassName() != null
                     && annotation.javaClassName().length() > 0) {
                 return annotation.javaClassName();
             }
@@ -229,32 +224,34 @@ public final class BindingUtil {
      * @return the java type class
      * @throws CobolBindingException if class cannot be determined
      */
-    public static Class < ? > getJavaClass(
-            final Field hostField) throws CobolBindingException {
+    public static Class < ? > getJavaClass(final Field hostField)
+            throws CobolBindingException {
         Class < ? > javaClass = hostField.getType();
         if (javaClass.getName().compareTo("java.util.List") == 0) {
-            String jaxbTypeName = hostField.getGenericType().toString();
-            jaxbTypeName = jaxbTypeName.substring(
-                    jaxbTypeName.indexOf("<") + 1, jaxbTypeName.length() - 1);
-            try {
-                javaClass = ClassUtil.loadClass(jaxbTypeName);
-            } catch (ClassNotFoundException e) {
-                throw new CobolBindingException(e);
+            ParameterizedType type = (ParameterizedType) hostField
+                    .getGenericType();
+            if (type.getActualTypeArguments().length != 1) {
+                throw new CobolBindingException("Unsupported java class "
+                        + javaClass.toString());
             }
+            Type argType = type.getActualTypeArguments()[0];
+            if (argType instanceof Class < ? >) {
+                return (Class < ? >) argType;
+            }
+            return argType.getClass();
         }
         return javaClass;
 
     }
 
     /**
-     * Returns the binding associated jaxb type name. Since certain bindings
-     * are not associated with a jaxb property, this might return null.
+     * Returns the binding associated jaxb type name. Since certain bindings are
+     * not associated with a jaxb property, this might return null.
      * 
      * @param binding the binding for which the jaxb type is to be returned
      * @return the binding associated jaxb type name
      */
-    public static String getJaxbTypeName(
-            final ICobolBinding binding) {
+    public static String getJaxbTypeName(final ICobolBinding binding) {
         if (binding.getJaxbType() == null) {
             return null;
         }
@@ -267,23 +264,20 @@ public final class BindingUtil {
      * @param binding the binding for which the binding type is to be returned
      * @return the binding type name
      */
-    public static String getCoxbTypeName(
-            final ICobolBinding binding) {
+    public static String getCoxbTypeName(final ICobolBinding binding) {
         /*
          * If there is no bound jaxb object, the name of the binding type is
          * built from the binding name
          */
         if (binding.getJaxbType() == null) {
             return NameUtil.upperFirstChar(binding.getBindingName())
-                    + binding.getBindingName().substring(
-                            1, binding.getBindingName().length())
-                    + BIND_SUFFIX;
+                    + binding.getBindingName().substring(1,
+                            binding.getBindingName().length()) + BIND_SUFFIX;
         }
 
         /* Arrays of complex bindings are returned as wrappers */
         if (binding instanceof ICobolArrayComplexBinding) {
-            return getJaxbTypeName(binding)
-                    + WRAPPER_SUFFIX + BIND_SUFFIX;
+            return getJaxbTypeName(binding) + WRAPPER_SUFFIX + BIND_SUFFIX;
         }
         return getJaxbTypeName(binding) + BIND_SUFFIX;
     }
@@ -294,11 +288,10 @@ public final class BindingUtil {
      * @param binding the binding for which the field name is to be returned
      * @return the binding proposed field name
      */
-    public static String getFieldName(
-            final ICobolBinding binding) {
+    public static String getFieldName(final ICobolBinding binding) {
         return NameUtil.lowerFirstChar(binding.getBindingName())
-                + binding.getBindingName().substring(
-                        1, binding.getBindingName().length());
+                + binding.getBindingName().substring(1,
+                        binding.getBindingName().length());
     }
 
     /**
@@ -309,14 +302,11 @@ public final class BindingUtil {
      * @return the XML namespace
      * @throws HostException if retrieving XML element name fails
      */
-    public static String getXmlNamespace(
-            final String jaxbPackageName, final String jaxbTypeName)
-            throws HostException {
+    public static String getXmlNamespace(final String jaxbPackageName,
+            final String jaxbTypeName) throws HostException {
         try {
-            JAXBElementDescriptor descriptor =
-                    new JAXBElementDescriptor(
-                            jaxbPackageName,
-                            jaxbTypeName);
+            JAXBElementDescriptor descriptor = new JAXBElementDescriptor(
+                    jaxbPackageName, jaxbTypeName);
             return descriptor.getNamespace();
         } catch (JAXBAnnotationException e) {
             throw new HostException(e);
