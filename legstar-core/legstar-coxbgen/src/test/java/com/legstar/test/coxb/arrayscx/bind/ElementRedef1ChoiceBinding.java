@@ -67,6 +67,7 @@ public class ElementRedef1ChoiceBinding
                "ElementRedef1", String.class, getParentBinding());
         _elementRedef1.setCobolName("ELEMENT-REDEF-1");
         _elementRedef1.setByteLength(3);
+        _elementRedef1.setIsRedefined(true);
         _elementRedef1.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.arrayscx.ChoiceSelector");
         _elementRedef2 = BF.createZonedDecimalBinding("ElementRedef2",

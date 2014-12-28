@@ -65,6 +65,7 @@ public class LastTransDateChoiceBinding
                "LastTransDate", String.class, getParentBinding());
         _lastTransDate.setCobolName("LAST-TRANS-DATE");
         _lastTransDate.setByteLength(8);
+        _lastTransDate.setIsRedefined(true);
         _filler49 = new Filler49Binding("Filler49",
                "Filler49", getParentBinding(), null);
         _filler49.setCobolName("FILLER");

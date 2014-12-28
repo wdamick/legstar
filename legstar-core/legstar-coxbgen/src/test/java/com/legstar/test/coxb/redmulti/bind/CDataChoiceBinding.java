@@ -71,6 +71,7 @@ public class CDataChoiceBinding
                "CData", String.class, getParentBinding());
         _cData.setCobolName("C-DATA");
         _cData.setByteLength(200);
+        _cData.setIsRedefined(true);
         _cData.setUnmarshalChoiceStrategyClassName(
             "com.legstar.coxb.cust.redmulti.ChoiceSelector");
         _filler35 = new Filler35Binding("Filler35",
