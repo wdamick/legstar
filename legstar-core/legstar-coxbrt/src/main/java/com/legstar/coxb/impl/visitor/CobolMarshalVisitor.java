@@ -143,16 +143,6 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
         ce.setAlternativesValues();
 
         /*
-         * Evaluate the maximum alternative length.
-         */
-        int maxAlternaliveLength = 0;
-        for (ICobolBinding alternative : ce.getAlternativesList()) {
-            if (alternative.getByteLength() > maxAlternaliveLength) {
-                maxAlternaliveLength = alternative.getByteLength();
-            }
-        }
-
-        /*
          * In a choice situation, only one alternative should be accepted when
          * this element is visited. The logic to determine which alternative
          * should be selected is customizable via the
@@ -178,49 +168,27 @@ public class CobolMarshalVisitor extends CobolElementVisitor {
 
         /* Default behavior if direct selection was not possible */
         if (chosenAlternative == null) {
-            for (ICobolBinding alt : ce.getAlternativesList()) {
-                /*
-                 * Only consider alternatives with bound values (They have been
-                 * explicitly set))
-                 */
-                if (alt.isSet()) {
-                    /* Save the visitor offset context */
-                    int savedOffset = getStartOffset();
-                    alt.accept(this);
-                    /*
-                     * If offset was succesfully incremented, we consider we
-                     * found a valid alternative, just get out of the loop.
-                     */
-                    if (savedOffset < getStartOffset()) {
-                        chosenAlternative = alt;
-                        break;
-                    }
-                }
-            }
+            chosenAlternative = chooseDefaultAlternative(ce);
         }
 
-        /* If none of the alternatives moved the offset, raise an exception */
-        if (chosenAlternative == null) {
-            throw new HostException("No alternative found for choice element "
-                    + ce.getBindingName());
-        } else {
-            /*
-             * If chosen alternative is shorter than the max, keep record of the
-             * difference because next item is not variably located.
-             */
-            if (chosenAlternative.getByteLength() < maxAlternaliveLength) {
-                setVirtualFillerLength(maxAlternaliveLength
-                        - chosenAlternative.getByteLength());
-            }
-        }
+        /* Let super class know which alternative was chosen (important) */
+        setChosenAlternative(ce, chosenAlternative);
+
         if (_log.isDebugEnabled()) {
             _log.debug("Marshaling successful for choice binding "
                     + ce.getBindingName());
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Only alternatives that were explicitly set are considered for marshaling.
+     */
     @Override
+    public boolean isCandidateAlternative(ICobolBinding alt) {
+        return alt.isSet();
+    }
+
+    /** {@inheritDoc} */
     public void visit(final ICobolArrayComplexBinding ce) throws HostException {
 
         if (_log.isDebugEnabled()) {

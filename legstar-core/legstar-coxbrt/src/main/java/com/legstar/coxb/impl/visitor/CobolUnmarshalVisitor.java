@@ -107,15 +107,10 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
         }
 
         /*
-         * Make sure there are no leftovers from a previous use of this binding
-         * and evaluate the maximum alternative length.
+         * Make sure there are no leftovers from a previous use of this binding.
          */
-        int maxAlternaliveLength = 0;
         for (ICobolBinding alternative : ce.getAlternativesList()) {
             alternative.setObjectValue(null);
-            if (alternative.getByteLength() > maxAlternaliveLength) {
-                maxAlternaliveLength = alternative.getByteLength();
-            }
         }
 
         /*
@@ -144,45 +139,16 @@ public class CobolUnmarshalVisitor extends CobolElementVisitor {
 
         /* Default behavior if direct selection was not possible */
         if (chosenAlternative == null) {
-            for (ICobolBinding alt : ce.getAlternativesList()) {
-                /* Save the visitor offset context */
-                int savedOffset = getStartOffset();
-                try {
-                    alt.accept(this);
-                    /*
-                     * When unmarshaling, a non present alternative is expected
-                     * to result in an exception. Otherwise, we consider we
-                     * found a valid alternative, just get out of the loop.
-                     */
-                    chosenAlternative = alt;
-                    break;
-                } catch (HostException he) {
-                    setOffset(savedOffset);
-                }
-            }
+            chosenAlternative = chooseDefaultAlternative(ce);
         }
 
-        /* If none of the alternatives worked, raise an exception */
-        if (chosenAlternative == null) {
-            throw new HostException("No alternative found for choice element "
-                    + ce.getBindingName());
-        } else {
-            /*
-             * Ask choice binding to set bound object value from unmarshaled
-             * data.
-             */
-            ce.setPropertyValue(ce.getAlternativesList().indexOf(
-                    chosenAlternative));
+        /* Let super class know which alternative was chosen (important) */
+        setChosenAlternative(ce, chosenAlternative);
 
-            /*
-             * If chosen alternative is shorter than the max, keep record of the
-             * difference because next item is not variably located.
-             */
-            if (chosenAlternative.getByteLength() < maxAlternaliveLength) {
-                setVirtualFillerLength(maxAlternaliveLength
-                        - chosenAlternative.getByteLength());
-            }
-        }
+        /*
+         * Ask choice binding to set bound object value from unmarshaled data.
+         */
+        ce.setPropertyValue(ce.getAlternativesList().indexOf(chosenAlternative));
 
         if (_log.isDebugEnabled()) {
             _log.debug("Unmarshaling successful for choice binding "
