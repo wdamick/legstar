@@ -33,7 +33,7 @@ public class DfhcommareaBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 13;
+    public static final int BYTE_LENGTH = 13;
     
     /** Child bound to value object property LU(Integer). */
     public ICobolZonedDecimalBinding _lU;

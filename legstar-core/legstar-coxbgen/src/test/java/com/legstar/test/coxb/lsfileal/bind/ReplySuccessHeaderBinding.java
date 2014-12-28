@@ -34,7 +34,7 @@ public class ReplySuccessHeaderBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 136;
+    public static final int BYTE_LENGTH = 136;
     
     /** Child bound to value object property SearchDuration(String). */
     public ICobolStringBinding _searchDuration;

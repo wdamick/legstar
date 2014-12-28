@@ -34,7 +34,7 @@ public class SearchBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 10916;
+    public static final int BYTE_LENGTH = 10916;
     
     /** Unbound child. */
     public ICobolBinaryBinding _flagsCounter;

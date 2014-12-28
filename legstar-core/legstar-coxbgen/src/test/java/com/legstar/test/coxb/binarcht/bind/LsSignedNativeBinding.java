@@ -33,7 +33,7 @@ public class LsSignedNativeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 28;
+    public static final int BYTE_LENGTH = 28;
     
     /** Child bound to value object property LsPs9X4Min(Short). */
     public ICobolBinaryBinding _lsPs9X4Min;

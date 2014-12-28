@@ -36,7 +36,7 @@ public class DfhcommareaBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 1752;
+    public static final int BYTE_LENGTH = 1752;
     
     /** Child bound to value object property CItemsNumber(Short). */
     public ICobolBinaryBinding _cItemsNumber;

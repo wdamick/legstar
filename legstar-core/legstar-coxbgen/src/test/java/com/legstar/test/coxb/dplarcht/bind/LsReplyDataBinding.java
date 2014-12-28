@@ -36,7 +36,7 @@ public class LsReplyDataBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 32004;
+    public static final int BYTE_LENGTH = 32004;
     
     /** Child bound to value object property LsItemsCount(Long). */
     public ICobolBinaryBinding _lsItemsCount;

@@ -38,7 +38,7 @@ public class SearchRequestTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 10896;
+    public static final int BYTE_LENGTH = 10896;
     
     /** Child bound to value object property AppID(String). */
     public ICobolStringBinding _appID;

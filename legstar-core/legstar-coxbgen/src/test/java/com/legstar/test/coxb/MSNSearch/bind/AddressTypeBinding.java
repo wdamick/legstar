@@ -33,7 +33,7 @@ public class AddressTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 224;
+    public static final int BYTE_LENGTH = 224;
     
     /** Child bound to value object property AddressLine(String). */
     public ICobolStringBinding _addressLine;

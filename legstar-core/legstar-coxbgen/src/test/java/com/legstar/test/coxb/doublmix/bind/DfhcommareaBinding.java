@@ -33,7 +33,7 @@ public class DfhcommareaBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 48;
+    public static final int BYTE_LENGTH = 48;
     
     /** Child bound to value object property CDouble1234(Double). */
     public ICobolDoubleBinding _cDouble1234;

@@ -33,7 +33,7 @@ public class Filler22Binding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 2;
+    public static final int BYTE_LENGTH = 2;
     
     /** Child bound to value object property CLeftByte(String). */
     public ICobolStringBinding _cLeftByte;

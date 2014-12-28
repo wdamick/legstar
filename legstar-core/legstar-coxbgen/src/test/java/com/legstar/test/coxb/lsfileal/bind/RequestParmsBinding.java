@@ -33,7 +33,7 @@ public class RequestParmsBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 20;
+    public static final int BYTE_LENGTH = 20;
     
     /** Child bound to value object property RequestName(String). */
     public ICobolStringBinding _requestName;

@@ -31,7 +31,7 @@ public class SearchResponseTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 181920;
+    public static final int BYTE_LENGTH = 181920;
     
     /** Child bound to value object property Responses(ArrayOfSourceResponseResponsesType). */
     public ICobolComplexBinding _responses;

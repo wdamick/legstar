@@ -32,7 +32,7 @@ public class LsUnsignedPackedDecimalBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 44;
+    public static final int BYTE_LENGTH = 44;
     
     /** Child bound to value object property LsCompat(LsCompat). */
     public ICobolComplexBinding _lsCompat;

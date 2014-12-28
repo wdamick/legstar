@@ -34,7 +34,7 @@ public class ElementTwoBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 6;
+    public static final int BYTE_LENGTH = 6;
     
     /** Child bound to value object property ElementThree(String). */
     public ICobolArrayStringBinding _elementThree;

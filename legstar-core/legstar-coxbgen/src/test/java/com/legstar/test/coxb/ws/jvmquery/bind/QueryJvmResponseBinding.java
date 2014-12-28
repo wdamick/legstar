@@ -34,7 +34,7 @@ public class QueryJvmResponseBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 452;
+    public static final int BYTE_LENGTH = 452;
     
     /** Unbound child. */
     public ICobolBinaryBinding _envVarValuesCounter;

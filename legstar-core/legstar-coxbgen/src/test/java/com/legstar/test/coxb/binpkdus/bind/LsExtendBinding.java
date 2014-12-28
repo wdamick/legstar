@@ -34,7 +34,7 @@ public class LsExtendBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 26;
+    public static final int BYTE_LENGTH = 26;
     
     /** Child bound to value object property LsP9X19(BigInteger). */
     public ICobolPackedDecimalBinding _lsP9X19;

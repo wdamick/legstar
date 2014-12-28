@@ -33,7 +33,7 @@ public class TableThreeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 54;
+    public static final int BYTE_LENGTH = 54;
     
     /** Child bound to value object property ElementOne(ElementOne). */
     public ICobolArrayComplexBinding _elementOneWrapper;

@@ -34,7 +34,7 @@ public class ImageTypeBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 88;
+    public static final int BYTE_LENGTH = 88;
     
     /** Child bound to value object property ImageURL(String). */
     public ICobolStringBinding _imageURL;

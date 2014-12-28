@@ -35,7 +35,7 @@ public class Eb017output_rq071__checkBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 29;
+    public static final int BYTE_LENGTH = 29;
     
     /** Child bound to value object property Rq071__check__date(String). */
     public ICobolStringBinding _rq071__check__date;

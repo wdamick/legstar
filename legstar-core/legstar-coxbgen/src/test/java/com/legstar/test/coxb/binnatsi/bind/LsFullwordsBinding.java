@@ -33,7 +33,7 @@ public class LsFullwordsBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 16;
+    public static final int BYTE_LENGTH = 16;
     
     /** Child bound to value object property LsPs9X9Min(Integer). */
     public ICobolBinaryBinding _lsPs9X9Min;

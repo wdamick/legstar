@@ -32,7 +32,7 @@ public class DfhcommareaBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 7927;
+    public static final int BYTE_LENGTH = 7927;
     
     /** Child bound to value object property QueryData(QueryData). */
     public ICobolComplexBinding _queryData;

@@ -35,7 +35,7 @@ public class DfhcommareaBinding
     private boolean mUnusedValueObject = false;
     
     /** Maximum host bytes size for this complex object. */
-    private static final int BYTE_LENGTH = 160;
+    public static final int BYTE_LENGTH = 160;
     
     /** Child bound to value object property ComLocal(String). */
     public ICobolStringBinding _comLocal;
