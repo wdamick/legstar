@@ -151,4 +151,55 @@ public class CobolMarshalVisitorTest extends TestCase {
                         + "d4d4d4d4", HostData.toHexString(hostBytes));
 
     }
+
+    /**
+     * Multiple nested alternatives with different sizes.
+     * <p/>
+     * 
+     * @see https://code.google.com/p/legstar/issues/detail?id=185
+     * 
+     *      <pre>
+     *  01  COMMAREA.
+     *      10 OUTER-REDEFINES-LONG PIC X(10).
+     *      10 OUTER-REDEFINES-SHORT 
+     *            REDEFINES OUTER-REDEFINES-LONG.
+     *         15 INNER-REDEFINES-LONG PIC X(5).
+     *         15 INNER-REDEFINES-SHORT
+     *            REDEFINES INNER-REDEFINES-LONG PIC X(3).
+     *      10 FOOTER PIC X.
+     * </pre>
+     * 
+     * @throws Exception if test fails
+     */
+    public void testIssue185() throws Exception {
+
+        com.legstar.test.coxb.issue185.Commarea commarea = new com.legstar.test.coxb.issue185.Commarea();
+        com.legstar.test.coxb.issue185.OuterRedefinesShort ors = new com.legstar.test.coxb.issue185.OuterRedefinesShort();
+        ors.setInnerRedefinesShort("ABC");
+        commarea.setOuterRedefinesShort(ors);
+        commarea.setFooter("Z");
+
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue185.ObjectFactory(), commarea);
+        byte[] hostBytes = new byte[11];
+        CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(mv);
+        assertEquals(11, mv.getOffset());
+        assertEquals("c1c2c300000000000000e9", HostData.toHexString(hostBytes));
+
+        commarea = new com.legstar.test.coxb.issue185.Commarea();
+        commarea.setOuterRedefinesLong("ABC");
+        commarea.setFooter("Z");
+
+        ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue185.ObjectFactory(), commarea);
+
+        mv = new CobolMarshalVisitor(hostBytes, 0, new CobolSimpleConverters());
+        ccem.accept(mv);
+        assertEquals(11, mv.getOffset());
+        assertEquals("c1c2c340404040404040e9", HostData.toHexString(hostBytes));
+
+    }
+
 }

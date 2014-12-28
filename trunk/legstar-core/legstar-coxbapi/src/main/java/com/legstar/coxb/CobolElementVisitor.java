@@ -357,9 +357,13 @@ public abstract class CobolElementVisitor {
     }
 
     /**
-     * COBOL items are expected at a certain offset in the incoming buffer. Most
-     * of the time, this offset is where the previous item left but sometimes, a
-     * virtual filler must be accounted for.
+     * COBOL items are usually expected at a certain offset (fixed position).
+     * Most of the time, this offset is where the previous item left but
+     * sometimes, a virtual filler must be accounted for.
+     * <p/>
+     * Note that the virtual offset contributes to the offset only if there is a
+     * following, fixed position, item. It must not be added to the last item in
+     * a structure.
      * <p/>
      * This is a destructive method that resets the virtual filler length to
      * zero.
@@ -369,27 +373,99 @@ public abstract class CobolElementVisitor {
      */
     public int getStartOffset() {
         int startOffset = getOffset();
-        if (getVirtualFillerLength() > 0) {
-            startOffset += getVirtualFillerLength();
-            setVirtualFillerLength(0);
+        if (_virtualFillerLength > 0) {
+            startOffset += _virtualFillerLength;
+            _virtualFillerLength = 0;
         }
         return startOffset;
     }
 
     /**
-     * @return the length that needs to be added to the last offset to account
-     *         for a previous item that processed less bytes than it should
-     *         have.
+     * Given a choice, evaluate the largest alternative size.
+     * 
+     * @param ce the choice binding
+     * @return the size of the largest alternative
+     * @throws HostException if size cannot be evaluated
      */
-    public int getVirtualFillerLength() {
-        return _virtualFillerLength;
+    public int getMaxAlternaliveLength(ICobolChoiceBinding ce)
+            throws HostException {
+        int maxAlternaliveLength = 0;
+        for (ICobolBinding alternative : ce.getAlternativesList()) {
+            if (alternative.getByteLength() > maxAlternaliveLength) {
+                maxAlternaliveLength = alternative.getByteLength();
+            }
+        }
+        return maxAlternaliveLength;
     }
 
     /**
-     * @param virtualFillerLength the virtual Filler Length to set
+     * Default alternative selection logic.
+     * <p/>
+     * Every alternative is given a chance. If it throws an exception, the next
+     * alternative is tried. If it does not increment the offset, the next
+     * alternative is tried.
+     * <p/>
+     * If none of the alternatives worked, an exception is raised.
+     * 
+     * @param ce the choice binding
+     * @return an alternative that was successfully visited
+     * @throws HostException if no alternative could be chosen
      */
-    public void setVirtualFillerLength(final int virtualFillerLength) {
-        _virtualFillerLength = virtualFillerLength;
+    public ICobolBinding chooseDefaultAlternative(ICobolChoiceBinding ce)
+            throws HostException {
+        ICobolBinding chosenAlternative = null;
+        int savedOffset = getOffset();
+        for (ICobolBinding alt : ce.getAlternativesList()) {
+            try {
+                if (isCandidateAlternative(alt)) {
+                    alt.accept(this);
+                } else {
+                    continue;
+                }
+                if (savedOffset < getOffset()) {
+                    chosenAlternative = alt;
+                    break;
+                }
+            } catch (HostException he) {
+                setOffset(savedOffset);
+            }
+        }
+        if (chosenAlternative == null) {
+            throw new HostException("No alternative found for choice element "
+                    + ce.getBindingName());
+        }
+        return chosenAlternative;
     }
 
+    /**
+     * Should an alternative be considered for visiting.
+     * <p/>
+     * Used with the default choice selection.
+     * <p/>
+     * By default all alternatives are candidate.
+     * 
+     * @param alt the proposed candidate alternative
+     * @return true if this alternative should be considered for visiting
+     */
+    public boolean isCandidateAlternative(ICobolBinding alt) {
+        return true;
+    }
+
+    /**
+     * If chosen alternative is shorter than the max, keep record of the
+     * difference because next item (if any) is not variably located. We might
+     * already have a virtual offset, left over from an inner choice.
+     * 
+     * @param ce the choice binding
+     * @param chosenAlternative the chosen alternative
+     * @throws HostException if size cannot be evaluated
+     */
+    public void setChosenAlternative(ICobolChoiceBinding ce,
+            ICobolBinding chosenAlternative) throws HostException {
+        int maxAlternaliveLength = getMaxAlternaliveLength(ce);
+        if (chosenAlternative.getByteLength() < maxAlternaliveLength) {
+            _virtualFillerLength += maxAlternaliveLength
+                    - chosenAlternative.getByteLength();
+        }
+    }
 }
