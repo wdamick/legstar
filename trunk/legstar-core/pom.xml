@@ -10,7 +10,7 @@
 
     <groupId>com.legsem.legstar</groupId>
     <artifactId>legstar-core</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.0</version>
     <packaging>pom</packaging>
 
     <name>LegStar Transformers</name>
@@ -35,9 +35,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:svn:http://legstar.googlecode.com/svn/trunk/legstar-core/</connection>
-        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/trunk/legstar-core/</developerConnection>
-        <url>http://legstar.googlecode.com/svn/trunk/legstar-core/</url>
+        <connection>scm:svn:http://legstar.googlecode.com/svn/tags/legstar-core-1.6.0</connection>
+        <developerConnection>scm:svn:https://legstar.googlecode.com/svn/tags/legstar-core-1.6.0</developerConnection>
+        <url>http://legstar.googlecode.com/svn/tags/legstar-core-1.6.0</url>
     </scm>
 
     <distributionManagement>
