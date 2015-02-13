@@ -32,7 +32,8 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
             .asList(new String[] { "LSFILEAL.xsd", "LSFILEAC.xsd",
                     "enumvar.xsd", "MSNSearch.xsd", "cultureinfo.xsd",
                     "jvmquery.xsd", "jvmquery-ws.xsd", "VARAR021.xsd",
-                    "TCOBWVB.xsd", "RQ071CICSECIBinding.xsd", "rq074.xsd" });
+                    "TCOBWVB.xsd", "RQ071CICSECIBinding.xsd", "rq074.xsd",
+                    "ARDO02.xsd", "ARDO03.xsd" });
 
     /** Make sure we have a clean output folder. */
     public void setUp() throws Exception {
@@ -210,6 +211,24 @@ public class CoxbBindingGeneratorTest extends AbstractCoxbGenTest {
         String custSrce = getSource(getGetCustFilename("redsimpt"));
         assertTrue(custSrce
                 .contains("Dfhcommarea valueObject = (Dfhcommarea) choice.getParentValueObject();"));
+    }
+
+    /**
+     * See https://code.google.com/p/legstar/issues/detail?id=186.
+     * 
+     * @throws Exception
+     */
+    public void testArdo02() throws Exception {
+        genSourceAndCheck("ardo02", new String[] { "Ardo02Record" });
+    }
+
+    /**
+     * See https://code.google.com/p/legstar/issues/detail?id=187.
+     * 
+     * @throws Exception
+     */
+    public void testArdo03() throws Exception {
+        genSourceAndCheck("ardo03", new String[] { "Ardo03Record" });
     }
 
     /**

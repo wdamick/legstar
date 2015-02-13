@@ -10,9 +10,12 @@
  ******************************************************************************/
 package com.legstar.coxb.common;
 
+import java.util.List;
+
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolElementVisitor;
 import com.legstar.coxb.ICobolBinding;
+import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
 import com.legstar.coxb.ICobolNumericBinding;
 import com.legstar.coxb.host.HostException;
@@ -155,7 +158,8 @@ public abstract class CComplexBinding extends CBinding implements
         // When the root binding is reached, start looking for the counter in
         // its children. Otherwise, pass control to parent
         if (getParentBinding() == null) {
-            ICobolNumericBinding counter = getCounterInChildren(this, cobolName);
+            ICobolNumericBinding counter = getCounterInChildren(
+                    getChildrenList(), cobolName);
             if (counter == null) {
                 throw new HostException("Cannot locate counter " + cobolName);
             } else {
@@ -167,35 +171,40 @@ public abstract class CComplexBinding extends CBinding implements
     }
 
     /**
-     * Descend the children of a complex element looking for a counter with the
-     * corresponding COBOL name.
+     * Descend the children of a complex or choice element looking for a counter
+     * with the corresponding COBOL name.
      * <p/>
      * First lookup numeric children for the requested counter. If not found,
-     * give a chance to complex children for finding the counter within their
-     * children.
+     * give a chance to complex and choice children for finding the counter
+     * within their children.
      * 
-     * @param parent the complex element
+     * @param children the list of children element to search
      * @param cobolName the COBOL name we are looking for
      * @return the element mapping the COBOL counter or null if not found
      */
     protected ICobolNumericBinding getCounterInChildren(
-            ICobolComplexBinding parent, final String cobolName)
+            List < ICobolBinding > children, final String cobolName)
             throws HostException {
 
         ICobolNumericBinding counter = null;
-        for (ICobolBinding child : parent.getChildrenList()) {
+        for (ICobolBinding child : children) {
             if (child instanceof ICobolNumericBinding
                     && child.getCobolName().equals(cobolName)) {
                 return (ICobolNumericBinding) child;
             }
         }
-        for (ICobolBinding child : parent.getChildrenList()) {
+        for (ICobolBinding child : children) {
             if (child instanceof ICobolComplexBinding) {
-                counter = getCounterInChildren((ICobolComplexBinding) child,
+                counter = getCounterInChildren(
+                        ((ICobolComplexBinding) child).getChildrenList(),
                         cobolName);
-                if (counter != null) {
-                    return counter;
-                }
+            } else if (child instanceof ICobolChoiceBinding) {
+                counter = getCounterInChildren(
+                        ((ICobolChoiceBinding) child).getAlternativesList(),
+                        cobolName);
+            }
+            if (counter != null) {
+                return counter;
             }
         }
         return counter;

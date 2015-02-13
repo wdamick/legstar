@@ -24,22 +24,14 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/arrayscx", "Dfhcommarea");
     private final static QName _Filler23_QNAME = new QName("http://legstar.com/test/coxb/arrayscx", "Filler23");
+    private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/arrayscx", "Dfhcommarea");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.arrayscx
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link TableRedef }
-     * 
-     */
-    public TableRedef createTableRedef() {
-        return new TableRedef();
     }
 
     /**
@@ -51,11 +43,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link TableThree }
+     * Create an instance of {@link ElementTwo }
      * 
      */
-    public TableThree createTableThree() {
-        return new TableThree();
+    public ElementTwo createElementTwo() {
+        return new ElementTwo();
     }
 
     /**
@@ -75,20 +67,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ElementTwo }
+     * Create an instance of {@link TableRedef }
      * 
      */
-    public ElementTwo createElementTwo() {
-        return new ElementTwo();
+    public TableRedef createTableRedef() {
+        return new TableRedef();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Dfhcommarea }{@code >}}
+     * Create an instance of {@link TableThree }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayscx", name = "Dfhcommarea")
-    public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
-        return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
+    public TableThree createTableThree() {
+        return new TableThree();
     }
 
     /**
@@ -98,6 +89,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayscx", name = "Filler23")
     public JAXBElement<Filler23> createFiller23(Filler23 value) {
         return new JAXBElement<Filler23>(_Filler23_QNAME, Filler23 .class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Dfhcommarea }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayscx", name = "Dfhcommarea")
+    public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
+        return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
     }
 
 }

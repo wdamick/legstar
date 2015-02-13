@@ -24,55 +24,15 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/binnatsi", "Dfhcommarea");
     private final static QName _WsExpectedIncomingData_QNAME = new QName("http://legstar.com/test/coxb/binnatsi", "WsExpectedIncomingData");
     private final static QName _Filler59_QNAME = new QName("http://legstar.com/test/coxb/binnatsi", "Filler59");
+    private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/binnatsi", "Dfhcommarea");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.binnatsi
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link LsHalfwords }
-     * 
-     */
-    public LsHalfwords createLsHalfwords() {
-        return new LsHalfwords();
-    }
-
-    /**
-     * Create an instance of {@link Filler59 }
-     * 
-     */
-    public Filler59 createFiller59() {
-        return new Filler59();
-    }
-
-    /**
-     * Create an instance of {@link WsFullwords }
-     * 
-     */
-    public WsFullwords createWsFullwords() {
-        return new WsFullwords();
-    }
-
-    /**
-     * Create an instance of {@link LsUnsignedNative }
-     * 
-     */
-    public LsUnsignedNative createLsUnsignedNative() {
-        return new LsUnsignedNative();
-    }
-
-    /**
-     * Create an instance of {@link WsPs9X18HighB }
-     * 
-     */
-    public WsPs9X18HighB createWsPs9X18HighB() {
-        return new WsPs9X18HighB();
     }
 
     /**
@@ -84,43 +44,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsDoublewords }
+     * Create an instance of {@link WsPs9X18HighB }
      * 
      */
-    public WsDoublewords createWsDoublewords() {
-        return new WsDoublewords();
+    public WsPs9X18HighB createWsPs9X18HighB() {
+        return new WsPs9X18HighB();
     }
 
     /**
-     * Create an instance of {@link WsExpectedIncomingData }
+     * Create an instance of {@link LsHalfwords }
      * 
      */
-    public WsExpectedIncomingData createWsExpectedIncomingData() {
-        return new WsExpectedIncomingData();
-    }
-
-    /**
-     * Create an instance of {@link WsHalfwords }
-     * 
-     */
-    public WsHalfwords createWsHalfwords() {
-        return new WsHalfwords();
-    }
-
-    /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
-     * Create an instance of {@link LsDoublewords }
-     * 
-     */
-    public LsDoublewords createLsDoublewords() {
-        return new LsDoublewords();
+    public LsHalfwords createLsHalfwords() {
+        return new LsHalfwords();
     }
 
     /**
@@ -140,6 +76,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link WsFullwords }
+     * 
+     */
+    public WsFullwords createWsFullwords() {
+        return new WsFullwords();
+    }
+
+    /**
+     * Create an instance of {@link WsDoublewords }
+     * 
+     */
+    public WsDoublewords createWsDoublewords() {
+        return new WsDoublewords();
+    }
+
+    /**
      * Create an instance of {@link WsPs9X18MaxB }
      * 
      */
@@ -148,12 +100,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Dfhcommarea }{@code >}}
+     * Create an instance of {@link LsDoublewords }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binnatsi", name = "Dfhcommarea")
-    public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
-        return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
+    public LsDoublewords createLsDoublewords() {
+        return new LsDoublewords();
+    }
+
+    /**
+     * Create an instance of {@link WsExpectedIncomingData }
+     * 
+     */
+    public WsExpectedIncomingData createWsExpectedIncomingData() {
+        return new WsExpectedIncomingData();
+    }
+
+    /**
+     * Create an instance of {@link Filler59 }
+     * 
+     */
+    public Filler59 createFiller59() {
+        return new Filler59();
+    }
+
+    /**
+     * Create an instance of {@link WsHalfwords }
+     * 
+     */
+    public WsHalfwords createWsHalfwords() {
+        return new WsHalfwords();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
+     * Create an instance of {@link LsUnsignedNative }
+     * 
+     */
+    public LsUnsignedNative createLsUnsignedNative() {
+        return new LsUnsignedNative();
     }
 
     /**
@@ -172,6 +163,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binnatsi", name = "Filler59")
     public JAXBElement<Filler59> createFiller59(Filler59 value) {
         return new JAXBElement<Filler59>(_Filler59_QNAME, Filler59 .class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Dfhcommarea }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binnatsi", name = "Dfhcommarea")
+    public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
+        return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
     }
 
 }

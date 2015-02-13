@@ -24,77 +24,21 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ReplyData_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "ReplyData");
-    private final static QName _WQueryData_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WQueryData");
-    private final static QName _WNameMatch_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WNameMatch");
-    private final static QName _QueryData_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "QueryData");
-    private final static QName _Filler25_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "Filler25");
     private final static QName _WVisitMode_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WVisitMode");
-    private final static QName _QueryLimit_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "QueryLimit");
-    private final static QName _WQueryLimit_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WQueryLimit");
+    private final static QName _WNameMatch_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WNameMatch");
     private final static QName _ReplyStatus_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "ReplyStatus");
+    private final static QName _Filler25_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "Filler25");
+    private final static QName _QueryLimit_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "QueryLimit");
+    private final static QName _WQueryData_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WQueryData");
+    private final static QName _QueryData_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "QueryData");
+    private final static QName _WQueryLimit_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "WQueryLimit");
+    private final static QName _ReplyData_QNAME = new QName("http://legstar.com/test/coxb/lsfileac", "ReplyData");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.legstar.test.coxb.lsfileac
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link ReplyStatus }
-     * 
-     */
-    public ReplyStatus createReplyStatus() {
-        return new ReplyStatus();
-    }
-
-    /**
-     * Create an instance of {@link ReplyData }
-     * 
-     */
-    public ReplyData createReplyData() {
-        return new ReplyData();
-    }
-
-    /**
-     * Create an instance of {@link ReplyItem }
-     * 
-     */
-    public ReplyItem createReplyItem() {
-        return new ReplyItem();
-    }
-
-    /**
-     * Create an instance of {@link WQueryData }
-     * 
-     */
-    public WQueryData createWQueryData() {
-        return new WQueryData();
-    }
-
-    /**
-     * Create an instance of {@link WQueryLimit }
-     * 
-     */
-    public WQueryLimit createWQueryLimit() {
-        return new WQueryLimit();
-    }
-
-    /**
-     * Create an instance of {@link QueryData }
-     * 
-     */
-    public QueryData createQueryData() {
-        return new QueryData();
-    }
-
-    /**
-     * Create an instance of {@link ReplyPersonal }
-     * 
-     */
-    public ReplyPersonal createReplyPersonal() {
-        return new ReplyPersonal();
     }
 
     /**
@@ -106,48 +50,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReplyData }{@code >}}
+     * Create an instance of {@link WQueryData }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "ReplyData")
-    public JAXBElement<ReplyData> createReplyData(ReplyData value) {
-        return new JAXBElement<ReplyData>(_ReplyData_QNAME, ReplyData.class, null, value);
+    public WQueryData createWQueryData() {
+        return new WQueryData();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link WQueryData }{@code >}}
+     * Create an instance of {@link ReplyStatus }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "WQueryData")
-    public JAXBElement<WQueryData> createWQueryData(WQueryData value) {
-        return new JAXBElement<WQueryData>(_WQueryData_QNAME, WQueryData.class, null, value);
+    public ReplyStatus createReplyStatus() {
+        return new ReplyStatus();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
+     * Create an instance of {@link ReplyItem }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "WNameMatch")
-    public JAXBElement<Integer> createWNameMatch(Integer value) {
-        return new JAXBElement<Integer>(_WNameMatch_QNAME, Integer.class, null, value);
+    public ReplyItem createReplyItem() {
+        return new ReplyItem();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryData }{@code >}}
+     * Create an instance of {@link QueryData }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "QueryData")
-    public JAXBElement<QueryData> createQueryData(QueryData value) {
-        return new JAXBElement<QueryData>(_QueryData_QNAME, QueryData.class, null, value);
+    public QueryData createQueryData() {
+        return new QueryData();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * Create an instance of {@link ReplyData }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "Filler25")
-    public JAXBElement<String> createFiller25(String value) {
-        return new JAXBElement<String>(_Filler25_QNAME, String.class, null, value);
+    public ReplyData createReplyData() {
+        return new ReplyData();
+    }
+
+    /**
+     * Create an instance of {@link ReplyPersonal }
+     * 
+     */
+    public ReplyPersonal createReplyPersonal() {
+        return new ReplyPersonal();
+    }
+
+    /**
+     * Create an instance of {@link WQueryLimit }
+     * 
+     */
+    public WQueryLimit createWQueryLimit() {
+        return new WQueryLimit();
     }
 
     /**
@@ -160,12 +115,57 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Integer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "WNameMatch")
+    public JAXBElement<Integer> createWNameMatch(Integer value) {
+        return new JAXBElement<Integer>(_WNameMatch_QNAME, Integer.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReplyStatus }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "ReplyStatus")
+    public JAXBElement<ReplyStatus> createReplyStatus(ReplyStatus value) {
+        return new JAXBElement<ReplyStatus>(_ReplyStatus_QNAME, ReplyStatus.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "Filler25")
+    public JAXBElement<String> createFiller25(String value) {
+        return new JAXBElement<String>(_Filler25_QNAME, String.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link QueryLimit }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "QueryLimit")
     public JAXBElement<QueryLimit> createQueryLimit(QueryLimit value) {
         return new JAXBElement<QueryLimit>(_QueryLimit_QNAME, QueryLimit.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link WQueryData }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "WQueryData")
+    public JAXBElement<WQueryData> createWQueryData(WQueryData value) {
+        return new JAXBElement<WQueryData>(_WQueryData_QNAME, WQueryData.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryData }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "QueryData")
+    public JAXBElement<QueryData> createQueryData(QueryData value) {
+        return new JAXBElement<QueryData>(_QueryData_QNAME, QueryData.class, null, value);
     }
 
     /**
@@ -178,12 +178,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReplyStatus }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ReplyData }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "ReplyStatus")
-    public JAXBElement<ReplyStatus> createReplyStatus(ReplyStatus value) {
-        return new JAXBElement<ReplyStatus>(_ReplyStatus_QNAME, ReplyStatus.class, null, value);
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/lsfileac", name = "ReplyData")
+    public JAXBElement<ReplyData> createReplyData(ReplyData value) {
+        return new JAXBElement<ReplyData>(_ReplyData_QNAME, ReplyData.class, null, value);
     }
 
 }

@@ -34,19 +34,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CArray }
-     * 
-     */
-    public CArray createCArray() {
-        return new CArray();
-    }
-
-    /**
      * Create an instance of {@link Dfhcommarea }
      * 
      */
     public Dfhcommarea createDfhcommarea() {
         return new Dfhcommarea();
+    }
+
+    /**
+     * Create an instance of {@link CArray }
+     * 
+     */
+    public CArray createCArray() {
+        return new CArray();
     }
 
     /**
