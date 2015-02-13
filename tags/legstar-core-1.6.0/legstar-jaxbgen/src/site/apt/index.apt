@@ -1,0 +1,15 @@
+ -----
+ Overview
+ -----
+ -----
+ -----
+
+JAXB COBOL Annotator (jaxbgen) overview
+
+  This module translates COBOL-annotated XML schemas to COBOL-annotated Java classes.
+  
+  COBOL-annotated XML schemas are typically produced by other legstar modules.   
+  
+  This is based on JAXB. It is primarily implemented as a JAXB plugin and propagates 
+  the COBOL annotations from the XML schemas into java 1.5 annotations within
+  the JAXB classes.

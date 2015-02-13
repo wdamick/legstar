@@ -1,0 +1,52 @@
+<assembly>
+
+    <id>bin</id>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <componentDescriptors>
+        <componentDescriptor>src/assemble/component.xml</componentDescriptor>
+    </componentDescriptors>
+
+    <files>
+        <file>
+            <source>${project.basedir}/../legstar-coxbgen/LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>LICENSE</destName>
+        </file>
+        <file>
+            <source>${project.basedir}/../legstar-coxbgen/NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>NOTICE</destName>
+        </file>
+        <file>
+           <source>${project.basedir}/../legstar-coxbgen/target/doc/install-instructions.html</source>
+           <outputDirectory>/</outputDirectory>
+           <destName>readme.html</destName>
+        </file>
+
+    </files>
+
+    <fileSets>
+        <!-- sample java classes for pojo  -->
+        <fileSet>
+            <directory>${project.basedir}/../legstar-coxbgen/target/gen-distro/samples/quickstarts/proxy_pojo_jvmquery/src</directory>
+            <outputDirectory>samples/quickstarts/proxy_pojo_jvmquery/src</outputDirectory>
+            <includes>
+                <include>**/jvmquery/*.*</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib/</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
+  
+</assembly>
