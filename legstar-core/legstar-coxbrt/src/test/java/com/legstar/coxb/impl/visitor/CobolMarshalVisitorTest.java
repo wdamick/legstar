@@ -224,4 +224,30 @@ public class CobolMarshalVisitorTest extends TestCase {
         assertEquals(3, mv.getOffset());
         assertEquals("0001c1", HostData.toHexString(hostBytes));
     }
+
+    /**
+     * Here the ODO counter is within an array.
+     */
+    public void testIssue187() throws Exception {
+        com.legstar.test.coxb.issue187.Ardo03Record ardo03Record = new com.legstar.test.coxb.issue187.Ardo03Record();
+        ardo03Record.setOdoCounter(1);
+        com.legstar.test.coxb.issue187.OdoArray item_1 = new com.legstar.test.coxb.issue187.OdoArray();
+        item_1.setOdoSubCounter(1);
+        com.legstar.test.coxb.issue187.OdoSubArray item_1_1 = new com.legstar.test.coxb.issue187.OdoSubArray();
+        item_1_1.setFiller8("ABCD");
+        item_1.getOdoSubArray().add(item_1_1);
+        ardo03Record.getOdoArray().add(item_1);
+
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue187.ObjectFactory(),
+                ardo03Record);
+        byte[] hostBytes = new byte[12];
+        CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(mv);
+        assertEquals(12, mv.getOffset());
+        assertEquals("f0f0f0f0f1f0f0f1c1c2c3c4",
+                HostData.toHexString(hostBytes));
+    }
+
 }

@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.legstar.coxb.CobolElement;
 import com.legstar.coxb.CobolElementVisitor;
+import com.legstar.coxb.ICobolArrayComplexBinding;
 import com.legstar.coxb.ICobolBinding;
 import com.legstar.coxb.ICobolChoiceBinding;
 import com.legstar.coxb.ICobolComplexBinding;
@@ -201,6 +202,11 @@ public abstract class CComplexBinding extends CBinding implements
             } else if (child instanceof ICobolChoiceBinding) {
                 counter = getCounterInChildren(
                         ((ICobolChoiceBinding) child).getAlternativesList(),
+                        cobolName);
+            } else if (child instanceof ICobolArrayComplexBinding) {
+                counter = getCounterInChildren(
+                        ((ICobolArrayComplexBinding) child)
+                                .getComplexItemBinding().getChildrenList(),
                         cobolName);
             }
             if (counter != null) {
