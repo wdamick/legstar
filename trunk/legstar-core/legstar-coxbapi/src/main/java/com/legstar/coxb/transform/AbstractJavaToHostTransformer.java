@@ -32,8 +32,8 @@ import com.legstar.coxb.host.HostException;
  *     public ICobolComplexBinding getBinding() throws BindingException {
  *         try {
  *             CComplexReflectBinding binding = new CComplexReflectBinding(
- *                      new com.legstar.test.coxb.lsfileae.ObjectFactory(),
- *                      com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
+ *                     new com.legstar.test.coxb.lsfileae.ObjectFactory(),
+ *                     com.legstar.test.coxb.lsfileae.Dfhcommarea.class);
  *             return binding;
  *         } catch (ReflectBindingException e) {
  *             throw new BindingException(e);
@@ -56,6 +56,9 @@ import com.legstar.coxb.host.HostException;
 public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
         implements IJavaToHostTransformer {
 
+    /** Maximum size of a level 01 data item. */
+    private static final int MAX_HOST_DATA_SIZE = 134217727;
+
     /** Logger. */
     private final Log _log = LogFactory
             .getLog(AbstractJavaToHostTransformer.class);
@@ -69,8 +72,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
 
     /**
      * Create a Java to Host transformer using a specific host character set
-     * while
-     * other COBOL parameters are set by default.
+     * while other COBOL parameters are set by default.
      * 
      * @param hostCharset the host character set
      */
@@ -141,8 +143,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
      * @throws HostTransformException if transformation fails
      */
     public byte[] transform(final Object valueObject,
-            final HostTransformStatus status)
-            throws HostTransformException {
+            final HostTransformStatus status) throws HostTransformException {
 
         long start = System.currentTimeMillis();
         if (_log.isDebugEnabled()) {
@@ -156,15 +157,20 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
 
             /*
              * Allocate a byte array large enough to accommodate the largest
-             * object.
+             * object but not too large as to get memory errors.
              */
             int size = binding.getByteLength();
+            if (size > MAX_HOST_DATA_SIZE) {
+                _log.warn("Expected host data size of " + size
+                        + " exceeds the maximum allowed of "
+                        + MAX_HOST_DATA_SIZE);
+                size = MAX_HOST_DATA_SIZE;
+            }
             byte[] hostData = new byte[size];
 
             /* create the outbound buffer by marshalling the java object tree */
             CobolElementVisitor marshaler = getCobolBindingVisitorsFactory()
-                    .createMarshalVisitor(
-                            hostData, 0, getCobolConverters());
+                    .createMarshalVisitor(hostData, 0, getCobolConverters());
 
             /*
              * Traverse the object structure, visiting each node with the
@@ -192,8 +198,7 @@ public abstract class AbstractJavaToHostTransformer extends AbstractTransformer
                 long end = System.currentTimeMillis();
                 _log.debug("Java to Host transformation ended. Processed: "
                         + Integer.toString(bytesMarshalled) + " bytes "
-                        + "elapse:"
-                        + Long.toString(end - start) + " ms");
+                        + "elapse:" + Long.toString(end - start) + " ms");
             }
             status.setHostBytesProcessed(bytesMarshalled);
             status.setBinding(binding);
