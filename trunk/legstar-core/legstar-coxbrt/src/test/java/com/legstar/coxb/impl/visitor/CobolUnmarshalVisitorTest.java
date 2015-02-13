@@ -112,4 +112,53 @@ public class CobolUnmarshalVisitorTest extends TestCase {
         assertTrue(boolPojo.isABoolean());
 
     }
+
+    /**
+     * Tests related to http://code.google.com/p/legstar/issues/detail?id=186.
+     * 
+     * @throws Exception if unmarshaling fails
+     */
+    public void testIssue186() throws Exception {
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue186.ObjectFactory(),
+                com.legstar.test.coxb.issue186.Ardo02Record.class);
+        assertEquals(7, ccem.getByteLength());
+
+        byte[] hostBytes = HostData.toByteArray("0001c1");
+        CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(uv);
+
+        com.legstar.test.coxb.issue186.Ardo02Record ardo02Record = (com.legstar.test.coxb.issue186.Ardo02Record) ccem
+                .getObjectValue(com.legstar.test.coxb.issue186.Ardo02Record.class);
+        assertEquals(1, ardo02Record.getAlternativeA().getOdoCounter());
+        assertEquals("A", ardo02Record.getOdoArray().get(0).getFiller10());
+
+    }
+
+    /**
+     * Tests related to http://code.google.com/p/legstar/issues/detail?id=187.
+     * 
+     * @throws Exception if unmarshaling fails
+     */
+    public void testIssue187() throws Exception {
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue187.ObjectFactory(),
+                com.legstar.test.coxb.issue187.Ardo03Record.class);
+        assertEquals(120, ccem.getByteLength());
+
+        byte[] hostBytes = HostData.toByteArray("f0f0f0f0f1f0f0f1c1c2c3c4");
+        CobolUnmarshalVisitor uv = new CobolUnmarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(uv);
+
+        com.legstar.test.coxb.issue187.Ardo03Record ardo03Record = (com.legstar.test.coxb.issue187.Ardo03Record) ccem
+                .getObjectValue(com.legstar.test.coxb.issue187.Ardo03Record.class);
+        assertEquals(1, ardo03Record.getOdoCounter());
+        assertEquals(1, ardo03Record.getOdoArray().get(0).getOdoSubCounter());
+        assertEquals("ABCD", ardo03Record.getOdoArray().get(0).getOdoSubArray()
+                .get(0).getFiller8());
+
+    }
+
 }
