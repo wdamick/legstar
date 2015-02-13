@@ -20,8 +20,8 @@ import com.legstar.coxb.host.HostException;
  * This generic class implements behavior common to all array bindings.
  * 
  */
-public abstract class CArrayBinding extends CBinding
-        implements ICobolArrayBinding {
+public abstract class CArrayBinding extends CBinding implements
+        ICobolArrayBinding {
 
     /** A reference to a counter for variable size arrays. */
     private ICobolNumericBinding mCounter;
@@ -38,11 +38,8 @@ public abstract class CArrayBinding extends CBinding
      * @param cobolAnnotations the cobol annotations for this element
      * @param parentBinding a reference to the parent binding if any
      */
-    public CArrayBinding(
-            final String bindingName,
-            final String jaxbName,
-            final Class < ? > jaxbType,
-            final CobolElement cobolAnnotations,
+    public CArrayBinding(final String bindingName, final String jaxbName,
+            final Class < ? > jaxbType, final CobolElement cobolAnnotations,
             final ICobolComplexBinding parentBinding) {
         super(bindingName, jaxbName, jaxbType, cobolAnnotations, parentBinding);
     }
@@ -52,8 +49,8 @@ public abstract class CArrayBinding extends CBinding
      */
     public int getCurrentOccurs() throws HostException {
         /*
-         * If this is a variable size array, ask ancestors for the current
-         * value of the counter we depend on.
+         * If this is a variable size array, ask ancestors for the current value
+         * of the counter we depend on.
          */
         if (isVariableSize()) {
             return getCounter().getBigIntegerValue().intValue();
@@ -61,9 +58,15 @@ public abstract class CArrayBinding extends CBinding
         return this.getMaxOccurs();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * <p/>
+     * If length exceed Integer.MAX_VALUE, returns Integer.MAX_VALUE.
+     */
     public int calcByteLength() {
-        return getMaxOccurs() * getItemByteLength();
+        long byteLength = getMaxOccurs() * (long) getItemByteLength();
+        return byteLength > Integer.MAX_VALUE ? Integer.MAX_VALUE
+                : (int) byteLength;
     }
 
     /**
@@ -73,16 +76,14 @@ public abstract class CArrayBinding extends CBinding
      * @return true if this is a variable size array
      */
     public boolean isVariableSize() {
-        return (getMinOccurs() < getMaxOccurs()
-                && getDependingOn() != null && getDependingOn().length() > 0) ? true
-                : false;
+        return (getMinOccurs() < getMaxOccurs() && getDependingOn() != null && getDependingOn()
+                .length() > 0) ? true : false;
     }
 
     /**
      * The first time around, this will seek the counter from the parent
-     * binding.
-     * This is an expensive operation so we cache the result to speed up next
-     * referrals.
+     * binding. This is an expensive operation so we cache the result to speed
+     * up next referrals.
      * 
      * @return the counter
      * @throws HostException if something goes wrong
@@ -96,18 +97,14 @@ public abstract class CArrayBinding extends CBinding
 
     /**
      * Pre version 1.2.4 generated simple arrays did not support the
-     * ItemByteLength
-     * attribute. Their ByteLength attribute was actually the ItemByteLength
-     * instead
-     * of being the size of the entire array. We need to continue supporting
-     * this old
-     * model. Hence the size adjustment here.
+     * ItemByteLength attribute. Their ByteLength attribute was actually the
+     * ItemByteLength instead of being the size of the entire array. We need to
+     * continue supporting this old model. Hence the size adjustment here.
      * 
      * @return the Cobol element length in bytes
      */
     public int getByteLength() {
-        if (isGeneratedBinding()
-                && !(this instanceof CArrayComplexBinding)
+        if (isGeneratedBinding() && !(this instanceof CArrayComplexBinding)
                 && mItemByteLength == 0) {
             /* Binding was generated before 1.2.4. Adjust lengths. */
             int itemByteLength = super.getByteLength();

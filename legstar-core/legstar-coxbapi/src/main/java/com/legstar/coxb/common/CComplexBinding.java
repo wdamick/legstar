@@ -78,13 +78,16 @@ public abstract class CComplexBinding extends CBinding implements
 
     /**
      * {@inheritDoc}
+     * <p/>
+     * If length exceed Integer.MAX_VALUE, returns Integer.MAX_VALUE.
      */
     public int calcByteLength() {
-        int byteLength = 0;
+        long byteLength = 0;
         for (ICobolBinding child : mChildren) {
             byteLength += child.getByteLength();
         }
-        return byteLength;
+        return byteLength > Integer.MAX_VALUE ? Integer.MAX_VALUE
+                : (int) byteLength;
     }
 
     /** {@inheritDoc} */
