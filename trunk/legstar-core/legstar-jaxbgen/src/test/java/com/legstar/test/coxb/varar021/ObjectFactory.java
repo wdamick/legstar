@@ -51,6 +51,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link LkupInfo44 }
+     * 
+     */
+    public LkupInfo44 createLkupInfo44() {
+        return new LkupInfo44();
+    }
+
+    /**
+     * Create an instance of {@link ODynamicData }
+     * 
+     */
+    public ODynamicData createODynamicData() {
+        return new ODynamicData();
+    }
+
+    /**
      * Create an instance of {@link LkupInfo39 }
      * 
      */
@@ -67,14 +83,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link IStaticData }
-     * 
-     */
-    public IStaticData createIStaticData() {
-        return new IStaticData();
-    }
-
-    /**
      * Create an instance of {@link WellpointEaiEbsErrorRow }
      * 
      */
@@ -83,19 +91,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ODynamicData }
+     * Create an instance of {@link IStaticData }
      * 
      */
-    public ODynamicData createODynamicData() {
-        return new ODynamicData();
-    }
-
-    /**
-     * Create an instance of {@link LkupInfo44 }
-     * 
-     */
-    public LkupInfo44 createLkupInfo44() {
-        return new LkupInfo44();
+    public IStaticData createIStaticData() {
+        return new IStaticData();
     }
 
     /**

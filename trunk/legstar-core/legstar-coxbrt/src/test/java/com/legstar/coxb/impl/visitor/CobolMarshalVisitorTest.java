@@ -202,4 +202,26 @@ public class CobolMarshalVisitorTest extends TestCase {
 
     }
 
+    /**
+     * Here the ODO counter is within a REDEFINE.
+     */
+    public void testIssue186() throws Exception {
+        com.legstar.test.coxb.issue186.Ardo02Record ardo02Record = new com.legstar.test.coxb.issue186.Ardo02Record();
+        com.legstar.test.coxb.issue186.AlternativeA alternativeA = new com.legstar.test.coxb.issue186.AlternativeA();
+        alternativeA.setOdoCounter(1);
+        ardo02Record.setAlternativeA(alternativeA);
+        com.legstar.test.coxb.issue186.OdoArray item_1 = new com.legstar.test.coxb.issue186.OdoArray();
+        item_1.setFiller10("A");
+        ardo02Record.getOdoArray().add(item_1);
+
+        CComplexReflectBinding ccem = new CComplexReflectBinding(
+                new com.legstar.test.coxb.issue186.ObjectFactory(),
+                ardo02Record);
+        byte[] hostBytes = new byte[3];
+        CobolMarshalVisitor mv = new CobolMarshalVisitor(hostBytes, 0,
+                new CobolSimpleConverters());
+        ccem.accept(mv);
+        assertEquals(3, mv.getOffset());
+        assertEquals("0001c1", HostData.toHexString(hostBytes));
+    }
 }

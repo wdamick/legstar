@@ -35,22 +35,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
-    }
-
-    /**
-     * Create an instance of {@link Filler49 }
-     * 
-     */
-    public Filler49 createFiller49() {
-        return new Filler49();
-    }
-
-    /**
      * Create an instance of {@link QueryData }
      * 
      */
@@ -67,6 +51,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link PersonalData }
+     * 
+     */
+    public PersonalData createPersonalData() {
+        return new PersonalData();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
      * Create an instance of {@link Customer }
      * 
      */
@@ -75,11 +75,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PersonalData }
+     * Create an instance of {@link Filler49 }
      * 
      */
-    public PersonalData createPersonalData() {
-        return new PersonalData();
+    public Filler49 createFiller49() {
+        return new Filler49();
     }
 
     /**

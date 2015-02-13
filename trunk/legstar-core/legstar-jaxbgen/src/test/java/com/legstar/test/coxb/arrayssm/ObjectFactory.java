@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _WsTs_QNAME = new QName("http://legstar.com/test/coxb/arrayssm", "WsTs");
     private final static QName _WsTc_QNAME = new QName("http://legstar.com/test/coxb/arrayssm", "WsTc");
     private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/arrayssm", "Dfhcommarea");
+    private final static QName _WsTs_QNAME = new QName("http://legstar.com/test/coxb/arrayssm", "WsTs");
     private final static QName _WsTc2_QNAME = new QName("http://legstar.com/test/coxb/arrayssm", "WsTc2");
 
     /**
@@ -34,14 +34,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link Dfhcommarea }
-     * 
-     */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
     }
 
     /**
@@ -53,27 +45,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link WsTs }
-     * 
-     */
-    public WsTs createWsTs() {
-        return new WsTs();
-    }
-
-    /**
      * Create an instance of {@link WsTc }
      * 
      */
     public WsTc createWsTc() {
         return new WsTc();
-    }
-
-    /**
-     * Create an instance of {@link WsTc2 }
-     * 
-     */
-    public WsTc2 createWsTc2() {
-        return new WsTc2();
     }
 
     /**
@@ -85,12 +61,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link WsTs }{@code >}}
+     * Create an instance of {@link WsTc2 }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayssm", name = "WsTs")
-    public JAXBElement<WsTs> createWsTs(WsTs value) {
-        return new JAXBElement<WsTs>(_WsTs_QNAME, WsTs.class, null, value);
+    public WsTc2 createWsTc2() {
+        return new WsTc2();
+    }
+
+    /**
+     * Create an instance of {@link WsTs }
+     * 
+     */
+    public WsTs createWsTs() {
+        return new WsTs();
+    }
+
+    /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
     }
 
     /**
@@ -109,6 +100,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayssm", name = "Dfhcommarea")
     public JAXBElement<Dfhcommarea> createDfhcommarea(Dfhcommarea value) {
         return new JAXBElement<Dfhcommarea>(_Dfhcommarea_QNAME, Dfhcommarea.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link WsTs }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/arrayssm", name = "WsTs")
+    public JAXBElement<WsTs> createWsTs(WsTs value) {
+        return new JAXBElement<WsTs>(_WsTs_QNAME, WsTs.class, null, value);
     }
 
     /**

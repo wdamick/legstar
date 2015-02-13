@@ -43,14 +43,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Filler35 }
-     * 
-     */
-    public Filler35 createFiller35() {
-        return new Filler35();
-    }
-
-    /**
      * Create an instance of {@link Dfhcommarea }
      * 
      */
@@ -64,6 +56,14 @@ public class ObjectFactory {
      */
     public Filler20 createFiller20() {
         return new Filler20();
+    }
+
+    /**
+     * Create an instance of {@link Filler35 }
+     * 
+     */
+    public Filler35 createFiller35() {
+        return new Filler35();
     }
 
     /**

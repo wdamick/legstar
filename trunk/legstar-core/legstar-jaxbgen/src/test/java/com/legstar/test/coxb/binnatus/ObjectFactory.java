@@ -24,8 +24,8 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Filler55_QNAME = new QName("http://legstar.com/test/coxb/binnatus", "Filler55");
     private final static QName _WsExpectedIncomingData_QNAME = new QName("http://legstar.com/test/coxb/binnatus", "WsExpectedIncomingData");
+    private final static QName _Filler55_QNAME = new QName("http://legstar.com/test/coxb/binnatus", "Filler55");
     private final static QName _Dfhcommarea_QNAME = new QName("http://legstar.com/test/coxb/binnatus", "Dfhcommarea");
 
     /**
@@ -33,78 +33,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link WsP9X18MaxB }
-     * 
-     */
-    public WsP9X18MaxB createWsP9X18MaxB() {
-        return new WsP9X18MaxB();
-    }
-
-    /**
-     * Create an instance of {@link LsHalfwords }
-     * 
-     */
-    public LsHalfwords createLsHalfwords() {
-        return new LsHalfwords();
-    }
-
-    /**
-     * Create an instance of {@link WsP9X18HighB }
-     * 
-     */
-    public WsP9X18HighB createWsP9X18HighB() {
-        return new WsP9X18HighB();
-    }
-
-    /**
-     * Create an instance of {@link LsUnsignedNative }
-     * 
-     */
-    public LsUnsignedNative createLsUnsignedNative() {
-        return new LsUnsignedNative();
-    }
-
-    /**
-     * Create an instance of {@link LsFullwords }
-     * 
-     */
-    public LsFullwords createLsFullwords() {
-        return new LsFullwords();
-    }
-
-    /**
-     * Create an instance of {@link WsFullwords }
-     * 
-     */
-    public WsFullwords createWsFullwords() {
-        return new WsFullwords();
-    }
-
-    /**
-     * Create an instance of {@link WsUnsignedNative }
-     * 
-     */
-    public WsUnsignedNative createWsUnsignedNative() {
-        return new WsUnsignedNative();
-    }
-
-    /**
-     * Create an instance of {@link WsDoublewords }
-     * 
-     */
-    public WsDoublewords createWsDoublewords() {
-        return new WsDoublewords();
-    }
-
-    /**
-     * Create an instance of {@link Filler55 }
-     * 
-     */
-    public Filler55 createFiller55() {
-        return new Filler55();
     }
 
     /**
@@ -116,11 +44,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dfhcommarea }
+     * Create an instance of {@link WsFullwords }
      * 
      */
-    public Dfhcommarea createDfhcommarea() {
-        return new Dfhcommarea();
+    public WsFullwords createWsFullwords() {
+        return new WsFullwords();
     }
 
     /**
@@ -132,6 +60,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Dfhcommarea }
+     * 
+     */
+    public Dfhcommarea createDfhcommarea() {
+        return new Dfhcommarea();
+    }
+
+    /**
+     * Create an instance of {@link WsP9X18HighB }
+     * 
+     */
+    public WsP9X18HighB createWsP9X18HighB() {
+        return new WsP9X18HighB();
+    }
+
+    /**
+     * Create an instance of {@link LsHalfwords }
+     * 
+     */
+    public LsHalfwords createLsHalfwords() {
+        return new LsHalfwords();
+    }
+
+    /**
+     * Create an instance of {@link WsUnsignedNative }
+     * 
+     */
+    public WsUnsignedNative createWsUnsignedNative() {
+        return new WsUnsignedNative();
+    }
+
+    /**
      * Create an instance of {@link WsHalfwords }
      * 
      */
@@ -140,12 +100,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Filler55 }{@code >}}
+     * Create an instance of {@link Filler55 }
      * 
      */
-    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binnatus", name = "Filler55")
-    public JAXBElement<Filler55> createFiller55(Filler55 value) {
-        return new JAXBElement<Filler55>(_Filler55_QNAME, Filler55 .class, null, value);
+    public Filler55 createFiller55() {
+        return new Filler55();
+    }
+
+    /**
+     * Create an instance of {@link LsFullwords }
+     * 
+     */
+    public LsFullwords createLsFullwords() {
+        return new LsFullwords();
+    }
+
+    /**
+     * Create an instance of {@link WsP9X18MaxB }
+     * 
+     */
+    public WsP9X18MaxB createWsP9X18MaxB() {
+        return new WsP9X18MaxB();
+    }
+
+    /**
+     * Create an instance of {@link LsUnsignedNative }
+     * 
+     */
+    public LsUnsignedNative createLsUnsignedNative() {
+        return new LsUnsignedNative();
+    }
+
+    /**
+     * Create an instance of {@link WsDoublewords }
+     * 
+     */
+    public WsDoublewords createWsDoublewords() {
+        return new WsDoublewords();
     }
 
     /**
@@ -155,6 +146,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binnatus", name = "WsExpectedIncomingData")
     public JAXBElement<WsExpectedIncomingData> createWsExpectedIncomingData(WsExpectedIncomingData value) {
         return new JAXBElement<WsExpectedIncomingData>(_WsExpectedIncomingData_QNAME, WsExpectedIncomingData.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Filler55 }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://legstar.com/test/coxb/binnatus", name = "Filler55")
+    public JAXBElement<Filler55> createFiller55(Filler55 value) {
+        return new JAXBElement<Filler55>(_Filler55_QNAME, Filler55 .class, null, value);
     }
 
     /**
